@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Email-Template</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="fonts-1/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <!--<link rel="stylesheet" type="text/css" href="main.css">-->
+    <!--===============================================================================================-->
+    <!--<link rel="stylesheet" type="text/css" href="style.css">-->
+    <!--===============================================================================================-->
+    <style>
+        .limiter {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .container-profile100 {
+            width: 100%;
+            min-height: 100vh;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 15px;
+            background: #9053c7;
+            background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+            background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
+            background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
+            background: linear-gradient(-135deg, #c850c0, #4158d0);
+        }
+
+        .container-profile100 .header {
+            width: 1300px;
+            height: 100vh;
+            background: #fff;
+            border-radius: 17px;
+            margin: 0 auto;
+        }
+
+        .email-template {
+            margin: 20px;
+            padding: 10px;
+            display: block;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .email-template .email-logo img {
+            width: 15%;
+            margin-top: 40px;
+        }
+
+        .email-template .email-body h2 {
+            font-size: 40px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            text-transform: uppercase;
+            margin: 30px;
+            color: #9153c7ea;
+        }
+
+        .email-template .email-body p {
+            margin: 10px 180px;
+            font-size: 20px;
+            text-align: justify;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+
+        .email-template .email-button button {
+            background: #4158d0;
+            border: none;
+            width: 200px;
+            text-transform: uppercase;
+            margin: 20px 10px;
+            padding: 15px 10px;
+            transition: all 0.5s;
+        }
+
+        .email-template .email-button button:hover {
+            background: #9153c7ea;
+        }
+
+        .email-template .email-button p {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            text-transform: capitalize;
+        }
+
+        .email-template .email-button .url {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            text-transform: none;
+            margin: 10px 20px;
+        }
+
+        .email-template .email-copyrights {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            text-transform: capitalize;
+            margin-top: 65px;
+        }
+
+        @media (max-width: 992px) {
+            .header {
+                margin: 10px 40px;
+                height: auto;
+            }
+
+            .header .profile-img {
+                width: 20%;
+                border-radius: 200px;
+            }
+
+            .header h5 {
+                display: block;
+                width: 150%;
+                margin-left: -170px;
+            }
+
+            .header .navigation .log-btn {
+                margin-left: 0px;
+                margin-right: -50px;
+            }
+
+            .header .navigation button {
+                margin-top: 80px;
+                margin-left: 40px;
+            }
+
+            .email-template .email-logo img {
+                width: 20%;
+            }
+
+            .email-template .email-body p {
+                margin: 10px 80px;
+                font-size: 18px;
+                text-align: justify;
+                font-family: Georgia, 'Times New Roman', Times, serif;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+
+            .header h5 {
+                display: block;
+                text-align: center;
+                margin-left: -52px;
+            }
+
+            .header .navigation .log-btn {
+                margin-left: 5px;
+                float: none;
+            }
+
+            .header .navigation button {
+                margin-left: auto;
+                margin-top: 10px;
+                width: 100px;
+                font-size: 12px;
+            }
+
+            .email-template .email-body h2 {
+                margin: 20px;
+            }
+
+            .email-template .email-body p {
+                margin: 10px 10px;
+                text-align: justify;
+                font-size: 20px;
+                font-family: Georgia, 'Times New Roman', Times, serif;
+            }
+
+            .email-template .email-button button {
+                background: #9153c7ea;
+                border: none;
+                width: 150px;
+                text-transform: uppercase;
+                margin: 10px 10px;
+                padding: 15px 10px;
+                transition: all 0.5s;
+            }
+
+            .email-template .email-logo img {
+                width: 40%;
+            }
+
+            .email-template .email-body h2 {
+                font-size: 30px;
+            }
+
+            .email-template .email-body p {
+                font-size: 15px;
+                text-align: justify;
+            }
+
+            .email-template .email-button button {
+                width: 100px;
+            }
+
+            .email-template .email-button p {
+                margin: 20px 0px;
+            }
+
+            .email-template .email-button .url {
+                font-size: 11px;
+                margin: 10px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="limiter">
+        <div class="container-profile100">
+            <div class="header">
+                <div class="email-template">
+                    <div class="email-logo">
+                        <img src="<%=logo%>" alt="" class="email-actual-logo">
+                    </div>
+                    <div class="email-body">
+                        <h2>
+                            <%=emailSubject%>
+                        </h2>
+                        <p>
+                            Hey <%=userEmail%>
+                                Thanks for joining PEP Digital. To finish registration, please click the button below to
+                                verify your account.
+                                Once verified, you can proceed with PEP Digital Freelancing Service and earm money.
+                        </p>
+                        <p>
+                            If you have any problems, please contact us: contact@pep-digital.com
+                        </p>
+                        <p>
+                            -PEP Digital Team
+                        </p>
+                    </div>
+                    <div class="email-button">
+                        <a href="<%=jsonWebToken%>" target="_blank">
+                            <button class="btn btn-success">Verify Me
+
+                            </button>
+                        </a>
+                        <p>or copy this link and paste it in Browser</p>
+                        <p class="url">
+                            <%=jsonWebToken%>
+                        </p>
+                    </div>
+                    <div class="email-copyrights">
+                        <p>All Copyrights © PEP Digital Reserved (2021)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--===============================================================================================-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+</body>
+
+</html>

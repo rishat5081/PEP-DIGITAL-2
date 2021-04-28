@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Activity</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--===============================================================================================-->
+    <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/vendor/bootstrap/css/bootstrap.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/fonts-1/font-awesome-4.7.0/css/font-awesome.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/css/style_2.css" />
+    <link rel="stylesheet" type="text/css" href="/toastr/toastr.min.css" />
+    <!--===============================================================================================-->
+  </head>
+
+  <body>
+    <div class="limiter">
+      <div class="container-profile100">
+        <div class="header">
+          <div class="cover-image100">
+            <img src="/logo/logo.png" class="pep-logo" alt="" />
+            <a href="#">
+              <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+            </a>
+            <nav id="menu">
+              <ul>
+                <% permissions.forEach(element=> { %>
+                <li>
+                  <a href="/user<%= element.controller %>/<%=info.uuid%>">
+                    <span class="<%= element.icon%>"></span>
+                    <%= element.permission_name %>
+                  </a>
+                </li>
+                <% }); %>
+                <li>
+                  <a href="/user/signout">
+                    <span class="fa fa-sign-out"> </span> Log Out</a
+                  >
+                </li>
+              </ul>
+              <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+            </nav>
+          </div>
+          <div class="container profile-pic-section">
+            <div class="row head-section">
+              <div class="col-md-12" align="center">
+                <h2 style="margin-top: 80px">ACTIVITY</h2>
+              </div>
+            </div>
+
+            <div class="row activity-section">
+              <div class="col-md-4">
+                <div class="main-section">
+                  <strong class="mb-4">Instructions to follow</strong>
+                  <ul>
+                    <%instrucntions.forEach((element,index)=> {%>
+                    <li>
+                      <strong> <%=++index%> </strong>-
+                      <%=element.instructionText %>
+                    </li>
+                    <% }); %>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-8 activity-right-side">
+                <div class="row activity-form">
+                  <div class="col-md-12">
+                    <p id="location" class="fetch-Location mx-4"></p>
+                    <button
+                      class="btn btn-success check-button mt-4"
+                      id="button"
+                      onclick="fetchLocation()"
+                    >
+                      Start Activity
+                    </button>
+                    <hr />
+                  </div>
+                </div>
+                <form id="submitAgency">
+                  <div class="form-group agencyForm" style="display: none">
+                    <h3>Agency Details</h3>
+                    <div class="row activity-form">
+                      <div class="col-md-6">
+                        <input
+                          type="text"
+                          id="name_ofAgency"
+                          required
+                          placeholder="Name of Agency"
+                          oninvalid="this.setCustomValidity('Agency Name is Mandatory')"
+                          oninput="setCustomValidity('')"
+                        />
+                      </div>
+                      <div class="col-md-6">
+                        <input
+                          type="text"
+                          id="nameof_Owner"
+                          required
+                          placeholder="Agency Owner Name"
+                          oninvalid="this.setCustomValidity('Owner Name is Mandatory')"
+                          oninput="setCustomValidity('')"
+                        />
+                      </div>
+                    </div>
+                    <div class="row activity-form">
+                      <div class="col-md-6">
+                        <select
+                          id="Compaign"
+                          aria-placeholder="Select Compaign"
+                        >
+                          <option disabled selected value="1">
+                            Select Compaign
+                          </option>
+                          <% CompaignsList.forEach(element=> {%>
+                          <option
+                            class="mx-1 px-2"
+                            value="<%=element.comp_id %>"
+                          >
+                            <%=element.comp_name %>
+                          </option>
+                          <% }); %>
+                        </select>
+                      </div>
+                      <div class="col-md-6">
+                        <select
+                          id="agencyType"
+                          aria-placeholder="Select Agency Type"
+                        >
+                          <option disabled selected value="1">
+                            Select Agency Type
+                          </option>
+                          <% agencyTypes.forEach(element=> {%>
+                          <option
+                            class="mx-1 px-2"
+                            value="<%=element.type_name %>"
+                          >
+                            <%=element.type_name %>
+                          </option>
+                          <% }); %>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row activity-form">
+                      <div class="col-md-6">
+                        <input
+                          type="text"
+                          id="ContactedPerson_num"
+                          required
+                          placeholder="Agency Contacted Person Number"
+                          oninvalid="this.setCustomValidity('Contacted Person Number is Mandatory')"
+                          oninput="setCustomValidity('')"
+                        />
+                      </div>
+                      <div class="col-md-6">
+                        <input
+                          type="text"
+                          id="agencyAddress"
+                          required
+                          oninvalid="this.setCustomValidity('Agency Address is Mandatory')"
+                          oninput="setCustomValidity('')"
+                          placeholder="Agency Address"
+                        />
+                      </div>
+                      <div class="col-md-6">
+                        <input
+                          type="text"
+                          id="name_ContactedPerson"
+                          required
+                          placeholder="Agency Contacted Person Name"
+                          oninvalid="this.setCustomValidity('Contacted Person Name is Mandatory')"
+                          oninput="setCustomValidity('')"
+                        />
+                        <input
+                          type="checkbox"
+                          name="sameasOwnerName"
+                          id="sameasOwnerName"
+                        />
+                        <label>Same as Owner Name</label>
+                      </div>
+                      <div class="col-md-6 mt-0">
+                        <input
+                          type="text"
+                          id="agency_contact_num"
+                          required
+                          placeholder="Agency Contact Number"
+                          oninvalid="this.setCustomValidity('Agency Contact Number is Mandatory')"
+                          oninput="setCustomValidity('')"
+                        />
+                        <input
+                          type="checkbox"
+                          name="same_asAgency"
+                          id="same_asAgency"
+                        />
+                        <label>Same as Contact Person Number</label>
+                      </div>
+                    </div>
+                    <div class="row activity-form text-center">
+                      <div class="col-md-12">
+                        <button class="btn btn-success" id="submit-button">
+                          Submit
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--===============================================================================================-->
+    <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="/vendor/jquery/tilt.jquery.min.js"></script>
+
+    <script src="/toastr/toastr.min.js"></script>
+    <script>
+      // console.log(JSON.parse('%-JSON.stringify(agencyTypes)%>'))
+
+      $(".js-tilt").tilt({
+        scale: 1.1,
+      });
+
+      var menu = document.getElementById("menu");
+      function openMenu() {
+        menu.style.top = "0";
+      }
+      function closeMenu() {
+        menu.style.top = "-100vh";
+      }
+      /**
+       * getting all relevant ids of the input
+       */
+      let locating = document.getElementById("location"),
+        button = document.getElementById("button"),
+        name_ofAgency = document.getElementById("name_ofAgency"),
+        nameof_Owner = document.getElementById("nameof_Owner"),
+        name_ContactedPerson = document.getElementById("name_ContactedPerson"),
+        ContactedPerson_num = document.getElementById("ContactedPerson_num"),
+        agency_contact_num = document.getElementById("agency_contact_num"),
+        agencyAddress = document.getElementById("agencyAddress"),
+        sameasOwnerName = document.getElementById("sameasOwnerName"),
+        same_asAgency = document.getElementById("same_asAgency"),
+        submitButton = document.getElementById("submit-button"),
+        agencyForm = document.querySelector(".agencyForm");
+      var Location;
+
+      /**
+       * Fetching the current position location
+       */
+      function fetchLocation() {
+        button.innerHTML = "Fetching Location ...";
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+          locating.innerHTML = "Geolocation is not supported by this browser.";
+        }
+      }
+      /**
+       * displaying the longititude and latitude of the current position
+       */
+      function showPosition(position) {
+        Location = position;
+
+        console.log(position.coords.latitude);
+        console.log(position.coords.longitude);
+        agencyForm.style.display = "block";
+        locating.style.display = "block";
+        locating.style.color = "#218838";
+        toastr.success("Successfully! Location is retrieved");
+        locating.innerHTML = "Successfully ! Location is retrieved";
+        button.innerHTML = "Get Location Again";
+      }
+
+      /**
+       * checking the checkbox of the input field for Owner Name
+       */
+      $("#sameasOwnerName").click((e) => {
+        name_ContactedPerson.disabled = $("#sameasOwnerName").is(":checked")
+          ? true
+          : false;
+        name_ContactedPerson.value = $("#sameasOwnerName").is(":checked")
+          ? nameof_Owner.value
+          : name_ContactedPerson.value;
+      });
+      /**
+       * checking the checkbox of the input field for Agency Contact Number
+       */
+      $("#same_asAgency").click((e) => {
+        agency_contact_num.disabled = $("#same_asAgency").is(":checked")
+          ? true
+          : false;
+        agency_contact_num.value = $("#same_asAgency").is(":checked")
+          ? ContactedPerson_num.value
+          : agency_contact_num.value;
+      });
+
+      $("#nameof_Owner").change((e) => {
+        if ($("#sameasOwnerName").is(":checked"))
+          name_ContactedPerson.value = nameof_Owner.value;
+      });
+
+      $("#ContactedPerson_num").change((e) => {
+        if ($("#same_asAgency").is(":checked"))
+          agency_contact_num.value = ContactedPerson_num.value;
+      });
+
+      function validateInput() {
+        if (
+          $("#name_ofAgency").val().includes("update") ||
+          $("#name_ofAgency").val().includes("select") ||
+          $("#name_ofAgency").val().includes("delete")
+        ) {
+          toastr.error("Invalid Name. Please Try to Enter Valid Name");
+          return false;
+        }
+        if (
+          $("#nameof_Owner").val().includes("update") ||
+          $("#nameof_Owner").val().includes("select") ||
+          $("#nameof_Owner").val().includes("delete")
+        ) {
+          toastr.error("Invalid Owner Name. Please Try to Enter Valid Name");
+          return false;
+        }
+        if (
+          $("#name_ContactedPerson").val().includes("update") ||
+          $("#name_ContactedPerson").val().includes("select") ||
+          $("#name_ContactedPerson").val().includes("delete")
+        ) {
+          toastr.error(
+            "Invalid Name of Contacted Person. Please Try to Enter Valid Name"
+          );
+          return false;
+        }
+        if (
+          $("#ContactedPerson_num").val().includes("update") ||
+          $("#ContactedPerson_num").val().includes("select") ||
+          $("#ContactedPerson_num").val().includes("delete")
+        ) {
+          toastr.error(
+            "Invalid Contact Number. Please Try to Enter Valid Number"
+          );
+          return false;
+        }
+        if (
+          $("#agency_contact_num").val().includes("update") ||
+          $("#agency_contact_num").val().includes("select") ||
+          $("#agency_contact_num").val().includes("delete")
+        ) {
+          toastr.error(
+            "Invalid Agency Contact Number. Please Try to Enter Valid Number"
+          );
+          return false;
+        }
+        if (
+          $("#agencyAddress").val().includes("update") ||
+          $("#agencyAddress").val().includes("select") ||
+          $("#agencyAddress").val().includes("delete")
+        ) {
+          toastr.error(
+            "Invalid Agency Address. Please Try to Enter Valid Address"
+          );
+          return false;
+        } else {
+          return true;
+        }
+      }
+
+      /**
+       * Submitting the information to the server
+       */
+
+      $("#submitAgency").submit((e) => {
+        e.preventDefault();
+
+        if (validateInputs())
+          $.ajax({
+            type: "POST",
+            url: "/startActivity",
+            data: {
+              agencyName: name_ofAgency.value,
+              agencyOwner: nameof_Owner.value,
+              contactedPerson: name_ContactedPerson.value,
+              contactedPerson_Number: ContactedPerson_num.value,
+              agencyContact: agency_contact_num.value,
+              agencyAddress: agencyAddress.value,
+              latitude: Location.coords.latitude,
+              longitude: Location.coords.longitude,
+              agencyType: $("#agencyType").find(":selected").val(),
+              CompaignID: $("#Compaign").find(":selected").val(),
+            },
+            dataType: "JSON",
+            error: (error) => {
+              if (error) {
+                toastr.error(error.responseJSON.response);
+                toastr.info(error.responseJSON.help);
+              }
+            },
+            success: function (response) {
+              if (response.response) {
+                toastr.success(response.response);
+              }
+              if (response.success) {
+                toastr.success(response.success);
+                window.location = `/user/activities/${response.agencyID}/${response.activity}`;
+              }
+            },
+          });
+      });
+
+      validateInputs = () => {
+        if (
+          name_ofAgency.value === null ||
+          nameof_Owner.value === null ||
+          ContactedPerson_num.value === null ||
+          agencyAddress.value === null
+        ) {
+          toastr.error("All Fields are Required");
+
+          return false;
+        }
+        if (sameasOwnerName.checked && agency_contact_num.value === null) {
+          if (same_asAgency.checked) return true;
+        } else {
+          return true;
+        }
+      };
+    </script>
+    <!--===============================================================================================-->
+  </body>
+</html>

@@ -1,0 +1,265 @@
+.beautiful.alert {
+    border-width: 1px;
+    background-image: none;
+    border-color: transparent;
+    border-radius: 0;
+    box-shadow: none
+}
+
+.alert.alert-warning.beautiful {
+    background-color: #f9e491;
+    border-color: #f9e491;
+    color: #c29d0b
+}
+
+.login-dark {
+    height: 1000px;
+    background: url(../../assets/img/star-sky.jpg) #475d62;
+    background-size: cover;
+    position: relative
+}
+
+.login-dark form {
+    max-width: 320px;
+    width: 90%;
+    background-color: #1e2833;
+    padding: 40px;
+    border-radius: 4px;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: #fff;
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, .2)
+}
+
+.contact-clean form .btn:active, .login-dark form .btn-primary:active {
+    transform: translateY(1px)
+}
+
+.login-dark .illustration {
+    text-align: center;
+    padding: 15px 0 20px;
+    font-size: 100px;
+    color: #2980ef
+}
+
+.login-dark form .form-control {
+    background: 0 0;
+    border: none;
+    border-bottom: 1px solid #434a52;
+    border-radius: 0;
+    box-shadow: none;
+    outline: 0;
+    color: inherit
+}
+
+.login-dark form .btn-primary {
+    background: #214a80;
+    border: none;
+    border-radius: 4px;
+    padding: 11px;
+    box-shadow: none;
+    margin-top: 26px;
+    text-shadow: none;
+    outline: 0
+}
+
+.login-dark form .btn-primary:active, .login-dark form .btn-primary:hover {
+    background: #214a80;
+    outline: 0
+}
+
+.login-dark form .forgot {
+    display: block;
+    text-align: center;
+    font-size: 12px;
+    color: #6f7a85;
+    opacity: .9;
+    text-decoration: none
+}
+
+.login-dark form .forgot:active, .login-dark form .forgot:hover {
+    opacity: 1;
+    text-decoration: none
+}
+
+@media only screen and (max-width:800px) {
+    #no-more-tables table, #no-more-tables tbody, #no-more-tables td, #no-more-tables th, #no-more-tables thead, #no-more-tables tr {
+        display: block
+    }
+    #no-more-tables thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px
+    }
+    #no-more-tables tr {
+        border: 1px solid #ccc
+    }
+    #no-more-tables td {
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%;
+        white-space: normal;
+        text-align: left
+    }
+    #no-more-tables td:before {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: 700;
+        content: attr(data-title)
+    }
+}
+
+#trs-hd, .bill-header, .warning.no-result {
+    text-align: center
+}
+
+.contact-clean {
+    background: #f1f7fc;
+    padding: 80px 0
+}
+
+@media (max-width:767px) {
+    .contact-clean {
+        padding: 20px 0
+    }
+}
+
+.contact-clean form {
+    max-width: 480px;
+    width: 90%;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 4px;
+    color: #505e6c;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, .1)
+}
+
+@media (max-width:767px) {
+    .contact-clean form {
+        padding: 30px
+    }
+}
+
+.contact-clean h2 {
+    margin-top: 5px;
+    font-weight: 700;
+    font-size: 28px;
+    margin-bottom: 36px;
+    color: inherit
+}
+
+.contact-clean .form-group:last-child {
+    margin-bottom: 5px
+}
+
+.contact-clean form .form-control {
+    background: #fff;
+    border: 1px solid #d4d4d4;
+    border-radius: 2px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, .05);
+    outline: 0;
+    color: inherit;
+    padding-left: 12px;
+    height: 42px
+}
+
+.contact-clean form .form-control:focus {
+    border: 1px solid #b2b2b2
+}
+
+.contact-clean form textarea.form-control {
+    min-height: 100px;
+    max-height: 260px;
+    padding-top: 10px;
+    resize: vertical
+}
+
+.contact-clean form .form-control-feedback {
+    height: 42px;
+    line-height: 42px
+}
+
+.contact-clean form .help-block {
+    margin-top: 8px;
+    font-size: 13px
+}
+
+.contact-clean form .btn {
+    padding: 16px 32px;
+    border: none;
+    background: 0 0;
+    box-shadow: none;
+    text-shadow: none;
+    opacity: .9;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: .4px;
+    line-height: 1;
+    outline: 0!important
+}
+
+.contact-clean form .btn:hover {
+    opacity: 1
+}
+
+.contact-clean form .btn-primary {
+    background-color: #055ada!important;
+    margin-top: 15px;
+    color: #fff
+}
+
+#formdiv {
+    padding-bottom: 5%;
+    margin-left: 14%;
+    margin-right: 14%;
+    border-radius: 10.2px;
+    box-shadow: 0 0 16px rgba(81, 203, 238, 1)
+}
+
+.bill-header {
+    font-size: 12px
+}
+
+.form-control:focus {
+    border-color: #25476a;
+    outline: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none
+}
+
+.bill-header.cs {
+    background-color: rgba(37, 71, 106, .56);
+    color: #fff
+}
+
+.no-result, .results tr[visible=false] {
+    display: none
+}
+
+.counter {
+    padding: 8px;
+    color: #ccc
+}
+
+.fa.fa-warning {
+    font-size: 18px;
+    color: red
+}
+
+.search.form-control {
+    border-radius: 0!important
+}
+
+.search-table-col {
+    margin-top: 100px
+}

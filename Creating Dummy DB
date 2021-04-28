@@ -1,0 +1,505 @@
+/*
+* Creating SuperAdmin
+*/
+Super_Admin.create({
+// Super_Admin.update({ 
+  sa_name:'Saad',
+  sa_email:'superA@aa',
+  sa_password: '$2b$10$IhwmSCZDgheT3pCvaTd4YezxKSXPgXnS84r6HKXI.56uXawidQ8Ee' }, {
+  
+ }).then(db => console.log(db))
+
+
+/**
+Creating Company**/
+
+Companies_Access.create({
+  sa_id: 1,
+  comp_name: "Pak e Property",
+  comp_address: "Rawalpindi",
+  comp_contact: "051-9765821",
+  access_Status: 1,
+}).then((re) => console.log(re));
+
+
+
+
+/**
+Creating Zone 
+**/
+Zone.create({
+  zone_name: "Punjab",
+}).then((re) => console.log(re));
+
+
+/**
+creating GM of Company
+**/
+GM_Company.create({
+  gm_name: "GM of Company",
+  gm_email: "gm@info.com",
+  gm_password: "$2b$10$WfgW1aVsxJOZ1tD.yMRSBuHFPl9NtHyiJJJSGRUt4EgbC5hEp1P1G",
+  gm_contact: "0321-1111000",
+  gm_profile_pic: "/img/GM.jpg",
+  gm_salary: "150000",
+  comp_access_id: 1,
+  zone_id: 1,
+});
+
+
+
+
+/**
+Creating Departments
+**/
+Department.create({
+  d_name: "Sales",
+  d_type: "Sale and Marketing",
+  comp_access_id: 1,
+  gm_id: 2,
+  sa_id: 1,
+}).then((re) => console.log(re));
+
+/**
+Creating Manager 
+**/
+Manager.create({
+  man_name: "Manager",
+  man_email: "manager@info.com",
+  man_password: "$2b$10$WfgW1aVsxJOZ1tD.yMRSBuHFPl9NtHyiJJJSGRUt4EgbC5hEp1P1G",
+  man_userProfilePic: "manager.png",
+  man_contact: "0333-5214777",
+  man_salary: "140000",
+  man_username: "manager_12",
+  d_id: 3,
+  zone_id: 1,
+}).then((re) => console.log(re));
+
+/***
+ * Creating the User Roles
+ */
+
+User_Role.create({
+  // type_name: "Freelance Field Executive",
+  // type_name: "Field Executive",
+  // type_name: "SuperVisor",
+  // type_name: "Manager",
+  // type_name: "GM Company",
+  // type_name: "Team Lead",
+}).then(() => console.log("Done"));
+
+
+
+/**
+Creating City **/
+
+
+City.create({
+  city_name: "Rawalpindi",
+  city_code: "352",
+  zone_id: 1,
+}).then((re) => console.log(re));
+
+
+
+/**
+Creating Supervisor and City assosiate table 
+**/
+City_and_Supervisor_associate.create({
+  city_id: 1,
+  sup_id: 2,
+}).then((re) => console.log(re));
+
+
+/**
+
+creating city areas 
+**/
+
+City_Areas.create({
+  city_name: "Rawal Road",
+  city_code: "101",
+  city_supp_assos_id: 2,
+}).then((re) => console.log(re));
+
+
+
+
+
+
+
+/**
+Creating User */ 
+User_Login_Information.create({
+  login_email: "test@aa",
+  login_password:
+    "$2b$10$IhwmSCZDgheT3pCvaTd4YezxKSXPgXnS84r6HKXI.56uXawidQ8Ee",
+  user_role_id: 4,
+})
+  .then((res) => console.log(res))
+  .catch((err) => console.log(err));
+
+/**
+Creating Supervisor 
+**/
+Supervisor.create({
+  sup_name: "Development",
+  sup_userProfilePic: "/img/profile.jpg",
+  sup_contact: "0345-5536125",
+  sup_target: "144",
+  sup_salary: "15000",
+  sup_commission: "2.5%",
+  sup_username: "develop",
+  man_id: 3 ,
+  login_id: 3,
+}).then((re) => console.log(re));
+
+
+
+
+/**
+Creating Team lead 
+**/
+Team_Lead.create({
+  team_L_name: "Team Lead",
+  team_L_userProfilePic: "Team Lead.jpg",
+  team_L_contact: "0321-8741000",
+  team_L_target: "150",
+  team_L_salary: "85100",
+  team_L_commission: "1.5%",
+  team_L_username: "teamLead_11",
+  city_area_id: 2,
+  sup_id: 2,
+  login_id: 4,
+}).then((re) => console.log(re)); `
+
+
+
+
+-------------------------------------------------------------------------------------
+Field_Executive.create({
+  field_name: 'Saad',
+  field_userProfilePic: '/img/profile.jpg',
+  field_contact: '0345-5536125',
+  field_target: '150',
+  field_salary: '15000',
+  field_commission: '2.5%',
+  field_username: 'saad@112',
+  login_id: 3,
+  team_L_id: 6
+})
+  .then(re => console.log('Done'))
+
+
+-------------------------------------------------------------------------------------
+Permissions.create({
+permission_name: "View Earning",
+permission_name: "Withdraw",
+permission_name: "Manage CSR",
+permission_name: "Manage Agencies",
+permission_name: "Manage Field Executive",
+permission_name: "Manage Team Lead",
+permission_name: "Manage Supervisor",
+permission_name: "Manage Report",
+permission_name: "Manage City Areas",
+permission_name: "Manage City",
+permission_name: "Manage Managers",
+}).then((re) => console.log(re));
+
+
+
+------------------------------------------------------------------------------------------------------
+
+Adding persmissions and assosiating it with the user role 
+
+
+
+async function addPermissioins() {
+  const Perm = await Permissions.findOne({
+    where: {
+      permmission_id: 3,
+    },
+    // include: {
+    //   model: User_Role,
+    //   where: {
+    //     type_name: 'Freelance Field Executive',
+    //   },
+    // },
+  })
+
+
+  const user =  await User_Role.findOne({
+    where:{
+      type_name:'Team Lead'
+    }
+  })
+
+  await user.addPermissions(Perm)
+
+  console.log(Perm)
+}
+
+addPermissioins()
+
+
+
+--------------------------------------------------
+async function addPermissioins() {
+    const Perm = await Permissions.create({
+        permission_name: 'Start Activity',
+        controller: '/startActivity',
+        icon: "fa fa-tasks"
+    })
+
+
+    await Perm.addUser_Role(5)
+
+    console.log(Perm)
+}
+
+addPermissioins()
+
+
+
+ExecutiveNotifications.sync({ force: true }).then(d => console.log(d))
+TeamLead_Notifications.sync({ force: true }).then(d => console.log(d))
+SuperVisorNotification.sync({ force: true }).then(d => console.log(d))
+ManagerNotifications.sync({ force: true }).then(d => console.log(d))
+GM_Notifications.sync({ force: true }).then(d => console.log(d))
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------
+ExecutiveLogins.sync({ force: true }).then(d => console.log(d))
+GMLogin.sync({ force: true }).then(d => console.log(d))
+ManagerLogin.sync({ force: true }).then(d => console.log(d))
+SuperVisorLogin.sync({ force: true }).then(d => console.log(d))
+TeamLead_Login.sync({ force: true }).then(d => console.log(d))
+
+--------------------------------------------------------------------------------------------------------------------async function addPermissioins() {
+  const Perm = await Permissions.findOne({
+    where: {
+      permmission_id: 3,
+    },
+    // include: {
+    //   model: User_Role,
+    //   where: {
+    //     type_name: 'Freelance Field Executive',
+    //   },
+    // },
+  })
+
+
+  const user =  await User_Role.findOne({
+    where:{
+      type_name:'Team Lead'
+    }
+  })
+
+  await user.addPermissions(Perm)
+
+  console.log(Perm)
+}
+
+addPermissioins()
+
+
+---------------------------------------------------------
+
+
+Activity_Instruction.create({
+    instructionText: 'Complete the Agency Details'
+})
+    .then(d => console.log(d.dataValues))
+
+
+
+
+
+    Agency_Info.create({
+        agency_name: 'Building Enterprises',
+        agency_owner_Name: 'Saad',
+        agency_Contact: '051-111 11',
+        agency_address: 'Rawalpindi',
+        agency_Longitude: '',
+        agency_Latitude: '33.63369317942593',
+        contactedPerson: '73.07126133609879',
+        contactedPerson_Number: '0321-5536125',
+        field_id: 3
+    }).then(d => console.log(d))
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------
+Compaigns.create({
+  comp_name: "Promotion of PEP",
+  comp_type: "Promotion",
+  sup_id: 5,
+  city_id: 1,
+}).then((response) => {
+  console.log(response.dataValues);
+});
+
+
+
+
+
+
+
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next
+ * Creating the Login Page 
+ */
+Login_Page.create({
+  loginTitle: "Member Login",
+  btnText: "Login",
+  forgetText: "Forgot",
+  forgetEmail: "Email",
+  forgetPassword: "Password",
+  createAccountText: "Create your Account",
+  emailPlaceHolder: "Enter Email",
+  emailIcon: "fa fa-envelope",
+  passwordPlaceHolder: "Enter Password",
+  passwordIcon: "fa fa-lock",
+  pictureName: "img-01.png",
+  pictureFolder: "/img/",
+  createAccountIcon: "fa fa-long-arrow-right m-l-5",
+  sa_id: 1,
+}).then(() => console.log("Done"));
+
+/***
+ * Creating the Sign Up Page
+ */
+
+SignUp_Page.create({
+  signUpTitle: "Member Registration",
+  btnText: 'Register',
+  alreadyHaveAccount: 'Already have Account',
+  emailPlaceHolder: 'Enter Email',
+  emailIcon: 'fa fa-envelope',
+  passwordPlaceHolder: 'Enter Password',
+  passwordIcon: 'fa fa-lock',
+  confirmPasswordPlaceHolder: 'Confirm your Password',
+  confirmPasswordIcon: 'fa fa-lock',
+  pictureName:'img-01.png',
+  pictureFolder:'/img/',
+  alreadyHaveAccountIcon:'fa fa-long-arrow-right m-l-5'
+  sa_id: 1
+}
+).then(() => console.log('Done'))
+
+
+
+ /**
+ creating Home Page **/ 
+
+ 
+
+
+// Web_Content.create({
+//   logo: "/logo/logo.png",
+//   firstHeading: 'What We Do',
+//   secondHeading: 'HOW WE DO IT',
+//   thirdHeading: 'WHAT IT DELIVERS',
+//   firstHeadingText: `ipsum dolor sit amet, consectetur adipisicing elit. Tempore sequi ut aut, possimus
+//   eos ab. Aperiam iste ratione
+//   aspernatur quod alias reprehenderit? Aspernatur ex dolorem fugiat quis consequuntur
+//   repudiandae eveniet.`,
+//   secondHeadingText: `. Tempore sequi ut aut, possimus eos ab. Aperiam iste ratione
+//   aspernatur quod alias reprehenderit? Aspernatur ex dolorem fugiat quis consequuntur
+//   repudiandae eveniet.`,
+//   thirdHeadingText: `ipsum dolor sit amet, consectetur adipisicing elit. ab. Aperiam iste ratione
+//   aspernatur quod alias reprehenderit? Aspernatur ex dolorem fugiat quis consequuntur
+//   repudiandae eveniet.`,
+//   signUpbtn: 'Sign Up',
+//   loginbtn: 'Login',
+//   firstCardHeading: 'What We Do',
+//   firstCardtext: ` Lorem ipsum dolor sit amet consectetur adipisicing elit.
+//   Similique illum nulla modi?
+//   Provident veritatis magni quae tempore
+//   illum fugit molestiae ipsum? Quibusdam`,
+//   secondCardHeading: 'What We Do',
+//   secondCardtext: `Lorem ipsum dolor sit amet consectetur adipisicing elit.
+//   Similique illum nulla modi?
+//   Provident veritatis magni quae tempore
+//   illum fugit molestiae ipsum? Quibusdam`,
+//   thirdCardHeading: 'WHAT IT DELIVERS',
+//   thirdCardtext: `Lorem ipsum dolor sit amet consectetur adipisicing elit.
+//   Similique illum nulla modi?
+//   Provident veritatis magni quae tempore
+//   illum fugit molestiae ipsum? Quibusdam`,
+//   fourthCardHeading: 'What We Do',
+//   fourthCardtext: ` Lorem ipsum dolor sit amet consectetur adipisicing elit.
+//   Similique illum nulla modi?
+//   Provident veritatis magni quae tempore
+//   illum fugit molestiae ipsum? Quibusdam`,
+//   fifthCardHeading: 'What We Do',
+//   fifthCardtext: `Lorem ipsum dolor sit amet consectetur adipisicing elit.
+//   Similique illum nulla modi?
+//   Provident veritatis magni quae tempore
+//   illum fugit molestiae ipsum? Quibusdam`,
+//   sixthCardHeading: 'WHAT IT DELIVERS',
+//   sixthCardtext: `Lorem ipsum dolor sit amet consectetur adipisicing elit.
+//   Similique illum nulla modi?
+//   Provident veritatis magni quae tempore
+//   illum fugit molestiae ipsum? Quibusdam`,
+//   seventhCardHeading: 'What We Do',
+//   seventhCardtext: ` Lorem ipsum dolor sit amet consectetur adipisicing elit.
+//   Similique illum nulla modi?
+//   Provident veritatis magni quae tempore
+//   illum fugit molestiae ipsum? Quibusdam`,
+//   eighthCardHeading: 'What We Do',
+//   eighthCardtext: `Lorem ipsum dolor sit amet consectetur adipisicing elit.
+//   Similique illum nulla modi?
+//   Provident veritatis magni quae tempore
+//   illum fugit molestiae ipsum? Quibusdam`,
+//   ninthCardHeading: 'WHAT IT DELIVERS',
+//   ninthCardtext: `Lorem ipsum dolor sit amet consectetur adipisicing elit.
+//   Similique illum nulla modi?
+//   Provident veritatis magni quae tempore
+//   illum fugit molestiae ipsum? Quibusdam`,
+//   footer_heading_one: `What we Do`,
+//   footer_heading_second: 'our team',
+//   footer_heading_third: 'Newsfeed',
+//   footer_heading_fourth: 'pep life',
+//   footer_heading_fifth: 'Social media',
+//   footer_heading_one_content: `<li><a href="">How it works</a></li>
+//                               <li><a href="">Where it works</a></li>`,
+
+//   footer_heading_second_content: `<li><a href="">management</a></li>
+//                                   <li><a href="">local leadership</a></li>
+//                                   <li><a href="">advisory board</a></li>`,
+
+//   footer_heading_third_content: `<li><a href="">management</a></li>
+//                                        <li><a href="">local leadership</a></li>
+//                                        <li><a href="">advisory board</a></li>`,
+
+//   footer_heading_fourth_content: `<li><a href="">history</a></li>
+//                                   <li><a href="">careers</a></li>
+//                                   <li><a href="">contact</a></li>`,
+//   footer_heading_fifth_content: `<li><a href=""><i class="fa fa-facebook" aria-hidden="true"></i> Facebook</a></li>
+//                                     <li><a href=""><i class="fa fa-google" aria-hidden="true"></i> Google</a></li>
+//                                     <li><a href=""><i class="fa fa-instagram" aria-hidden="true"></i> Instagram</a></li>`,
+//   sa_id: 1,
+//   backgroundVideo: '/video/video.mp4'
+
+// }).then(d => console.log('done'))
+

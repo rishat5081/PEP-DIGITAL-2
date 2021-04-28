@@ -1,0 +1,25 @@
+<link rel="stylesheet" href="/toastr/toastr.min.css">
+<script src="/js/jquery.min.js"></script>
+<!-- Toastr -->
+<script src="/toastr/toastr.min.js"></script>
+<%if(messages){ %>
+    <% for(const type in messages){%>
+        <% if(type){ %>
+
+            <script>
+                let types = '<%=type%>'
+                if (types === 'danger')
+                    toastr.error('<%=messages[type]%>')
+                if (types === 'info')
+                    toastr.info('<%=messages[type]%>')
+                if (types === 'success')
+                    toastr.success('<%=messages[type]%>')
+                if (types === 'warning')
+                    toastr.warning('<%=messages[type]%>')
+
+                types = null
+            </script>
+            <%} %>
+         <%} %>
+
+     <%}%>

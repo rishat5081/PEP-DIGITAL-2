@@ -1,0 +1,792 @@
+/*------------------------------------------------------------------
+  [ Header ]*/
+
+.container-profile100 {
+  width: 100%;
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 15px;
+  background: #9053c7;
+  background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: linear-gradient(-135deg, #c850c0, #4158d0);
+}
+
+.container-profile100 .header {
+  width: 1300px;
+  /* height: 100vh; */
+  background: #fff;
+  border-radius: 17px;
+}
+
+.container-profile100 .header .cover-image100 {
+  background: url("");
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  height: 30px;
+  background-size: 100%;
+  border-top-left-radius: 17px;
+  border-top-right-radius: 17px;
+}
+
+.container-profile100 .header .cover-image100 .back-button {
+  color: #000;
+  font-size: 25px;
+  margin: 10px;
+  padding-left: 10px;
+  padding-top: 10px;
+  transition: all 0.1s;
+}
+
+.container-profile100 .header .cover-image100 .back-button:hover {
+  color: #9053c7;
+  font-size: 30px;
+  margin: 8px;
+  padding-left: 8px;
+  padding-top: 8px;
+}
+
+.container-profile100 .header .cover-image100 .menu-button {
+  float: right;
+  color: #000;
+  font-size: 25px;
+  margin: 10px;
+  padding-right: 20px;
+  padding-top: 10px;
+  transition: all 0.1s;
+}
+
+.container-profile100 .header .cover-image100 .menu-button:hover {
+  color: #9053c7;
+  font-size: 30px;
+  margin: 8px;
+  padding-left: 8px;
+  padding-top: 8px;
+}
+
+.container-profile100 .header .cover-image100 nav {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background: #9153c7ea;
+  z-index: 2;
+  top: -100vh;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: 0.5s;
+}
+
+.container-profile100 .header .cover-image100 nav .close-menu {
+  position: absolute;
+  font-size: 30px !important;
+  color: #fff;
+  right: 80px;
+  top: 50px;
+  transition: all 0.1s;
+}
+
+.container-profile100 .header .cover-image100 nav .close-menu:hover {
+  color: #000;
+  font-size: 30px;
+}
+
+.container-profile100 .header .cover-image100 nav ul li {
+  margin: 35px 0px;
+  text-transform: uppercase;
+}
+
+.container-profile100 .header .cover-image100 nav ul li a {
+  font-size: 25px;
+  color: #fff;
+  padding: 10px;
+  letter-spacing: 3px;
+  position: relative;
+}
+
+.container-profile100 .header .cover-image100 nav ul li a::after {
+  content: "";
+  height: 3px;
+  width: 0%;
+  left: 0;
+  bottom: 0;
+  background: #fff;
+  position: absolute;
+  transition: width 0.5s;
+}
+
+.container-profile100 .header .cover-image100 nav ul li a:hover::after {
+  width: 100%;
+}
+
+.profile-pic-section .head-section {
+  padding-bottom: 10px;
+  border-bottom: solid 1px;
+}
+
+.profile-pic-section .head-section h2 {
+  margin-top: 80px;
+}
+
+.profile-pic-section .sub-heading {
+  font-size: 13px;
+}
+
+.profile-pic-section h5 {
+  margin: 25px;
+}
+
+.header img {
+  width: 100%;
+  border-radius: 50%;
+  height: 220px;
+}
+
+.prf-img {
+  position: relative;
+  width: 20%;
+  margin: 0 auto;
+  display: block;
+  transition: 0.4s all;
+  overflow: hidden;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.edit {
+  position: absolute;
+  width: 100%;
+  height: 0%;
+  bottom: 0%;
+  text-align: center;
+  left: 0;
+  background-color: #000000a3;
+  color: white;
+  transition: 0.4s all;
+}
+
+.prf-img:hover .edit {
+  height: 20%;
+}
+
+.header .edit-button {
+  display: block;
+  margin-top: 10px;
+}
+
+.header .update-button {
+  margin-top: 10px;
+  display: none;
+}
+
+.main-content .personal-section {
+  background: #f9f9f9;
+  padding-left: 25px;
+  margin: auto;
+  padding-bottom: 25px;
+  padding-right: 25px;
+  margin-bottom: 20px;
+  border-radius: 17px;
+  margin-top: 10px;
+}
+#submitAgency select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#submitAgency input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block !important;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+/* input[type="text"],
+select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type="email"],
+select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+} */
+
+.main-content .personal-section .personal-data {
+  padding-bottom: 10px;
+  padding-top: 20px;
+}
+
+.activity-section .activity-div button {
+  margin-top: 20px;
+  width: 40%;
+  font-size: 30px;
+  text-transform: uppercase;
+  background-image: linear-gradient(-135deg, #c850c0, #4158d0);
+  border: none;
+}
+
+.activity-section .activity-div button:hover {
+  background-image: linear-gradient(135deg, #c850c0, #4158d0);
+}
+
+.error-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 600px;
+}
+
+.error-page .error-img {
+  width: 50% !important;
+  margin-left: 130px;
+}
+
+.error-page h1 {
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  /* font-size: 100px; */
+  color: #9153c7ea;
+}
+
+.error-page h2 {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  /* font-size: 40px; */
+  text-transform: uppercase;
+  color: #4158d0;
+}
+
+.error-page button {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  /* font-size: 23px; */
+  text-transform: uppercase;
+  background-image: linear-gradient(-135deg, #c850c0, #4158d0);
+  border: none;
+  margin-top: 20px;
+}
+
+.error-page button:hover {
+  background-image: linear-gradient(135deg, #c850c0, #4158d0);
+}
+
+.email-template {
+  margin: 20px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.email-template .email-body h2 {
+  /* font-size: 50px; */
+  font-family: Georgia, "Times New Roman", Times, serif;
+  text-transform: uppercase;
+  margin: 30px;
+  color: #9153c7ea;
+}
+
+.email-template .email-body p {
+  margin: 10px 180px;
+  font-size: 20px;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  text-align: justify;
+}
+
+.email-template .email-button button {
+  background: #4158d0;
+  border: none;
+  width: 200px;
+  text-transform: uppercase;
+  margin: 20px 10px;
+  padding: 15px 10px;
+  transition: all 0.5s;
+}
+
+.email-template .email-button button:hover {
+  background: #9153c7ea;
+}
+
+.email-template .email-button p {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-transform: capitalize;
+}
+
+.email-template .email-button .url {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  text-transform: none;
+  margin: 10px 20px;
+}
+
+.email-template .email-copyrights {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  text-transform: capitalize;
+  margin-top: 65px;
+}
+
+/*------------------------------------------------------------------
+  [ Responsive ]*/
+
+@media (max-width: 992px) {
+  .header {
+    margin: 10px 40px;
+    height: auto;
+  }
+  .header .profile-img {
+    width: 20%;
+    border-radius: 200px;
+  }
+  .header h5 {
+    display: block;
+    width: 150%;
+    margin-left: -170px;
+  }
+  .header .navigation .log-btn {
+    margin-left: 0px;
+    margin-right: -50px;
+  }
+  .header .navigation button {
+    margin-top: 80px;
+    margin-left: 40px;
+  }
+  .main-content .personal-section {
+    margin-left: 5px;
+  }
+  .error-page .error-img {
+    width: 100% !important;
+    margin-left: 120px;
+  }
+  .email-template .email-body p {
+    margin: 10px 80px;
+    font-size: 18px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  .profile-pic-section .head-section {
+    margin-left: 40px;
+  }
+  .header .profile-img {
+    display: block;
+    margin-top: 15px;
+    width: 50%;
+    border-radius: 200px;
+  }
+  .header h5 {
+    display: block;
+    text-align: center;
+    margin-left: -52px;
+  }
+  .header .navigation .log-btn {
+    margin-left: 5px;
+    float: none;
+  }
+  .header .navigation button {
+    margin-left: auto;
+    margin-top: 10px;
+    width: 100px;
+    font-size: 12px;
+  }
+  .main-content {
+    margin-top: 10px;
+  }
+  .main-content .personal-section {
+    margin: 0px 10px;
+  }
+  .error-page .error-img {
+    width: 100% !important;
+    margin-left: 50px;
+  }
+  .error-page h2 {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 30px;
+    text-transform: uppercase;
+    color: #4158d0;
+  }
+  .email-template .email-body h2 {
+    margin: 20px;
+  }
+  .email-template .email-body p {
+    margin: 10px 10px;
+    font-size: 20px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+  }
+  .email-template .email-button button {
+    background: #9153c7ea;
+    border: none;
+    width: 150px;
+    text-transform: uppercase;
+    margin: 10px 10px;
+    padding: 15px 10px;
+    transition: all 0.5s;
+  }
+  .email-template .email-logo img {
+    width: 40%;
+  }
+  .email-template .email-body h2 {
+    font-size: 30px;
+  }
+  .email-template .email-body p {
+    font-size: 15px;
+  }
+  .email-template .email-button button {
+    width: 100px;
+  }
+  .email-template .email-button p {
+    margin: 20px 0px;
+  }
+  .email-template .email-button .url {
+    font-size: 11px;
+    margin: 10px 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .wrap-login100 {
+    padding: 100px 15px 33px 15px;
+  }
+}
+
+/*------------------------------------------------------------------
+  [ Confirm Email CSS Starts ]*/
+
+.email-verify-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 600px;
+}
+
+.email-verify-page h1 {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 35px;
+  text-transform: uppercase;
+  color: #9153c7ea;
+}
+
+.email-verify-page h2 {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 20px;
+  text-transform: capitalize;
+  color: #4158d0;
+  margin: 40px 0px;
+}
+
+.email-verify-page button {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 23px;
+  text-transform: capitalize;
+  background-image: linear-gradient(-135deg, #c850c0, #4158d0);
+  border: none;
+  cursor: default;
+  margin-top: 20px;
+  padding: 10px 20px;
+}
+
+.email-verify-page p {
+  font-size: 24px;
+  text-transform: capitalize;
+  margin-top: 10px;
+}
+
+/*------------------------------------------------------------------
+    [ Confirm Email CSS Ends ]*/
+
+@media (max-width: 768px) {
+  /*   Verify Email    */
+  .email-verify-page h1 {
+    font-size: 27px;
+  }
+  .email-verify-page h2 {
+    font-size: 15px;
+    margin: 40px 0px;
+  }
+  .email-verify-page button {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 18px;
+    text-transform: capitalize;
+    background-image: linear-gradient(-135deg, #c850c0, #4158d0);
+    border: none;
+    margin-top: 20px;
+    padding: 10px 20px;
+  }
+}
+
+.main-content .image-update-section {
+  background: #fff;
+  padding-left: 25px;
+  padding-bottom: 25px;
+  padding-right: 25px;
+  margin-bottom: 20px;
+  border-radius: 17px;
+  margin-top: 10px;
+}
+
+.main-content .image-update-section .image-update {
+  padding-bottom: 10px;
+  padding-top: 20px;
+}
+
+.main-content .image-update-section .image-update .img-file {
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .main-content .image-update-section .image-update .img-file {
+    width: 100%;
+  }
+}
+
+/* .cover-image100 img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 20%;
+    margin-top: 8%;
+  } */
+
+input:focus {
+  border: solid 1px #000;
+  background: #ccc;
+}
+
+/* Activity Section Starts */
+
+.pep-logo {
+  border-radius: 0px !important;
+  margin: 10px;
+  width: 180px !important;
+  padding-left: 20px;
+  padding-top: 10px;
+  height: auto !important;
+}
+
+.main-section {
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.main-section p {
+  font-size: 19px;
+}
+
+.activity-right-side {
+  margin-top: 50px;
+}
+
+.activity-right-side h3 {
+  text-align: center;
+  margin: 30px;
+}
+
+.activity-form {
+  width: 100%;
+  margin-top: 10px;
+  float: right;
+}
+
+.activity-section button {
+  font-family: Arial, Helvetica, sans-serif;
+  letter-spacing: 3px;
+  padding: 10px 20px;
+  font-size: 14px;
+  text-transform: uppercase;
+  background: #9153c7ea;
+  border: none;
+  transition: all 0.5s;
+  cursor: default;
+}
+
+.activity-section .fetch-Location {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 18px;
+  display: none;
+  text-align: left;
+}
+
+.check-button {
+  margin-left: 235px;
+  margin-bottom: 20px;
+}
+
+/* Activity Section Ends */
+
+@media (max-width: 992px) {
+  .check-button {
+    margin-left: 0px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .pep-logo {
+    width: 100px !important;
+  }
+  .main-section {
+    margin-top: 20px;
+    margin-left: 10px;
+    display: block;
+    height: auto;
+  }
+  .activity-right-side {
+    margin-left: -15px;
+    margin-bottom: 20px;
+  }
+}
+
+#submitAgency label {
+  font-family: fangsong;
+}
+
+/*------------------------------------------------------------------
+  [ SubActivity CSS Starts ]*/
+.sub-activity-section {
+  margin: 20px;
+}
+
+.act-name {
+  margin: 0px 0px 20px 10px;
+  color: #9053c7;
+  display: inline-flex;
+  font-weight: 600;
+  font-size: 20px !important;
+}
+.act-description {
+  /* margin-left: 36px; */
+  text-align: justify;
+  margin-top: 5px;
+  font-size: 18px !important;
+}
+.subAct-but {
+  margin-left: 0px;
+}
+
+.act-entity {
+  background: #fff;
+  padding: 15px;
+  margin: 8px 0px;
+  border-bottom: 1px solid #9053c7;
+}
+.act-entity i {
+  margin-top: 3px;
+  color: #9053c7;
+}
+.checks button {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 16px;
+  text-transform: capitalize;
+  background-image: linear-gradient(-135deg, #c850c0, #4158d0);
+  border: none;
+  padding: 10px 20px;
+}
+.checks button:hover {
+  background-image: linear-gradient(135deg, #c850c0, #4158d0);
+}
+.checks h3 {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 24px;
+}
+.custom-checkbox {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin: 8px 15px 25px 80px;
+}
+
+.custom-checkbox .label {
+  font-size: 18px;
+  margin: 0 10px;
+}
+
+.custom-checkbox .checkmark {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #181718;
+  display: inline-block;
+  border-radius: 3px;
+  background: #c850c0
+    url(https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/White_check.svg/1200px-White_check.svg.png)
+    center/1250% no-repeat;
+  transition: background-size 0.2s ease;
+}
+
+.custom-checkbox input:checked + .checkmark {
+  background-size: 60%;
+  transition: background-size 0.25s cubic-bezier(0.7, 0, 0.18, 1.24);
+}
+.custom-checkbox input {
+  display: none;
+}
+@media (max-width: 992px) {
+  .act-description {
+    margin-left: 150px;
+    font-size: 17px !important;
+  }
+  .custom-checkbox {
+    margin-left: 40px;
+  }
+  .subAct-but {
+    margin-top: 20px;
+    margin-left: 0px;
+  }
+}
+@media (max-width: 768px) {
+  .checks {
+    margin-left: 0px;
+  }
+  .act-entity {
+    padding: 8px 8px;
+  }
+  .act-name {
+    font-size: 22px !important;
+    margin-left: 15px;
+  }
+  .act-description {
+    margin-left: 0px;
+    margin-top: 15px;
+    font-size: 20px !important;
+  }
+  .custom-checkbox {
+    margin-left: 0px;
+  }
+  .subAct-but {
+    margin-left: 0px;
+  }
+}

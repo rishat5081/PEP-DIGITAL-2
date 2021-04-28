@@ -1,0 +1,40 @@
+-Development 
+If you want to edit this or want to extend then please be strong in async functions of Js, 
+especially with promise and async/await the total work is done in both of these.
+
+
+-User Profile 
+I am avoiding the Permissions to be fetched from the DB in the user profile route because whenever the user 
+refresh the user profile then it will hit the DB everytime, so avoiding this problem the 
+Permissions should be fetched from DB whenever the user logged in.
+
+----------------------------------------------------------------------------
+
+Database: 
+1. If there is no database and table in the database.
+2. Then create a database in MySQL.
+3. Copy the name of the database and paste it in 'Configuration Files\Sequelize\Sequelize.js'
+4. Paste the name of database at line 4, after 'new Sequelize(', the first parameter is 
+   database name.
+5. There is a async function named 'Database_Synchronization()' in app.js file at line 94 or find it.
+6. Uncomment '//Database_Synchronization()' this and the tables will created auto.
+7. After this message, the tables will be created.
+   
+   ` Creating Database.... Please Wait
+    *************************************************************
+    *************************************************************
+    *************************************************************
+    DataBase Configured..... !!!
+    *************************************************************
+    ----------------- Done Database -----------------
+    *************************************************************
+    *************************************************************
+    ************************************************************* `
+
+
+
+
+-----------------------------------------LOGO-----------------------------------------------------
+for making logo dynamic do one thing make a form for superadmin 
+and do not replace the image with the logo image 
+just do it rename the new logo image with the previous one 

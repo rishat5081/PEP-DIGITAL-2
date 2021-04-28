@@ -1,0 +1,46 @@
+@media (min-width:320px) and (max-width:620px) {
+	.sidebar{
+		    width: 0!important;
+		    overflow: hidden;
+    	}
+	.sidebar.toggled{
+		width: 6.5rem !important;
+    min-height: 100vh;
+    overflow: inherit !important;
+	}
+	.form-row{
+		width: 100% !important;
+		float: inherit !important;
+		margin-left: 0px;
+		margin-right: 0px;
+	}
+	#formdiv {
+    width: 100%;
+        margin-right: 0%;
+    margin-left: 0%;
+}
+}
+#formdiv {
+	padding-bottom: 0;
+	
+}
+.btn-light{
+background-color: #274fc2;
+    color: white;
+    margin: 20px auto;
+    width: 40%;
+    display: block;
+}
+.form-group{
+	display: flex;
+}
+.form-row{
+	width: 50%;
+	float: left;
+	    margin-top: 20px;
+
+}
+.submit-btn{
+	display: flow-root;
+	width: 100%;
+}
