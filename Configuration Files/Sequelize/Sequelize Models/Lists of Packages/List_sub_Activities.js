@@ -2,9 +2,9 @@
 const { DataTypes, Model, UUIDV4 } = require("sequelize"),
   sequelize = require("../../Sequelize"),
   List_of_Packages = require("./List_of_Packages"),
-  List_Activities = require("./Activities");
+  Activities = require("./Activities");
 
-class List_sub_Activities extends Model {}
+class List_sub_Activities extends Model { }
 
 List_sub_Activities.init(
   {
@@ -58,10 +58,10 @@ List_sub_Activities.init(
       allowNull: true,
       defaultValue: false,
     },
-    amount: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
+    // amount: {
+    //   type: DataTypes.TEXT,
+    //   allowNull: true,
+    // },
   },
   {
     sequelize,
@@ -88,11 +88,11 @@ List_sub_Activities.belongsTo(List_of_Packages, {
  * Sub activties will be handle about how many list product does the
  * field executive had made
  */
-List_Activities.hasMany(List_sub_Activities, {
+Activities.hasMany(List_sub_Activities, {
   foreignKey: "list_act_id",
 });
 
-List_sub_Activities.belongsTo(List_Activities, {
+List_sub_Activities.belongsTo(Activities, {
   targetKey: "list_act_id",
   foreignKey: "list_act_id",
 });

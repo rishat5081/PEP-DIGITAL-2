@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <title>Activity</title>
     <meta charset="UTF-8" />
@@ -7,22 +8,15 @@
     <!--===============================================================================================-->
     <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
     <!--===============================================================================================-->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/bootstrap/css/bootstrap.min.css"
-    />
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css" />
     <!--===============================================================================================-->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/fonts-1/font-awesome-4.7.0/css/font-awesome.css"
-    />
+    <link rel="stylesheet" type="text/css" href="/fonts-1/font-awesome-4.7.0/css/font-awesome.css" />
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="/css/main.css" />
     <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" href="/toastr/toastr.min.css">
     <link rel="stylesheet" type="text/css" href="/css/style_2.css" />
-    <link rel="stylesheet" type="text/css" href="/toastr/toastr.min.css" />
     <!--===============================================================================================-->
   </head>
 
@@ -37,11 +31,18 @@
             </a>
             <nav id="menu">
               <ul>
-                <li>
-                  <a href="/user/signout">
-                    <span class="fa fa-sign-out"> </span> Log Out</a
-                  >
-                </li>
+                <% permissions.forEach(element=> { %>
+                  <li>
+                    <a href="/user<%= element.controller %>/<%=info.uuid%>">
+                      <span class="<%= element.icon%>"></span>
+                      <%= element.permission_name %>
+                    </a>
+                  </li>
+                  <% }); %>
+                    <li>
+                      <a href="/user/signout">
+                        <span class="fa fa-sign-out"> </span> Log Out</a>
+                    </li>
               </ul>
               <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
             </nav>
@@ -49,42 +50,137 @@
           <div class="container profile-pic-section">
             <div class="row head-section">
               <div class="col-md-12" align="center">
-                <h2 style="margin-top: 80px">View All Agencies</h2>
+                <h2 style="margin-top: 80px">ACTIVITY</h2>
               </div>
             </div>
 
-            <div class="d-flex bd-highlight">
-              <div class="p-2 bd-highlight">Select An Agency</div>
-              <div class="p-2 flex-grow-1 bd-highlight">
-                <select class="w-100" name="" id="">
-                  <option value="aaa">aaaa</option>
-                  <option value="aaa">aaaa</option>
-                  <option value="aaa">aaaa</option>
-                  <option value="aaa">aaaa</option>
-                  <option value="aaa">aaaa</option>
-                  <option value="aaa">aaaa</option>
-                </select>
+            <div class="row activity-section">
+              <div class="col-md-12 activity-right-side">
+                <div class="row activity-form">
+                  <div class="col-md-12">
+                    <div class="search-form content-center">
+                      <div class="p-2 m-2 ">
+                        <input type="text" placeholder="Enter Agency Name" name="search" id="agencyName"
+                          oninvalid="this.setCustomValidity('Agency Name is Mandatory')"
+                          oninput="setCustomValidity('')">
+                        <input type="text" placeholder="Enter Agency Address" name="search" id="agencyAddress"
+                          oninvalid="this.setCustomValidity('Agency Address is Mandatory')"
+                          oninput="setCustomValidity('')">
+                      </div>
+
+                      <div class="p-2 m-2">
+                        <input type="text" placeholder="Enter Agency City" name="search" id="agencyCity"
+                          oninvalid="this.setCustomValidity('Agency City is Mandatory')"
+                          oninput="setCustomValidity('')">
+                        <button type="submit" id="searchAgencyBTN"><i class="fa fa-search"></i></button>
+                      </div>
+
+                    </div>
+                    <hr />
+                  </div>
+                </div>
+                <div id="submitAgency" class="d-none mt-5">
+                  <div class="form-group agencyForm mt-5" style="display: block">
+                    <h3 id="agencyTitle" class="text-center m-5">Agency Details</h3>
+
+                    <div class="row activity-form mb-5">
+                      <div class="col-md-6">
+                        <div class="profile-pic mb-5">
+                          <img src="/img/profile.jpg" id="fieldExecutive_ProfilePic">
+                        </div>
+                        <div class="profile-data mt-5">
+                          <p><b>Added By :</b> <span id="fieldExecutive_Name">Saad</span></p>
+                          <p><b>Mobile:</b> <span id="fieldExecutive_Contact">+92 345 6789000</span></p>
+                        </div>
+                      </div>
+                      <div class="col-md-6 mt-5">
+                        <div class="profile-data">
+                          <p><b>Agency Name :</b> <span id="agencyName_tag">xxxxxxx</span></p>
+                          <p><b>Contact :</b> <span id="agencyContact_tag">examplexxxxxx</span></p>
+                          <p><b>City :</b> <span id="agencyCity_Tag">examplexxxxxx</span></p>
+                          <p><b>Address :</b> <span id="agencyAddress_Tag">examplexxxxxx</span></p>
+                          <p><b>Contacted Person :</b> <span id="agencyContactedPerson_Tag">examplexxxxxx</span></p>
+                          <p><b>Created Date:</b> <span id="agencyDate_Time">+92 345 6789000</span></p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row  col-lg-12">
+                      <div class="col-lg-4 p-3 mb-4 text-justify">
+                        <h4 class="text-center">
+                          Select the Compaign
+                        </h4>
+                      </div>
+                      <div class="col-lg-8 text-center">
+                        <select id="Compaign" class="w-75" aria-placeholder="Select Compaign">
+                          <option disabled selected value="Select Compaign">
+                            Select Compaign
+                          </option>
+                          <% CompaignsList.forEach(element=> {%>
+                            <option class="m-1 p-2" value="<%=element.comp_id %>">
+                              <%=element.comp_name %>
+                            </option>
+                            <% }); %>
+                              <option value="0">null</option>
+                        </select>
+                      </div>
+                      <div class="col-md-12 text-center">
+                        <form action="" method="post"></form>
+                        <button class="btn btn-success" id="submit-button">
+                          Start Activity
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
-            <!-- *----------------------------- -->
           </div>
         </div>
       </div>
     </div>
-    <!--===============================================================================================-->
+
+
     <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
     <!--===============================================================================================-->
     <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
     <!--===============================================================================================-->
     <script src="/vendor/jquery/tilt.jquery.min.js"></script>
+    <script src="/vendor/jquery/jquery-ui.js"></script>
 
     <script src="/toastr/toastr.min.js"></script>
     <script>
-      // console.log(JSON.parse('%-JSON.stringify(agencyTypes)%>'))
+
+      var agencyID
+      $('#submit-button').click(e => {
+
+
+        if ($("#Compaign").find(":selected").val() === "Select Compaign") {
+          toastr.error('Please Select Compaign')
+        }
+        else {
+          toastr.success("Please wait Starting Activity");
+
+          $.ajax({
+            type: "POST",
+            url: `${window.location.origin}/startActivityOnExsitingActivity`,
+            data: {
+              agencyID,
+              CompaignID: $("#Compaign").find(":selected").val()
+            },
+            dataType: "JSON",
+            success: response => {
+              window.location.href = `${window.location.origin}/user/activities/${response.agencyID}/${response.uuid}`
+            }
+          });
+        }
+      })
 
       $(".js-tilt").tilt({
         scale: 1.1,
       });
+
 
       var menu = document.getElementById("menu");
       function openMenu() {
@@ -93,7 +189,112 @@
       function closeMenu() {
         menu.style.top = "-100vh";
       }
+
+      var agencyName, agencyCity, selectedAgencyAddress
+      var agencyNames = JSON.parse('<%-JSON.stringify(AgencyData)%>').map(data => {
+        return data.agency_name
+      })
+      var agencyAddress = JSON.parse('<%-JSON.stringify(AgencyData)%>').map(data => {
+        return data.agency_address
+      })
+      $("#agencyName").autocomplete({
+        source: agencyNames,
+        minLength: 1,
+        autoFill: true,
+        select: function (event, ui) {
+          agencyName = ui.item.value;
+        }
+
+      });
+      $("#agencyAddress").autocomplete({
+        source: agencyAddress,
+        minLength: 1,
+        autoFill: true,
+        select: function (event, ui) {
+          selectedAgencyAddress = ui.item.value;
+        }
+
+      });
+
+      var cityName = JSON.parse('<%-JSON.stringify(pakistanCityName)%>').map(data => {
+        return data.city + ',' + data.admin_name
+      })
+
+      $("#agencyCity").autocomplete({
+        source: cityName,
+        minLength: 1,
+        autoFill: true,
+        select: function (event, ui) {
+          agencyCity = ui.item.value;
+        }
+      });
+
+
+      validateInputs = (agencyName, agencyCity, selectedAgencyAddress) => {
+        if (
+          agencyName == undefined || null ||
+          agencyCity == undefined || null ||
+          agencyAddress == undefined || null
+        ) {
+          toastr.error("All Fields are Required");
+          return false;
+        }
+        else {
+          return true;
+        }
+      };
+
+      $('#searchAgencyBTN').click(e => {
+        if (validateInputs(agencyName, agencyCity, selectedAgencyAddress)) {
+          $.ajax({
+            type: "POST",
+            url: `${window.location.origin}/getAgencyDetails`,
+            data: { agencyName, agencyCity, selectedAgencyAddress },
+            dataType: "JSON",
+            error: error => {
+              toastr.error(error.responseJSON.details)
+            },
+            success: (response) => {
+              $('#submitAgency').addClass('d-block')
+              agencyID = response.AgencyDetails.agency_id
+              $('#agencyTitle').html(response.AgencyDetails.agency_name)
+              $('#agencyName_tag').html(response.AgencyDetails.agency_name)
+              $('#agencyContact_tag').html(response.AgencyDetails.agency_Contact)
+              $('#agencyCity_Tag').html(response.AgencyDetails.agency_city)
+              $('#agencyAddress_Tag').html(response.AgencyDetails.agency_address)
+
+              let dateTime = response.AgencyDetails.createdAt.split('T')
+
+
+              let time = dateTime[1].split('.000Z')
+
+
+              $('#agencyDate_Time').html(dateTime[0] + " " + time[0])
+              $('#agencyContactedPerson_Tag').html(response.AgencyDetails.contactedPerson)
+              $('#agencyTitle').html(response.AgencyDetails.agency_name)
+
+              $('#fieldExecutive_ProfilePic').attr('src', response.AgencyDetails.Field_Executive.field_userProfilePic)
+              $('#fieldExecutive_Name').html(response.AgencyDetails.Field_Executive.field_name)
+              $('#fieldExecutive_Contact').html(response.AgencyDetails.Field_Executive.field_contact)
+              toastr.success(response.details)
+            }
+          })
+        }
+
+
+
+
+
+
+      })
+
+
+
+
+
+
+
     </script>
-    <!--===============================================================================================-->
   </body>
+
 </html>

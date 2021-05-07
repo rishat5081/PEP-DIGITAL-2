@@ -36,6 +36,10 @@ Agency_Info.init(
       type: DataTypes.TEXT,
       allowNull: true
     },
+    agency_city: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
     agency_address: {
       type: DataTypes.TEXT,
       allowNull: true

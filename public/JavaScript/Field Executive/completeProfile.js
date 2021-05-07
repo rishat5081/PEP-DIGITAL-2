@@ -66,7 +66,7 @@ $('.submitBTN').on('click', () => {
             if (fd) {
                 $.ajax({
                     type: "POST",
-                    url: "/executive/upload",
+                    url: `${window.location.origin}/executive/upload`,
                     data: fd,
                     cache: false,
                     contentType: false,
@@ -102,7 +102,7 @@ $('#submitInfo').click((e) => {
     if (validateInput()) {
         $.ajax({
             type: "POST",
-            url: "/executive/updateProfileInfo",
+            url: `${window.location.origin}/executive/updateProfileInfo`,
             data: {
                 name: $('#name').val(),
                 contact: $('#contact').val(),
@@ -115,7 +115,7 @@ $('#submitInfo').click((e) => {
                 displayToast(response.messages, response.type)
                 if (response) {
                     toastr.success('Redirecting to Profile Page');
-                    window.location = `/user/dashboard/${response.uuid}`
+                    window.location = `${window.location.origin}/user/dashboard/${response.uuid}`
                 }
             }
         });

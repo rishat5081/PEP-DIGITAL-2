@@ -5,12 +5,12 @@ const Sequelize = require("sequelize");
 // console.log(databaseName)
 
 const sequelize = new Sequelize(
-  "yfmrceum_PEP_Digital",
-  "yfmrceum_Saad",
-  "pepdigital_123",
+  "pep_digital",
+  "root",
+  "",
   {
-    // host: "localhost",
-    host: "webs16rdns1.futuresouls.com",
+    host: "localhost",
+    // host: "webs16rdns1.futuresouls.com",
     dialect: "mysql",
     timezone: "+05:00",
     port: 3306,

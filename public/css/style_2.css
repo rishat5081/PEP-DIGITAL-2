@@ -198,6 +198,7 @@
   border-radius: 17px;
   margin-top: 10px;
 }
+
 #submitAgency select {
   width: 100%;
   padding: 12px 20px;
@@ -217,6 +218,7 @@
   border-radius: 4px;
   box-sizing: border-box;
 }
+
 /* input[type="text"],
 select {
   width: 100%;
@@ -612,11 +614,6 @@ input:focus {
   margin-top: 50px;
 }
 
-.activity-right-side h3 {
-  text-align: center;
-  margin: 30px;
-}
-
 .activity-form {
   width: 100%;
   margin-top: 10px;
@@ -677,6 +674,7 @@ input:focus {
 
 /*------------------------------------------------------------------
   [ SubActivity CSS Starts ]*/
+
 .sub-activity-section {
   margin: 20px;
 }
@@ -688,12 +686,14 @@ input:focus {
   font-weight: 600;
   font-size: 20px !important;
 }
+
 .act-description {
   /* margin-left: 36px; */
   text-align: justify;
   margin-top: 5px;
   font-size: 18px !important;
 }
+
 .subAct-but {
   margin-left: 0px;
 }
@@ -704,10 +704,12 @@ input:focus {
   margin: 8px 0px;
   border-bottom: 1px solid #9053c7;
 }
+
 .act-entity i {
   margin-top: 3px;
   color: #9053c7;
 }
+
 .checks button {
   font-family: Georgia, "Times New Roman", Times, serif;
   font-size: 16px;
@@ -716,13 +718,16 @@ input:focus {
   border: none;
   padding: 10px 20px;
 }
+
 .checks button:hover {
   background-image: linear-gradient(135deg, #c850c0, #4158d0);
 }
+
 .checks h3 {
   font-family: "Times New Roman", Times, serif;
   font-size: 24px;
 }
+
 .custom-checkbox {
   cursor: pointer;
   display: flex;
@@ -741,19 +746,19 @@ input:focus {
   border: 2px solid #181718;
   display: inline-block;
   border-radius: 3px;
-  background: #c850c0
-    url(https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/White_check.svg/1200px-White_check.svg.png)
-    center/1250% no-repeat;
+  background: #c850c0 url(https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/White_check.svg/1200px-White_check.svg.png) center/1250% no-repeat;
   transition: background-size 0.2s ease;
 }
 
-.custom-checkbox input:checked + .checkmark {
+.custom-checkbox input:checked+.checkmark {
   background-size: 60%;
   transition: background-size 0.25s cubic-bezier(0.7, 0, 0.18, 1.24);
 }
+
 .custom-checkbox input {
   display: none;
 }
+
 @media (max-width: 992px) {
   .act-description {
     margin-left: 150px;
@@ -767,6 +772,7 @@ input:focus {
     margin-left: 0px;
   }
 }
+
 @media (max-width: 768px) {
   .checks {
     margin-left: 0px;
@@ -789,4 +795,44 @@ input:focus {
   .subAct-but {
     margin-left: 0px;
   }
+}
+
+.search-form input {
+  padding: 8px;
+  width: 40%;
+  border: 1px solid #757575;
+}
+
+.profile-pic {
+  width: 150px;
+  height: 150px;
+}
+
+.profile-pic img {
+  width: 100%;
+  height: 100%;
+}
+
+.profile-data p {
+  line-height: 2;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 17px;
+}
+
+ul.ui-autocomplete.ui-menu {
+  background-color: #ccc;
+  width: 200px;
+  max-height: 200px;
+  overflow-y: auto;
+  /* prevent horizontal scrollbar */
+  overflow-x: hidden;
+}
+
+ul.ui-autocomplete.ui-menu li {
+  padding: 10px;
+  border-bottom: 1px solid;
+}
+
+.ui-helper-hidden-accessible {
+  display: none !important;
 }

@@ -34,10 +34,6 @@ Activities.init(
         model: "field_executive",
         key: "field_id",
       },
-      validate: {
-        max: 11,
-        isNumeric: true,
-      },
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
     },
@@ -46,7 +42,6 @@ Activities.init(
       allowNull: false,
       primaryKey: false,
       autoIncrement: false,
-
       references: {
         model: "compaigns",
         key: "comp_id",

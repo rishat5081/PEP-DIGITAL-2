@@ -45,50 +45,7 @@
                     <div class="container profile-pic-section">
                         <div class="row head-section">
                             <div class="col-md-12" align="center">
-                                <h2>ACTIVITY</h2>
-                            </div>
-                        </div>
-
-                        <div class="row activity-section">
-                            <div class="col-md-12 text-center">
-                                <div class="activity-div">
-                                    <button class="btn btn-success" id="button" onclick="fetchLocation()">Check</button>
-                                    <h3 id="activity-heading">Heading</h3>
-                                    <p id="location" class="fetch-Location">Locating......</p>
-                                    <form action="" id="activity-form">
-                                        <div class="row activity-form" align="center">
-                                            <div class="col-md-4">
-                                                <input type="text" placeholder="Text Field 1">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <input type="text" placeholder="Text Field 2">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <input type="text" placeholder="Text Field 3">
-                                            </div>
-                                        </div>
-                                        <div class="row activity-form" align="center">
-                                            <div class="col-md-4">
-                                                <input type="text" placeholder="Text Field 1">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <input type="text" placeholder="Text Field 2">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <input type="text" placeholder="Text Field 3">
-                                            </div>
-                                        </div>
-                                        <div class="row activity-form text-center">
-                                            <div class="col-md-12">
-                                                <button class="btn btn-success">Submit</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-
-                            </div>
-                            <div class="row">
-
+                                <h2>Dashboard</h2>
                             </div>
                         </div>
                     </div>
@@ -112,38 +69,9 @@
             function closeMenu() {
                 menu.style.top = "-100vh";
             }
-            // Fetch location 
-            var locating = document.getElementById("location");
-            var button = document.getElementById("button");
-            var activityForm = document.getElementById("activity-form");
-            var heading = document.getElementById("activity-heading");
-            function fetchLocation() {
-                locating.style.display = "block";
-                button.innerHTML = "Checking...."
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(showPosition);
-                } else {
-                    locating.innerHTML = "Geolocation is not supported by this browser.";
-                }
-            }
-            function showPosition(position) {
-                console.log(position);
-                button.style.display = "none";
-                activityForm.style.display = "block";
-                heading.style.display = "block";
-                locating.innerHTML = "Latitude: " + position.coords.latitude +
-                    "<br>Longitude: " + position.coords.longitude;
-            }
         </script>
         <!--===============================================================================================-->
-        <script>
 
-
-            // console.log(JSON.parse('%-JSON.stringify(info)%>'));
-            // console.log(JSON.parse('%-JSON.stringify(role)%>'));
-            // console.log(JSON.parse('%-JSON.stringify(permissions)%>'));
-    // console.log(JSON.parse('<-JSON.stringify(info)%>'));
-        </script>
     </body>
 
 </html>
