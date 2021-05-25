@@ -1,9 +1,19 @@
 const express = require("express"),
   router = express.Router(),
   mainRouter = require("./index"),
+
   {
     User_Login_Information,
   } = require("../../Configuration Files/Sequelize/Database_Synchronization");
+
+
+const jwt_decode = require('jwt-decode');
+
+
+
+
+
+
 
 router.get("/confirmemail", mainRouter.isUser_Login, (req, res, next) => {
   res.status(200).render("Web Appendage Pages/confirmEmail");
@@ -16,17 +26,25 @@ router.get("/confirmemail", mainRouter.isUser_Login, (req, res, next) => {
  * DB against the user information
  */
 
-router.get("/verifyToken?:token", (req, res) => {
-  // console.log(req.query.Authorization)
-  let jwtToken_FromHeader = req.query.Authorization.split(" /");
+router.get("/verifyToken/Authorization=Bearer%20/:token", (req, res) => {
+
+
+
+  let jwtToken_FromHeader = req.params.token;
   /**
    * Getting the token to be verifed by the
    * comparing it with the database
    *
    */
+  /**
+   * Decoding the header token and getting the user email address
+   */
+  var decoded = jwt_decode(jwtToken_FromHeader);
+
   User_Login_Information.findOne({
     where: {
-      jwt: jwtToken_FromHeader[1],
+      jwt: jwtToken_FromHeader,
+      login_email: decoded.data
     },
   })
     .then((response) => {
@@ -69,81 +87,5 @@ router.get("/verifyToken?:token", (req, res) => {
     });
 });
 
-// router.get("/userProfile/:id", mainRouter.isUser_Login, (req, res) => {
-//   // checkRole_GetData_FromDB(req.session.userInfo.userRole, req.session.userInfo.userInfo.login_id, res)
-//   console.log("Gettt it  --------------------------> ");
-//   console.log("Gettt it  --------------------------> " + req.params.id);
-//   // console.log('Gettt it  --------------------------> ' + req.session.userData,
-//   // req.session.userPermissions)
-//   // console.log(req.session)
-//   // console.log('Gettt it  --------------------------> ' + req.session.userInfo.userInfo)
-
-//   console.log(req.session);
-// });
 
 module.exports = { router };
-
-// /**
-//  * Function for getting the menu and checkin the role of the user
-//  *
-//  * and then get the relevant information from the database and then render to the relevant page
-//  * @param {*} userRole
-//  * @param {*} login_id
-//  * @param {*} res
-//  */
-// async function checkRole_GetData_FromDB(userRole, login_id, res) {
-//   if (userRole.type_name === "SuperVisor") {
-//     const menuData = getMenu(userRole.type_name);
-//     const SuperVisorData = await Supervisor.findOne({
-//       attributes: {
-//         exclude: [
-//           "sup_id",
-//           "sup_isDeleted",
-//           "sup_isPaused",
-//           "login_id",
-//           "createdAt",
-//           "updateTimestamp",
-//         ],
-//       },
-//       where: {
-//         login_id,
-//       },
-//     })
-//       .then((rss) => console.log(rss, menuData))
-//       .catch((err) => console.log(err));
-//   }
-//   if (userRole.type_name === "Team Lead") {
-//     const menuData = getMenu(userRole.type_name);
-//     await Team_Lead.findOne({
-//       where: {
-//         login_id,
-//       },
-//     })
-//       .then((rss) => console.log(rss, menuData))
-//       .catch((err) => console.log(err));
-//   }
-//   if (userRole.type_name === "Freelance Field Executive") {
-//     const menuData = getMenu(userRole.type_name);
-//     await Field_Executive.findOne({
-//       where: {
-//         login_id,
-//       },
-//     })
-//       .then((rss) => console.log(rss, menuData))
-//       .catch((err) => console.log(err));
-//   }
-// }
-
-// const getMenu = async (roleName) => {
-//   return await Permissions.findAll({
-//     // where: {
-//     //   permmission_id: 10,
-//     // },
-//     include: {
-//       model: User_Role,
-//       where: {
-//         type_name: roleName,
-//       },
-//     },
-//   });
-// };

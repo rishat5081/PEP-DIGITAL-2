@@ -21,7 +21,7 @@ List_of_Packages.init(
       defaultValue: UUIDV4,
       autoIncrement: false,
       primaryKey: false,
-       
+
     },
     list_name: {
       type: DataTypes.TEXT,
@@ -36,6 +36,15 @@ List_of_Packages.init(
       type: DataTypes.BOOLEAN,
       allowNull: true,
       defaultValue: false
+    },
+    isBank: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false
+    },
+    bankAmount: {
+      type: DataTypes.FLOAT,
+      allowNull: true
     },
     list_amount: {
       type: DataTypes.INTEGER,

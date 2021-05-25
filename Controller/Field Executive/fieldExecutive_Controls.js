@@ -508,6 +508,8 @@ module.exports = (app) => {
 
   app.route('/startActivityOnExsitingActivity').post(async (req, res) => {
 
+    console.log(req.body);
+
     const AgencyDetails = await Agency_Info.findOne({
       attributes: ['agency_id'],
       where: {
@@ -524,7 +526,7 @@ module.exports = (app) => {
       */
       const compapignActivity = await Activities.create({
         comp_id: req.body.CompaignID,
-        field_id: 4,// req.session.profileData.field_id,
+        field_id: req.session.profileData.field_id,
 
         agency_id: AgencyDetails.dataValues.agency_id,
       })

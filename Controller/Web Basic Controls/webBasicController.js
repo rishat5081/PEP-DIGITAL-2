@@ -86,10 +86,10 @@ module.exports = ((app) => {
             expiresIn: 60 * 60 * 24 * 7
         })
 
-        jwtAuthentication_Token = `${process.env.domain}${process.env.server_PORT}/verifyToken?Authorization=Bearer%20/${jwtToken}`
+        jwtAuthentication_Token = `${process.env.domain}${process.env.server_PORT}/verifyToken/Authorization=Bearer%20/${jwtToken}`
 
 
-
+        console.log(jwtAuthentication_Token);
 
         const dbResponse = User_Login_Information.create({
             login_email: req.body.registering_email,

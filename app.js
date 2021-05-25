@@ -1,5 +1,7 @@
 const { userInfo } = require("os");
 const Sequelize = require("sequelize");
+const { sequelize } = require("./Configuration Files/Sequelize/Sequelize Models/Lists of Packages/Activities");
+const Activities = require("./Configuration Files/Sequelize/Sequelize Models/Lists of Packages/Activities");
 const Op = Sequelize.Op,
   express = require("express"),
   app = express(),
@@ -570,12 +572,39 @@ server.listen(process.env.server_PORT, () => {
   console.log(`\x1b[42m--------------------------------------\x1b[0m\n`);
 });
 
-// server-side
-io.on("connection", (socket) => {
-  socket.on("hello", (message) => {
-    console.log(message);
-  });
-});
+
 // setInterval(()=>{
 //     console.log("Hello")
 // },1000)
+
+
+
+
+// const getAllCustomerEarnings = async () => {
+//   return await Activities.findAll({
+//     attributes: [
+//       // 'list_act_id',
+//       [sequelize.fn('YEAR', sequelize.col('createdAt')), 'Year'],
+//       [sequelize.fn('MONTH', sequelize.col('createdAt')), 'Month'],
+//     ],
+//     group: ['Year', 'Month']
+//   })
+//     .then(d => {
+//       console.log(d);
+//     })
+// }
+
+// console.log(getAllCustomerEarnings());
+
+
+
+
+
+
+
+
+
+
+
+// SELECT YEAR(createdAt) AS y, MONTH(createdAt) AS m, 
+// COUNT(DISTINCT list_act_id) FROM activities GROUP BY y, m

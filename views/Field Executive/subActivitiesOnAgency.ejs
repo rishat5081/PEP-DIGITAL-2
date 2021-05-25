@@ -68,6 +68,14 @@
                         <h3 class="act-description">
                           <%= activity.list_description%>
                         </h3>
+
+                        <% if(activity.isBank){ %>
+                          <h6 style="margin-top: 15px; font-weight: 700;">
+                            Bank Deposit : <%=activity.bankAmount %>
+                          </h6>
+                          <% } %>
+
+
                       </div>
                       <div class="col-md-2">
                         <label class="custom-checkbox float-right">

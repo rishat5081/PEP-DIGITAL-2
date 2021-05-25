@@ -189,7 +189,7 @@ router.get(
         .then((activities) => activities.map((activity) => activity.list_id))
         .then((activityIds) =>
           List_of_Packages.findAll({
-            attributes: ["list_uuid", "list_name", "list_description"],
+            attributes: ["list_uuid", "list_name", "list_description", 'isBank', 'bankAmount'],
             where: {
               list_id: {
                 [Op.notIn]: activityIds,
