@@ -52,7 +52,7 @@ defaultBtn.addEventListener("change", function () {
 $('.submitBTN').on('click', () => {
     $('#userProfileForm').submit((e) => {
         e.preventDefault()
-        console.log("Submitting");
+        displayToast("Uploading File", 'success')
         var fd = new FormData(document.getElementById('userProfileForm'));
         var files = $('#default-btn')[0].files;
 
@@ -60,8 +60,6 @@ $('.submitBTN').on('click', () => {
         if (files.length > 0) {
             fd.append('file', files[0]);
         }
-
-        console.log(files[0].size);
         if (files[0].size < 3000000) {
             if (fd) {
                 $.ajax({
@@ -76,7 +74,6 @@ $('.submitBTN').on('click', () => {
                         $('#uploadImageModal').modal('hide');
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
-                        console.log(response.ProfilePic);
                         if (response.ProfilePic)
                             $('#profileImage').attr('src', response.ProfilePic)
 
@@ -106,7 +103,8 @@ $('#submitInfo').click((e) => {
             data: {
                 name: $('#name').val(),
                 contact: $('#contact').val(),
-                "username": $('#username').val()
+                "username": $('#username').val(),
+                dob: $('#dob').val()
             },
             dataType: "json",
             cache: false,
@@ -114,7 +112,7 @@ $('#submitInfo').click((e) => {
                 console.log(response);
                 displayToast(response.messages, response.type)
                 if (response) {
-                    toastr.success('Redirecting to Profile Page');
+                    displayToast("Redirecting to Profile Page", 'success')
                     window.location = `${window.location.origin}/user/dashboard/${response.uuid}`
                 }
             }
@@ -125,15 +123,15 @@ $('#submitInfo').click((e) => {
 
 function validateInput() {
     if ($('#name').val().includes('update') || $('#name').val().includes('select') || $('#name').val().includes('delete')) {
-        toastr.error('Invalid Name. Please Try to Enter Valid Name')
+        displayToast("Invalid Name. Please Try to Enter Valid Name", 'error')
         return false
     }
     if ($('#username').val().includes('update') || $('#username').val().includes('select') || $('#username').val().includes('delete')) {
-        toastr.error('Invalid username. Please Try to Enter Valid Name')
+        displayToast("Invalid username. Please Try to Enter Valid Name", 'error')
         return false
     }
     if ($('#contact').val().includes('update') || $('#contact').val().includes('select') || $('#contact').val().includes('delete')) {
-        toastr.error('Invalid Contact Number. Please Try to Enter Valid Name')
+        displayToast("Invalid Contact Number. Please Try to Enter Valid Name", 'error')
         return false
     }
     else {
@@ -171,7 +169,5 @@ function displayToast(messages, type) {
 
 
 
-
-// }
 
 

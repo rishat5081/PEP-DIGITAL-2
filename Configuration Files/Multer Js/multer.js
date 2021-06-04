@@ -14,7 +14,7 @@ const multer = require('multer'),
             }
         })
 
-const fileUpload_Specs = multer(
+const multerFile_Upload_Function = multer(
     {
         storage: multerStorage,
         limits: {
@@ -41,4 +41,4 @@ function checkFileType(file, cb) {
 
 
 
-module.exports = { fileUpload_Specs }
+module.exports = { multerFile_Upload_Function }

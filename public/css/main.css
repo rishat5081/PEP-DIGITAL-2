@@ -33,10 +33,10 @@ a:focus {
   outline: none !important;
 }
 
-a:hover {
+/* a:hover {
   text-decoration: none;
   color: #57b846;
-}
+} */
 
 /*---------------------------------------------*/
 
@@ -437,6 +437,7 @@ iframe {
   -moz-transition: opacity 0.4s;
   transition: opacity 0.4s;
 }
+
 /* 
 .alert-validate::after {
   content: "\f06a";

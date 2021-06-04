@@ -42,6 +42,10 @@ Field_Executive.init(
       type: DataTypes.TEXT,
       allowNull: true
     },
+    field_DOB: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
     field_salary: {
       type: DataTypes.TEXT,
       allowNull: true

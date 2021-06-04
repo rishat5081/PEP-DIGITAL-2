@@ -286,7 +286,6 @@ app.post("/LoginForm", async (req, res) => {
         permissionObject[index] = breakPermissions;
         breakPermissions = null;
       });
-
       /**
        * Setting the user profile information into the session and also the
        * Permissions into the session
@@ -296,12 +295,13 @@ app.post("/LoginForm", async (req, res) => {
        * Redirecting the user to the relevant route according to the user role
        */
 
+
       req.session.permissions = { permissionObject };
       req.session.profileData =
         profileInfo.userInfo !== null ? profileInfo.userInfo : null;
 
       if (req.user.userRole.type_name === "SuperVisor") {
-        if (profileInfo.userInfo.dataValues.sup_name !== null) {
+        if (profileInfo.userInfo.dataValues.sup_name !== null || '') {
           SuperVisorLogin.create({
             ipAddress: req.ip,
             sup_id: profileInfo.userInfo.dataValues.sup_id,
@@ -323,7 +323,7 @@ app.post("/LoginForm", async (req, res) => {
             );
         }
       }
-      if (req.user.userRole.type_name === "Team Lead") {
+      if (req.user.userRole.type_name === "Team Lead" || '') {
         if (profileInfo.userInfo.dataValues.team_L_name !== null) {
           TeamLead_Login.create({
             ipAddress: req.ip,

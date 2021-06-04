@@ -23,7 +23,7 @@ const sequelize = require("./Sequelize"),
   Executive_Earning = require("./Sequelize Models/Executive/Executive_Earning"),
   Executive_Withdraws = require("./Sequelize Models/Executive/Executive_Withdraws"),
   Stock_Usage = require("./Sequelize Models/Executive/Stock_Usage"),
-  List_Activities = require("./Sequelize Models/Lists of Packages/Activities"),
+  Activities = require("./Sequelize Models/Lists of Packages/Activities"),
   List_of_Packages = require("./Sequelize Models/Lists of Packages/List_of_Packages"),
   List_sub_Activities = require("./Sequelize Models/Lists of Packages/List_sub_Activities"),
   Activity_Instruction = require("./Sequelize Models/Lists of Packages/Activity_Instruction"),
@@ -298,7 +298,7 @@ const TruncateTables = async () => {
 
 
 
-  await List_Activities.destroy({ truncate: true })
+  await Activities.destroy({ truncate: true })
     .then()
     .catch(error => console.log('Error Deleting Table' + error))
 
@@ -998,13 +998,13 @@ const Synchronizing = async () => {
       console.log("Error in Creating Table TeamLead_Login");
     });
 
-  await List_Activities.sync({ force: true })
+  await Activities.sync({ force: true })
     .then()
     .catch((error) => {
       console.log(error + "\n");
       console.log("\n");
       console.log("\n");
-      console.log("Error in Creating Table List_Activities");
+      console.log("Error in Creating Table  Activities");
     });
   await Activity_Instruction.sync({ force: true })
     .then()
@@ -1651,7 +1651,7 @@ module.exports = {
   Executive_Earning,
   Executive_Withdraws,
   Stock_Usage,
-  List_Activities,
+  Activities,
   Activity_Instruction,
   List_of_Packages,
   List_sub_Activities,

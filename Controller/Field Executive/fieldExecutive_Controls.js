@@ -1,4 +1,4 @@
-const Multer = require("../../Configuration Files/Multer Js/multer"),
+const { multerFile_Upload_Function } = require("../../Configuration Files/Multer Js/multer"),
   {
     Field_Executive,
     Role_ExtraInfo,
@@ -8,6 +8,7 @@ const Multer = require("../../Configuration Files/Multer Js/multer"),
     User_Role,
     List_sub_Activities,
     List_of_Packages,
+    User_Login_Information,
   } = require("../../Configuration Files/Sequelize/Database_Synchronization"),
   { Op, QueryTypes } = require("sequelize");
 
@@ -21,7 +22,7 @@ module.exports = (app) => {
    * and also using the Multer
    */
   app.route("/executive/upload").post((req, res) => {
-    Multer.fileUpload_Specs(req, res, (err) => {
+    multerFile_Upload_Function(req, res, (err) => {
       if (err) {
         return res.send({ messages: err, type: "danger" });
       } else {
@@ -34,7 +35,7 @@ module.exports = (app) => {
           },
           {
             where: {
-              login_id: req.session.passport.user.userInfo.login_id,
+              login_id: 5,
             },
           }
         ).then((response) => {
@@ -89,6 +90,7 @@ module.exports = (app) => {
     Field_Executive.update(
       {
         field_name: req.body.name,
+        field_DOB: req.body.dob,
         field_contact: req.body.contact,
         field_username: req.body.username,
         field_target: dbResponse.dataValues.target,
@@ -124,6 +126,7 @@ module.exports = (app) => {
    * if the agency is not in our record then after the next()
    *
    */
+
 
   app.route("/startActivity").post(async (req, res, next) => {
     let userReqBody = { ...req.body };
@@ -495,7 +498,8 @@ module.exports = (app) => {
       else
         res.status(404).send({ error: 'error', details: 'No Found' })
     }
-
+    else
+      res.status(404).send({ error: 'error', details: 'Invalid values are entered' })
 
   })
 
@@ -559,6 +563,53 @@ module.exports = (app) => {
 
 
 
+  /**
+   * manageProfileInfo is used from the my Profile page when user want to update the 
+   * information 
+   */
+
+  app.route('/manageProfileInfo').post(async (req, res) => {
+
+    let userReqBody = { ...req.body }
+    let lengthofUser_Req = Object.keys(userReqBody).length;
+
+    if (lengthofUser_Req === getAuthenticateJSON(userReqBody)) {
+
+      /**
+       * Updating the email if the user entered the new email address
+       */
+      const emailUpdate = await User_Login_Information.update({
+        login_email: userReqBody.email
+      },
+        {
+          where: {
+            login_id: req.session.passport.user.userInfo.login_id
+          }
+        })
+
+      const updateExecutiveInfo = await Field_Executive.update({
+        field_name: userReqBody.fullname,
+        field_contact: userReqBody.contact,
+        field_DOB: userReqBody.dob,
+        field_username: userReqBody.username,
+      }, {
+        where: {
+          field_uuid: req.session.profileData.field_uuid
+        }
+      })
+      if (emailUpdate && updateExecutiveInfo) {
+        res.status(200).send({ status: 'Information Updated' })
+      }
+      else {
+        console.trace('There is an error while updating the Information of User @ Line')
+        res.status(404).send({ error: 'error', details: 'Error! while updating your information.' })
+      }
+    }
+    else
+      res.status(404).send({ error: 'error', details: 'Invalid entered data' })
+
+  })
+
 
 
 
@@ -566,9 +617,6 @@ module.exports = (app) => {
 
 
 };
-
-
-
 
 
 

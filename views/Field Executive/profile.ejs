@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="/fonts-1/font-awesome-4.7.0/css/font-awesome.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="/css/main.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="/css/style.css" />
+        <link rel="stylesheet" type="text/css" href="/css/style_2.css" />
+        <link rel="stylesheet" type="text/css" href="/toastr/toastr.min.css" />
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+            crossorigin="anonymous"></script>
+
+
+
+    </head>
+
+    <body>
+        <!-- Modal to Upload the Profile Image -->
+        <div class="modal" tabindex="-1" id="uploadImageModal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Upload Profile Picture</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="userProfileForm" enctype="multipart/form-data">
+                            <div class="container">
+                                <div class="wrapper">
+                                    <div class="image">
+                                        <img id="newImage" src="" alt="">
+                                    </div>
+                                    <div class="content">
+                                        <div class="icon">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                        </div>
+                                        <div class="text">
+                                            No file chosen, yet!</div>
+                                    </div>
+                                    <div id="cancel-btn">
+                                        <i class="fas fa-times"></i>
+                                    </div>
+                                    <div class="file-name">
+                                        File name here</div>
+                                </div>
+                                <button onclick="defaultBtnActive()" type="button" class="custom-btn"
+                                    id="custom-btn">Choose
+                                    a
+                                    file</button>
+                                <input id="default-btn" type="file" name="userPhoto" hidden>
+                                <button type="submit" class="submitBTN custom-btn" hidden>Upload</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--  Navigation-->
+        <div class="limiter">
+            <div class="container-profile100">
+                <div class="header">
+                    <div class="cover-image100">
+                        <img src="/logo/logo.png" class="pep-logo" alt="" />
+                        <a href="#">
+                            <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+                        </a>
+                        <nav id="menu">
+                            <ul>
+                                <% permissions.forEach(element=> { %>
+                                    <li>
+                                        <a href="/user<%= element.controller %>/<%=info.uuid%>">
+                                            <span class="<%= element.icon%>"></span>
+                                            <%= element.permission_name %>
+                                        </a>
+                                    </li>
+                                    <% }); %>
+                                        <li>
+                                            <a href="/user/signout">
+                                                <span class="fa fa-sign-out"> </span> Log Out</a>
+                                        </li>
+                            </ul>
+                            <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+                        </nav>
+                    </div>
+                    <!-- Profile -->
+                    <div class="piccontainer">
+                        <img class="profilepicture" id="profileImage"
+                            src="<%=field_executive_info.field_userProfilePic%>">
+                        <button type="button" class="editbtn" data-toggle="modal" data-target="#uploadImageModal">Upload
+                            Pic
+                        </button>
+                    </div>
+                    <div class="userinfo">
+                        <h4 class="m-2">
+                            <%=field_executive_info.field_name%>
+                        </h4>
+
+                        <h4 class="mt-3 mb-3">
+                            <span class="badge badge-warning">
+                                <%=role.type_name %>
+                            </span>
+                        </h4>
+
+                        <% if( role.type_name!=="Freelance Field Executive" ) {%>
+                            <% if(countOfTargetsActivities.activityTarget){ %>
+                                <h5>Target:
+                                    <b>
+                                        <%= countOfTargetsActivities.activityTarget%> / <%=
+                                                field_executive_info.field_target%>
+                                    </b>
+                                </h5>
+                                <br>
+                                <% }else{%>
+                                    <h5>Target:
+                                        <b>
+                                            0 / <%= field_executive_info.field_target%>
+                                        </b>
+                                    </h5>
+                                    <br>
+                                    <% } %>
+                                        <% if(teamLead_Info.team_L_name){ %>
+                                            <h5>Team Lead:
+                                                <b>
+                                                    <%= teamLead_Info.team_L_name%>
+                                                </b>
+                                            </h5>
+                                            <br>
+                                            <% } %>
+
+                                                <% if(City_Area_Info.city_name){ %>
+                                                    <h5>Your Area:
+                                                        <b>
+                                                            <%= City_Area_Info.city_name%>
+                                                        </b>
+                                                    </h5>
+                                                    <br>
+                                                    <% } %>
+                                                        <% } %>
+                    </div>
+                    <div class="col info ">
+                        <div class="d-flex flex-row bd-highlight mb-3 Information">
+                            <div class="p-2 bd-highlight">
+                                <b>Update Information</b>
+                            </div>
+                            <div class="p-2 bd-highlight float-right">
+                                <i class="fa editicon " onclick="allowUsertoUpdate()">
+                                    Click Here to Update &#xf044;</i>
+                            </div>
+                        </div>
+
+                        <div class="userdata">
+                            <div class="card userdatacard mb-4">
+                                <div class="card-body ">
+                                    <div class="row ">
+                                        <div class="col-sm-3 p-2">
+                                            <h6 class="mb-0 ">Full Name</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary ">
+                                            <input disabled type="text" class="form-control" id="fullname"
+                                                value="<%=field_executive_info.field_name%>">
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row ">
+                                        <div class="col-sm-3 p-2">
+                                            <h6 class="mb-0 ">Email</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary ">
+                                            <input disabled type="email" class="form-control" id="email"
+                                                value="<%=LoginEmail.login_email%>">
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row ">
+                                        <div class="col-sm-3 p-2">
+                                            <h6 class="mb-0 ">Username</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary ">
+                                            <input disabled type="text" class="form-control" id="username"
+                                                value="<%=field_executive_info.field_username%>">
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row ">
+                                        <div class="col-sm-3 p-2">
+                                            <h6 class="mb-0 ">Phone</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary ">
+                                            <input disabled type="number" class="form-control" id="contact"
+                                                value="<%=field_executive_info.field_contact%>">
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row ">
+                                        <div class="col-sm-3 p-2">
+                                            <h6 class="mb-0 ">Date of Birth</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary ">
+                                            <input disabled type="date" class="form-control" id="dob"
+                                                value="<%=field_executive_info.field_DOB%>">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <button type="submit" class="btn btn-success w-25 text-center"
+                        id="updateProfile_Btn">Update</button>
+                </div>
+            </div>
+            <!--===============================================================================================-->
+            <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
+            <!--===============================================================================================-->
+            <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+            <!--===============================================================================================-->
+            <script src="/vendor/jquery/tilt.jquery.min.js"></script>
+
+            <script src="/toastr/toastr.min.js"></script>
+
+            <script src="/JavaScript/Field Executive/completeProfile.js"></script>
+
+            <script>
+                $('.js-tilt').tilt({
+                    scale: 1.1
+                })
+                var menu = document.getElementById("menu");
+
+                function openMenu() {
+
+                    menu.style.top = "0";
+                }
+                function closeMenu() {
+                    menu.style.top = "-100vh";
+                }
+
+                function allowUsertoUpdate() {
+                    $('input').prop('disabled', (propertyName, propertyValue) => { return !propertyValue; });
+                }
+
+                function validate(input) {
+                    if ($(input).attr('type') == 'email' || $(input).attr('name') == 'email') {
+                        if ($(input).val().trim().match(/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/) == null) {
+                            return false;
+                        }
+                    }
+                    else {
+                        if ($(input).val().trim() == '') {
+                            return false;
+                        }
+                    }
+                }
+
+                const validateUserProfileInputs = () => {
+                    if ($('#fullname').val().includes('update') || $('#fullname').val().includes('select') || $('#fullname').val().includes('delete')) {
+                        displayToast("Invalid Name. Please Try to Enter Valid Name", 'error')
+                        return false
+                    }
+                    if ($('#username').val().includes('update') || $('#username').val().includes('select') || $('#username').val().includes('delete')) {
+                        displayToast("Invalid Name. Please Try to Enter Valid Name", 'error')
+                        return false
+                    }
+                    else {
+                        return true
+                    }
+                }
+                $('#updateProfile_Btn').on('click', (e) => {
+                    if (validate($('#email'))) {
+                        toastr.error('Please provide valid Email. ')
+                    }
+                    if (!validateUserProfileInputs()) {
+                        toastr.success('Please provide valid Email. ')
+                    }
+                    else {
+                        $.ajax({
+                            type: "POST",
+                            url: `${window.location.origin}/manageProfileInfo`,
+                            data: {
+                                fullname: $('#fullname').val(),
+                                username: $('#username').val(),
+                                contact: $('#contact').val(),
+                                email: $('#email').val(),
+                                dob: $('#dob').val()
+                            },
+                            dataType: "json",
+                            cache: true,
+                            error: (error) => {
+                                if (error) {
+                                    toastr.error(error.responseJSON.details)
+                                }
+                            },
+                            success: (response) => {
+                                if (response) {
+                                    toastr.success(response.status)
+                                }
+                            }
+                        });
+                    }
+
+                    // if()
+                })
+
+            </script>
+
+    </body>
+
+</html>

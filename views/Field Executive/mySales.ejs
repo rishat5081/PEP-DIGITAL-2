@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>My Sales</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="/fonts-1/font-awesome-4.7.0/css/font-awesome.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="/css/main.css" />
+        <!--===============================================================================================-->
+
+        <link rel="stylesheet" type="text/css" href="/css/style_2.css" />
+        <link rel="stylesheet" type="text/css" href="/toastr/toastr.min.css" />
+    </head>
+
+
+    <body>
+        <div class="limiter">
+            <div class="container-profile100">
+                <div class="header">
+                    <div class="cover-image100">
+                        <img src="/logo/logo.png" class="pep-logo" alt="" />
+                        <a href="#">
+                            <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+                        </a>
+                        <nav id="menu">
+                            <ul>
+                                <% permissions.forEach(element=> { %>
+                                    <li>
+                                        <a href="/user<%= element.controller %>/<%=info.uuid%>">
+                                            <span class="<%= element.icon%>"></span>
+                                            <%= element.permission_name %>
+                                        </a>
+                                    </li>
+                                    <% }); %>
+                                        <li>
+                                            <a href="/user/signout">
+                                                <span class="fa fa-sign-out"> </span> Log Out</a>
+                                        </li>
+                            </ul>
+                            <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+                        </nav>
+                    </div>
+                    <div class="sales" id="sales">
+                        <div class="saletitle text-center p-3 ">
+                            <h3>SALES</h3>
+                        </div>
+                        <div class="row allSales">
+                            <div class="col-sm salesTabs" style="margin-left: 2%;">
+                                <div class="card" style="width: 18rem;">
+
+                                    <div class="card-body">
+                                        <h5 class="card-title">Total Income</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">
+                                            <%=totalIncome%> PKR
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm salesTabs">
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Total Acitivities</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">
+                                            <%= totalActivities %>
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm salesTabs">
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">What to Show?</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">$100</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flexcontainer">
+                        <div class="d-flex flex-column mb-4 mt-3">
+                            <%for(const subActivity of subActivities){ %>
+                                <div class="row mt-2 mb-2 activitiesName w-100">
+
+                                    <%for(const agencyName of dbResponse){ %>
+                                        <% if(subActivity.list_act_id===agencyName.list_act_id) {%>
+                                            <div class="col-sm-3">
+                                                <div class="p-2">
+                                                    <%=agencyName.Agency_Info.agency_name %>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-7">
+                                                <div class="p-2"></div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="p-2 float-right">
+                                                    <a class=" viewDetailsOfActivity"
+                                                        href="/user/completedActivity/<%=agencyName.list_act_uuid %> ">View
+                                                        details</a>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                                <% } %>
+                                </div>
+                                <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--===============================================================================================-->
+        <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
+        <!--===============================================================================================-->
+        <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <!--===============================================================================================-->
+        <script src="/vendor/jquery/tilt.jquery.min.js"></script>
+
+        <script src="/toastr/toastr.min.js"></script>
+        <script>
+            $('.js-tilt').tilt({
+                scale: 1.1
+            })
+            $('#tost').on('click', (e) => {
+                window.location = '/login'
+            })
+            var menu = document.getElementById("menu");
+            function openMenu() {
+                menu.style.top = "0";
+            }
+            function closeMenu() {
+                menu.style.top = "-100vh";
+            }
+
+            // console.log(JSON.parse('%-JSON.stringify(dbResponse)%>'))
+            // console.log(JSON.parse('%-JSON.stringify(subActivities)%>'))
+
+        // toastr.success("Hello")
+        </script>
+        <!--===============================================================================================-->
+
+    </body>
+
+</html>
