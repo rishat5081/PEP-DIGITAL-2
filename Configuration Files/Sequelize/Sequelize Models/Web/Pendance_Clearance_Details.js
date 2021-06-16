@@ -1,0 +1,54 @@
+'use strict'
+const { DataTypes, Model, UUIDV4 } = require('sequelize'),
+    sequelize = require('../../Sequelize')
+
+class Pendance_Clearance_Details extends Model { }
+
+Pendance_Clearance_Details.init(
+    {
+        clearance_details_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true,
+            validate: {
+                max: 11,
+                isNumeric: true
+            }
+        },
+        clearance_details_uuid: {
+            type: DataTypes.UUID,
+            defaultValue: UUIDV4,
+            autoIncrement: false,
+            primaryKey: false,
+
+        },
+        paused: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+            defaultValue: false
+        },
+        deleted: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+            defaultValue: false
+        },
+        pending_days: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        }
+    },
+    {
+        sequelize,
+        // We need to pass the connection instance
+        modelName: 'Pendance_Clearance_Details',
+        tableName: 'Pendance_Clearance_Details'
+    }
+)
+
+
+
+module.exports = Pendance_Clearance_Details
+
+// Pendance_Clearance_Details.sync({ force: true })
+//     .then(a => console.log(a))

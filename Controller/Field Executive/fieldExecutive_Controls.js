@@ -3,16 +3,17 @@ const { multerFile_Upload_Function } = require("../../Configuration Files/Multer
     Field_Executive,
     Role_ExtraInfo,
     Agency_Info,
-    List_Activities,
-    Compaign_Activities,
     User_Role,
     List_sub_Activities,
     List_of_Packages,
     User_Login_Information,
+    ExecutiveNotifications,
   } = require("../../Configuration Files/Sequelize/Database_Synchronization"),
+  fs = require('fs'),
   { Op, QueryTypes } = require("sequelize");
 
 const Activities = require("../../Configuration Files/Sequelize/Sequelize Models/Lists of Packages/Activities");
+const NotificationText = require("../../Configuration Files/Sequelize/Sequelize Models/Notifications/NotificationText");
 
 module.exports = (app) => {
   /**
@@ -21,7 +22,25 @@ module.exports = (app) => {
    * in to the data base
    * and also using the Multer
    */
-  app.route("/executive/upload").post((req, res) => {
+
+  app.route("/executive/upload").post(async (req, res) => {
+
+    const userProfileImage = await Field_Executive.findOne({
+      attributes: ['field_userProfilePic'],
+
+      where: {
+        login_id: req.session.passport.user.userInfo.login_id,
+      },
+    })
+    if (userProfileImage.dataValues.field_userProfilePic !== null) {
+      fs.unlink(`./public/${userProfileImage.dataValues.field_userProfilePic}`, (err) => {
+        if (err)
+          console.error('There is no such file');
+        else
+          console.log('Successfully Deleted Pic');
+      });
+    }
+
     multerFile_Upload_Function(req, res, (err) => {
       if (err) {
         return res.send({ messages: err, type: "danger" });
@@ -35,7 +54,7 @@ module.exports = (app) => {
           },
           {
             where: {
-              login_id: 5,
+              login_id: req.session.passport.user.userInfo.login_id,
             },
           }
         ).then((response) => {
@@ -449,8 +468,9 @@ module.exports = (app) => {
           console.log(`\x1b[41m--------------------------------------\x1b[0m` + error);
           res.status(404).send({ 'error': 'Sorry At this moment Packages are not Available' })
         })
-    }
-    )
+    })
+
+
 
 
 
@@ -512,10 +532,8 @@ module.exports = (app) => {
 
   app.route('/startActivityOnExsitingActivity').post(async (req, res) => {
 
-    console.log(req.body);
-
     const AgencyDetails = await Agency_Info.findOne({
-      attributes: ['agency_id'],
+      attributes: ['agency_id', 'agency_name'],
       where: {
         agency_id: req.body.agencyID,
         isPaused: false,
@@ -549,6 +567,39 @@ module.exports = (app) => {
 
       if (compapignActivity) {
 
+        /**
+         * Looking for the notification of already registered agency
+         */
+        const notificationText = await NotificationText.findOne({
+          attributes: ['notification_id'],
+          where: {
+            isPaused: false,
+            deleted: false,
+            notification_title: {
+              [Op.like]: '%Start%'
+            },
+            [Op.or]: [
+              {
+                notification_title:
+                {
+                  [Op.like]: '%Existing%'
+                }
+              },
+              {
+                notification_title:
+                {
+                  [Op.like]: '%Existing Agnecy%'
+                }
+              },
+            ]
+          }
+        })
+        await ExecutiveNotifications.create({
+          field_id: req.session.profileData.field_id,
+          notification_text: `You have started working on the Already Registered Agency ${AgencyDetails.dataValues.agency_name}...!!!`,
+          notification_id: notificationText.dataValues.notification_id
+
+        })
         req.session.activityDetails = {
           activity: compapignActivity.dataValues.list_act_uuid,
           agencyID: req.body.agencyID,
@@ -560,6 +611,7 @@ module.exports = (app) => {
       }
     }
   })
+
 
 
 
@@ -586,6 +638,8 @@ module.exports = (app) => {
             login_id: req.session.passport.user.userInfo.login_id
           }
         })
+
+
 
       const updateExecutiveInfo = await Field_Executive.update({
         field_name: userReqBody.fullname,
@@ -614,9 +668,29 @@ module.exports = (app) => {
 
 
 
+  app.route('/unreadAllNotifications').post(async (req, res) => {
+    const Notifications = await ExecutiveNotifications.update({
+      isRead: true
+    }, {
+      where: {
+        field_id: req.session.profileData.field_id,
+        isRead: false
+      }
+    })
+      .then(response => {
+        if (response)
+          return response
+      })
 
+    if (Notifications)
+      res.send({ status: 'Updated' })
+  })
 
 };
+
+
+
+
 
 
 

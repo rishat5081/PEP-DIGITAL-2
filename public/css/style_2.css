@@ -61,6 +61,7 @@
   padding-right: 20px;
   padding-top: 10px;
   transition: all 0.1s;
+  position: relative;
 }
 
 .container-profile100 .header .cover-image100 .menu-button:hover {
@@ -983,4 +984,301 @@ ul.ui-autocomplete.ui-menu li {
 
 #updateProfile_Btn {
   margin: 0% 0% 5% 36%;
+}
+
+/* ------------------------ Activity Completition Page ---------------------------- */
+
+.uppersection {
+  width: 70%;
+  height: auto;
+  max-width: 100%;
+  margin-top: 10%;
+  outline: 2px;
+  padding: 10px;
+  color: inherit;
+  margin-left: 9%;
+  border: 1px solid #3a8ffe;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, .05);
+  background: transparent;
+}
+
+.amountheading {
+  font-size: 2vw;
+}
+
+.settext {
+  height: auto;
+  width: 100%;
+  max-width: 100;
+}
+
+.lowersection {
+  padding: 0px 3px opx 3px;
+  width: 100%;
+  margin-left: 0%;
+}
+
+.flexpad {
+  padding: 6px 3px opx 3px;
+  width: 100%;
+  margin-left: 0%;
+}
+
+.itemlist {
+  background: #3a8ffe;
+  /* background-color: rgb(219, 218, 218); */
+  height: auto;
+  width: 150vw;
+  max-width: 100%;
+  margin-left: 0%;
+  padding: 4px 0px 4px 0px;
+}
+
+.custom-btn {
+  text-align: center;
+  padding: 2px;
+  width: 66%;
+  height: auto;
+  max-width: 100%;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  margin-top: 12px;
+  cursor: pointer;
+  margin-left: 8%;
+  background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
+}
+
+.cardcss {
+  width: 84%;
+  margin-top: 53%;
+  border-color: #3a8ffe;
+}
+
+.hr {
+  background: #9053c7;
+  background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: linear-gradient(-135deg, #c850c0, #4158d0);
+  width: 100%;
+  height: auto;
+  margin: 0%;
+}
+
+.congrats {
+  position: absolute;
+  top: 6vw;
+  margin-top: 6vw;
+  width: 24%;
+  height: auto;
+  padding: 20px 10px;
+  text-align: center;
+  left: 0;
+  right: 0;
+  margin-left: 28%;
+  max-width: 100%;
+}
+
+#amount_earned {
+  margin-left: 20px;
+}
+
+.congrats h1 {
+  margin-left: 21%;
+  padding: 2px 2px 2px 2px;
+  color: green;
+  transform-origin: 50% 50%;
+  font-size: 2vw;
+  font-family: 'Sigmar One', cursive;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  text-align: center;
+  width: 100%;
+  margin-top: -3vw;
+}
+
+.blob {
+  margin-top: -5vw;
+  height: 50px;
+  width: 50px;
+  color: yellowgreen;
+  position: absolute;
+  top: 45%;
+  left: 45%;
+  z-index: 4;
+  font-size: 30px;
+  display: none;
+}
+
+.setupprow {
+  margin: 0 auto;
+  top: 0;
+  position: relative;
+}
+
+.setrows {
+  padding: 4px 0px 4px 6px;
+}
+
+.button__badge {
+  background-color: #6c55ca;
+  border-radius: 2px;
+  color: white;
+  padding: 1px 3px;
+  font-size: 13px;
+  position: absolute;
+  top: 5px;
+  right: 36px;
+}
+
+/* --------------------------- Notifications ----------------------------- */
+
+.notify p {
+  font-size: x-small;
+  margin-left: 6.5vw;
+  margin-top: -1vw;
+}
+
+.notifytitle {
+  height: 4.6vw;
+  width: 74%;
+  margin-top: 5vw;
+  margin-left: 10vw;
+  padding: 1.2vw 0vw 0vw 1vw;
+}
+
+.notificationtitle {
+  background-color: whitesmoke;
+  height: 5vw;
+  max-width: 100%;
+  margin-bottom: 1vw;
+  padding: 1vw;
+  width: 70%;
+  max-width: 100%;
+  margin-left: 11vw;
+  border: 1px solid rgb(205, 205, 211);
+}
+
+.notify {
+  background: linear-gradient(-135deg, #D0E7F5, whitesmoke);
+  background-color: #D0E7F5;
+  width: 70%;
+  border: 1px solid rgb(194, 193, 193);
+  max-width: 100%;
+  margin-left: 11vw;
+  margin-top: 0.5vw;
+}
+
+.line {
+  background-color: gray;
+  height: 0.2vw;
+  margin-top: -1vw;
+  margin-bottom: 0%;
+  width: 70%;
+  max-width: 100%;
+  margin-left: 11vw;
+}
+
+.imgtext {
+  margin-left: 6.5vw;
+  margin-top: -4vw;
+}
+
+.profilepic {
+  border-radius: 50% !important;
+  height: auto !important;
+}
+
+.notificationIcons {
+  width: 4%;
+}
+
+/* ----------------------------------------- Bank Deposit Page --------------------------------------------- */
+
+.companybank {
+  border: 1px solid #3a8ffe;
+  /* background-color: #D0E7F5; */
+  width: 63%;
+  height: auto;
+  margin-left: 14%;
+  margin-top: 9vw;
+  margin-bottom: 1vw;
+  padding: 2vw 2vw 2vw 4vw;
+}
+
+.companybank h1 {
+  margin-left: 6%;
+}
+
+.companybankdetails {
+  width: 89%;
+  height: auto;
+  padding: 4vw;
+  padding-left: 6vw;
+}
+
+.userbank {
+  border: 1px solid #3a8ffe;
+  width: 63%;
+  height: auto;
+  margin-left: 14%;
+  margin-top: 0.5vw;
+  margin-bottom: 1vw;
+  padding: 2vw 2vw 2vw 7vw;
+}
+
+.content {
+  letter-spacing: 1px;
+  background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
+  color: black;
+  width: 29.5vw;
+  height: auto;
+  padding: 8px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+}
+
+.usertransaction {
+  margin-top: 1vw;
+  width: 100%;
+  height: auto;
+}
+
+.custom-btn {
+  border-radius: 6px;
+  text-align: center;
+  padding: 1px;
+  width: 20vw;
+  height: 2.5vw;
+  max-width: 100%;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: -18px;
+  margin-left: 37%;
+  background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
+}
+
+.slider {
+  margin-top: 1vw;
+  margin-left: 5%;
+  background-color: whitesmoke;
+  height: auto;
+  width: 90%;
+  margin-bottom: 2vw;
+}
+
+.bankimgs {
+  border: 2px solid #3a8ffe !important;
+  width: 220px !important;
+  height: 100px !important;
+  object-fit: cover !important;
 }

@@ -2,7 +2,7 @@
 const { DataTypes, Model, UUIDV4 } = require('sequelize'),
   sequelize = require('../../Sequelize'),
   Field_Executive = require('../Stakeholders/Field_Executive'),
-  Executive_Earning = require('./Executive_Earning')
+  Executive_Pending_Earning = require('./Executive_Pending_Earning')
 
 class Executive_Withdraws extends Model { }
 
@@ -23,7 +23,7 @@ Executive_Withdraws.init(
       defaultValue: UUIDV4,
       autoIncrement: false,
       primaryKey: false,
-       
+
     },
     withdraw_status: {
       type: DataTypes.BOOLEAN,
@@ -56,7 +56,7 @@ Executive_Withdraws.init(
       primaryKey: false,
       autoIncrement: false,
       references: {
-        model: 'field_executive_earning',
+        model: 'field_executive_pending_earning',
         key: 'field_exe_earn_id'
       },
       validate: {
@@ -92,11 +92,11 @@ Executive_Withdraws.belongsTo(Field_Executive, {
  * One field executive earning will have one withdraw
  */
 
-Executive_Earning.hasOne(Executive_Withdraws, {
+Executive_Pending_Earning.hasOne(Executive_Withdraws, {
   foreignKey: 'field_exe_earn_id'
 })
 
-Executive_Withdraws.belongsTo(Executive_Earning, {
+Executive_Withdraws.belongsTo(Executive_Pending_Earning, {
   targetKey: 'field_exe_earn_id',
   foreignKey: 'field_exe_earn_id'
 })

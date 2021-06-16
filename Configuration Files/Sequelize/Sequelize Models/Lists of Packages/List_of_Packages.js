@@ -46,6 +46,10 @@ List_of_Packages.init(
       type: DataTypes.FLOAT,
       allowNull: true
     },
+    commissionAmount: {
+      type: DataTypes.FLOAT,
+      allowNull: true
+    },
     list_amount: {
       type: DataTypes.INTEGER,
       allowNull: true

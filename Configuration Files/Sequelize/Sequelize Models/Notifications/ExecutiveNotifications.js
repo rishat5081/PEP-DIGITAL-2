@@ -1,7 +1,8 @@
 'use strict'
 const { DataTypes, Model, UUIDV4 } = require('sequelize'),
     sequelize = require('../../Sequelize'),
-    Field_Executive = require('../Stakeholders/Field_Executive')
+    Field_Executive = require('../Stakeholders/Field_Executive'),
+    NotificationText = require('./NotificationText')
 
 class ExecutiveNotifications extends Model { }
 
@@ -34,13 +35,9 @@ ExecutiveNotifications.init(
             allowNull: true,
             defaultValue: false
         },
-        notification_title: {
-            type: DataTypes.TEXT,
-            allowNull: true
-        },
         notification_text: {
             type: DataTypes.TEXT,
-            allowNull: true
+            allowNull: true,
         },
         isRead: {
             type: DataTypes.BOOLEAN,
@@ -59,8 +56,19 @@ ExecutiveNotifications.init(
 
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE'
+        },
+        notification_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: false,
+            autoIncrement: false,
+            references: {
+                model: 'notificationText',
+                key: 'notification_id'
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
         }
-
     },
     {
         sequelize,
@@ -81,9 +89,45 @@ ExecutiveNotifications.belongsTo(Field_Executive, {
     targetKey: 'field_id',
     foreignKey: 'field_id'
 })
+/**
+ * One Field Executive table will have many notifications
+ */
+NotificationText.hasMany(ExecutiveNotifications, {
+    foreignKey: 'notification_id'
+})
+
+ExecutiveNotifications.belongsTo(NotificationText, {
+    targetKey: 'notification_id',
+    foreignKey: 'notification_id'
+})
 
 /*
  *boolean return type which will indicate that the table is defined or not
  */
 //console.log(Packages === sequelize.models.Packages)
+
+
+
+// ExecutiveNotifications.bulkCreate([
+//     {
+//         notification_text: 'Some notification',
+//         field_id: 4,
+//         notification_id: 2,
+//     },
+//     {
+//         notification_text: 'Some other notification',
+//         field_id: 4,
+//         notification_id: 1,
+//     },
+//     {
+//         notification_text: 'Whatever notification',
+//         field_id: 4,
+//         notification_id: 1,
+//     },
+//     {
+//         notification_text: 'Some notification',
+//         field_id: 4,
+//         notification_id: 2,
+//     }
+// ])
 module.exports = ExecutiveNotifications

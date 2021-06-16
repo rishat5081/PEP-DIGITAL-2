@@ -20,7 +20,7 @@ const sequelize = require("./Sequelize"),
   Customer_Care_Activities = require("./Sequelize Models/Customer Care/Customer_Care_Activities"),
   Call_Receiving = require("./Sequelize Models/Customer Care/Call_Receiving"),
   Executive_Adver_Stock_Info = require("./Sequelize Models/Executive/Executive_Adver_Stock_Info"),
-  Executive_Earning = require("./Sequelize Models/Executive/Executive_Earning"),
+  Executive_Pending_Earning = require("./Sequelize Models/Executive/Executive_Pending_Earning"),
   Executive_Withdraws = require("./Sequelize Models/Executive/Executive_Withdraws"),
   Stock_Usage = require("./Sequelize Models/Executive/Stock_Usage"),
   Activities = require("./Sequelize Models/Lists of Packages/Activities"),
@@ -42,6 +42,7 @@ const sequelize = require("./Sequelize"),
   Field_Executive = require("./Sequelize Models/Stakeholders/Field_Executive"),
   GM_Company = require("./Sequelize Models/Stakeholders/GM_Company"),
   Managers = require("./Sequelize Models/Stakeholders/Manager"),
+  NotificationText = require("./Sequelize Models/Notifications/NotificationText"),
   ExecutiveNotifications = require("./Sequelize Models/Notifications/ExecutiveNotifications"),
   TeamLead_Notifications = require("./Sequelize Models/Notifications/TeamLead_Notifications"),
   SuperVisorNotification = require("./Sequelize Models/Notifications/SuperVisorNotification"),
@@ -64,6 +65,7 @@ const sequelize = require("./Sequelize"),
   Login_Page = require("./Sequelize Models/Web/loginPage"),
   SignUp_Page = require("./Sequelize Models/Web/signUpPage"),
   Web_Content = require("./Sequelize Models/Web/webContent"),
+  Pendance_Clearance_Details = require("./Sequelize Models/Web/Pendance_Clearance_Details"),
   Department = require("./Sequelize Models/Department"),
   Zone = require("./Sequelize Models/Zone");
 
@@ -271,7 +273,7 @@ const TruncateTables = async () => {
 
 
 
-  await Executive_Earning.destroy({ truncate: true })
+  await Executive_Pending_Earning.destroy({ truncate: true })
     .then()
     .catch(error => console.log('Error Deleting Table' + error))
 
@@ -665,6 +667,11 @@ const TruncateTables = async () => {
 
 
 
+  await Pendance_Clearance_Details.destroy({ truncate: true })
+    .then()
+    .catch(error => console.log('Error Deleting Table' + error))
+
+
 
 
   await Department.destroy({ truncate: true })
@@ -831,6 +838,14 @@ const Synchronizing = async () => {
       console.log("Error in Creating Table Compaigns");
     });
 
+  await NotificationText.sync({ force: true })
+    .then()
+    .catch((error) => {
+      console.log(error + "\n");
+      console.log("\n");
+      console.log("\n");
+      console.log("Error in Creating Table NotificationText");
+    });
   await ExecutiveNotifications.sync({ force: true })
     .then()
     .catch((error) => {
@@ -931,13 +946,13 @@ const Synchronizing = async () => {
       console.log("\n");
       console.log("Error in Creating Table Executive_Adver_Stock_Info");
     });
-  await Executive_Earning.sync({ force: true })
+  await Executive_Pending_Earning.sync({ force: true })
     .then()
     .catch((error) => {
       console.log(error + "\n");
       console.log("\n");
       console.log("\n");
-      console.log("Error in Creating Table Executive_Earning");
+      console.log("Error in Creating Table Executive_Pending_Earning");
     });
   await Executive_Withdraws.sync({ force: true })
     .then()
@@ -1265,6 +1280,7 @@ const Synchronizing = async () => {
       console.log("\n");
       console.log("Error in Creating Table SignUp_Page");
     });
+
   await Web_Content.sync({ force: true })
     .then()
     .catch((error) => {
@@ -1272,6 +1288,15 @@ const Synchronizing = async () => {
       console.log("\n");
       console.log("\n");
       console.log("Error in Creating Table Web_Content");
+    });
+
+  await Pendance_Clearance_Details.sync({ force: true })
+    .then()
+    .catch((error) => {
+      console.log(error + "\n");
+      console.log("\n");
+      console.log("\n");
+      console.log("Error in Creating Table Pendance_Clearance_Details");
     });
 
   console.log("*************************************************************");
@@ -1648,7 +1673,7 @@ module.exports = {
   Customer_Care_Activities,
   Call_Receiving,
   Executive_Adver_Stock_Info,
-  Executive_Earning,
+  Executive_Pending_Earning,
   Executive_Withdraws,
   Stock_Usage,
   Activities,
@@ -1687,6 +1712,7 @@ module.exports = {
   Login_Page,
   SignUp_Page,
   Web_Content,
+  Pendance_Clearance_Details,
   Department,
   Zone,
 };

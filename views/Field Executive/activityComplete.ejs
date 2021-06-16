@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Activity</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!--===============================================================================================-->
+        <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="/fonts-1/font-awesome-4.7.0/css/font-awesome.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="/css/main.css" />
+        <!--===============================================================================================-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="/css/style_2.css" />
+        <link rel="stylesheet" type="text/css" href="/toastr/toastr.min.css" />
+        <!--===============================================================================================-->
+    </head>
+
+
+
+    <body>
+        <div class="limiter">
+            <div class="container-profile100">
+                <div class="header">
+                    <div class="cover-image100">
+                        <img src="/logo/logo.png" class="pep-logo" alt="" />
+                        <a href="#">
+                            <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+                        </a>
+                        <a href="/user/notification">
+                            <span class="fa fa-bell menu-button">
+                        </a>
+                        <nav id="menu">
+                            <ul>
+                                <% permissions.forEach(element=> { %>
+                                    <li>
+                                        <a href="/user<%= element.controller %>/<%=info.uuid%>">
+                                            <span class="<%= element.icon%>"></span>
+                                            <%= element.permission_name %>
+                                        </a>
+                                    </li>
+                                    <% }); %>
+                                        <li>
+                                            <a href="/user/signout">
+                                                <span class="fa fa-sign-out"> </span> Log Out</a>
+                                        </li>
+                            </ul>
+                            <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+                        </nav>
+                    </div>
+                    <div class="congrats">
+                        <h1>Congragulations!</h1>
+                    </div>
+                    <div class="row mt-5 m-0">
+                        <div class="col  uppersection ">
+
+                            <div class="row setupprow">
+                                <div class="col-9 float-left">
+
+                                    <h4 id="order number"> Activity UUID# <%=Activity_Info.list_act_uuid %>
+                                    </h4>
+                                    <h6 class="mt-3">Agency Name :<b>
+                                            <%=agencyInfo.agency_name%>
+                                        </b>
+                                    </h6>
+                                    <h6 class="mt-3">Date :<b>
+                                            <%=Activity_Info.createdAt%>
+                                        </b>
+                                    </h6>
+                                </div>
+                                <div class="col-3 settext">
+
+                                    <h4 id="amount_earned" class="amountheading">
+
+                                    </h4>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row itemlist">
+                                <div class="col-1 "><b>#</b></div>
+                                <div class="col-4 "><b>List Name</b></div>
+                                <div class="col-1 settext"><b>Bank</b></div>
+                                <div class="col-2 settext"><b>Commission</b></div>
+                                <div class="col-2 settext float-right"><b>Bank Amount</b></div>
+                                <div class="col-2 settext float-right"><b>Amount</b></div>
+                            </div>
+                            <div class="flexcontainer flexpad">
+                                <div class="d-flex flex-column">
+                                    <% subActivities.forEach((element,index)=> {%>
+                                        <div class="row setrows">
+                                            <div class="col-1 pr-2">
+                                                <div class="project_title">
+                                                    <%=++index %>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="project_title">
+                                                    <%=element.List_of_Package.list_name %>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-2">
+                                                <div class="days">
+                                                    <% if(element.List_of_Package.isBank===true){ %>
+                                                        <b>Yes</b>
+                                                        <%}else{%>
+                                                            No
+                                                            <%}%>
+                                                </div>
+                                            </div>
+                                            <div class="col-1">
+                                                <div class="days">
+                                                    <% if(element.List_of_Package.commissionAmount===0){ %>
+                                                        <b>--</b>
+                                                        <%}else{%>
+                                                            <%=element.List_of_Package.commissionAmount%> %
+                                                                <%}%>
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="project_amount">
+                                                    <% if(element.List_of_Package.bankAmount===null){ %>
+                                                        --
+                                                        <%}else{%>
+                                                            <b>
+                                                                <%=element.List_of_Package.bankAmount %> PKR
+                                                            </b>
+                                                            <%}%>
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="project_amount">
+                                                    <%=element.List_of_Package.list_amount %> PKR
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% }); %>
+                                </div>
+                            </div>
+                            <div class="row setrows mt-3">
+                                <div class="col-8"></div>
+
+                                <div class="col-2 "><b>Activties Total</b></div>
+                                <div class="col-2 ">
+                                    <b>
+                                        <%=sumOf_Activities.SumofValues %> PKR
+                                    </b>
+                                </div>
+                            </div>
+                            <div class="row setrows mt-3">
+                                <div class="col-8"></div>
+
+                                <div class="col-2 "><b>Commission</b></div>
+                                <div class="col-2 ">
+                                    <b id="commissionEarned">
+
+                                    </b>
+                                </div>
+                            </div>
+                            <div class="row setrows mt-3">
+                                <div class="col-8"></div>
+
+                                <div class="col-2 "><b>Total</b></div>
+                                <div class="col-2 ">
+                                    <b id="totalamount_earned">
+
+                                    </b>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col float-right   ">
+                            <div class="card cardcss">
+
+                                <div class="card-body">
+
+                                    <p class="card-text"> Need to contact customer support service??</p>
+                                    <a href="#" class="btn custom-btn">Contact</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--===============================================================================================-->
+        <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
+        <!--===============================================================================================-->
+        <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <!--===============================================================================================-->
+        <script src="/vendor/jquery/tilt.jquery.min.js"></script>
+
+        <script src="/toastr/toastr.min.js"></script>
+
+        <script>
+            var menu = document.getElementById("menu");
+            function openMenu() {
+                menu.style.top = "0";
+            }
+            function closeMenu() {
+                menu.style.top = "-100vh";
+            }
+            var notificationCount = JSON.parse('<%-JSON.stringify(unreadNotificationCount)%>')
+            if (notificationCount) {
+                $('.button__badge').css('display', 'block')
+                $('.button__badge').html(JSON.parse('<%-JSON.stringify(unreadNotificationCount)%>'))
+            }
+            var sumOfActivities = JSON.parse('<%-JSON.stringify(sumOf_Activities)%>');
+            $('#amount_earned').html(parseInt(sumOfActivities.SumofValues) + Math.ceil(sumOfActivities.Commission) + " PKR");
+            $('#totalamount_earned').html(parseInt(sumOfActivities.SumofValues) + Math.ceil(sumOfActivities.Commission) + " PKR");
+            if (sumOfActivities.Commission)
+                $('#commissionEarned').html(sumOfActivities.Commission.toFixed(2) + " PKR")
+            else
+                $('#commissionEarned').html("     --")
+        </script>
+        <script>
+            $(function () {
+                var numberOfStars = 100;
+
+                for (var i = 0; i < numberOfStars; i++) {
+                    $('.congrats').append('<div class="blob fa fa-star ' + i + '"></div>');
+
+                }
+
+                animateText();
+
+                animateBlobs();
+            });
+
+            $('.congrats').click(function () {
+                reset();
+
+                animateText();
+
+                animateBlobs();
+            });
+
+            function reset() {
+                $.each($('.blob'), function (i) {
+                    TweenMax.set($(this), { x: 0, y: 0, opacity: 1 });
+                });
+
+                TweenMax.set($('h1'), { scale: 1, opacity: 1, rotation: 0 });
+            }
+
+            function animateText() {
+                TweenMax.from($('h1'), 0.8, {
+                    scale: 0.4,
+                    opacity: 0,
+                    rotation: 15,
+                    ease: Back.easeOut.config(4),
+                });
+            }
+
+            function animateBlobs() {
+                var xSeed = Math.ceil(Math.random() * 350) + 380;
+                var ySeed = Math.floor(Math.random() * 5) + 170;
+
+                $.each($(".blob"), function (i) {
+                    var $blob = $(this);
+                    var speed = Math.floor(Math.random() * 1) + 5;
+                    var rotation = Math.floor(Math.random() * 5) + 100;
+                    var scale = Math.floor(Math.random() * 0.8) + 1.5;
+                    var x = Math.floor(Math.random() * -xSeed) + xSeed;
+                    var y = Math.floor(Math.random() * -ySeed) + ySeed;
+
+                    TweenMax.to($blob, speed, {
+                        x: x,
+                        y: y,
+                        ease: Power1.easeOut,
+                        opacity: 0,
+                        rotation: rotation,
+                        scale: scale,
+                        onStartParams: [$blob],
+                        onStart: function ($element) {
+                            $element.css("display", "block");
+                        },
+                        onCompleteParams: [$blob],
+                        onComplete: function ($element) {
+                            $element.css("display", "none");
+                        },
+                    });
+                });
+            }
+        </script>
+    </body>
+
+</html>

@@ -49,50 +49,22 @@ Activities.init(
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
     },
-    list_act_checked: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false,
-    },
-    bank_sale: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false,
-    },
-    bank_deposited: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false,
-    },
-    bank_deposited_referenceNumber: {
+    agency_id: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false,
+      primaryKey: false,
+      autoIncrement: false,
+      references: {
+        model: "agency_info",
+        key: "agency_id",
+      },
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
     },
-    bank_datetime: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    accountant_approve: {
+    withdrawn: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
       defaultValue: false,
-    },
-    account_approve_datetime: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    account_decline: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false,
-    },
-    account_decline_dateTime: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    account_decline_reason: {
-      type: DataTypes.TEXT,
-      allowNull: true,
     },
   },
   {

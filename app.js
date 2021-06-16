@@ -95,6 +95,7 @@ app.use(
   })
 );
 
+
 //setInterval(() => console.log("sa"), 1000 * 60 * 24 * 7)
 
 app.use(bodyparser.json());
@@ -596,15 +597,21 @@ server.listen(process.env.server_PORT, () => {
 
 // console.log(getAllCustomerEarnings());
 
+// const request = require('request');
 
+// const options = {
+//   method: 'POST',
+//   url: 'https://api.eu-de.apiconnect.appdomain.cloud/tariqqaisertelenorbankpk-tmbdev/dev-catalog/utilities/GetBanks',
+//   headers: {
+//     'X-IBM-Client-Id': '6e93a157-7a78-4514-8819-53ca430632fa',
+//     'X-IBM-Client-Secret': 'yN4mY4lK1fG1rS6eL8cW1aH5uT0tG6yM0pP7vO0vP4bB2iF6jH',
+//     'X-Channel': 'subgateway',
+//     accept: 'application/json'
+//   }
+// };
 
+// request(options, function (error, response, body) {
+//   if (error) throw new Error(error);
 
-
-
-
-
-
-
-
-// SELECT YEAR(createdAt) AS y, MONTH(createdAt) AS m, 
-// COUNT(DISTINCT list_act_id) FROM activities GROUP BY y, m
+//   console.log(body);
+// });

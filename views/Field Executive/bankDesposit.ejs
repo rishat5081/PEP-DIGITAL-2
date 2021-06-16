@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Activity</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!--===============================================================================================-->
+        <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="/fonts-1/font-awesome-4.7.0/css/font-awesome.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="/css/main.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="/css/style_2.css" />
+        <link rel="stylesheet" type="text/css" href="/toastr/toastr.min.css" />
+        <!--===============================================================================================-->
+    </head>
+
+
+    <body>
+        <div class="limiter">
+            <div class="container-profile100">
+                <div class="header">
+                    <div class="cover-image100">
+                        <img src="/logo/logo.png" class="pep-logo" alt="" />
+                        <a href="#">
+                            <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+                        </a>
+                        <a href="/user/notification">
+                            <span class="fa fa-bell menu-button">
+                                <span class="button__badge" style="display: none;"></span>
+                            </span>
+                        </a>
+                        <nav id="menu">
+                            <ul>
+                                <li>
+                                    <a href="/user/signout">
+                                        <span class="fa fa-sign-out"> </span> Log Out</a>
+                                </li>
+                            </ul>
+                            <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+                        </nav>
+                    </div>
+                    <div class="companybank ">
+                        <h1>PEP Bank Details</h1>
+                        <div class="companybankdetails">
+                            <div class="row ">
+                                <div class="col-sm-3 mb-3 ">
+                                    <h6 class="mb-2 ">A/C no.</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary ">
+                                    xxxxxxxxxx
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <div class="col-sm-3 ">
+                                    <h6 class="mb-0 ">Bank</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary ">
+                                    ABCDEF
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="userbank">
+                        <h1> Enter your Transaction Details</h1>
+                        <div class="usertransaction">
+                            <div class="form-group row">
+                                <label for="drop" class="col-sm-3 col-form-label"> Bank Name</label>
+                                <div class="col-sm-9">
+
+                                    <select id="banknames" class="content">
+                                        <option disabled selected>Choose One</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="transactionid" class="col-sm-3 col-form-label">Transaction Id</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="transactionid" class="form-control ">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="tranaction_amount" class="col-sm-3 col-form-label">Amount</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="tranaction_amount">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="tranaction_date" class="col-sm-3 col-form-label">Date</label>
+                                <div class="col-sm-9">
+                                    <input type="date" class="form-control" id="tranaction_date">
+                                </div>
+                            </div>
+                            <button id="transaction_details" class="custom-btn">Submit</button>
+
+                        </div>
+                    </div>
+                    <div class="slider">
+                        <hr class="m-1">
+                        <marquee direction="left" scrollamount="10" hspace="0.5vw" id="marquee">
+                            <a href="https://www.albaraka.com.pk/">
+                                <img class="bankimgs" src="/Banks images/al-baraka.PNG" id="123" ;></a>
+                            <a href="https://www.bankalfalah.com/">
+                                <img class="bankimgs" src="/Banks images/Al-falah.png"></a>
+                            <a href="https://www.bankalhabib.com/">
+                                <img class="bankimgs" src="/Banks images/al-habib.png"></a>
+                            <a href="https://www.abl.com/">
+                                <img class="bankimgs" src="/Banks images/Allied bank.png"></a>
+                            <a href="https://askaribank.com/">
+                                <img class="bankimgs" src="/Banks images/Askari bank.jpg"></a>
+                            <a href="https://bankislami.com.pk/">
+                                <img class="bankimgs" src="/Banks images/bank islami.jpg"></a>
+                            <a href="https://www.db.com/">
+                                <a href="https://www.citi.com/icg/sa/emea/pakistan/">
+                                    <img class="bankimgs" src="/Banks images/citi bank.jpg"></a>
+                                <a href="https://www.bk.mufg.jp/global/globalnetwork/asiaoceania/karachi/">
+                                    <img class="bankimgs" src="/Banks images/bank of tokyo.png"></a>
+                                <img class="bankimgs" src="/Banks images/deutsche bank.png"></a>
+                            <a href="https://online.dib.ae/">
+                                <img class="bankimgs" src="/Banks images/dubai islami.jpg"></a>
+                            <a href="https://www.faysalbank.com/">
+                                <img class="bankimgs" src="/Banks images/faysal bank.png"></a>
+                            <a href="https://ibanking.fwbl.com.pk/">
+                                <img class="bankimgs" src="/Banks images/first women bank.png"></a>
+                            <a href="https://www.hbl.com/">
+                                <img class="bankimgs" src="/Banks images/habib bank.jpg"></a>
+                            <a href="https://www.habibmetro.com/">
+                                <img class="bankimgs" src="/Banks images/habib metropolian.jpg"></a>
+                            <a href="http://www.idbl.com.pk/">
+                                <img class="bankimgs" src="/Banks images/industrail development pakistan.jpg"></a>
+                            <a href="https://karachi.icbc.com.cn/">
+                                <img class="bankimgs" src="/Banks images/industrial bank china.png"></a>
+                            <a href="https://jsbl.com/">
+                                <img class="bankimgs" src="/Banks images/JS bank lmd.png"></a>
+                            <a href="https://www.mcb.com.pk/">
+                                <img class="bankimgs" src="/Banks images/mcb bank.jpg"></a>
+                            <a href="https://www.meezanbank.com/">
+                                <img class="bankimgs" src="/Banks images/Meezan bank.png"></a>
+                            <a href="https://www.mcbislamicbank.com/">
+                                <img class="bankimgs" src="/Banks images/miib.png"></a>
+                            <a href="https://www.nbp.com.pk/">
+                                <img class="bankimgs" src="/Banks images/national bank.png"></a>
+                            <a href="https://www.sc.com/pk/">
+                                <img class="bankimgs" src="/Banks images/standard chartered.png"></a>
+                        </marquee>
+                        <hr class="m-0">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!--===============================================================================================-->
+        <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
+        <!--===============================================================================================-->
+        <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <!--===============================================================================================-->
+        <script src="/vendor/jquery/tilt.jquery.min.js"></script>
+
+        <script src="/toastr/toastr.min.js"></script>
+        <script>
+            $('#transaction_details').on('click', (e) => {
+                console.log($("#banknames").find(":selected").val());
+            })
+
+        </script>
+        <script>
+                (function dropdowncontent() {
+                    var listoption = document.getElementById("banknames");
+
+                    var BanknamewithImage = [{
+                        name: ' Al Baraka Bank (Pakistan) Limited',
+                        image: '/Banks images/al-baraka.PNG'
+                    }, {
+                        name: 'Allied Bank Limited',
+                        image: '/Banks images/Allied bank.png'
+                    }, {
+                        name: 'Askari Bank',
+                        image: '/Banks images/Askari bank.jpg'
+                    }, {
+                        name: 'Bank Alfalah Limited',
+                        image: '/Banks images/Al-falah.png'
+                    }, {
+                        name: 'Bank Al-Habib Limited',
+                        image: '/Banks images/al-habib.png'
+                    }, {
+                        name: 'Bank Islami Pakistan Limited',
+                        image: '/Banks images/bank islami.jpg'
+                    }, {
+                        name: 'Citi bank',
+                        image: '/Banks images/citi bank.jpg'
+                    }, {
+                        name: 'Deutsche Bank A.G.',
+                        image: '/Banks images/deutsche bank.png'
+                    }, {
+                        name: 'The Bank of Tokyo-Mitsubishi UFJ',
+                        image: '/Banks images/bank of tokyo.png'
+                    }, {
+                        name: 'Dubai Islamic Bank Pakistan Limited',
+                        image: '/Banks images/dubai islami.jpg'
+                    }, {
+                        name: 'Faysal Bank Limited',
+                        image: '/Banks images/faysal bank.png'
+                    }, {
+                        name: 'First Women Bank Limited',
+                        image: '/Banks images/first women bank.png'
+                    }, {
+                        name: 'Habib Bank Limited',
+                        image: '/Banks images/habib bank.jpg'
+                    }, {
+                        name: 'Standard Chartered Bank (Pakistan) Limited',
+                        image: '/Banks images/standard chartered.png'
+                    }, {
+                        name: 'Habib Metropolitan Bank Limited',
+                        image: '/Banks images/habib metropolian.jpg'
+                    }, {
+                        name: 'Industrial and Commercial Bank of China',
+                        image: '/Banks images/industrial bank china.png'
+                    }, {
+                        name: 'Industrial Development Bank of Pakistan',
+                        image: '/Banks images/industrial bank china.png'
+                    }, {
+                        name: 'JS Bank Limited',
+                        image: '/Banks images/JS bank lmd.png'
+                    }, {
+                        name: 'MCB Bank Limited',
+                        image: '/Banks images/mcb bank.jpg'
+                    }, {
+                        name: 'MCB Islamic Bank Limited',
+                        image: '/Banks images/miib.png'
+                    }, {
+                        name: 'Meezan Bank Limited',
+                        image: '/Banks images/Meezan bank.png'
+                    }, {
+                        name: 'National Bank of Pakistan',
+                        image: '/Banks images/national bank.png'
+                    }];
+                    for (var i = 0; i < BanknamewithImage.length; i++) {
+                        var option = document.createElement("option");
+                        option.text = BanknamewithImage[i].name;
+                        option.value = BanknamewithImage[i].name;
+                        listoption.append(option);
+                    }
+                })();
+        </script>
+    </body>
+
+</html>

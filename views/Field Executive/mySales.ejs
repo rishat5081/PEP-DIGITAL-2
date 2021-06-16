@@ -15,7 +15,13 @@
         <link rel="stylesheet" type="text/css" href="/css/style_2.css" />
         <link rel="stylesheet" type="text/css" href="/toastr/toastr.min.css" />
     </head>
+    <style>
+        /* Create the blue navigation bar */
+        /* Define what each icon button should look like */
 
+
+        /* Make the badge float in the top right corner of the button */
+    </style>
 
     <body>
         <div class="limiter">
@@ -25,6 +31,11 @@
                         <img src="/logo/logo.png" class="pep-logo" alt="" />
                         <a href="#">
                             <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+                        </a>
+                        <a href="/user/notification">
+                            <span class="fa fa-bell menu-button">
+                                <span class="button__badge" style="display: none;"></span>
+                            </span>
                         </a>
                         <nav id="menu">
                             <ul>
@@ -80,11 +91,12 @@
                             </div>
                         </div>
                     </div>
+
+
                     <div class="flexcontainer">
                         <div class="d-flex flex-column mb-4 mt-3">
                             <%for(const subActivity of subActivities){ %>
                                 <div class="row mt-2 mb-2 activitiesName w-100">
-
                                     <%for(const agencyName of dbResponse){ %>
                                         <% if(subActivity.list_act_id===agencyName.list_act_id) {%>
                                             <div class="col-sm-3">
@@ -134,7 +146,12 @@
                 menu.style.top = "-100vh";
             }
 
-            // console.log(JSON.parse('%-JSON.stringify(dbResponse)%>'))
+            var notificationCount = JSON.parse('<%-JSON.stringify(unreadNotificationCount)%>')
+            if (notificationCount) {
+                $('.button__badge').css('display', 'block')
+                $('.button__badge').html(JSON.parse('<%-JSON.stringify(unreadNotificationCount)%>'))
+            }
+
             // console.log(JSON.parse('%-JSON.stringify(subActivities)%>'))
 
         // toastr.success("Hello")

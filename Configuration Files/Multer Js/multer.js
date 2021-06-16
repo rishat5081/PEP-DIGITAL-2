@@ -7,7 +7,7 @@ const multer = require('multer'),
                 const fileBreakdown = file.mimetype.split('/')
 
                 if (fileBreakdown[0] === 'image') {
-                    cb(null, req.session.passport.user.userInfo.login_uuid + Date.now() + "." + fileBreakdown[1])
+                    cb(null, req.session.passport.user.userInfo.login_uuid + "." + fileBreakdown[1])
                 }
                 else
                     cb(null, false, { message: req.flash('Wrong File type') })

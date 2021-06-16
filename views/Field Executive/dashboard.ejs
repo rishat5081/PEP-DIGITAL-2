@@ -27,6 +27,14 @@
                         <a href="#">
                             <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
                         </a>
+
+
+                        <a href="/user/notification">
+                            <span class="fa fa-bell menu-button">
+                                <span class="button__badge" style="display: none;"></span>
+                            </span>
+                        </a>
+
                         <nav id="menu">
                             <ul>
                                 <% permissions.forEach(element=> { %>
@@ -68,11 +76,20 @@
         <!--===============================================================================================-->
         <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
         <!--===============================================================================================-->
+        <script src="/vendor/bootstrap/js/popper.min.js"></script>
         <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
         <!--===============================================================================================-->
         <script src="/vendor/jquery/tilt.jquery.min.js"></script>
         <script src="/js/chart.js"></script>
         <script>
+            var notificationCount = JSON.parse('<%-JSON.stringify(unreadNotificationCount)%>')
+            if (notificationCount) {
+                $('.button__badge').css('display', 'block')
+                $('.button__badge').html(JSON.parse('<%-JSON.stringify(unreadNotificationCount)%>'))
+            }
+
+
+
             var areaChartData = {
                 labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                 datasets: [

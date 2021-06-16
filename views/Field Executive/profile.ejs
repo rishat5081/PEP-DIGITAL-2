@@ -21,6 +21,8 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
             crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
 
 
 
@@ -81,6 +83,11 @@
                         <img src="/logo/logo.png" class="pep-logo" alt="" />
                         <a href="#">
                             <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+                        </a>
+                        <a href="/user/notification">
+                            <span class="fa fa-bell menu-button">
+                                <span class="button__badge" style="display: none;"></span>
+                            </span>
                         </a>
                         <nav id="menu">
                             <ul>
@@ -230,17 +237,24 @@
                 </div>
             </div>
             <!--===============================================================================================-->
-            <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
-            <!--===============================================================================================-->
-            <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
-            <!--===============================================================================================-->
-            <script src="/vendor/jquery/tilt.jquery.min.js"></script>
 
-            <script src="/toastr/toastr.min.js"></script>
+
 
             <script src="/JavaScript/Field Executive/completeProfile.js"></script>
+            <!--===============================================================================================-->
+            <script src="/js/jquery.min.js"></script>
+            <script src="/bootstrap/js/bootstrap.min.js"></script>
+            <!-- Toastr -->
+            <!--===============================================================================================-->
+            <script src="/vendor/jquery/tilt.jquery.min.js"></script>
+            <script src="/toastr/toastr.min.js"></script>
 
             <script>
+                var notificationCount = JSON.parse('<%-JSON.stringify(unreadNotificationCount)%>')
+                if (notificationCount) {
+                    $('.button__badge').css('display', 'block')
+                    $('.button__badge').html(JSON.parse('<%-JSON.stringify(unreadNotificationCount)%>'))
+                }
                 $('.js-tilt').tilt({
                     scale: 1.1
                 })

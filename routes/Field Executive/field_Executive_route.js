@@ -8,8 +8,10 @@ const {
   Team_Lead,
   City_Areas,
   User_Login_Information,
-  Activities
+  Activities,
+  ExecutiveNotifications
 } = require("../../Configuration Files/Sequelize/Database_Synchronization");
+const NotificationText = require("../../Configuration Files/Sequelize/Sequelize Models/Notifications/NotificationText");
 const { sequelize } = require("../../Configuration Files/Sequelize/Sequelize Models/Lists of Packages/Activities"),
   AgencyTypes = require("../../Configuration Files/Sequelize/Sequelize Models/Agency Models/AgencyTypes"),
   { Op, QueryTypes } = require("sequelize"),
@@ -38,15 +40,22 @@ const isUserAuthentic = (req, res, next) => {
 /**
 * Here in the param it is the field uuiid
 */
-router.get("/dashboard/:fieldExeUUID", isUser_Login, isUserAuthentic, (req, res) => {
+router.get("/dashboard/:fieldExeUUID", isUser_Login, isUserAuthentic, async (req, res) => {
+  // let Notification = await notificationOfExecutive(req.session.profileData.field_id)
+  let unreadNotificationCount = await countofNotificationOfExecutive(req.session.profileData.field_id)
+
   res.status(200).render("Field Executive/dashboard", {
     info: {
       id: req.session.passport.user.userInfo.login_id,
       uuid: req.session.profileData.field_uuid,
     },
+    // Notification,
+    unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
     role: req.session.passport.user.userRole,
     permissions: req.session.permissions.permissionObject,
   });
+  // Notification = null
+  unreadNotificationCount = null
 });
 
 /**
@@ -143,6 +152,9 @@ router.get(
         if (error) console.log("Error getting Compaigns" + error);
         return null;
       });
+    // let Notification = await notificationOfExecutive(req.session.profileData.field_id)
+    let unreadNotificationCount = await countofNotificationOfExecutive(req.session.profileData.field_id)
+
 
 
 
@@ -152,6 +164,8 @@ router.get(
         id: req.session.passport.user.userInfo.login_id,
         uuid: req.session.profileData.field_uuid,
       },
+      // Notification,
+      unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
       agencyTypes,
       CompaignsList,
       pakistanCityName,
@@ -159,6 +173,9 @@ router.get(
       role: req.session.passport.user.userRole,
       permissions: req.session.permissions.permissionObject,
     });
+
+    // Notification = null
+    unreadNotificationCount = null
   }
 );
 
@@ -222,14 +239,22 @@ router.get(
             return packages;
           }
         });
+
+      // let Notification = await notificationOfExecutive(req.session.profileData.field_id)
+      let unreadNotificationCount = await countofNotificationOfExecutive(req.session.profileData.field_id)
+
       res.render("Field Executive/subActivitiesOnAgency", {
         subActivities,
         info: {
           id: req.session.passport.user.userInfo.login_id,
           uuid: req.session.profileData.field_uuid,
         },
+        // Notification,
+        unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
         permissions: req.session.permissions.permissionObject,
       });
+      // Notification = null
+      unreadNotificationCount = null
     }
   }
 );
@@ -269,17 +294,25 @@ router.get("/viewAgencies/:fieldExeUUID", isUser_Login, isUserAuthentic, async (
       if (error) console.log("Error getting Compaigns" + error);
       return null;
     });
+  // let Notification = await notificationOfExecutive(req.session.profileData.field_id)
+  let unreadNotificationCount = await countofNotificationOfExecutive(req.session.profileData.field_id)
+
 
   res.render("Field Executive/viewAllAgencies", {
     AgencyData,
     pakistanCityName,
     CompaignsList,
+    // Notification,
+    unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
     info: {
+
       id: req.session.passport.user.userInfo.login_id,
       uuid: req.session.profileData.field_uuid,
     },
     permissions: req.session.permissions.permissionObject,
   });
+  // Notification = null
+  unreadNotificationCount = null
 });
 
 
@@ -317,6 +350,10 @@ router.get('/Profile/:fieldExeUUID',
       }
     })
 
+    // let Notification = await notificationOfExecutive(req.session.profileData.field_id)
+    let unreadNotificationCount = await countofNotificationOfExecutive(req.session.profileData.field_id)
+
+
     const countOfTargetsActivities = await Activities.findAll({
       attributes: [[sequelize.fn('COUNT', sequelize.col('list_act_id')), 'activityTarget'],
       ],
@@ -341,6 +378,8 @@ router.get('/Profile/:fieldExeUUID',
       City_Area_Info,
       LoginEmail,
       countOfTargetsActivities,
+      // Notification,
+      unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
       info: {
         id: req.session.passport.user.userInfo.login_id,
         uuid: req.session.profileData.field_uuid,
@@ -348,7 +387,9 @@ router.get('/Profile/:fieldExeUUID',
       role: req.session.passport.user.userRole,
       permissions: req.session.permissions.permissionObject,
     })
-
+    // Notification = null
+    unreadNotificationCount = null
+    teamLead_Info = null
   })
 
 
@@ -371,7 +412,7 @@ router.get('/mysales/:fieldExeUUID', isUser_Login, isUserAuthentic,
         },
       ],
       where: {
-        field_id: 4
+        field_id: req.session.profileData.field_id
       }
     })
       .then(dbResponse => {
@@ -412,10 +453,17 @@ router.get('/mysales/:fieldExeUUID', isUser_Login, isUserAuthentic,
 
     })
 
+
+    // let Notification = await notificationOfExecutive(req.session.profileData.field_id)
+    let unreadNotificationCount = await countofNotificationOfExecutive(req.session.profileData.field_id)
+
+
     res.render("Field Executive/mySales", {
       dbResponse,
       subActivities,
       totalIncome: sum,
+      unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      // Notification,
       totalActivities: subActivities.length,
       info: {
         id: req.session.passport.user.userInfo.login_id,
@@ -424,6 +472,8 @@ router.get('/mysales/:fieldExeUUID', isUser_Login, isUserAuthentic,
       permissions: req.session.permissions.permissionObject,
     })
     sum = null;
+    unreadNotificationCount = null
+    // Notification = null
   })
 
 router.get('/earning/:fieldExeUUID', isUser_Login, isUserAuthentic, async (req, res) => {
@@ -437,21 +487,136 @@ router.get('/withdraws/:fieldExeUUID', isUser_Login, isUserAuthentic, async (req
   res.send("My Withdraws")
 })
 
-router.get('/notifications/:fieldExeUUID', isUser_Login, isUserAuthentic, async (req, res) => {
-  res.send("My Notifications")
-})
 
 
-
-router.get('/completedActivity/:fieldExeUUID'
-  // , isUser_Login
+router.get('/completedActivity/:activityUUID'
+  , isUser_Login
   ,
   async (req, res) => {
-    res.send("My Completed Activity   : " + req.params.fieldExeUUID)
+
+    const activitiesResponse = await Activities.findAll({
+      attributes: ['list_act_id', 'list_act_uuid', 'createdAt'],
+      include: [
+        {
+          model: Agency_Info,
+          attributes: ['agency_name'],
+          required: false
+        },
+        {
+          model: List_sub_Activities,
+          attributes: ['list_sub_act_id', 'list_id', 'createdAt', 'list_act_id'],
+          required: true,
+          include: {
+            model: List_of_Packages,
+            attributes: ['list_name', 'list_amount', 'isBank', 'bankAmount', 'commissionAmount'],
+            required: true,
+          }
+        }
+      ],
+      where: {
+        list_act_uuid: req.params.activityUUID
+      }
+    })
+      .then(dbResponse => {
+        if (dbResponse)
+          return dbResponse
+      })
+      .catch(error => {
+        if (error)
+          console.log('Error Fetching Activities : ' + error);
+      })
+    const agencyInfo = activitiesResponse[0] !== null ? { ...activitiesResponse[0].Agency_Info.dataValues } : null
+    const Activity_Info = Object.assign({}, {
+      list_act_id: activitiesResponse[0].dataValues.list_act_id,
+      list_act_uuid: activitiesResponse[0].dataValues.list_act_uuid,
+      createdAt: activitiesResponse[0].dataValues.createdAt,
+    });
+    const subActivities = [...activitiesResponse[0].List_sub_Activities]
+
+
+    const sumOf_Activities = await List_sub_Activities.findAll({
+      attributes: [[sequelize.fn('sum', sequelize.col('`List_of_Package`.list_amount')), 'SumofValues'],
+      [sequelize.literal('SUM(`List_of_Package`.bankAmount/100*`List_of_Package`.commissionAmount)'), 'Commission']],
+      include: {
+        attributes: [],
+        model: List_of_Packages,
+        required: true
+      },
+      group: ['`List_sub_Activities`.list_act_id'],
+      where: {
+        list_act_id: activitiesResponse.map(data => data.dataValues.list_act_id)
+      }
+    })
+      .then(dbResponse => {
+        if (dbResponse)
+          return dbResponse
+      })
+      .catch(error => {
+        if (error)
+          console.log('Error Fetching Sum of Activities : ' + error);
+      })
+
+    // let Notification = await notificationOfExecutive(req.session.profileData.field_id)
+    let unreadNotificationCount = await countofNotificationOfExecutive(req.session.profileData.field_id)
+
+    res.render("Field Executive/activityComplete", {
+      sumOf_Activities: sumOf_Activities[0].dataValues,
+      agencyInfo,
+      Activity_Info,
+      // Notification,
+      subActivities,
+      unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      info: {
+        id: req.session.passport.user.userInfo.login_id,
+        uuid: req.session.profileData.field_uuid,
+      },
+      permissions: req.session.permissions.permissionObject,
+    })
+    // Notification = null
+    unreadNotificationCount = null
   })
 
 
 
+// router.get('/notification', isUser_Login, async (req, res) => {
+//   res.send("My Notifications")
+// })
+
+router.get('/notification', isUser_Login, async (req, res) => {
+
+  const unreadNotificationCount = await countofNotificationOfExecutive(4)
+  const unreadNotification = await ExecutiveNotifications.findAll({
+    attributes: ['execu_notification_uuid', 'notification_text', 'isRead', 'createdAt'],
+    where: {
+      isPaused: false,
+      deleted: false,
+      field_id: 4
+    },
+    include: {
+      model: NotificationText,
+      attributes: ['notification_title', 'notification_icon'],
+      required: true
+    },
+    limit: 50
+  }).then((notifications) => {
+    if (notifications)
+      return notifications
+  })
+  res.render("Field Executive/notification", {
+    unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
+    unreadNotification,
+    info: {
+      id: req.session.passport.user.userInfo.login_id,
+      uuid: req.session.profileData.field_uuid,
+    },
+    permissions: req.session.permissions.permissionObject,
+  })
+})
+
+
+router.get('/bank', async (req, res) => {
+  res.render("Field Executive/bankDesposit")
+})
 
 router.get("/signout", (req, res) => {
   req.session.destroy();
@@ -462,6 +627,38 @@ router.get("/signout", (req, res) => {
 
 module.exports = { router }
 
+const notificationOfExecutive = async (field_id) => {
+  return await ExecutiveNotifications.findAll({
+    attributes: ['execu_notification_uuid', 'notification_text'],
+    where: {
+      isPaused: false,
+      deleted: false,
+      field_id
+    },
+    include: {
+      model: NotificationText,
+      attributes: ['notification_title', 'notification_icon'],
+      required: true
+    },
+    limit: 50
+  }).then((notifications) => {
+    if (notifications)
+      return notifications
+  })
+}
+
+const countofNotificationOfExecutive = async (field_id) => {
+  return await ExecutiveNotifications.findAll({
+    attributes: [[sequelize.fn('COUNT', sequelize.col('execu_notification_id')), 'unreadNotificationCount']],
+    where: {
+      isRead: false,
+      field_id
+    }
+  }).then((notifications) => {
+    if (notifications)
+      return notifications
+  })
+}
 
 
 
@@ -489,70 +686,110 @@ module.exports = { router }
 // console.log(new Date(Date.now()).toLocaleString('default', { month: 'long' }));
 
 
+const funcc = async () => {
+  const activitiesResponse = await Activities.findAll({
+    attributes: ['list_act_id', 'list_act_uuid'],
+    include: [
+      // {
+      //   model: Agency_Info,
+      //   attributes: ['agency_name'],
+      //   required: false
+      // },
+      {
+        model: List_sub_Activities,
+        attributes: ['list_sub_act_id', 'list_id', 'list_act_id',
+          [sequelize.fn('sum', sequelize.col('`List_sub_Activities->List_of_Package`.bankAmount')), 'SumofValues']],
+        required: true,
+        include: {
+          model: List_of_Packages,
+          attributes: ['list_name', 'isBank', 'bankAmount', 'commissionAmount'],
+          required: true,
+          where: {
+            isBank: true
+          }
+        }
+      }
+    ],
+    group: ['`List_sub_Activities`.list_sub_act_id'],
+    where: {
+      // list_act_uuid: '8e68581b-9c66-4dc0-83a0-167132e022bc'
+      field_id: 4
+    }
+  })
+    .then(dbResponse => {
+      if (dbResponse)
 
-// SELECT`Activities`.`list_act_id`, `Activities`.`list_act_uuid`,
-//   `Agency_Info`.`agency_id` AS`Agency_Info.agency_id`,
-//     `Agency_Info`.`agency_name` AS`Agency_Info.agency_name`,
-//       `List_sub_Activities`.`list_sub_act_id` AS`List_sub_Activities.list_sub_act_id`,
-//         sum(`List_sub_Activities->List_of_Package`.`list_amount`) AS`List_sub_Activities.SumofValues`
-// FROM`Activities` AS`Activities` LEFT OUTER JOIN`agency_info` AS`Agency_Info`
-// ON`Activities`.`agency_id` = `Agency_Info`.`agency_id` INNER JOIN
-//   `list_sub_activities` AS`List_sub_Activities` ON
-//     `Activities`.`list_act_id` = `List_sub_Activities`.`list_act_id`
-// INNER JOIN`lists` AS`List_sub_Activities->List_of_Package`
-// ON`List_sub_Activities`.`list_id` = `List_sub_Activities->List_of_Package`.`list_id`
-// WHERE`Activities`.`field_id` = 4 GROUP BY`List_sub_Activities`.`list_act_id`
+        dbResponse.map(data => console.log(data.dataValues))
+      //return dbResponse
+    })
+    .catch(error => {
+      if (error)
+        console.log('Error Fetching Activities : ' + error);
+    })
 
-
-// const funcc = async () => {
-//   const acti = await Activities.findAll({
-//     attributes: ['list_act_id', 'list_act_uuid'],
-//     include: [
-//       {
-//         model: Agency_Info,
-//         attributes: ['agency_name'],
-//         required: false
-//       },
-//     ],
-//     where: {
-//       field_id: 4
-//     }
-//   })
-//     .then(dbResponse => {
-//       if (dbResponse)
-//         return dbResponse
-//     })
-//     .catch(error => {
-//       if (error)
-//         console.log('Error Fetching Activities : ' + error);
-//     })
+  // SELECT`Activities`.`list_act_id`, `Activities`.`list_act_uuid`, `Activities`.`createdAt`, 
+  // `List_sub_Activities`.`list_sub_act_id` AS`List_sub_Activities.list_sub_act_id`, 
+  // `List_sub_Activities`.`list_id` AS`List_sub_Activities.list_id`, 
+  // `List_sub_Activities`.`createdAt` AS`List_sub_Activities.createdAt`, 
+  // `List_sub_Activities`.`list_act_id` AS`List_sub_Activities.list_act_id`, 
+  // sum(`List_sub_Activities->List_of_Package`.`list_amount`) AS`List_sub_Activities.SumofValues`,
+  //  `List_sub_Activities->List_of_Package`.`list_id` AS`List_sub_Activities.List_of_Package.list_id`,
+  //   `List_sub_Activities->List_of_Package`.`list_name` AS`List_sub_Activities.List_of_Package.list_name`,
+  //    `List_sub_Activities->List_of_Package`.`list_amount` AS`List_sub_Activities.List_of_Package.list_amount`, 
+  //    `List_sub_Activities->List_of_Package`.`isBank` AS`List_sub_Activities.List_of_Package.isBank`, 
+  //    `List_sub_Activities->List_of_Package`.`bankAmount` AS`List_sub_Activities.List_of_Package.bankAmount`, 
+  //    `List_sub_Activities->List_of_Package`.`commissionAmount` AS`List_sub_Activities.List_of_Package.commissionAmount` 
+  //    FROM`Activities` AS`Activities` INNER JOIN`list_sub_activities` AS`List_sub_Activities` 
+  //    ON`Activities`.`list_act_id` = `List_sub_Activities`.`list_act_id` INNER JOIN`lists` 
+  //    AS`List_sub_Activities->List_of_Package` 
+  //    ON`List_sub_Activities`.`list_id` = `List_sub_Activities->List_of_Package`.`list_id`
+  //     AND`List_sub_Activities->List_of_Package`.`isBank` = true 
+  // WHERE`Activities`.`field_id` = 4 GROUP BY`List_sub_Activities`.`list_act_id`;
 
 
 
-//   List_sub_Activities.findAll({
-//     attributes: ['list_act_id', [sequelize.fn('sum', sequelize.col('`List_of_Package`.list_amount')), 'SumofValues']],
-//     include: {
-//       attributes: [],
-//       model: List_of_Packages,
-//       required: true
-//     },
-//     group: ['`List_sub_Activities`.list_act_id'],
-//     where: {
-//       list_act_id: acti.map(data => data.dataValues.list_act_id)
-//     }
-//   })
-//     .then(dbResponse => {
-//       for (const iterator of dbResponse) {
-//         //console.log(iterator);
-//         console.log(iterator.dataValues);
-//       }
 
-//     })
-//     .catch(error => {
-//       if (error)
-//         console.log('Error Fetching Activities : ' + error);
-//     })
-// }
+
+
+
+
+
+
+  // console.log(activitiesResponse);
+  // const agencyInfo = activitiesResponse[0] !== null ? { ...activitiesResponse[0].Agency_Info.dataValues } : null
+  // const Activity_Info = Object.assign({}, {
+  //   list_act_id: activitiesResponse[0].dataValues.list_act_id,
+  //   list_act_uuid: activitiesResponse[0].dataValues.list_act_uuid,
+  //   createdAt: activitiesResponse[0].dataValues.createdAt,
+  // });
+  // const subActivities = [...activitiesResponse[0].List_sub_Activities]
+
+
+  // const sumOf_Activities = await List_sub_Activities.findAll({
+  //   attributes: [[sequelize.fn('sum', sequelize.col('`List_of_Package`.list_amount')), 'SumofValues'],
+  //   [sequelize.literal('SUM(`List_of_Package`.bankAmount/100*`List_of_Package`.commissionAmount)'), 'Commission']],
+  //   include: {
+  //     attributes: [],
+  //     model: List_of_Packages,
+  //     required: true
+  //   },
+  //   group: ['`List_sub_Activities`.list_act_id'],
+  //   where: {
+  //     list_act_id: activitiesResponse.map(data => data.dataValues.list_act_id)
+  //   }
+  // })
+  //   .then(dbResponse => {
+  //     if (dbResponse)
+  //       return dbResponse
+  //   })
+  //   .catch(error => {
+  //     if (error)
+  //       console.log('Error Fetching Sum of Activities : ' + error);
+  //   })
+
+
+  // console.log(parseInt(sumOf_Activities[0].dataValues.SumofValues) + Math.ceil(sumOf_Activities[0].dataValues.Commission));
+}
 // funcc()
 
 
