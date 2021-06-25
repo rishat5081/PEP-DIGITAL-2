@@ -9,10 +9,13 @@ const {
   City_Areas,
   User_Login_Information,
   Activities,
-  ExecutiveNotifications
+  ExecutiveNotifications,
+  Banks_List,
+  PEP_Banks_Details,
+  Executive_Pending_Earning
 } = require("../../Configuration Files/Sequelize/Database_Synchronization");
 const NotificationText = require("../../Configuration Files/Sequelize/Sequelize Models/Notifications/NotificationText");
-const { sequelize } = require("../../Configuration Files/Sequelize/Sequelize Models/Lists of Packages/Activities"),
+const { sequelize, sum } = require("../../Configuration Files/Sequelize/Sequelize Models/Lists of Packages/Activities"),
   AgencyTypes = require("../../Configuration Files/Sequelize/Sequelize Models/Agency Models/AgencyTypes"),
   { Op, QueryTypes } = require("sequelize"),
   express = require("express"),
@@ -249,6 +252,7 @@ router.get(
           id: req.session.passport.user.userInfo.login_id,
           uuid: req.session.profileData.field_uuid,
         },
+
         // Notification,
         unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
         permissions: req.session.permissions.permissionObject,
@@ -360,7 +364,7 @@ router.get('/Profile/:fieldExeUUID',
 
       where: {
         field_id: 4,
-        [Op.and]: sequelize.literal(`monthname(createdAt) = ${5}`),
+        [Op.and]: sequelize.literal(`month(createdAt) = '${new Date(Date.now()).getMonth()}'`),
       }
     })
 
@@ -427,7 +431,8 @@ router.get('/mysales/:fieldExeUUID', isUser_Login, isUserAuthentic,
 
 
     const subActivities = await List_sub_Activities.findAll({
-      attributes: ['list_act_id', [sequelize.fn('sum', sequelize.col('`List_of_Package`.list_amount')), 'SumofValues']],
+      attributes: ['list_act_id', [sequelize.fn('sum', sequelize.col('`List_of_Package`.list_amount')), 'SumofValues'],
+        [sequelize.literal('SUM(`List_of_Package`.bankAmount/100*`List_of_Package`.commissionAmount)'), 'Commission']],
       include: {
         attributes: [],
         model: List_of_Packages,
@@ -447,12 +452,6 @@ router.get('/mysales/:fieldExeUUID', isUser_Login, isUserAuthentic,
           console.log('Error Fetching Activities : ' + error);
       })
 
-    let sum = 0;
-    subActivities.map(Activity => {
-      sum += parseInt(Activity.dataValues.SumofValues)
-
-    })
-
 
     // let Notification = await notificationOfExecutive(req.session.profileData.field_id)
     let unreadNotificationCount = await countofNotificationOfExecutive(req.session.profileData.field_id)
@@ -461,7 +460,7 @@ router.get('/mysales/:fieldExeUUID', isUser_Login, isUserAuthentic,
     res.render("Field Executive/mySales", {
       dbResponse,
       subActivities,
-      totalIncome: sum,
+      url: req.protocol + '://' + req.get('host'),
       unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
       // Notification,
       totalActivities: subActivities.length,
@@ -471,7 +470,6 @@ router.get('/mysales/:fieldExeUUID', isUser_Login, isUserAuthentic,
       },
       permissions: req.session.permissions.permissionObject,
     })
-    sum = null;
     unreadNotificationCount = null
     // Notification = null
   })
@@ -490,8 +488,7 @@ router.get('/withdraws/:fieldExeUUID', isUser_Login, isUserAuthentic, async (req
 
 
 router.get('/completedActivity/:activityUUID'
-  , isUser_Login
-  ,
+  , isUser_Login,
   async (req, res) => {
 
     const activitiesResponse = await Activities.findAll({
@@ -520,61 +517,80 @@ router.get('/completedActivity/:activityUUID'
       .then(dbResponse => {
         if (dbResponse)
           return dbResponse
+        else
+          return null
       })
       .catch(error => {
-        if (error)
-          console.log('Error Fetching Activities : ' + error);
-      })
-    const agencyInfo = activitiesResponse[0] !== null ? { ...activitiesResponse[0].Agency_Info.dataValues } : null
-    const Activity_Info = Object.assign({}, {
-      list_act_id: activitiesResponse[0].dataValues.list_act_id,
-      list_act_uuid: activitiesResponse[0].dataValues.list_act_uuid,
-      createdAt: activitiesResponse[0].dataValues.createdAt,
-    });
-    const subActivities = [...activitiesResponse[0].List_sub_Activities]
+        if (error) {
+          console.error('Error Fetching Activities : ' + error);
 
-
-    const sumOf_Activities = await List_sub_Activities.findAll({
-      attributes: [[sequelize.fn('sum', sequelize.col('`List_of_Package`.list_amount')), 'SumofValues'],
-      [sequelize.literal('SUM(`List_of_Package`.bankAmount/100*`List_of_Package`.commissionAmount)'), 'Commission']],
-      include: {
-        attributes: [],
-        model: List_of_Packages,
-        required: true
-      },
-      group: ['`List_sub_Activities`.list_act_id'],
-      where: {
-        list_act_id: activitiesResponse.map(data => data.dataValues.list_act_id)
-      }
-    })
-      .then(dbResponse => {
-        if (dbResponse)
-          return dbResponse
-      })
-      .catch(error => {
-        if (error)
-          console.log('Error Fetching Sum of Activities : ' + error);
+          res.status(404).render("Web Appendage Pages/error", {
+            errorStatus: "Invalid Activity",
+            errorHeading: `The Activity is ID is incorrect.`,
+          });
+        }
       })
 
-    // let Notification = await notificationOfExecutive(req.session.profileData.field_id)
-    let unreadNotificationCount = await countofNotificationOfExecutive(req.session.profileData.field_id)
+    if (activitiesResponse.length > 0) {
+      const agencyInfo = activitiesResponse[0] //!== null ? { ...activitiesResponse[0].Agency_Info.dataValues } : null
+      const Activity_Info = Object.assign({}, {
+        list_act_id: activitiesResponse[0].dataValues.list_act_id,
+        list_act_uuid: activitiesResponse[0].dataValues.list_act_uuid,
+        createdAt: activitiesResponse[0].dataValues.createdAt,
+      });
+      const subActivities = [...activitiesResponse[0].List_sub_Activities]
 
-    res.render("Field Executive/activityComplete", {
-      sumOf_Activities: sumOf_Activities[0].dataValues,
-      agencyInfo,
-      Activity_Info,
-      // Notification,
-      subActivities,
-      unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      info: {
-        id: req.session.passport.user.userInfo.login_id,
-        uuid: req.session.profileData.field_uuid,
-      },
-      permissions: req.session.permissions.permissionObject,
-    })
-    // Notification = null
-    unreadNotificationCount = null
+
+      const sumOf_Activities = await List_sub_Activities.findAll({
+        attributes: [[sequelize.fn('sum', sequelize.col('`List_of_Package`.list_amount')), 'SumofValues'],
+        [sequelize.literal('SUM(`List_of_Package`.bankAmount/100*`List_of_Package`.commissionAmount)'), 'Commission']],
+        include: {
+          attributes: [],
+          model: List_of_Packages,
+          required: true
+        },
+        group: ['`List_sub_Activities`.list_act_id'],
+        where: {
+          list_act_id: activitiesResponse.map(data => data.dataValues.list_act_id)
+        }
+      })
+        .then(dbResponse => {
+          if (dbResponse)
+            return dbResponse
+          else
+            return null
+        })
+        .catch(error => {
+          if (error)
+            console.log('Error Fetching Sum of Activities : ' + error);
+        })
+
+      // let Notification = await notificationOfExecutive(req.session.profileData.field_id)
+      let unreadNotificationCount = await countofNotificationOfExecutive(req.session.profileData.field_id)
+      res.render("Field Executive/activityComplete", {
+        sumOf_Activities: sumOf_Activities[0].dataValues,
+        agencyInfo,
+        Activity_Info,
+        // Notification,
+        subActivities,
+        unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
+        info: {
+          id: req.session.passport.user.userInfo.login_id,
+          uuid: req.session.profileData.field_uuid,
+        },
+        permissions: req.session.permissions.permissionObject,
+      })
+      // Notification = null
+      unreadNotificationCount = null
+    }
+    else {
+      res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`)
+    }
+
+
+
   })
+
 
 
 
@@ -614,8 +630,183 @@ router.get('/notification', isUser_Login, async (req, res) => {
 })
 
 
-router.get('/bank', async (req, res) => {
-  res.render("Field Executive/bankDesposit")
+router.get('/11', async (req, res) => {
+
+  console.log(req.protocol + '://' + req.get('host'));
+
+
+
+  const PendingClearanceObject = await Executive_Pending_Earning.findAll({
+    attributes: ['bank_sale', 'clearanceDateTime', 'accountant_approve', 'account_decline', 'field_exe_earn_uuid', 'withdrawed'],
+    include: {
+      model: Activities,
+      attributes: ['list_act_id', 'list_act_uuid'],
+      required: true,
+      include: [{
+        model: Agency_Info,
+        attributes: ['agency_name'],
+        required: true
+      }],
+    },
+    where: {
+      field_id: 4,
+      // [Op.and]: sequelize.literal(`month(createdAt) = ${6}`),
+    }
+  })
+    .then(Activities => {
+      if (Activities)
+        return Activities
+      // console.log(Activities);
+    })
+
+  // console.log(PendingClearanceObject.map(data => data.dataValues.Activity.dataValues.list_act_id));
+
+  const sumOf_Activities = await List_sub_Activities.findAll({
+    attributes: [[sequelize.fn('sum', sequelize.col('`List_of_Package`.list_amount')), 'SumofValues'], 'list_act_id',
+    [sequelize.literal('SUM(`List_of_Package`.bankAmount/100*`List_of_Package`.commissionAmount)'), 'Commission']
+    ],
+    include: {
+      attributes: [],
+      model: List_of_Packages,
+      required: true
+    },
+    group: ['`List_sub_Activities`.list_act_id'],
+    where: {
+      list_act_id: PendingClearanceObject.map(data => data.dataValues.Activity.dataValues.list_act_id)
+    }
+  })
+    .then(dbResponse => {
+      if (dbResponse)
+        return dbResponse
+      else
+        return null
+    })
+    .catch(error => {
+      if (error)
+        console.log('Error Fetching Sum of Activities : ' + error);
+    })
+
+  // console.log(sumOf_Activities);
+
+
+
+
+  res.render("Field Executive/withdrawals", {
+    sumOf_Activities,
+    PendingClearanceObject,
+    url: req.protocol + '://' + req.get('host'),
+  })
+})
+
+
+
+router.get('/bankDeposit/:activityUUID', isUser_Login, async (req, res) => {
+  /**
+   * Getting the pep bank account details from the database
+   */
+  const companyDetails = await PEP_Banks_Details.findAll({
+    attributes: ['bankAccount', 'bankIBAN', 'bankBranchCode', 'bankAddress'],
+    include: {
+      model: Banks_List,
+      required: true,
+      attributes: ['bankName']
+    },
+    where: {
+      deleted: false,
+      paused: false
+    }
+  })
+
+  /**
+   * Getting all the banks name from the DB
+   */
+  const bankList = await Banks_List.findAll({
+    attributes: ['Banks_List_uuid', 'bankName'],
+    where: {
+      paused: false,
+      deleted: false
+    }
+  })
+
+
+
+
+
+  var activitiesResponse = await Activities.findOne({
+    attributes: ['list_act_id', 'list_act_uuid'],
+    where: {
+      list_act_uuid: req.params.activityUUID
+    }
+  })
+    .then(dbResponse => {
+      if (dbResponse)
+        return dbResponse
+      else
+        return null
+    })
+    .catch(error => {
+      if (error) {
+        console.error('Error Fetching Activities : ' + error);
+
+        res.status(404).render("Web Appendage Pages/error", {
+          errorStatus: "Invalid Activity",
+          errorHeading: `The Activity is ID is incorrect.`,
+        });
+      }
+    })
+
+  if (Object.keys(activitiesResponse).length > 0) {
+
+    const sumOf_Activities = await List_sub_Activities.findOne({
+      attributes: [[sequelize.fn('sum', sequelize.col('`List_of_Package`.bankAmount')), 'SumofValues']],
+      include: {
+        attributes: [],
+        model: List_of_Packages,
+        required: true
+      },
+      group: ['`List_sub_Activities`.list_act_id'],
+      where: {
+        list_act_id: activitiesResponse.dataValues.list_act_id
+      }
+    })
+      .then(dbResponse => {
+        if (dbResponse)
+          return dbResponse;
+        else
+          return null
+      })
+      .catch(error => {
+        if (error) {
+          console.log('Error Fetching Sum of Activities : ' + error);
+          return null;
+        }
+      })
+
+    if (Object.keys(sumOf_Activities).length > 0) {
+      res.render("Field Executive/bankDesposit", {
+        bankList,
+        companyDetails,
+        sumOf_Activities,
+        activityDetails: activitiesResponse
+      })
+    }
+    else {
+      res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`)
+    }
+
+  }
+  else {
+    res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`)
+  }
+
+
+
+
+
+
+
+
+
 })
 
 router.get("/signout", (req, res) => {
@@ -624,6 +815,11 @@ router.get("/signout", (req, res) => {
 })
 
 
+
+
+router.get('/:a', async (req, res) => {
+  res.send(req.params)
+})
 
 module.exports = { router }
 
@@ -662,6 +858,95 @@ const countofNotificationOfExecutive = async (field_id) => {
 
 
 
+
+
+// async function aaaa() {
+
+//   await Activities.findOne({
+//     attributes: [[sequelize.fn('COUNT', sequelize.col('list_act_id')), 'Total'],
+//     ],
+
+//     where: {
+//       field_id: 4,
+//       [Op.and]: sequelize.literal(`month(createdAt) = ${5}`),
+//     }
+//   })
+//     .then(r => {
+//       console.log(r);
+//     })
+
+
+// }
+
+// aaaa()
+
+
+
+
+async function a() {
+
+  const Activities_sss = await Executive_Pending_Earning.findAll({
+    include: {
+      model: Activities,
+      required: true,
+      include: [{
+        model: Agency_Info,
+        required: true
+      }],
+    },
+    where: {
+      field_id: 4,
+      // [Op.and]: sequelize.literal(`month(createdAt) = ${6}`),
+    }
+  })
+    .then(Activities => {
+      if (Activities)
+        return Activities
+      // console.log(Activities);
+    })
+
+  // console.log(Activities_sss.map(data => data.dataValues.Activity.dataValues.list_act_id));
+
+  const sumOf_Activities = await List_sub_Activities.findAll({
+    attributes: [[sequelize.fn('sum', sequelize.col('`List_of_Package`.list_amount')), 'SumofValues'],
+    [sequelize.literal('SUM(`List_of_Package`.bankAmount/100*`List_of_Package`.commissionAmount)'), 'Commission']
+    ],
+    include: {
+      attributes: [],
+      model: List_of_Packages,
+      required: true
+    },
+    group: ['`List_sub_Activities`.list_act_id'],
+    where: {
+      list_act_id: Activities_sss.map(data => data.dataValues.Activity.dataValues.list_act_id)
+    }
+  })
+    .then(dbResponse => {
+      if (dbResponse)
+        return dbResponse
+      else
+        return null
+    })
+    .catch(error => {
+      if (error)
+        console.log('Error Fetching Sum of Activities : ' + error);
+    })
+
+  console.log(sumOf_Activities);
+
+
+
+
+
+
+
+}
+
+// a()
+
+
+
+// console.log("------------" + new Date(Date.now()).getUTCMonth());
 // async function a() {
 
 //   await Activities.findAll({
@@ -670,7 +955,7 @@ const countofNotificationOfExecutive = async (field_id) => {
 
 //     where: {
 //       field_id: 4,
-//       [Op.and]: sequelize.literal(`monthname(createdAt) = ${new Date(Date.now()).getMonth()}`),
+//       [Op.and]: sequelize.literal(`month(createdAt) = '${new Date(Date.now()).getMonth()}'`),
 //     }
 //   })
 //     .then(r => {
@@ -681,76 +966,6 @@ const countofNotificationOfExecutive = async (field_id) => {
 // }
 
 // a()
-
-
-// console.log(new Date(Date.now()).toLocaleString('default', { month: 'long' }));
-
-
-const funcc = async () => {
-  const activitiesResponse = await Activities.findAll({
-    attributes: ['list_act_id', 'list_act_uuid'],
-    include: [
-      // {
-      //   model: Agency_Info,
-      //   attributes: ['agency_name'],
-      //   required: false
-      // },
-      {
-        model: List_sub_Activities,
-        attributes: ['list_sub_act_id', 'list_id', 'list_act_id',
-          [sequelize.fn('sum', sequelize.col('`List_sub_Activities->List_of_Package`.bankAmount')), 'SumofValues']],
-        required: true,
-        include: {
-          model: List_of_Packages,
-          attributes: ['list_name', 'isBank', 'bankAmount', 'commissionAmount'],
-          required: true,
-          where: {
-            isBank: true
-          }
-        }
-      }
-    ],
-    group: ['`List_sub_Activities`.list_sub_act_id'],
-    where: {
-      // list_act_uuid: '8e68581b-9c66-4dc0-83a0-167132e022bc'
-      field_id: 4
-    }
-  })
-    .then(dbResponse => {
-      if (dbResponse)
-
-        dbResponse.map(data => console.log(data.dataValues))
-      //return dbResponse
-    })
-    .catch(error => {
-      if (error)
-        console.log('Error Fetching Activities : ' + error);
-    })
-
-  // SELECT`Activities`.`list_act_id`, `Activities`.`list_act_uuid`, `Activities`.`createdAt`, 
-  // `List_sub_Activities`.`list_sub_act_id` AS`List_sub_Activities.list_sub_act_id`, 
-  // `List_sub_Activities`.`list_id` AS`List_sub_Activities.list_id`, 
-  // `List_sub_Activities`.`createdAt` AS`List_sub_Activities.createdAt`, 
-  // `List_sub_Activities`.`list_act_id` AS`List_sub_Activities.list_act_id`, 
-  // sum(`List_sub_Activities->List_of_Package`.`list_amount`) AS`List_sub_Activities.SumofValues`,
-  //  `List_sub_Activities->List_of_Package`.`list_id` AS`List_sub_Activities.List_of_Package.list_id`,
-  //   `List_sub_Activities->List_of_Package`.`list_name` AS`List_sub_Activities.List_of_Package.list_name`,
-  //    `List_sub_Activities->List_of_Package`.`list_amount` AS`List_sub_Activities.List_of_Package.list_amount`, 
-  //    `List_sub_Activities->List_of_Package`.`isBank` AS`List_sub_Activities.List_of_Package.isBank`, 
-  //    `List_sub_Activities->List_of_Package`.`bankAmount` AS`List_sub_Activities.List_of_Package.bankAmount`, 
-  //    `List_sub_Activities->List_of_Package`.`commissionAmount` AS`List_sub_Activities.List_of_Package.commissionAmount` 
-  //    FROM`Activities` AS`Activities` INNER JOIN`list_sub_activities` AS`List_sub_Activities` 
-  //    ON`Activities`.`list_act_id` = `List_sub_Activities`.`list_act_id` INNER JOIN`lists` 
-  //    AS`List_sub_Activities->List_of_Package` 
-  //    ON`List_sub_Activities`.`list_id` = `List_sub_Activities->List_of_Package`.`list_id`
-  //     AND`List_sub_Activities->List_of_Package`.`isBank` = true 
-  // WHERE`Activities`.`field_id` = 4 GROUP BY`List_sub_Activities`.`list_act_id`;
-
-
-
-
-
-
 
 
 
@@ -789,7 +1004,7 @@ const funcc = async () => {
 
 
   // console.log(parseInt(sumOf_Activities[0].dataValues.SumofValues) + Math.ceil(sumOf_Activities[0].dataValues.Commission));
-}
+// }
 // funcc()
 
 

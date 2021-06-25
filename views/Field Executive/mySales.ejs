@@ -65,27 +65,30 @@
 
                                     <div class="card-body">
                                         <h5 class="card-title">Total Income</h5>
-                                        <h6 class="card-subtitle mb-2 text-muted">
-                                            <%=totalIncome%> PKR
+                                        <h6 class="card-subtitle mb-2 text-muted" id="totalIncome">
+
                                         </h6>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm salesTabs">
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Commission</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted" id="totalCommission">
+
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm salesTabs">
+
                                 <div class="card" style="width: 18rem;">
                                     <div class="card-body">
                                         <h5 class="card-title">Total Acitivities</h5>
                                         <h6 class="card-subtitle mb-2 text-muted">
                                             <%= totalActivities %>
                                         </h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm salesTabs">
-                                <div class="card" style="width: 18rem;">
-                                    <div class="card-body">
-                                        <h5 class="card-title">What to Show?</h5>
-                                        <h6 class="card-subtitle mb-2 text-muted">$100</h6>
                                     </div>
                                 </div>
                             </div>
@@ -110,12 +113,13 @@
                                             <div class="col-sm-2">
                                                 <div class="p-2 float-right">
                                                     <a class=" viewDetailsOfActivity"
-                                                        href="/user/completedActivity/<%=agencyName.list_act_uuid %> ">View
+                                                        href="<%=url%>/user/completedActivity/<%=agencyName.list_act_uuid %>">View
                                                         details</a>
                                                 </div>
                                             </div>
-                                            <% } %>
+                                            <% break %>
                                                 <% } %>
+                                                    <% } %>
                                 </div>
                                 <% } %>
                         </div>
@@ -152,8 +156,17 @@
                 $('.button__badge').html(JSON.parse('<%-JSON.stringify(unreadNotificationCount)%>'))
             }
 
-            // console.log(JSON.parse('%-JSON.stringify(subActivities)%>'))
+            var activitiesSum = JSON.parse('<%-JSON.stringify(subActivities)%>')
 
+            var commission = 0.0;
+            var totalIncome = 0.0;
+            activitiesSum.map(data => {
+                commission += data.Commission
+                totalIncome += parseInt(data.SumofValues)
+            })
+
+            $('#totalIncome').html(totalIncome + " PKR")
+            $('#totalCommission').html(commission.toFixed(0) + " PKR")
         // toastr.success("Hello")
         </script>
         <!--===============================================================================================-->

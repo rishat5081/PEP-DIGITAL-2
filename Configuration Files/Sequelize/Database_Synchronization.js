@@ -63,6 +63,8 @@ const sequelize = require("./Sequelize"),
   User_Role = require("./Sequelize Models/Users Login/User_Role"),
   Role_ExtraInfo = require("./Sequelize Models/Users Login/Role_ExtraInfo"),
   Login_Page = require("./Sequelize Models/Web/loginPage"),
+  Banks_List = require("./Sequelize Models/Web/Banks_List"),
+  PEP_Banks_Details = require("./Sequelize Models/Web/PEP_Banks_Details"),
   SignUp_Page = require("./Sequelize Models/Web/signUpPage"),
   Web_Content = require("./Sequelize Models/Web/webContent"),
   Pendance_Clearance_Details = require("./Sequelize Models/Web/Pendance_Clearance_Details"),
@@ -1233,6 +1235,22 @@ const Synchronizing = async () => {
       console.log("\n");
       console.log("Error in Creating Table Team_Lead_Adver_Stock");
     });
+  await Banks_List.sync({ force: true })
+    .then()
+    .catch((error) => {
+      console.log(error + "\n");
+      console.log("\n");
+      console.log("\n");
+      console.log("Error in Creating Table Banks_List");
+    });
+  await PEP_Banks_Details.sync({ force: true })
+    .then()
+    .catch((error) => {
+      console.log(error + "\n");
+      console.log("\n");
+      console.log("\n");
+      console.log("Error in Creating Table PEP_Banks_Details");
+    });
 
   await Department.sync({ force: true })
     .then()
@@ -1703,6 +1721,8 @@ module.exports = {
   Super_Admin,
   Supervisor,
   Team_Lead,
+  Banks_List,
+  PEP_Banks_Details,
   Team_Lead_Adver_Stock,
   Training,
   Training_Activities,

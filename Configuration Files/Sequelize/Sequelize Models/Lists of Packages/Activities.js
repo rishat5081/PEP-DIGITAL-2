@@ -66,6 +66,21 @@ Activities.init(
       allowNull: true,
       defaultValue: false,
     },
+    paused: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false,
+    },
+    deleted: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false,
+    },
+    cancelled: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false,
+    }
   },
   {
     sequelize,

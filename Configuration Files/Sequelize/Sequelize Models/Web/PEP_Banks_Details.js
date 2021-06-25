@@ -1,13 +1,15 @@
+
 'use strict'
 const { DataTypes, Model, UUIDV4 } = require('sequelize'),
     sequelize = require('../../Sequelize'),
-    Super_Admin = require('../Stakeholders/Super_Admin')
+    Super_Admin = require('../Stakeholders/Super_Admin'),
+    Banks_List = require('./Banks_List')
 
-class SignUp_Page extends Model { }
+class PEP_Banks_Details extends Model { }
 
-SignUp_Page.init(
+PEP_Banks_Details.init(
     {
-        signUp_page_id: {
+        PEP_Banks_Details_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true,
@@ -17,7 +19,7 @@ SignUp_Page.init(
                 isNumeric: true
             }
         },
-        signUp_page_uuid: {
+        PEP_Banks_Details_uuid: {
             type: DataTypes.UUID,
             defaultValue: UUIDV4,
             autoIncrement: false,
@@ -34,51 +36,19 @@ SignUp_Page.init(
             allowNull: true,
             defaultValue: false
         },
-        signUpTitle: {
+        bankAccount: {
             type: DataTypes.TEXT,
             allowNull: true
         },
-        btnText: {
+        bankIBAN: {
             type: DataTypes.TEXT,
             allowNull: true
         },
-        alreadyHaveAccount: {
+        bankBranchCode: {
             type: DataTypes.TEXT,
             allowNull: true
         },
-        alreadyHaveAccountIcon: {
-            type: DataTypes.TEXT,
-            allowNull: true
-        },
-        pictureName: {
-            type: DataTypes.TEXT,
-            allowNull: true
-        },
-        pictureFolder: {
-            type: DataTypes.TEXT,
-            allowNull: true
-        },
-        emailPlaceHolder: {
-            type: DataTypes.TEXT,
-            allowNull: true
-        },
-        emailIcon: {
-            type: DataTypes.TEXT,
-            allowNull: true
-        },
-        passwordPlaceHolder: {
-            type: DataTypes.TEXT,
-            allowNull: true
-        },
-        passwordIcon: {
-            type: DataTypes.TEXT,
-            allowNull: true
-        },
-        confirmPasswordPlaceHolder: {
-            type: DataTypes.TEXT,
-            allowNull: true
-        },
-        confirmPasswordIcon: {
+        bankAddress: {
             type: DataTypes.TEXT,
             allowNull: true
         },
@@ -93,27 +63,64 @@ SignUp_Page.init(
             },
             onUpdate: 'CASCADE',
             onDelete: 'CASCADE'
+        },
+        Banks_List_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: false,
+            autoIncrement: false,
+            references: {
+                model: 'banks_list',
+                key: 'Banks_List_id'
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'CASCADE'
         }
+
     },
     {
         sequelize,
         // We need to pass the connection instance
-        modelName: 'SignUp_Page',
-        tableName: 'signUp_page'
+        modelName: 'PEP_Banks_Details',
+        tableName: 'PEP_Banks_Details'
     }
 )
 
-Super_Admin.hasOne(SignUp_Page, {
+Banks_List.hasOne(PEP_Banks_Details, {
+    foreignKey: 'Banks_List_id'
+})
+
+PEP_Banks_Details.belongsTo(Banks_List, {
+    targetKey: 'Banks_List_id',
+    foreignKey: 'Banks_List_id'
+})
+
+
+Super_Admin.hasOne(PEP_Banks_Details, {
     foreignKey: 'sa_id'
 })
 
-SignUp_Page.belongsTo(Super_Admin, {
+PEP_Banks_Details.belongsTo(Super_Admin, {
     targetKey: 'sa_id',
     foreignKey: 'sa_id'
 })
-
 /*
  *boolean return type which will indicate that the table is defined or not
  */
 //console.log(User_Login_Information === sequelize.models.User_Login_Information)
-module.exports = SignUp_Page
+module.exports = PEP_Banks_Details
+
+
+// PEP_Banks_Details.sync({ force: true })
+//     .then(a => console.info(a))
+
+
+// PEP_Banks_Details.create({
+//     bankAccount: '821000000000000120',
+//     bankIBAN: 'PKIBAN 92821000000000000120',
+//     bankBranchCode: '8210',
+//     bankAddress: 'Chandani Chowk',
+//     sa_id: 1,
+//     Banks_List_id: 23
+// })
+//     .then(a => console.info(a))

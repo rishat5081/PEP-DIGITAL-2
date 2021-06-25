@@ -91,10 +91,6 @@ Login_Page.init(
             allowNull: false,
             primaryKey: false,
             autoIncrement: false,
-            validate: {
-                max: 11,
-                isNumeric: true
-            },
             references: {
                 model: 'super_admin',
                 key: 'sa_id'

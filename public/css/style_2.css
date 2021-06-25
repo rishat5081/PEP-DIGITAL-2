@@ -1026,7 +1026,6 @@ ul.ui-autocomplete.ui-menu li {
 
 .itemlist {
   background: #3a8ffe;
-  /* background-color: rgb(219, 218, 218); */
   height: auto;
   width: 150vw;
   max-width: 100%;
@@ -1053,8 +1052,13 @@ ul.ui-autocomplete.ui-menu li {
 
 .cardcss {
   width: 84%;
-  margin-top: 53%;
+  margin-top: 10%;
   border-color: #3a8ffe;
+}
+
+.cardcss h3 {
+  color: #9658fe;
+  font-size: larger;
 }
 
 .hr {
@@ -1201,7 +1205,6 @@ ul.ui-autocomplete.ui-menu li {
 
 .companybank {
   border: 1px solid #3a8ffe;
-  /* background-color: #D0E7F5; */
   width: 63%;
   height: auto;
   margin-left: 14%;
@@ -1215,10 +1218,8 @@ ul.ui-autocomplete.ui-menu li {
 }
 
 .companybankdetails {
-  width: 89%;
   height: auto;
-  padding: 4vw;
-  padding-left: 6vw;
+  padding: 2vw;
 }
 
 .userbank {
@@ -1235,7 +1236,6 @@ ul.ui-autocomplete.ui-menu li {
   letter-spacing: 1px;
   background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
   color: black;
-  width: 29.5vw;
   height: auto;
   padding: 8px;
   font-size: 16px;
@@ -1247,24 +1247,6 @@ ul.ui-autocomplete.ui-menu li {
   margin-top: 1vw;
   width: 100%;
   height: auto;
-}
-
-.custom-btn {
-  border-radius: 6px;
-  text-align: center;
-  padding: 1px;
-  width: 20vw;
-  height: 2.5vw;
-  max-width: 100%;
-  border: none;
-  outline: none;
-  color: #fff;
-  font-size: 14px;
-  text-transform: uppercase;
-  cursor: pointer;
-  margin-top: -18px;
-  margin-left: 37%;
-  background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
 }
 
 .slider {
@@ -1281,4 +1263,84 @@ ul.ui-autocomplete.ui-menu li {
   width: 220px !important;
   height: 100px !important;
   object-fit: cover !important;
+}
+
+/* -------------------------------------------- Withdraw Page ----------------------------------------------- */
+
+.withdraw {
+  background: linear-gradient(-135deg, #c850c0, #4158d0);
+  margin-left: 2vw;
+  margin-bottom: 1vw;
+  height: auto;
+  width: 95%;
+  max-width: 100%;
+}
+
+.withdraw_with {
+  padding: 1vw;
+  height: auto;
+  width: 95%;
+  max-width: 100%;
+  margin-left: 2vw;
+  margin-bottom: 2vw;
+  margin-top: 2vw;
+  border: 2px solid #3a8ffe;
+}
+
+.toast {
+  margin-top: 0%;
+  background-color: blanchedalmond;
+  height: 20%;
+}
+
+.cardcontainer {
+  margin-top: 14%;
+  padding: 10px 10px;
+}
+
+.cardsize {
+  height: auto;
+  max-width: 100%;
+}
+
+.activitydata {
+  width: 95%;
+  height: auto;
+  max-width: 100%;
+  margin-left: 2vw;
+  margin-bottom: 2vw;
+}
+
+.act_title {
+  width: 100%;
+  height: auto;
+  background: #3a8ffe;
+  margin-bottom: 0.5vw;
+  border: 1px solid rgba(86, 61, 124, .15);
+}
+
+.activity_record {
+  background-color: whitesmoke;
+  border: 1px solid rgba(86, 61, 124, .15);
+  margin-bottom: 0.3vw;
+}
+
+.Appimg {
+  height: 2vw !important;
+  width: 2vw !important;
+  float: left;
+  border-radius: 0px !important;
+}
+
+.activitydata button {
+  border: none;
+  text-decoration: underline;
+  background-color: whitesmoke;
+}
+
+.withdraw_with button {
+  color: white !important;
+  font-weight: 600;
+  font-size: medium;
+  line-height: 36px;
 }

@@ -250,6 +250,8 @@
             <script src="/toastr/toastr.min.js"></script>
 
             <script>
+
+                console.log(JSON.parse('<%-JSON.stringify(countOfTargetsActivities)%>'));
                 var notificationCount = JSON.parse('<%-JSON.stringify(unreadNotificationCount)%>')
                 if (notificationCount) {
                     $('.button__badge').css('display', 'block')

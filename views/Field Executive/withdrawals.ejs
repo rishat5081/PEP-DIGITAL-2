@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Withdrawal</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!--===============================================================================================-->
+        <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="/fonts-1/font-awesome-4.7.0/css/font-awesome.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="/css/main.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="/css/style_2.css" />
+        <link rel="stylesheet" type="text/css" href="/toastr/toastr.min.css" />
+        <!--===============================================================================================-->
+    </head>
+
+    <body>
+        <div class="limiter">
+            <div class="container-profile100">
+                <div class="header">
+                    <div class="cover-image100">
+                        <img src="/logo/logo.png" class="pep-logo" alt="" />
+                        <a href="#">
+                            <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+                        </a>
+                        <a href="/user/notification">
+                            <span class="fa fa-bell menu-button">
+                                <span class="button__badge" style="display: none;"></span>
+                            </span>
+                        </a>
+                        <nav id="menu">
+                            <ul>
+                                <li>
+                                    <a href="/user/signout">
+                                        <span class="fa fa-sign-out"> </span> Log Out</a>
+                                </li>
+                            </ul>
+                            <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+                        </nav>
+                    </div>
+
+
+                    <div class="withdraw " id="withdraw ">
+
+                        <div class="row cardcontainer">
+                            <div class="col-sm  ml-4 mr-1 p-2">
+                                <div class="card cardsize">
+                                    <div class="card-body ">
+                                        <h5 class="card-title ">Total Income</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted " id="totalIncome">
+
+                                        </h6>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm  ml-4 mr-1 p-2">
+                                <div class="card cardsize">
+                                    <div class="card-body ">
+                                        <h5 class="card-title ">Total Commission</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted " id="totalCommission">
+
+                                        </h6>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-sm  ml-4 mr-1 p-2">
+                                <div class="card cardsize">
+                                    <div class="card-body ">
+                                        <h5 class="card-title ">Available Amount</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted font-weight-bold" id="availableAmount">
+
+                                        </h6>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm ml-2 mr-1  p-2 ">
+                                <div class="card cardsize">
+                                    <div class="card-body ">
+                                        <h5 class="card-title ">Total Activties</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted " id="totalActivties">
+
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm ml-2 mr-4 p-2">
+                                <div class="card cardsize">
+                                    <div class="card-body ">
+                                        <h5 class="card-title ">Total Withdrawed </h5>
+                                        <h6 class="card-subtitle mb-2 text-muted" id="totalWithdraws">
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="withdraw_with">
+                        <h5>Withdraw Amount with</h5>
+                        <div class="row p-3 mt-4 ml-5">
+                            <div class="col-4 ">
+                                <button disabled class="custom-btn" value="Easypaisa" id="Easypaisa"
+                                    onclick="Withdraw_confirm(this.value)">
+                                    Easypaisa
+                                    <img class="Appimg p-1" src="/img/easypaisa.png">
+
+                                </button>
+
+                            </div>
+                            <div class=" col-4 ">
+                                <button disabled class="custom-btn" value="JazzCash" id="JazzCash"
+                                    onclick="Withdraw_confirm(this.value) ">
+                                    JazzCash
+                                    <img class="Appimg" src="/img/jazzcash.png">
+                                </button>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="activitydata ">
+
+                        <div class="act_title ">
+                            <div class="d-flex flex-row ">
+                                <div class="p-2 w-50 font-weight-bold ">Activity Name</div>
+                                <div class="p-2 w-25 font-weight-bold ">Bank Sale</div>
+                                <!-- <div class="p-2 w-25 font-weight-bold ">Commission</div> -->
+                                <div class="p-2 w-25 font-weight-bold ">Status</div>
+                                <div class="p-2 w-50 font-weight-bold text-center ">Clearance Date</div>
+                                <div class="p-2 w-25 font-weight-bold text-center">View</div>
+                            </div>
+                        </div>
+
+
+                        <%PendingClearanceObject.map(obejct=>{%>
+                            <div class="d-flex flex-row activity_record ">
+                                <div class="p-2 w-50 ">
+                                    <%=obejct.Activity.Agency_Info.agency_name %>
+                                </div>
+                                <!-- --------------------------------------------------------------------------------------------------------------- -->
+
+                                <% if(obejct.bank_sale){ %>
+                                    <div class="p-2 w-25 text-success font-weight-bold">
+                                        Yes
+                                    </div>
+                                    <% }else{ %>
+                                        <div class="p-2 w-25 text-danger">
+                                            No
+                                        </div>
+                                        <% } %>
+                                            <!-- --------------------------------------------------------------------------------------------------------------- -->
+                                            <!-- <div class="p-2 w-25 ">Clear</div> -->
+                                            <!-- --------------------------------------------------------------------------------------------------------------- -->
+
+                                            <% if(obejct.accountant_approve){ %>
+
+                                                <% if(obejct.withdrawed){ %>
+                                                    <div class="p-2 w-25 text-success font-weight-bold">
+                                                        Withdrawed
+                                                    </div>
+                                                    <% }else{%>
+                                                        <div class="p-2 w-25 text-success font-weight-bold">
+                                                            Approved
+                                                        </div>
+                                                        <% }%>
+
+                                                            <% }else if(obejct.account_decline){ %>
+                                                                <div class="p-2 w-25 text-danger">
+                                                                    Declined
+                                                                </div>
+                                                                <% }else{ %>
+                                                                    <div class="p-2 w-25 text-secondary">
+                                                                        Pending
+                                                                    </div>
+                                                                    <% } %>
+                                                                        <!-- --------------------------------------------------------------------------------------------------------------- -->
+
+                                                                        <div class="p-2 w-50 text-center ">
+                                                                            <%=obejct.clearanceDateTime %>
+                                                                        </div>
+                                                                        <!-- --------------------------------------------------------------------------------------------------------------- -->
+
+                                                                        <div class="p-2 w-25 text-center ">
+
+                                                                            <a
+                                                                                href="<%=url%>/user/ <%=obejct.Activity.list_act_uuid %>">View</a>
+                                                                        </div>
+
+                            </div>
+
+                            <%})%>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--===============================================================================================-->
+        <script src="/vendor/jquery/jquery-3.2.1.min.js "></script>
+        <!--===============================================================================================-->
+        <script src="/vendor/bootstrap/js/bootstrap.min.js "></script>
+        <!--===============================================================================================-->
+        <script src="/vendor/jquery/tilt.jquery.min.js "></script>
+        <script src="/toastr/toastr.min.js "></script>
+        <script>
+            function Withdraw_confirm(abc) {
+                confirm("Are you sure you want to withdraw with " + abc);
+                // document.getElementById("para").innerHTML = "Are you sure, you want to withdraw amount using " + abc;
+                // document.getElementById("confirm").style.display = "block";
+            }
+
+
+            var pendingClearanceObject = JSON.parse('<%-JSON.stringify(PendingClearanceObject)%>')
+            var idOfActivity = pendingClearanceObject.map(data => {
+                if (data.accountant_approve)
+                    return data.Activity.list_act_id;
+                else
+                    return null
+            })
+
+            console.log(JSON.parse('<%-JSON.stringify(sumOf_Activities)%>'));
+
+            var activitiesSum = JSON.parse('<%-JSON.stringify(sumOf_Activities)%>')
+
+            var commission = 0.0;
+            var totalIncome = 0.0;
+            var availableAmount = 0;
+            activitiesSum.map(data => {
+                commission += data.Commission
+                totalIncome += parseInt(data.SumofValues)
+                idOfActivity.map(activity => {
+
+                    if (data.list_act_id === activity)
+                        availableAmount += parseInt(data.SumofValues) + data.Commission
+                })
+
+            })
+
+
+            var totalWithdraws = 0;
+            totalWithdraws = pendingClearanceObject.filter(data => data.withdrawed === true)
+            console.log(totalWithdraws)
+
+            $('#totalIncome').html(totalIncome + " PKR")
+            $('#totalActivties').html(pendingClearanceObject.length)
+            $('#totalWithdraws').html(totalWithdraws.length)
+            $('#totalCommission').html(commission.toFixed(0) + " PKR")
+            if (availableAmount > 0) {
+                $('#availableAmount').html(availableAmount.toFixed(0) + " PKR")
+                $('#Easypaisa').prop('disabled', false)
+                $('#JazzCash').prop('disabled', false)
+
+            }
+
+            // availableAmount
+        </script>
+
+
+    </body>
+
+
+</html>

@@ -8,6 +8,8 @@ const { multerFile_Upload_Function } = require("../../Configuration Files/Multer
     List_of_Packages,
     User_Login_Information,
     ExecutiveNotifications,
+    Executive_Pending_Earning,
+    Pendance_Clearance_Details,
   } = require("../../Configuration Files/Sequelize/Database_Synchronization"),
   fs = require('fs'),
   { Op, QueryTypes } = require("sequelize");
@@ -74,6 +76,7 @@ module.exports = (app) => {
       }
     });
   });
+
 
   /**
    * Update information
@@ -419,9 +422,8 @@ module.exports = (app) => {
      * subactivities and to ensure that the user have start an activities and against 
      * the same the user make sub activities
      */
-
     const ActivityID = await Activities.findOne({
-      attributes: ['list_act_id'],
+      attributes: ['list_act_id', 'list_act_uuid'],
       where: {
         list_act_uuid: req.session.activityDetails.activity
       }
@@ -439,11 +441,9 @@ module.exports = (app) => {
      */
 
     const listOfPackage = await List_of_Packages.findAll({
-      attributes: ['list_id'],
+      attributes: ['list_id', 'isBank'],
       where: {
-        list_uuid: {
-          [Op.or]: userSelectedActivities
-        }
+        list_uuid: userSelectedActivities
       }
     })
       .then(listofPackages => {
@@ -461,7 +461,7 @@ module.exports = (app) => {
       })
         .then(response => {
           if (response) {
-            console.log(`\x1b[42m--------------------------------------\x1b[0m` + response);
+            return response;
           }
         })
         .catch(error => {
@@ -470,14 +470,82 @@ module.exports = (app) => {
         })
     })
 
+    const pendingDays = await Pendance_Clearance_Details.findOne({
+      attributes: ['pending_days'],
+      where: {
+        paused: false,
+        deleted: false
+      }
+    })
+
+    /**
+     * looking for the package that 
+     * it contains the bank sale or not...
+     */
+    let isBankSale = false;
+    isBankSale = listOfPackage.find(bank => bank.dataValues.isBank === true)
+
+    /**
+     * Adding the details of the activity to the pending clearance table
+     */
+    await Executive_Pending_Earning.create({
+      clearanceDateTime: new Date(Date.now() + 1000 * 60 * 60 * 24 * pendingDays.dataValues.pending_days),
+      field_id: req.session.profileData.field_id,
+      list_act_id: ActivityID.dataValues.list_act_id,
+      bank_sale: isBankSale === undefined ? false : true
+    })
+      .catch(error => {
+        console.log(`\x1b[41m------- Error in Creating Pending Earning ---------\x1b[0m` + error);
+      })
 
 
 
+    res.status(200).send({
+      'response': 'Created All',
+      "list_act_uuid": ActivityID.dataValues.list_act_uuid
+    })
 
-    res.status(200).send({ 'response': 'Created All' })
-
+    isBankSale = null
   });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  app.route('/cancelActivity').post(async (req, res) => {
+    const activityStatus = await Activities.update({
+      cancelled: true
+    }, {
+      where: {
+        list_act_uuid: req.session.activityDetails.activity,
+        field_id: req.session.profileData.field_id
+      }
+    })
+    if (activityStatus) {
+      res.status(200).send({
+        'response': 'Cancelled Activity',
+        uuid: req.session.profileData.field_uuid
+      })
+    }
+    else {
+      res.status(404).send({ 'error': 'Try Again' })
+    }
+
+  })
 
   /***
    * get Agency Detail of already registered Agencies
@@ -685,6 +753,83 @@ module.exports = (app) => {
     if (Notifications)
       res.send({ status: 'Updated' })
   })
+
+
+
+
+
+
+  app.route('/BankDeposit').post(async (req, res) => {
+    /**
+     * Checking for the req.body is null or not 
+     */
+    if (Object.keys(req.body).length > 0) {
+      await Executive_Pending_Earning.findOne({
+        where: {
+          list_act_id: req.body.activityID,
+          paused: 0,
+          deleted: 0,
+          withdrawed: 0,
+          bank_sale: 1,
+          field_id: 4 //req.session.profileData.field_id
+        }
+      })
+        .then(pendingEarning => {
+          if (pendingEarning) {
+            console.log();
+            if (pendingEarning.dataValues.bank_deposited) {
+              res.status(406).send({ error: 'This Activity is already Deposited' })
+              return;
+            }
+            else {
+              pendingEarning.update({
+                bankName: req.body.bankName,
+                depositedAmount: req.body.depositedAmount,
+                totalAmount: req.body.totalAmount,
+                bank_deposited: 1,
+                bank_deposited_referenceNumber: req.body.transactionid,
+                bank_datetime: req.body.tranaction_date,
+              }).then(updateStatus => {
+                if (updateStatus) {
+                  res.status(200).send({ status: 'Updated Successfully' })
+                  return;
+                }
+                else {
+                  res.status(503).send({ error: 'There is an Issue in Updating. Please Try Again.' })
+                  return;
+                }
+              })
+            }
+          }
+          else {
+            res.status(503).send({ error: 'There is an Issue in Getting Information. Please Try Again.' })
+            return;
+          }
+        })
+        .catch(error => {
+          console.error(error);
+          res.status(503).send({ error: 'There is an Issue in Submitting. Please Try Again.' })
+
+        })
+
+
+
+
+
+    }
+  })
+
+
+
+
+
+
+
+
+
+
+
+
 
 };
 

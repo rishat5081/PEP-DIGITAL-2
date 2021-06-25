@@ -46,6 +46,7 @@ const Op = Sequelize.Op,
     SuperVisorLogin,
     TeamLead_Login,
     Compaigns,
+    Pendance_Clearance_Details,
   } = require("./Configuration Files/Sequelize/Database_Synchronization");
 //setting the .env file to read the server port and database ports
 require("dotenv").config();
@@ -96,6 +97,8 @@ app.use(
 );
 
 
+
+// console.log(new Date(Date.now() + 1000 * 60 * 60 * 24 * 7));
 //setInterval(() => console.log("sa"), 1000 * 60 * 24 * 7)
 
 app.use(bodyparser.json());
@@ -196,6 +199,7 @@ require("./Configuration Files/Sequelize/DBConnection").connectionTo_DB();
  * field executive, team lead, supervisor, CSR
  * and then according to each role the page will be render
  */
+
 
 app.post(
   "/LoginForm",
@@ -377,8 +381,8 @@ app.post("/LoginForm", async (req, res) => {
     })
     .catch((error) => {
       res.status(200).render("Web Appendage Pages/error", {
-        errorStatus: "Internal Error",
-        errorHeading: `Sorry!Your Profile is not available`,
+        errorStatus: "Sorry ! Your Profile is suspended. ",
+        errorHeading: `Please Contact the Customer Support.`,
       });
     });
 });

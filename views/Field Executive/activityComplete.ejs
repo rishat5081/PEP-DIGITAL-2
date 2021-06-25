@@ -56,15 +56,15 @@
                         <h1>Congragulations!</h1>
                     </div>
                     <div class="row mt-5 m-0">
-                        <div class="col  uppersection ">
+                        <div class="col  mb-5 uppersection ">
 
                             <div class="row setupprow">
                                 <div class="col-9 float-left">
 
-                                    <h4 id="order number"> Activity UUID# <%=Activity_Info.list_act_uuid %>
+                                    <h4 id="order number"> Activity ID# <%=Activity_Info.list_act_uuid %>
                                     </h4>
                                     <h6 class="mt-3">Agency Name :<b>
-                                            <%=agencyInfo.agency_name%>
+                                            <%=agencyInfo.Agency_Info.agency_name%>
                                         </b>
                                     </h6>
                                     <h6 class="mt-3">Date :<b>
@@ -164,6 +164,16 @@
                             <div class="row setrows mt-3">
                                 <div class="col-8"></div>
 
+                                <div class="col-2 "><b>Bank Deposit</b></div>
+                                <div class="col-2 ">
+                                    <b id="bankdepositAmount">
+
+                                    </b>
+                                </div>
+                            </div>
+                            <div class="row setrows mt-3">
+                                <div class="col-8"></div>
+
                                 <div class="col-2 "><b>Total</b></div>
                                 <div class="col-2 ">
                                     <b id="totalamount_earned">
@@ -173,17 +183,22 @@
                             </div>
 
                         </div>
-                        <div class="col float-right   ">
+                        <div class="col float-right  cardcss ">
                             <div class="card cardcss">
-
                                 <div class="card-body">
-
                                     <p class="card-text"> Need to contact customer support service??</p>
                                     <a href="#" class="btn custom-btn">Contact</a>
                                 </div>
                             </div>
+                            <div class="card cardcss" id="bankDepositSection" style="display: none;">
+                                <div class="card-body">
+                                    <h3 class="card-text"> Bank Deposit</h3>
+                                    <button id="bankDepositBTN" class="btn custom-btn">Click Here</button>
+                                </div>
+                            </div>
 
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -214,10 +229,30 @@
             var sumOfActivities = JSON.parse('<%-JSON.stringify(sumOf_Activities)%>');
             $('#amount_earned').html(parseInt(sumOfActivities.SumofValues) + Math.ceil(sumOfActivities.Commission) + " PKR");
             $('#totalamount_earned').html(parseInt(sumOfActivities.SumofValues) + Math.ceil(sumOfActivities.Commission) + " PKR");
-            if (sumOfActivities.Commission)
+            if (sumOfActivities.Commission) {
                 $('#commissionEarned').html(sumOfActivities.Commission.toFixed(2) + " PKR")
-            else
+                $('#bankDepositSection').css('display', 'block')
+                var activities = JSON.parse('<%-JSON.stringify(subActivities)%>');
+                var BankAmount = 0;
+                activities.map(info => {
+                    if (info.List_of_Package.isBank) {
+                        BankAmount += info.List_of_Package.bankAmount
+                    }
+
+                })
+
+                $('#bankdepositAmount').css('color', 'red')
+                $('#bankdepositAmount').html(BankAmount.toFixed(0) + ' PKR')
+            }
+            else {
                 $('#commissionEarned').html("     --")
+                $('#bankdepositAmount').html('   --')
+            }
+
+            $('#bankDepositBTN').click(e => {
+                var activity_Info = JSON.parse('<%-JSON.stringify(Activity_Info)%>');
+                window.open(`${window.location.origin}/user/bankDeposit/${activity_Info.list_act_uuid}`, '_blank')
+            })
         </script>
         <script>
             $(function () {

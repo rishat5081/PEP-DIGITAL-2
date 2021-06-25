@@ -1,7 +1,7 @@
 "use strict";
 const { DataTypes, Model, UUIDV4 } = require("sequelize"),
   sequelize = require("../../Sequelize"),
-  List_Activities = require("../Lists of Packages/Activities"),
+  Activities = require("../Lists of Packages/Activities"),
   Field_Executive = require("../Stakeholders/Field_Executive");
 
 class Executive_Pending_Earning extends Model { }
@@ -13,10 +13,7 @@ Executive_Pending_Earning.init(
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
-      validate: {
-        max: 11,
-        isNumeric: true,
-      },
+
     },
     field_exe_earn_uuid: {
       type: DataTypes.UUID,
@@ -29,10 +26,30 @@ Executive_Pending_Earning.init(
       allowNull: true,
       defaultValue: false,
     },
+    deleted: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false,
+    },
     withdrawed: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
       defaultValue: false,
+    },
+    bankName: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      defaultValue: null,
+    },
+    depositedAmount: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      defaultValue: null,
+    },
+    totalAmount: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      defaultValue: null,
     },
     bank_sale: {
       type: DataTypes.BOOLEAN,
@@ -45,7 +62,7 @@ Executive_Pending_Earning.init(
       defaultValue: false,
     },
     bank_deposited_referenceNumber: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     bank_datetime: {
@@ -74,6 +91,10 @@ Executive_Pending_Earning.init(
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    clearanceDateTime: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
     field_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -83,10 +104,7 @@ Executive_Pending_Earning.init(
         model: "field_executive",
         key: "field_id",
       },
-      validate: {
-        max: 11,
-        isNumeric: true,
-      },
+
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
     },
@@ -99,10 +117,7 @@ Executive_Pending_Earning.init(
         model: "activities",
         key: "list_act_id",
       },
-      validate: {
-        max: 11,
-        isNumeric: true,
-      },
+
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
     },
@@ -130,11 +145,11 @@ Executive_Pending_Earning.belongsTo(Field_Executive, {
 /**
  * one Field_Executive can have many earning
  */
-List_Activities.hasMany(Executive_Pending_Earning, {
+Activities.hasMany(Executive_Pending_Earning, {
   foreignKey: "list_act_id",
 });
 
-Executive_Pending_Earning.belongsTo(List_Activities, {
+Executive_Pending_Earning.belongsTo(Activities, {
   targetKey: "list_act_id",
   foreignKey: "list_act_id",
 });
@@ -143,3 +158,9 @@ Executive_Pending_Earning.belongsTo(List_Activities, {
  */
 //console.log(Executive_Pending_Earning === sequelize.models.Executive_Pending_Earning)
 module.exports = Executive_Pending_Earning;
+// Executive_Pending_Earning.sync({ force: true })
+//   .then(response => {
+//     if (response) {
+//       console.log(`\x1b[42m--------------------------------------\x1b[0m` + response);
+//     }
+//   })

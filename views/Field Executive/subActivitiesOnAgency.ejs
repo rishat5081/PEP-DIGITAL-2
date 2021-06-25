@@ -94,11 +94,21 @@
                     <!-- </div> -->
               </div>
             </div>
-            <div class="text-center m-5">
-              <button class="btn btn-success subAct-but" id="subActivitybutton">
-                End Activity
-              </button>
-            </div>
+            <% if(subActivities ){ %>
+              <div class="text-center m-5">
+                <button class="btn btn-danger subAct-but" id="cancelActivity">
+                  Cancel Activity
+                </button>
+                <button class="btn btn-success subAct-but" id="subActivitybutton">
+                  End Activity
+                </button>
+
+              </div>
+              <% }else{%>
+                <div class="text-center m-5">
+                  <h3>There is no Activity</h3>
+                </div>
+                <% } %>
           </div>
         </div>
       </div>
@@ -135,12 +145,47 @@
           ids.push(act1);
         }
       }
+
+      /**
+       * End the Acitivity btn
+      */
       $("#subActivitybutton").click((e) => {
+        e.preventDefault();
+        if (ids.length > 0) {
+          $.ajax({
+            type: "post",
+            url: `${window.location.origin}/completeListActivites`,
+            data: { id: JSON.stringify(ids) },
+            dataType: "json",
+            error: (error) => {
+              if (error.responseJSON) {
+                toastr.error(error.responseJSON.error)
+              }
+            },
+            success: (response) => {
+              console.log(response);
+              if (response) {
+                toastr.success(response.response)
+                console.log(response.list_act_uuid);
+                window.location.href = `${window.location.origin}/user/completedActivity/${response.list_act_uuid}`
+              }
+            },
+          })
+        }
+        else {
+          toastr.error('Please perform an activity')
+        }
+      });
+
+      /**
+       * Cancel btn
+      */
+      $("#cancelActivity").click((e) => {
         e.preventDefault();
         $.ajax({
           type: "post",
-          url: `${window.location.origin}/completeListActivites`,
-          data: { id: JSON.stringify(ids) },
+          url: `${window.location.origin}/cancelActivity`,
+          data: null,
           dataType: "json",
           error: (error) => {
             if (error.responseJSON) {
@@ -151,6 +196,7 @@
             console.log(response);
             if (response) {
               toastr.success(response.response)
+              window.location.href = `${window.location.origin}/user/dashboard/${response.uuid}`
             }
           },
         })
