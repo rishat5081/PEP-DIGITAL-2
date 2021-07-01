@@ -48,23 +48,20 @@ module.exports = { sendEmail_to_ConfirmEmail }
 
 
 // "use strict";
-// const nodemailer = require("nodemailer");
+// const nodemailers = require("nodemailer");
 
 // // async..await is not allowed in global scope, must use a wrapper
 // async function main() {
-//     // Generate test SMTP service account from ethereal.email
-//     // Only needed if you don't have a real mail account for testing
-//     let testAccount = await nodemailer.createTestAccount();
-
 //     // create reusable transporter object using the default SMTP transport
-//     let transporter = nodemailer.createTransport({
-//         host: "in-v3.mailjet.com",
+//     let transporter = nodemailers.createTransport({
+//         host: "smtp.gmail.com",
 //         port: 465,
-//         secure: true, // true for 465, false for other ports
+//         secure: true,
 //         auth: {
-//             user: "ab14c556fe2a0f8976530c70270e2334", // generated ethereal user
-//             pass: "9e26304161c50a192a5929726b7862fe", // generated ethereal password
+//             user: "voip.itz.solutions@gmail.com", // generated ethereal user
+//             pass: "icnnrefdmiovthis", // generated ethereal password
 //         },
+
 //     });
 
 //     // send mail with defined transport object

@@ -126,6 +126,15 @@ app.use(function (req, res, next) {
   next();
 });
 
+
+
+
+
+// app.enable('trust proxy')
+// app.use((req, res, next) => {
+//   req.secure ? next() : res.redirect('http://' + req.headers.host + req.url)
+// })
+
 /****************************** Setting the routes for the WEB ****************************************/
 //getting routes of the web application like about us, contact pages
 //simple routing at / all the routes in the below file will be used at simple /
@@ -619,3 +628,23 @@ server.listen(process.env.server_PORT, () => {
 
 //   console.log(body);
 // });
+
+// ------------------------------------ Redirecting if route does not found -----------------------------------
+app.get('*', (req, res) => {
+  res.redirect('/');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

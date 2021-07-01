@@ -1035,7 +1035,6 @@ ul.ui-autocomplete.ui-menu li {
 
 .custom-btn {
   text-align: center;
-  padding: 2px;
   width: 66%;
   height: auto;
   max-width: 100%;
@@ -1343,4 +1342,71 @@ ul.ui-autocomplete.ui-menu li {
   font-weight: 600;
   font-size: medium;
   line-height: 36px;
+}
+
+/* -------------------------------- Deposit Slip ------------------------------- */
+
+.deposittitle {
+  background-color: #D0E7F5;
+  max-width: 100%;
+  padding: 1vw;
+  width: 70%;
+  max-width: 100%;
+}
+
+.depositsection {
+  margin-top: 9vw;
+  width: 70%;
+  margin-bottom: 2vw;
+  margin-left: 15%;
+}
+
+.back-button {
+  margin-left: 39%;
+}
+
+/* ----------------------------- progress anaylytics ------------------------------- */
+
+.saleup {
+  margin-top: 6vw;
+}
+
+canvas {
+  margin-bottom: 2vw;
+  color: rgb(211, 83, 250);
+}
+
+/* ---------------------------------------- Dashboard ----------------------------------------------- */
+
+.carouselimg img {
+  height: 34vw;
+  border-radius: 0% !important;
+}
+
+.dashboardarea {
+  margin-top: 9vw;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: 01%;
+  padding: 15px;
+  margin-bottom: 5vw;
+}
+
+.profilearea {
+  height: 42vw;
+  width: 100%;
+  text-align: center;
+}
+
+.profile_uppersection {
+  padding: 2vw;
+}
+
+.profile_belowsection {
+  height: 40%;
+}
+
+.profile_uppersection, .profile_belowsection {
+  border: 2px solid #23aed1;
 }

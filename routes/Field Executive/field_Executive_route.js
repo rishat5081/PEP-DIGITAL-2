@@ -4,7 +4,6 @@ const {
   List_sub_Activities,
   List_of_Packages,
   Agency_Info,
-  Field_Executive,
   Team_Lead,
   City_Areas,
   User_Login_Information,
@@ -12,7 +11,9 @@ const {
   ExecutiveNotifications,
   Banks_List,
   PEP_Banks_Details,
-  Executive_Pending_Earning
+  Executive_Pending_Earning,
+  Field_Executive,
+  WebAds
 } = require("../../Configuration Files/Sequelize/Database_Synchronization");
 const NotificationText = require("../../Configuration Files/Sequelize/Sequelize Models/Notifications/NotificationText");
 const { sequelize, sum } = require("../../Configuration Files/Sequelize/Sequelize Models/Lists of Packages/Activities"),
@@ -38,28 +39,56 @@ const isUserAuthentic = (req, res, next) => {
   if (req.params.fieldExeUUID === req.session.profileData.field_uuid)
     next()
   else
-    res.redirect('/user/signout')
+    res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`)
 }
+
+
 /**
 * Here in the param it is the field uuiid
 */
+
+
 router.get("/dashboard/:fieldExeUUID", isUser_Login, isUserAuthentic, async (req, res) => {
   // let Notification = await notificationOfExecutive(req.session.profileData.field_id)
   let unreadNotificationCount = await countofNotificationOfExecutive(req.session.profileData.field_id)
+
+  console.log(req.session.passport.user.userInfo);
+  console.log(req.session.passport.user.userRole);
+
+  const webAds = await WebAds.findAll({
+    attributes: ['title', 'description', 'picPath'],
+    where: {
+      paused: 0,
+      deleted: 0,
+      user_role_id: req.session.passport.user.userRole.user_role_id
+    }
+  })
+  const profileData = Object.assign({}, {
+    field_name: req.session.profileData.field_name,
+    field_userProfilePic: req.session.profileData.field_userProfilePic,
+    createdAt: req.session.profileData.createdAt,
+    field_DOB: req.session.profileData.field_DOB,
+  });
+
 
   res.status(200).render("Field Executive/dashboard", {
     info: {
       id: req.session.passport.user.userInfo.login_id,
       uuid: req.session.profileData.field_uuid,
     },
-    // Notification,
+    profileData,
+    webAds,
     unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
-    role: req.session.passport.user.userRole,
     permissions: req.session.permissions.permissionObject,
   });
-  // Notification = null
+
   unreadNotificationCount = null
 });
+
+
+
+
+
 
 /**
  * Determining that the user have to complete the profile
@@ -203,8 +232,13 @@ router.get(
         errorHeading: `The Agency or Activity is not same.`,
       });
     } else {
+
       const subActivities = await List_sub_Activities.findAll({
         attributes: ["list_id"],
+        where: {
+          list_deleted: 0,
+          list_paused: 0
+        },
         include: {
           attributes: [
             "list_act_id",
@@ -219,6 +253,8 @@ router.get(
           // required: false,
           where: {
             agency_id: req.session.activityDetails.agencyID,
+            paused: 0,
+            deleted: 0
           },
         },
         raw: true,
@@ -234,6 +270,8 @@ router.get(
               list_name: {
                 [Op.notLike]: "%New Agency%",
               },
+              list_deleted: 0,
+              list_paused: 0
             },
           })
         )
@@ -252,29 +290,37 @@ router.get(
           id: req.session.passport.user.userInfo.login_id,
           uuid: req.session.profileData.field_uuid,
         },
-
-        // Notification,
         unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
         permissions: req.session.permissions.permissionObject,
       });
-      // Notification = null
       unreadNotificationCount = null
     }
   }
 );
 
 
-
-
+/**
+ * view agency will display all the time which are added into  the DB 
+ */
 
 router.get("/viewAgencies/:fieldExeUUID", isUser_Login, isUserAuthentic, async (req, res) => {
 
   const AgencyData = await Agency_Info.findAll({
-    attributes: ['agency_name', 'agency_address']
+    attributes: ['agency_name', 'agency_address'],
+    where: {
+      deleted: 0,
+      isPaused: 0
+    }
   })
+  /**
+   * 
+   * getting the compaigns from the DB
+   */
   let CompaignsList = await Compaigns.findAll({
     attributes: ["comp_id", "comp_name"],
     where: {
+      comp_deleted: 0,
+      comp_paused: 0,
       /**
        * Here we are looking if the user role is NOT field 
        * executive and he is an employee of the company than bring the Compaign name and
@@ -298,7 +344,9 @@ router.get("/viewAgencies/:fieldExeUUID", isUser_Login, isUserAuthentic, async (
       if (error) console.log("Error getting Compaigns" + error);
       return null;
     });
-  // let Notification = await notificationOfExecutive(req.session.profileData.field_id)
+
+
+
   let unreadNotificationCount = await countofNotificationOfExecutive(req.session.profileData.field_id)
 
 
@@ -306,51 +354,73 @@ router.get("/viewAgencies/:fieldExeUUID", isUser_Login, isUserAuthentic, async (
     AgencyData,
     pakistanCityName,
     CompaignsList,
-    // Notification,
     unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
     info: {
-
       id: req.session.passport.user.userInfo.login_id,
       uuid: req.session.profileData.field_uuid,
     },
     permissions: req.session.permissions.permissionObject,
   });
-  // Notification = null
   unreadNotificationCount = null
 });
 
 
-
+/**
+ * getting the profile info from the DB
+ */
 
 router.get('/Profile/:fieldExeUUID',
   isUser_Login,
   isUserAuthentic,
   async (req, res) => {
 
+    /**
+     * getiing the user details for the profile 
+     */
 
     const field = await Field_Executive.findOne({
       attributes: {
         exclude: ['field_isDeleted', 'field_isPaused', 'login_id', 'createdAt', 'updateTimestamp', 'team_L_id']
       },
+      /**
+       * getting the inner join with team lead
+       */
       include: {
         model: Team_Lead,
         attributes: ['team_L_name'],
         required: false,
+        where: {
+          team_L_isDeleted: 0,
+          team_L_isPaused: 0
+        },
+        /**
+    * getting the inner join with team lead -> City_Areas
+    */
         include: {
           model: City_Areas,
           attributes: ['city_name'],
-          required: false
+          required: false,
+          where: {
+            paused: 0,
+            deleted: 0
+          }
         }
-
       },
       where: {
-        field_uuid: req.session.profileData.field_uuid
+        field_uuid: req.session.profileData.field_uuid,
+        field_isPaused: 0,
+        field_isDeleted: 0
       }
     })
+
+
     const LoginEmail = await User_Login_Information.findOne({
       attributes: ['login_email'],
       where: {
-        login_id: req.session.passport.user.userInfo.login_id
+        login_id: req.session.passport.user.userInfo.login_id,
+        paused: 0,
+        deleted: 0
+
       }
     })
 
@@ -361,16 +431,19 @@ router.get('/Profile/:fieldExeUUID',
     const countOfTargetsActivities = await Activities.findAll({
       attributes: [[sequelize.fn('COUNT', sequelize.col('list_act_id')), 'activityTarget'],
       ],
-
       where: {
-        field_id: 4,
+        field_id: req.session.profileData.field_id,
         [Op.and]: sequelize.literal(`month(createdAt) = '${new Date(Date.now()).getMonth()}'`),
+        paused: 0,
+        deleted: 0,
+        cancelled: 0
       }
     })
 
     const field_executive_info = { ...field.dataValues }
     var teamLead_Info = {},
       City_Area_Info = {}
+
     if (field.dataValues.Team_Lead) {
       teamLead_Info = { ...field.dataValues.Team_Lead.dataValues };
       City_Area_Info = { ...field.dataValues.Team_Lead.dataValues.City_Area.dataValues };
@@ -382,7 +455,6 @@ router.get('/Profile/:fieldExeUUID',
       City_Area_Info,
       LoginEmail,
       countOfTargetsActivities,
-      // Notification,
       unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
       info: {
         id: req.session.passport.user.userInfo.login_id,
@@ -391,11 +463,9 @@ router.get('/Profile/:fieldExeUUID',
       role: req.session.passport.user.userRole,
       permissions: req.session.permissions.permissionObject,
     })
-    // Notification = null
     unreadNotificationCount = null
     teamLead_Info = null
   })
-
 
 
 /**
@@ -436,7 +506,11 @@ router.get('/mysales/:fieldExeUUID', isUser_Login, isUserAuthentic,
       include: {
         attributes: [],
         model: List_of_Packages,
-        required: true
+        required: true,
+        where: {
+          list_deleted: 0,
+          list_paused: 0
+        }
       },
       group: ['`List_sub_Activities`.list_act_id'],
       where: {
@@ -462,7 +536,6 @@ router.get('/mysales/:fieldExeUUID', isUser_Login, isUserAuthentic,
       subActivities,
       url: req.protocol + '://' + req.get('host'),
       unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      // Notification,
       totalActivities: subActivities.length,
       info: {
         id: req.session.passport.user.userInfo.login_id,
@@ -471,33 +544,34 @@ router.get('/mysales/:fieldExeUUID', isUser_Login, isUserAuthentic,
       permissions: req.session.permissions.permissionObject,
     })
     unreadNotificationCount = null
-    // Notification = null
   })
 
-router.get('/earning/:fieldExeUUID', isUser_Login, isUserAuthentic, async (req, res) => {
-  res.send("My Earning")
-})
-router.get('/progressAnalytics/:fieldExeUUID', isUser_Login, isUserAuthentic, async (req, res) => {
-  res.send("My Analytics")
-})
-
-router.get('/withdraws/:fieldExeUUID', isUser_Login, isUserAuthentic, async (req, res) => {
-  res.send("My Withdraws")
-})
 
 
+/**
+ * displaying the completed activity 
+ * in this routine all the details of the package and amount will be displayed
+ */
 
 router.get('/completedActivity/:activityUUID'
   , isUser_Login,
   async (req, res) => {
 
+    /**
+     * gettting all the activities with inner join of Agency and also inner koin with the subactivities 
+     * of the activity and then inner join of the subactivities-> list package 
+     */
     const activitiesResponse = await Activities.findAll({
       attributes: ['list_act_id', 'list_act_uuid', 'createdAt'],
       include: [
         {
           model: Agency_Info,
           attributes: ['agency_name'],
-          required: false
+          required: false,
+          where: {
+            deleted: 0,
+            isPaused: 0
+          }
         },
         {
           model: List_sub_Activities,
@@ -507,11 +581,23 @@ router.get('/completedActivity/:activityUUID'
             model: List_of_Packages,
             attributes: ['list_name', 'list_amount', 'isBank', 'bankAmount', 'commissionAmount'],
             required: true,
+            where: {
+              list_deleted: 0,
+              list_paused: 0
+            }
+          },
+          where: {
+            list_deleted: 0,
+            list_paused: 0
           }
         }
       ],
       where: {
-        list_act_uuid: req.params.activityUUID
+        list_act_uuid: req.params.activityUUID,
+        where: {
+          deleted: 0,
+          paused: 0
+        }
       }
     })
       .then(dbResponse => {
@@ -531,6 +617,12 @@ router.get('/completedActivity/:activityUUID'
         }
       })
 
+
+    /**
+     * if the record is fetched the it will ge the activity detials and extract the actvitiy info 
+     * and make a new array of th esubactivities to get the sum of the packages from the list table
+     */
+
     if (activitiesResponse.length > 0) {
       const agencyInfo = activitiesResponse[0] //!== null ? { ...activitiesResponse[0].Agency_Info.dataValues } : null
       const Activity_Info = Object.assign({}, {
@@ -547,11 +639,19 @@ router.get('/completedActivity/:activityUUID'
         include: {
           attributes: [],
           model: List_of_Packages,
+          where: {
+            list_deleted: 0,
+            list_paused: 0
+          },
           required: true
         },
         group: ['`List_sub_Activities`.list_act_id'],
         where: {
-          list_act_id: activitiesResponse.map(data => data.dataValues.list_act_id)
+          list_act_id: activitiesResponse.map(data => data.dataValues.list_act_id),
+          where: {
+            list_deleted: 0,
+            list_paused: 0
+          }
         }
       })
         .then(dbResponse => {
@@ -565,13 +665,12 @@ router.get('/completedActivity/:activityUUID'
             console.log('Error Fetching Sum of Activities : ' + error);
         })
 
-      // let Notification = await notificationOfExecutive(req.session.profileData.field_id)
+
       let unreadNotificationCount = await countofNotificationOfExecutive(req.session.profileData.field_id)
       res.render("Field Executive/activityComplete", {
         sumOf_Activities: sumOf_Activities[0].dataValues,
         agencyInfo,
         Activity_Info,
-        // Notification,
         subActivities,
         unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
         info: {
@@ -580,7 +679,6 @@ router.get('/completedActivity/:activityUUID'
         },
         permissions: req.session.permissions.permissionObject,
       })
-      // Notification = null
       unreadNotificationCount = null
     }
     else {
@@ -593,25 +691,30 @@ router.get('/completedActivity/:activityUUID'
 
 
 
-
-// router.get('/notification', isUser_Login, async (req, res) => {
-//   res.send("My Notifications")
-// })
-
+/**
+ * displaying the all the notifications 
+ */
 router.get('/notification', isUser_Login, async (req, res) => {
 
-  const unreadNotificationCount = await countofNotificationOfExecutive(4)
+  /**
+   * getting the count of the unread notifications
+   */
+  const unreadNotificationCount = await countofNotificationOfExecutive(req.session.profileData.field_id)
   const unreadNotification = await ExecutiveNotifications.findAll({
     attributes: ['execu_notification_uuid', 'notification_text', 'isRead', 'createdAt'],
-    where: {
-      isPaused: false,
-      deleted: false,
-      field_id: 4
-    },
     include: {
       model: NotificationText,
       attributes: ['notification_title', 'notification_icon'],
-      required: true
+      required: true,
+      where: {
+        isPaused: false,
+        deleted: false,
+      }
+    },
+    where: {
+      isPaused: false,
+      deleted: false,
+      field_id: req.session.profileData.field_id
     },
     limit: 50
   }).then((notifications) => {
@@ -630,36 +733,49 @@ router.get('/notification', isUser_Login, async (req, res) => {
 })
 
 
-router.get('/11', async (req, res) => {
+router.get('/withdraws/:fieldExeUUID', isUser_Login, isUserAuthentic, async (req, res) => {
 
-  console.log(req.protocol + '://' + req.get('host'));
-
-
+  /**
+   * Getting the withdraws and also getting the 
+   * agency details  and activities which are performed on the agency 
+   * to display on the record of the 
+   */
 
   const PendingClearanceObject = await Executive_Pending_Earning.findAll({
-    attributes: ['bank_sale', 'clearanceDateTime', 'accountant_approve', 'account_decline', 'field_exe_earn_uuid', 'withdrawed'],
+    attributes: ['field_exe_earn_uuid', 'bank_sale', 'clearanceDateTime', 'accountant_approve', 'account_decline', 'field_exe_earn_uuid', 'withdrawed'],
     include: {
       model: Activities,
       attributes: ['list_act_id', 'list_act_uuid'],
       required: true,
+      where: {
+        paused: 0,
+        deleted: 0
+      },
       include: [{
         model: Agency_Info,
         attributes: ['agency_name'],
+        where: {
+          isPaused: 0,
+          deleted: 0
+        },
         required: true
       }],
     },
     where: {
-      field_id: 4,
-      // [Op.and]: sequelize.literal(`month(createdAt) = ${6}`),
+      field_id: req.session.profileData.field_id,
+      paused: 0,
+      deleted: 0
     }
   })
     .then(Activities => {
       if (Activities)
         return Activities
-      // console.log(Activities);
     })
 
-  // console.log(PendingClearanceObject.map(data => data.dataValues.Activity.dataValues.list_act_id));
+  /**
+   * Getting the sum of the packages and also displaying for the 
+   * record of the total amount according to the actitvities
+   */
 
   const sumOf_Activities = await List_sub_Activities.findAll({
     attributes: [[sequelize.fn('sum', sequelize.col('`List_of_Package`.list_amount')), 'SumofValues'], 'list_act_id',
@@ -668,7 +784,11 @@ router.get('/11', async (req, res) => {
     include: {
       attributes: [],
       model: List_of_Packages,
-      required: true
+      required: true,
+      where: {
+        list_deleted: 0,
+        list_paused: 0
+      }
     },
     group: ['`List_sub_Activities`.list_act_id'],
     where: {
@@ -695,6 +815,11 @@ router.get('/11', async (req, res) => {
     sumOf_Activities,
     PendingClearanceObject,
     url: req.protocol + '://' + req.get('host'),
+    info: {
+      id: req.session.passport.user.userInfo.login_id,
+      uuid: req.session.profileData.field_uuid,
+    },
+    permissions: req.session.permissions.permissionObject,
   })
 })
 
@@ -730,7 +855,9 @@ router.get('/bankDeposit/:activityUUID', isUser_Login, async (req, res) => {
 
 
 
-
+  /**
+   * getting the activities id and also uuid 
+   */
 
   var activitiesResponse = await Activities.findOne({
     attributes: ['list_act_id', 'list_act_uuid'],
@@ -755,6 +882,9 @@ router.get('/bankDeposit/:activityUUID', isUser_Login, async (req, res) => {
       }
     })
 
+  /**
+   * if the activities are found then go with the Sum of the packages
+   */
   if (Object.keys(activitiesResponse).length > 0) {
 
     const sumOf_Activities = await List_sub_Activities.findOne({
@@ -762,7 +892,11 @@ router.get('/bankDeposit/:activityUUID', isUser_Login, async (req, res) => {
       include: {
         attributes: [],
         model: List_of_Packages,
-        required: true
+        required: true,
+        where: {
+          list_deleted: 0,
+          list_paused: 0
+        }
       },
       group: ['`List_sub_Activities`.list_act_id'],
       where: {
@@ -781,6 +915,9 @@ router.get('/bankDeposit/:activityUUID', isUser_Login, async (req, res) => {
           return null;
         }
       })
+    /**
+     * check if the sum is valid then render the page other wise redirect to dashboard
+     */
 
     if (Object.keys(sumOf_Activities).length > 0) {
       res.render("Field Executive/bankDesposit", {
@@ -809,18 +946,194 @@ router.get('/bankDeposit/:activityUUID', isUser_Login, async (req, res) => {
 
 })
 
+
+/**
+ * In this route it will be displayed that the user have deposit the 
+ * amount into the bank it is just like a deposit slip according to 
+ * PEP digital DB
+ */
+
+
+router.get('/depositslip/:field_exe_earn_uuid', async (req, res) => {
+
+  /**
+   * Getting the bank details and also 
+   * getting the agency name to show the which 
+   * agency you have worked on and also displayed the 
+   * bank deposit slip according to the DB
+   */
+  const bankDetails = await Executive_Pending_Earning.findOne({
+    attributes: ['totalAmount', 'depositedAmount', 'bankName', 'bank_deposited_referenceNumber', 'bank_datetime'],
+    where: {
+      field_exe_earn_uuid: req.params.field_exe_earn_uuid,
+      paused: 0,
+      deleted: 0
+    },
+    include: {
+      model: Activities,
+      required: true,
+      attributes: ['list_act_uuid'],
+      include: {
+        model: Agency_Info,
+        required: true,
+        attributes: ['agency_name']
+      }
+    }
+  })
+    .then(response => {
+      if (response) {
+        return response
+      }
+      else {
+        return null
+      }
+    })
+    .catch(error => {
+      console.error('There is an error fetching bank depoist slip route');
+      console.trace(error)
+      res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`)
+    })
+
+  if (bankDetails) {
+    res.render("Field Executive/bankDepositSlip", {
+      url: req.protocol + '://' + req.get('host'),
+      uuid: req.session.profileData.field_uuid,
+      bankDetails
+    })
+  } else {
+    res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`)
+  }
+
+
+})
+
+
+
+
+
+
+router.get('/progressAnalytics/:fieldExeUUID', isUser_Login, isUserAuthentic,
+  async (req, res) => {
+
+    /**
+     * getting the activities per month from the db
+     */
+    const activitiesPerMonth = await Activities.findAll({
+      attributes: [
+        [sequelize.literal(`MONTHNAME(createdAt)`), 'moonth'],
+        [sequelize.fn('YEAR', sequelize.col('createdAt')), 'Year'],
+        [sequelize.fn('COUNT', sequelize.col('*')), 'activitiesPerMonth'],
+        [sequelize.fn('COUNT', sequelize.col('cancelled')), 'cancelledactivitiesPerMonth'],
+      ],
+      group: ['moonth', 'Year'],
+      where: {
+        field_id: req.session.profileData.field_id,
+        deleted: false,
+        paused: false
+      }
+
+    })
+      .then(dbResponse => {
+        if (dbResponse.length > 0)
+          return dbResponse
+        else
+          return null
+      })
+      .catch(error => {
+        console.error('There is an error which fetching activities per month ' + error);
+      })
+
+
+
+    /**
+     * getting the cancelled activities from the db 
+     */
+
+    const cancelledactivitiesPerMonth = await Activities.findAll({
+      attributes: [
+        [sequelize.literal(`MONTHNAME(createdAt)`), 'moonth'],
+        [sequelize.fn('YEAR', sequelize.col('createdAt')), 'Year'],
+        [sequelize.fn('COUNT', sequelize.col('cancelled')), 'cancelledactivitiesPerMonth'],
+      ],
+      group: ['moonth', 'Year'],
+      where: {
+        field_id: req.session.profileData.field_id,
+        deleted: false,
+        paused: false,
+        cancelled: true
+      }
+
+    })
+      .then(dbResponse => {
+        if (dbResponse.length > 0)
+          return dbResponse
+        else
+          return null
+      })
+      .catch(error => {
+        console.error('There is an error which fetching activities per month ' + error);
+      })
+
+
+    /**
+* getting the agency per month from the db
+*/
+    const agencyCount = await Agency_Info.findAll({
+      attributes: [
+        [sequelize.literal(`MONTHNAME(createdAt)`), 'moonth'],
+        [sequelize.fn('YEAR', sequelize.col('createdAt')), 'Year'],
+        [sequelize.fn('COUNT', sequelize.col('*')), 'agencyCount'],
+      ],
+      group: ['moonth', 'Year'],
+      where: {
+        field_id: req.session.profileData.field_id,
+        deleted: false,
+        isPaused: false,
+      }
+
+    })
+      .then(dbResponse => {
+        if (dbResponse.length > 0)
+          return dbResponse
+        else
+          return null
+      })
+      .catch(error => {
+        console.error('There is an error which fetching activities per month ' + error);
+      })
+
+
+
+
+
+    res.render("Field Executive/progressAnalytics", {
+      url: req.protocol + '://' + req.get('host'),
+      activitiesPerMonth,
+      cancelledactivitiesPerMonth,
+      agencyCount,
+      info: {
+        id: req.session.passport.user.userInfo.login_id,
+        uuid: req.session.profileData.field_uuid,
+      },
+      permissions: req.session.permissions.permissionObject,
+    }
+    )
+  })
+
+
+
+
 router.get("/signout", (req, res) => {
   req.session.destroy();
   res.redirect("/login");
 })
 
+// ------------------------invalid route -----------------------
 
 
-
-router.get('/:a', async (req, res) => {
-  res.send(req.params)
-})
-
+router.get('*', (req, res) => {
+  res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`)
+});
 module.exports = { router }
 
 const notificationOfExecutive = async (field_id) => {
@@ -883,56 +1196,60 @@ const countofNotificationOfExecutive = async (field_id) => {
 
 
 
-async function a() {
+// async function a() {
 
-  const Activities_sss = await Executive_Pending_Earning.findAll({
-    include: {
-      model: Activities,
-      required: true,
-      include: [{
-        model: Agency_Info,
-        required: true
-      }],
-    },
-    where: {
-      field_id: 4,
-      // [Op.and]: sequelize.literal(`month(createdAt) = ${6}`),
-    }
-  })
-    .then(Activities => {
-      if (Activities)
-        return Activities
-      // console.log(Activities);
-    })
+//   const Activities_sss = await Executive_Pending_Earning.findAll({
+//     include: {
+//       model: Activities,
+//       required: true,
+//       include: [{
+//         model: Agency_Info,
+//         required: true
+//       }],
+//     },
+//     where: {
+//       field_id: 4,
+//       // [Op.and]: sequelize.literal(`month(createdAt) = ${6}`),
+//     }
+//   })
+//     .then(Activities => {
+//       if (Activities)
+//         return Activities
+//       // console.log(Activities);
+//     })
 
-  // console.log(Activities_sss.map(data => data.dataValues.Activity.dataValues.list_act_id));
+//   // console.log(Activities_sss.map(data => data.dataValues.Activity.dataValues.list_act_id));
 
-  const sumOf_Activities = await List_sub_Activities.findAll({
-    attributes: [[sequelize.fn('sum', sequelize.col('`List_of_Package`.list_amount')), 'SumofValues'],
-    [sequelize.literal('SUM(`List_of_Package`.bankAmount/100*`List_of_Package`.commissionAmount)'), 'Commission']
-    ],
-    include: {
-      attributes: [],
-      model: List_of_Packages,
-      required: true
-    },
-    group: ['`List_sub_Activities`.list_act_id'],
-    where: {
-      list_act_id: Activities_sss.map(data => data.dataValues.Activity.dataValues.list_act_id)
-    }
-  })
-    .then(dbResponse => {
-      if (dbResponse)
-        return dbResponse
-      else
-        return null
-    })
-    .catch(error => {
-      if (error)
-        console.log('Error Fetching Sum of Activities : ' + error);
-    })
+//   const sumOf_Activities = await List_sub_Activities.findAll({
+//     attributes: [[sequelize.fn('sum', sequelize.col('`List_of_Package`.list_amount')), 'SumofValues'],
+//     [sequelize.literal('SUM(`List_of_Package`.bankAmount/100*`List_of_Package`.commissionAmount)'), 'Commission']
+//     ],
+//     include: {
+//       attributes: [],
+//       model: List_of_Packages,
+//       required: true,
+//       where: {
+//         list_deleted: 0,
+//         list_paused: 0
+//       }
+//     },
+//     group: ['`List_sub_Activities`.list_act_id'],
+//     where: {
+//       list_act_id: Activities_sss.map(data => data.dataValues.Activity.dataValues.list_act_id)
+//     }
+//   })
+//     .then(dbResponse => {
+//       if (dbResponse)
+//         return dbResponse
+//       else
+//         return null
+//     })
+//     .catch(error => {
+//       if (error)
+//         console.log('Error Fetching Sum of Activities : ' + error);
+//     })
 
-  console.log(sumOf_Activities);
+//   console.log(sumOf_Activities);
 
 
 
@@ -940,7 +1257,7 @@ async function a() {
 
 
 
-}
+// }
 
 // a()
 
@@ -950,16 +1267,20 @@ async function a() {
 // async function a() {
 
 //   await Activities.findAll({
-//     attributes: [[sequelize.fn('COUNT', sequelize.col('list_act_id')), 'tottt'],
+//     attributes: [
+//       [sequelize.literal(`MONTHNAME(createdAt)`), 'moonth'],
+//       // 'list_act_id',
+//       [sequelize.fn('YEAR', sequelize.col('createdAt')), 'Year'],
+//       [sequelize.fn('COUNT', sequelize.col('*')), 'counttt'],
 //     ],
-
+//     group: ['moonth', 'Year'],//, 'Activities.list_act_id'],
 //     where: {
-//       field_id: 4,
-//       [Op.and]: sequelize.literal(`month(createdAt) = '${new Date(Date.now()).getMonth()}'`),
+//       field_id: 4
 //     }
+
 //   })
-//     .then(r => {
-//       console.log(r);
+//     .then(d => {
+//       console.trace(d);
 //     })
 
 

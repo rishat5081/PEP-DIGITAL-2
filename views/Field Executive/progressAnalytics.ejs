@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Progress Analytics</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!--===============================================================================================-->
+        <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="/fonts-1/font-awesome-4.7.0/css/font-awesome.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="/css/main.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="/css/style_2.css" />
+        <link rel="stylesheet" type="text/css" href="/toastr/toastr.min.css" />
+        <!--===============================================================================================-->
+    </head>
+
+    <body>
+        <div class="limiter">
+            <div class="container-profile100">
+                <div class="header">
+                    <div class="cover-image100">
+                        <img src="/logo/logo.png" class="pep-logo" alt="" />
+                        <a href="#">
+                            <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+                        </a>
+                        <a href="/user/notification">
+                            <span class="fa fa-bell menu-button">
+                                <span class="button__badge" style="display: none;"></span>
+                            </span>
+                        </a>
+                        <nav id="menu">
+                            <ul>
+                                <% permissions.forEach(element=> { %>
+                                    <li><a href="/user<%= element.controller %>/<%=info.uuid%>">
+                                            <span class="<%= element.icon%>"></span>
+                                            <%= element.permission_name %>
+                                        </a>
+                                    </li>
+                                    <% }); %>
+                                        <li><a href="/user/signout"><span class="fa fa-sign-out"></span> Log Out</a>
+                                        </li>
+                            </ul>
+                            <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+                        </nav>
+                    </div>
+                    <div class="container">
+                        <div class="row saleup">
+                            <h4>Sales by Month</h4>
+                            <p>A sales agent sells the product on an exclusive or non-exclusive appointment based on the
+                                terms of the negotiated contract. The graph below shows the total number of sales by
+                                different sales agents in a month.</p>
+                            <canvas id="salebyAgent" width="450" height="100"></canvas>
+                        </div>
+
+                        <div class="row mt-4">
+                            <h4>New Agency per Month</h4>
+                            <p>A monthly sales report gives an overview into the state of sales activities within a
+                                company for the previous months. The graph below shows the percentage of sales in each
+                                month.</p>
+                            <canvas id="SalePerMonth" width="450" height="100"></canvas>
+                        </div>
+
+                        <div class="row mt-4">
+                            <h4>Cancelled Activities</h4>
+                            <p>A monthly sales report gives an overview into the state of sales activities within a
+                                company for the previous months. The graph below shows the percentage of sales in each
+                                month.</p>
+                            <canvas id="cancelPerMonth" width="450" height="100"></canvas>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/vendor/jquery/jquery-3.2.1.min.js "></script>
+        <!--===============================================================================================-->
+        <script src="/vendor/bootstrap/js/bootstrap.min.js "></script>
+        <!--===============================================================================================-->
+        <script src="/vendor/jquery/tilt.jquery.min.js "></script>
+        <script src="/toastr/toastr.min.js "></script>
+        <script src="/js/chart.js "></script>
+
+
+        <script>
+            var menu = document.getElementById("menu");
+            function openMenu() {
+                menu.style.top = "0";
+            }
+            function closeMenu() {
+                menu.style.top = "-100vh";
+            }
+
+            var dates = JSON.parse('<%-JSON.stringify(activitiesPerMonth)%>').map(data => {
+                return data.moonth + " " + data.Year
+            })
+
+            var activitiesPerMonth = JSON.parse('<%-JSON.stringify(activitiesPerMonth)%>').map(data => {
+                return data.activitiesPerMonth
+            })
+
+            var ctx = document.getElementById('salebyAgent').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: 'Sales by Agent',
+                        data: activitiesPerMonth,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            suggestedMax: 100,
+                            min: 0,
+                            max: 100,
+
+                        }
+                    }
+                }
+            });
+
+
+
+
+            //new agencies chart
+
+
+            var dates = JSON.parse('<%-JSON.stringify(agencyCount)%>').map(data => {
+                return data.moonth + " " + data.Year
+            })
+
+            var agencyCount = JSON.parse('<%-JSON.stringify(agencyCount)%>').map(data => {
+                return data.agencyCount
+            })
+
+
+
+            var ctx1 = document.getElementById('SalePerMonth').getContext('2d');
+            var myChart1 = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: 'New Agency per Month',
+                        data: agencyCount,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(194, 243, 116, 0.5)',
+                            'rgba(54, 87, 54,0.3)',
+                            'rgba(116, 116, 243,0.3)',
+                            'rgba(250, 127, 83,0.3)',
+                            'rgba(83, 150, 250,0.4)',
+                            ' rgba(211, 83, 250,0.4)'
+
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(194, 243, 116, 3)',
+                            'rgba(54, 87, 54,1)',
+                            'rgb(116, 116, 243, 1)',
+                            'rgba(250, 127, 83,1)',
+                            'rgba(83, 150, 250,1)',
+                            'rgba(211, 83, 250,1)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            borderWidth: 100,
+                            barThickness: 10
+                        },
+                        y: {
+                            // beginAtZero: true
+                            suggestedMin: 50,
+                            suggestedMax: 100
+
+                        }
+                    }
+                }
+            });
+
+
+
+
+
+            // cancelled activities
+
+            var cancelDates = JSON.parse('<%-JSON.stringify(cancelledactivitiesPerMonth)%>').map(data => {
+                return data.moonth + " " + data.Year
+            })
+
+
+            var cancelledactivitiesPerMonth = JSON.parse('<%-JSON.stringify(cancelledactivitiesPerMonth)%>').map(data => {
+                return data.cancelledactivitiesPerMonth
+            })
+
+            var ctx2 = document.getElementById('cancelPerMonth').getContext('2d');
+            var myChart1 = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: cancelDates,
+                    datasets: [{
+                        label: 'Cancel Activity per Month',
+                        data: cancelledactivitiesPerMonth,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(194, 243, 116, 0.5)',
+                            'rgba(54, 87, 54,0.3)',
+                            'rgba(116, 116, 243,0.3)',
+                            'rgba(250, 127, 83,0.3)',
+                            'rgba(83, 150, 250,0.4)',
+                            ' rgba(211, 83, 250,0.4)'
+
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(194, 243, 116, 3)',
+                            'rgba(54, 87, 54,1)',
+                            'rgb(116, 116, 243, 1)',
+                            'rgba(250, 127, 83,1)',
+                            'rgba(83, 150, 250,1)',
+                            'rgba(211, 83, 250,1)'
+                        ],
+                        borderWidth: 2,
+                        barPercentage: 0.1,
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            borderWidth: 100,
+                            barThickness: 10
+                        },
+                        y: {
+                            suggestedMin: 0,
+                            suggestedMax: 100
+
+                        }
+                    }
+                }
+            });
+
+
+        </script>
+
+
+    </body>
+
+</html>

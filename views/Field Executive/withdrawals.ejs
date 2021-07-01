@@ -35,10 +35,18 @@
                         </a>
                         <nav id="menu">
                             <ul>
-                                <li>
-                                    <a href="/user/signout">
-                                        <span class="fa fa-sign-out"> </span> Log Out</a>
-                                </li>
+                                <% permissions.forEach(element=> { %>
+                                    <li>
+                                        <a href="/user<%= element.controller %>/<%=info.uuid%>">
+                                            <span class="<%= element.icon%>"></span>
+                                            <%= element.permission_name %>
+                                        </a>
+                                    </li>
+                                    <% }); %>
+                                        <li>
+                                            <a href="/user/signout">
+                                                <span class="fa fa-sign-out"> </span> Log Out</a>
+                                        </li>
                             </ul>
                             <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
                         </nav>
@@ -140,7 +148,7 @@
                                 <!-- <div class="p-2 w-25 font-weight-bold ">Commission</div> -->
                                 <div class="p-2 w-25 font-weight-bold ">Status</div>
                                 <div class="p-2 w-50 font-weight-bold text-center ">Clearance Date</div>
-                                <div class="p-2 w-25 font-weight-bold text-center">View</div>
+                                <div class="p-2 w-25 font-weight-bold text-center">Transaction Details</div>
                             </div>
                         </div>
 
@@ -192,12 +200,18 @@
                                                                             <%=obejct.clearanceDateTime %>
                                                                         </div>
                                                                         <!-- --------------------------------------------------------------------------------------------------------------- -->
+                                                                        <% if(obejct.bank_sale){ %>
 
-                                                                        <div class="p-2 w-25 text-center ">
+                                                                            <div class="p-2 w-25 text-center ">
+                                                                                <a href="<%=url%>/user/depositslip/<%=obejct.field_exe_earn_uuid %>"
+                                                                                    target="_blank">View</a>
+                                                                            </div>
+                                                                            <% }else{ %>
+                                                                                <div class="p-2 w-25 text-center">
+                                                                                    --
+                                                                                </div>
+                                                                                <% } %>
 
-                                                                            <a
-                                                                                href="<%=url%>/user/ <%=obejct.Activity.list_act_uuid %>">View</a>
-                                                                        </div>
 
                             </div>
 
@@ -217,6 +231,14 @@
         <script src="/vendor/jquery/tilt.jquery.min.js "></script>
         <script src="/toastr/toastr.min.js "></script>
         <script>
+            var menu = document.getElementById("menu");
+            function openMenu() {
+                menu.style.top = "0";
+            }
+            function closeMenu() {
+                menu.style.top = "-100vh";
+            }
+
             function Withdraw_confirm(abc) {
                 confirm("Are you sure you want to withdraw with " + abc);
                 // document.getElementById("para").innerHTML = "Are you sure, you want to withdraw amount using " + abc;
@@ -232,7 +254,6 @@
                     return null
             })
 
-            console.log(JSON.parse('<%-JSON.stringify(sumOf_Activities)%>'));
 
             var activitiesSum = JSON.parse('<%-JSON.stringify(sumOf_Activities)%>')
 
@@ -250,10 +271,9 @@
 
             })
 
-
             var totalWithdraws = 0;
             totalWithdraws = pendingClearanceObject.filter(data => data.withdrawed === true)
-            console.log(totalWithdraws)
+
 
             $('#totalIncome').html(totalIncome + " PKR")
             $('#totalActivties').html(pendingClearanceObject.length)
@@ -265,8 +285,6 @@
                 $('#JazzCash').prop('disabled', false)
 
             }
-
-            // availableAmount
         </script>
 
 

@@ -22,7 +22,7 @@ City_Areas.init(
       defaultValue: UUIDV4,
       autoIncrement: false,
       primaryKey: false,
-       
+
     },
     city_name: {
       type: DataTypes.TEXT,
@@ -31,6 +31,16 @@ City_Areas.init(
     city_code: {
       type: DataTypes.TEXT,
       allowNull: true
+    },
+    deleted: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false
+    },
+    paused: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false
     },
     city_supp_assos_id: {
       type: DataTypes.INTEGER,

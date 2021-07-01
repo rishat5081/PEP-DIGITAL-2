@@ -67,6 +67,7 @@ const sequelize = require("./Sequelize"),
   PEP_Banks_Details = require("./Sequelize Models/Web/PEP_Banks_Details"),
   SignUp_Page = require("./Sequelize Models/Web/signUpPage"),
   Web_Content = require("./Sequelize Models/Web/webContent"),
+  WebAds = require("./Sequelize Models/Web/WebAds"),
   Pendance_Clearance_Details = require("./Sequelize Models/Web/Pendance_Clearance_Details"),
   Department = require("./Sequelize Models/Department"),
   Zone = require("./Sequelize Models/Zone");
@@ -690,6 +691,11 @@ const TruncateTables = async () => {
     .catch(error => console.log('Error Deleting Table' + error))
 
 
+  await WebAds.destroy({ truncate: true })
+    .then()
+    .catch(error => console.log('Error Deleting Table' + error))
+
+
 
   await sequelize
     .query("SET FOREIGN_KEY_CHECKS = 1", null, { raw: true })
@@ -1308,6 +1314,15 @@ const Synchronizing = async () => {
       console.log("Error in Creating Table Web_Content");
     });
 
+  await WebAds.sync({ force: true })
+    .then()
+    .catch((error) => {
+      console.log(error + "\n");
+      console.log("\n");
+      console.log("\n");
+      console.log("Error in Creating Table WebAds");
+    });
+
   await Pendance_Clearance_Details.sync({ force: true })
     .then()
     .catch((error) => {
@@ -1718,6 +1733,7 @@ module.exports = {
   Field_Executive,
   GM_Company,
   Managers,
+  WebAds,
   Super_Admin,
   Supervisor,
   Team_Lead,

@@ -2,7 +2,7 @@ const { User_Login_Information, User_Role, Field_Executive } = require('../../Co
     bcrypt = require('bcrypt'),
     json_WebToken = require('jsonwebtoken'),
     ejs = require('ejs'),
-    Nodemailer = require('../../Configuration Files/Nodemailer/Nodemailer'),
+    { sendEmail_to_ConfirmEmail } = require('../../Configuration Files/Nodemailer/Nodemailer'),
     salt_ForBcrypt = 10
 require('dotenv').config()
 
@@ -17,8 +17,7 @@ module.exports = ((app) => {
     app.post('/userSignUp', (req, res, next) => {
 
         const dbResponse = User_Login_Information.findOne({
-            where:
-            {
+            where: {
                 login_email: req.body.registering_email
             }
         })
@@ -66,7 +65,7 @@ module.exports = ((app) => {
      * adding the new user and sending the email 
      * for confirmation
      */
-    app.post('/userSignUp', (req, res) => {
+    app.post('/userSignUp', async (req, res) => {
 
         // hasing the passowrd uisng bcrypt
         var hashPassword = '',
@@ -88,10 +87,11 @@ module.exports = ((app) => {
 
         jwtAuthentication_Token = `${process.env.domain}${process.env.server_PORT}/verifyToken/Authorization=Bearer%20/${jwtToken}`
 
+        /**
+         * Creating the user accouint
+         */
 
-        console.log(jwtAuthentication_Token);
-
-        const dbResponse = User_Login_Information.create({
+        const dbResponse = await User_Login_Information.create({
             login_email: req.body.registering_email,
             login_password: hashPassword,
             user_role_id: 6,
@@ -110,62 +110,61 @@ module.exports = ((app) => {
             })
 
 
+        if (dbResponse) {
+            /**
+             * Here is the sending the email for confirmation to the registered user
+             * The user is created and the token is already generated now 
+             * is the Nodemailer work
+             */
 
-        dbResponse.then((response) => {
-            if (response) {
-
-
-                /**
-                 * Here is the sending the email for confirmation to the registered user
-                 * The user is created and the token is already generated now 
-                 * is the Nodemailer work
-                 */
-
-                Field_Executive.create({
-                    login_id: response.dataValues.login_id
-                })
-                    .then(executive => console.log('Created'))
-                    .catch(err => console.log('Error' + err))
-                /**
-                 * Now what will happen here is that first we will render the file using ejs.renderfile 
-                 * and set the attributes in it like userEmail, jsonWebToken and etc
-                 * and by using this we will user Nodemailer inside it 
-                 * and sent the html file to the targeted user
-                 */
-                ejs.renderFile('./views/Web Appendage Pages/email_template.ejs', {
-                    logo: process.env.logoURL,
-                    emailSubject: 'Confirm your Email',
-                    userEmail: req.body.registering_email,
-                    jsonWebToken: jwtAuthentication_Token
-                }, {}, (err, emailHTMLFILE) => {
-                    if (err) {
-                        req.session.SignUp_Error = {
-                            type: 'Danger',
-                            message: 'Sorry! The system ran into problem'
-                        }
-                        res.status(500).redirect('/signup')
+            Field_Executive.create({
+                login_id: dbResponse.dataValues.login_id
+            })
+                .then(executive => console.info('Created'))
+                .catch(err => console.trace('Error' + err))
+            /**
+             * Now what will happen here is that first we will render the file using ejs.renderfile 
+             * and set the attributes in it like userEmail, jsonWebToken and etc
+             * and by using this we will user Nodemailer inside it 
+             * and sent the html file to the targeted user
+             */
+            ejs.renderFile('./views/Web Appendage Pages/email_template.ejs', {
+                logo: process.env.logoURL,
+                emailSubject: 'Confirm your Email',
+                userEmail: req.body.registering_email,
+                jsonWebToken: jwtAuthentication_Token
+            }, {}, (err, emailHTMLFILE) => {
+                if (err) {
+                    req.session.SignUp_Error = {
+                        type: 'Danger',
+                        message: 'Sorry! The system ran into problem'
                     }
-                    else {
-                        const emailStatus = Nodemailer.sendEmail_to_ConfirmEmail(req.body.registering_email, emailHTMLFILE, "Confirm your Email")
-                        emailStatus.then((status) => {
-                            if (status) {
-                                res.status(200).render('Web Appendage Pages/confirmEmail', { uuid: response.dataValues.login_uuid })
+                    res.status(500).redirect('/signup')
+                }
+                else {
+                    const emailStatus = sendEmail_to_ConfirmEmail(req.body.registering_email, emailHTMLFILE, "Confirm your Email")
+                    emailStatus.then((status) => {
+                        if (status) {
+                            res.status(200).render('Web Appendage Pages/confirmEmail', {
+                                uuid: dbResponse.dataValues.login_uuid
+                            })
+                        }
+                    })
+                        .catch((error) => {
+                            if (error) {
+                                console.error(error);
+                                res.status(200).render('Web Appendage Pages/confirmEmail', {
+                                    message: req.flash('danger', 'System ran into problem. We will send you email in few minutes.'),
+                                    uuid: null
+                                })
                             }
                         })
-                            .catch((error) => {
-                                if (error) {
-                                    res.status(200).render('Web Appendage Pages/confirmEmail',
-                                        { message: req.flash('danger', 'System ran into problem. We will send you email in few minutes.') })
-                                }
-                            })
-                    }
-                })
-            }
-        })
-            .catch(err => {
-                res.send('Error' + err)
+                }
             })
-
+        }
+        else {
+            res.send('Error', 'Try with different email')
+        }
     })
 
 

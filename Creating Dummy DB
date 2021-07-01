@@ -243,6 +243,18 @@ addPermissioins()
 
 
 
+
+WebAds.create({
+  title: 'Development 3',
+  description: 'This is dev server',
+  picPath: '/img/GM.jpg',
+  sa_id: 1,
+  user_role_id: 6
+})
+  .then(d => {
+    console.log(d);
+  })
+
 --------------------------------------------------
 async function addPermissioins() {
     const Perm = await Permissions.create({

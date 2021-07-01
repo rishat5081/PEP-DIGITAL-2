@@ -57,7 +57,7 @@ List_of_Packages.init(
     list_description: {
       type: DataTypes.TEXT,
       allowNull: true
-    }
+    },
   },
   {
     sequelize,
