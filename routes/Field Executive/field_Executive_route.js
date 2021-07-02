@@ -594,10 +594,8 @@ router.get('/completedActivity/:activityUUID'
       ],
       where: {
         list_act_uuid: req.params.activityUUID,
-        where: {
-          deleted: 0,
-          paused: 0
-        }
+        deleted: 0,
+        paused: 0
       }
     })
       .then(dbResponse => {
@@ -614,6 +612,8 @@ router.get('/completedActivity/:activityUUID'
             errorStatus: "Invalid Activity",
             errorHeading: `The Activity is ID is incorrect.`,
           });
+          res.end()
+          return
         }
       })
 
@@ -623,7 +623,7 @@ router.get('/completedActivity/:activityUUID'
      * and make a new array of th esubactivities to get the sum of the packages from the list table
      */
 
-    if (activitiesResponse.length > 0) {
+    if (activitiesResponse) {
       const agencyInfo = activitiesResponse[0] //!== null ? { ...activitiesResponse[0].Agency_Info.dataValues } : null
       const Activity_Info = Object.assign({}, {
         list_act_id: activitiesResponse[0].dataValues.list_act_id,
@@ -648,10 +648,9 @@ router.get('/completedActivity/:activityUUID'
         group: ['`List_sub_Activities`.list_act_id'],
         where: {
           list_act_id: activitiesResponse.map(data => data.dataValues.list_act_id),
-          where: {
-            list_deleted: 0,
-            list_paused: 0
-          }
+          list_deleted: 0,
+          list_paused: 0
+
         }
       })
         .then(dbResponse => {
@@ -924,7 +923,12 @@ router.get('/bankDeposit/:activityUUID', isUser_Login, async (req, res) => {
         bankList,
         companyDetails,
         sumOf_Activities,
-        activityDetails: activitiesResponse
+        activityDetails: activitiesResponse,
+        info: {
+          id: req.session.passport.user.userInfo.login_id,
+          uuid: req.session.profileData.field_uuid,
+        },
+        permissions: req.session.permissions.permissionObject,
       })
     }
     else {

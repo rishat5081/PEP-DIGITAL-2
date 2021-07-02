@@ -226,7 +226,10 @@
                 $('.button__badge').css('display', 'block')
                 $('.button__badge').html(JSON.parse('<%-JSON.stringify(unreadNotificationCount)%>'))
             }
+            console.log(JSON.parse('<%-JSON.stringify(sumOf_Activities)%>'));
             var sumOfActivities = JSON.parse('<%-JSON.stringify(sumOf_Activities)%>');
+            console.log(sumOfActivities);
+
             $('#amount_earned').html(parseInt(sumOfActivities.SumofValues) + Math.ceil(sumOfActivities.Commission) + " PKR");
             $('#totalamount_earned').html(parseInt(sumOfActivities.SumofValues) + Math.ceil(sumOfActivities.Commission) + " PKR");
             if (sumOfActivities.Commission) {

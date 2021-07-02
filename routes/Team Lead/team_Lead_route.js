@@ -1,9 +1,9 @@
 const express = require("express"),
     router = express.Router(),
-    mainRouter = require("../Web_Pages/index")
+    { isUser_Login } = require("../Web_Pages/index")
 
 
-router.get("/Dashboard/:id", mainRouter.isUser_Login, (req, res) => {
+router.get("/Dashboard/:id", isUser_Login, (req, res) => {
     // checkRole_GetData_FromDB(req.session.userInfo.userRole, req.session.userInfo.userInfo.login_id, res)
     console.log("Dashboard-----------------> Team Lead");
     // console.log("Gettt it  --------------------------> " + req.params.id);
@@ -24,12 +24,11 @@ router.get("/Dashboard/:id", mainRouter.isUser_Login, (req, res) => {
  * if the user is new then he / she should complete the profile then move ahead
  */
 
-router.get("/completeProfile/:id", mainRouter.isUser_Login, (req, res) => {
+router.get("/completeProfile/:id", isUser_Login, (req, res) => {
     if (req.session.profileData.team_L_name === null)
-        res.status(200).render(`Team Lead/userProfile`,
-            {
-                message: req.flash('info', 'Please Complete your Profile')
-            })
+        res.status(200).render(`Team Lead/userProfile`, {
+            message: req.flash('info', 'Please Complete your Profile')
+        })
     else {
         res.status(200).redirect(`/teamlead/dashboard/${req.session.passport.user.userInfo.login_uuid}`)
     }
@@ -37,24 +36,11 @@ router.get("/completeProfile/:id", mainRouter.isUser_Login, (req, res) => {
 });
 
 
-
-
-
-
-
-
-
-
-
-router.get('/ab', (req, res) => {
-    res.render('Team Lead/uploadimage')
-})
-
-
 router.get('/signout', (req, res) => {
     req.session.destroy()
     res.redirect('/login')
 })
+
 
 
 
