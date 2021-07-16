@@ -13,17 +13,13 @@ City_and_Supervisor_associate.init(
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
-      validate: {
-        max: 11,
-        isNumeric: true
-      }
     },
     city_and_sup_asso_uuid: {
       type: DataTypes.UUID,
       defaultValue: UUIDV4,
       autoIncrement: false,
       primaryKey: false,
-       
+
     },
     deleted: {
       type: DataTypes.BOOLEAN,
@@ -40,10 +36,6 @@ City_and_Supervisor_associate.init(
       allowNull: false,
       primaryKey: false,
       autoIncrement: false,
-      validate: {
-        max: 11,
-        isNumeric: true
-      },
       references: {
         model: 'city',
         key: 'city_id'
@@ -54,10 +46,6 @@ City_and_Supervisor_associate.init(
       allowNull: false,
       primaryKey: false,
       autoIncrement: false,
-      validate: {
-        max: 11,
-        isNumeric: true
-      },
       references: {
         model: 'supervisor',
         key: 'sup_id'
@@ -77,30 +65,16 @@ City_and_Supervisor_associate.init(
 
 /**City could have many supervisor  */
 City.belongsToMany(Supervisor, {
-  through: {
-    model: City_and_Supervisor_associate,
-    unique: false,
-    scope: {
-      taggable: 'supervisor'
-    }
-  },
+  through: City_and_Supervisor_associate,
   foreignKey: 'city_id',
-  constraints: false
 })
 
 /**One supervisor could be a head of one or more city
  * this relation is unexpected not for all supervisors
  */
 Supervisor.belongsToMany(City, {
-  through: {
-    model: City_and_Supervisor_associate,
-    unique: false,
-    scope: {
-      taggable: 'city'
-    }
-  },
+  through: City_and_Supervisor_associate,
   foreignKey: 'sup_id',
-  constraints: false
 })
 /*
  *boolean return type which will indicate that the table is defined or not
@@ -110,3 +84,8 @@ Supervisor.belongsToMany(City, {
 //     sequelize.models.City_and_Supervisor_associate
 // )
 module.exports = City_and_Supervisor_associate
+
+
+// City_and_Supervisor_associate.sync({ force: true }).then(d => console.log(d)
+// )
+

@@ -912,9 +912,9 @@ ul.ui-autocomplete.ui-menu li {
   margin-top: 1vw;
   height: auto;
   text-align: center;
-  width: 20%;
+  width: 50%;
   max-width: 100%;
-  margin-left: 36%;
+  margin-left: 24%;
 }
 
 .editicon {
@@ -1409,4 +1409,83 @@ canvas {
 
 .profile_uppersection, .profile_belowsection {
   border: 2px solid #23aed1;
+}
+
+/* ---------------------------------------- Contact US ----------------------------------------------- */
+
+.con_line {
+  margin-left: 7vw;
+  width: 85%;
+  height: 0.1vw;
+  background: #3a8ffe;
+}
+
+.smile {
+  font-size: 38px;
+  margin-left: 0.4vw;
+  margin-top: 0.3vw;
+}
+
+.formstyle {
+  text-align: center;
+  align-items: center;
+  margin-top: 3vw;
+  width: 70%;
+  max-width: 100%;
+  height: auto;
+  min-height: 25vw;
+  margin-left: 7vw;
+  /* background-color: whitesmoke; */
+  border: 2px solid #3a8ffe;
+  border-radius: 10px;
+}
+
+.contact_btn {
+  border-radius: 6px;
+  text-align: center;
+  padding: 1px;
+  height: 2vw;
+  width: 50%;
+  max-width: 100%;
+  border: 1px solid #3a8ffe;
+  margin-left: 23%;
+  outline: none;
+  font-size: 14px;
+  text-transform: uppercase;
+  cursor: pointer;
+  background-color: white;
+  /* background-color: #ffbd5d; */
+  color: black;
+  background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
+}
+
+.addressend {
+  list-style: none;
+  width: 80%;
+  max-width: 100%;
+  height: auto;
+  margin-top: 2.85vw;
+  padding-top: 3vw;
+}
+
+.addressend p {
+  margin-bottom: 2vw;
+  margin-left: 2vw;
+  font-size: 17px;
+}
+
+.addressend i {
+  margin-right: 1vw;
+}
+
+.textbox {
+  height: 10vw;
+}
+
+/* ------------------------------------------- Team Lead --------------------------------------------- */
+
+/* ------------------------------------------- Team Lead Add Freelancer to Team  --------------------------------------------- */
+
+.topmargin {
+  margin-top: 9vw;
 }

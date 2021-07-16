@@ -1,3 +1,4 @@
+const { trace } = require("console");
 const { multerFile_Upload_Function } = require("../../Configuration Files/Multer Js/multer"),
   {
     Field_Executive,
@@ -10,6 +11,7 @@ const { multerFile_Upload_Function } = require("../../Configuration Files/Multer
     ExecutiveNotifications,
     Executive_Pending_Earning,
     Pendance_Clearance_Details,
+    ComplainsOfActivities,
   } = require("../../Configuration Files/Sequelize/Database_Synchronization"),
   fs = require('fs'),
   { Op, QueryTypes } = require("sequelize");
@@ -83,6 +85,7 @@ module.exports = (app) => {
    * like full name, contact and username
    */
   app.route("/executive/updateProfileInfo").post(async (req, res) => {
+
     const dbResponse = await Role_ExtraInfo.findOne({
       attributes: ["target", "commission", "salary"],
       include: {
@@ -509,23 +512,6 @@ module.exports = (app) => {
   });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   app.route('/cancelActivity').post(async (req, res) => {
     const activityStatus = await Activities.update({
       cancelled: true
@@ -771,12 +757,11 @@ module.exports = (app) => {
           deleted: 0,
           withdrawed: 0,
           bank_sale: 1,
-          field_id: 4 //req.session.profileData.field_id
+          field_id: req.session.profileData.field_id
         }
       })
         .then(pendingEarning => {
           if (pendingEarning) {
-            console.log();
             if (pendingEarning.dataValues.bank_deposited) {
               res.status(406).send({ error: 'This Activity is already Deposited' })
               return;
@@ -820,10 +805,61 @@ module.exports = (app) => {
   })
 
 
+  app.route('/addComplain').post(async (req, res) => {
 
+    if (Object.keys(req.body).length > 0) {
 
+      const activity = await Activities.findOne({
+        attributes: ['list_act_id'],
+        where: {
+          deleted: 0,
+          paused: 0,
+          list_act_uuid: req.body.UUID
+        }
+      }).then()
+        .catch(error => {
+          if (error) {
+            console.error('Error fetching Activity Details');
+            return null
+          }
+        })
 
+      if (activity === null) {
+        res.status(400).send({ error: 'Invalid Information' })
+        res.end()
+      }
 
+      else {
+
+        const complain = await ComplainsOfActivities.create({
+          subject: req.body.subject,
+          message: req.body.complainMessage,
+          list_act_id: activity.dataValues.list_act_id,
+          field_id: 4 //req.session.profileData.field_id,
+        })
+          .then()
+          .catch(error => {
+            if (error) {
+              console.error('Error at creating Complain')
+              console.trace(error)
+              return null;
+            }
+          })
+
+        if (complain === null) {
+          res.status(503).send({ 'error': 'Service Unavailable .Please try again later.' })
+        }
+        else
+          res.status(200).send({ 'status': 'Created' })
+      }
+
+    }
+    else {
+      console.error('Invalid Information from client');
+      res.status(400).send({ error: 'Invalid Information' })
+      res.end()
+    }
+  })
 
 
 

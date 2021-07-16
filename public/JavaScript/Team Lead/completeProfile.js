@@ -70,13 +70,17 @@ $('.submitBTN').on('click', () => {
                     cache: false,
                     contentType: false,
                     processData: false,
-                    success: function (response) {
+                    error: (error => {
+                        displayToast(error.messages, error.type)
+                    }),
+                    success: (response) => {
                         displayToast(response.messages, response.type)
                         $('#uploadImageModal').modal('hide');
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
-
-                        $('#profileImage').attr('src', response.profileImage)
+                        if (response.ProfilePic) {
+                            $('#profileImage').prop('src', response.ProfilePic)
+                        }
 
                     }
                 });
@@ -110,13 +114,12 @@ $('#submitInfo').on('click', (e) => {
 
             },
             success: (response) => {
-                console.log(response);
                 if (response) {
                     toastr.success('Successfully!!! Profile is Updated.')
                     toastr.success('Redirecting to Dashboard')
-                    setTimeout(() => {
-                        window.location = `/dashboard/${response.uuid}`
-                    }, 3000)
+
+                    window.location = `${window.location.origin}/teamlead/Dashboard/${response.uuid}`
+
 
                 }
 

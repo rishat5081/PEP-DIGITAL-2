@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Profile</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--===============================================================================================-->
+        <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.min.css">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="<%=url%>/css/style.css">
+        <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css">
+        <link rel="stylesheet" href="<%=url%>/toastr/toastr.min.css">
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+            crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+
+
+        <!--===============================================================================================-->
+    </head>
+
+
+    <body>
+
+
+
+        <!-- Modal to Upload the Profile Image -->
+        <div class="modal" tabindex="-1" id="uploadImageModal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Upload Profile Picture</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="userProfileForm" enctype="multipart/form-data">
+                            <div class="container">
+                                <div class="wrapper">
+                                    <div class="image">
+                                        <img id="newImage" src="" alt="">
+                                    </div>
+                                    <div class="content">
+                                        <div class="icon">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                        </div>
+                                        <div class="text">
+                                            No file chosen, yet!</div>
+                                    </div>
+                                    <div id="cancel-btn">
+                                        <i class="fas fa-times"></i>
+                                    </div>
+                                    <div class="file-name">
+                                        File name here</div>
+                                </div>
+                                <button onclick="defaultBtnActive()" type="button" class="custom-btn"
+                                    id="custom-btn">Choose
+                                    a
+                                    file</button>
+                                <input id="default-btn" type="file" name="userPhoto" hidden>
+                                <button type="submit" class="submitBTN custom-btn" hidden>Upload</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- -------------------------------- Rest of the Page Contents--------------------- -->
+        <%- messages('Web Appendage Pages/message.ejs',locals) %>
+            <div class="limiter">
+                <div class="container-profile100">
+                    <div class="header">
+                        <div class="cover-image100">
+                            <a href="#">
+                                <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+                            </a>
+                            <nav id="menu">
+                                <ul>
+                                    <li><a href="<%=url%>/teamlead/signout"><span class="fa fa-sign-out-alt"></span>
+                                            Log Out</a>
+                                    </li>
+                                </ul>
+                                <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+                            </nav>
+                        </div>
+                        <div class="container profile-pic-section">
+                            <div class="row head-section">
+                                <div class="col-md-12" align="center">
+                                    <div class="profile-pic">
+                                        <div class="prf-img">
+                                            <% if(profileData===null) {%>
+                                                <img src="<%=url%>/img/profile.jpg" class="profile-img"
+                                                    alt="profile picture" id="profileImage">
+
+                                                <% }else{ %>
+                                                    <img src="<%=url%>/<%=profileData %>" class="profile-img"
+                                                        alt="profile picture" id="profileImage">
+                                                    <% } %> <button type="button" class="edit" data-toggle="modal"
+                                                            data-target="#uploadImageModal">Upload Pic
+                                                        </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <form id="userProfileForm" method="POST" enctype="multipart/form-data" action="/upload"> -->
+                            <div class="row main-content form-group">
+                                <div class="col-md-5 personal-section">
+                                    <div class="personal-data">
+                                        <label for="name">Name: </label>
+                                        <input type="text" id="name" name="name">
+                                    </div>
+                                    <div class="personal-data">
+                                        <label for="contact">Contact: </label>
+                                        <input type="text" id="contact" name="contact">
+                                    </div>
+                                    <div class="personal-data">
+                                        <label for="username">Username: </label>
+                                        <input type="text" id="username" name="username">
+                                    </div>
+                                    <div class="personal-data">
+                                        <button type="submit" id="submitInfo"
+                                            class="btn btn-primary align-items-md-center">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- </form> -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <script src="<%=url%>/JavaScript/Team Lead/completeProfile.js"></script>
+            <!--===============================================================================================-->
+            <script src="<%=url%>/js/jquery.min.js"></script>
+            <script src="<%=url%>/bootstrap/js/bootstrap.min.js"></script>
+            <!-- Toastr -->
+            <script src="<%=url%>/toastr/toastr.min.js"></script>
+
+            <script>
+                var menu = document.getElementById("menu");
+                function openMenu() {
+                    menu.style.top = "0";
+                }
+                function closeMenu() {
+                    menu.style.top = "-100vh";
+                }
+            </script>
+
+    </body>
+
+</html>

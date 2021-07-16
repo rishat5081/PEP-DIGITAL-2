@@ -4,16 +4,16 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
         <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/fonts-1/font-awesome-4.7.0/css/font-awesome.css" />
+        <link rel="stylesheet" type="text/css" href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.css" />
         <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/css/main.css" />
+        <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css" />
         <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/css/style.css" />
-        <link rel="stylesheet" type="text/css" href="/css/style_2.css" />
-        <link rel="stylesheet" type="text/css" href="/toastr/toastr.min.css" />
+        <link rel="stylesheet" type="text/css" href="<%=url%>/css/style.css" />
+        <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css" />
+        <link rel="stylesheet" type="text/css" href="<%=url%>/toastr/toastr.min.css" />
 
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
             integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -80,11 +80,11 @@
             <div class="container-profile100">
                 <div class="header">
                     <div class="cover-image100">
-                        <img src="/logo/logo.png" class="pep-logo" alt="" />
+                        <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
                         <a href="#">
                             <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
                         </a>
-                        <a href="/user/notification">
+                        <a href="<%=url%>/user/notification">
                             <span class="fa fa-bell menu-button">
                                 <span class="button__badge" style="display: none;"></span>
                             </span>
@@ -93,14 +93,14 @@
                             <ul>
                                 <% permissions.forEach(element=> { %>
                                     <li>
-                                        <a href="/user<%= element.controller %>/<%=info.uuid%>">
+                                        <a href="<%=url%>/user<%= element.controller %>/<%=info.uuid%>">
                                             <span class="<%= element.icon%>"></span>
                                             <%= element.permission_name %>
                                         </a>
                                     </li>
                                     <% }); %>
                                         <li>
-                                            <a href="/user/signout">
+                                            <a href="<%=url%>/user/signout">
                                                 <span class="fa fa-sign-out"> </span> Log Out</a>
                                         </li>
                             </ul>
@@ -110,7 +110,7 @@
                     <!-- Profile -->
                     <div class="piccontainer">
                         <img class="profilepicture" id="profileImage"
-                            src="<%=field_executive_info.field_userProfilePic%>">
+                            src="<%=url%>/<%=field_executive_info.field_userProfilePic%>">
                         <button type="button" class="editbtn" data-toggle="modal" data-target="#uploadImageModal">Upload
                             Pic
                         </button>
@@ -240,18 +240,17 @@
 
 
 
-            <script src="/JavaScript/Field Executive/completeProfile.js"></script>
+            <script src="<%=url%>/JavaScript/Field Executive/completeProfile.js"></script>
             <!--===============================================================================================-->
-            <script src="/js/jquery.min.js"></script>
-            <script src="/bootstrap/js/bootstrap.min.js"></script>
+            <script src="<%=url%>/js/jquery.min.js"></script>
+            <script src="<%=url%>/bootstrap/js/bootstrap.min.js"></script>
             <!-- Toastr -->
             <!--===============================================================================================-->
-            <script src="/vendor/jquery/tilt.jquery.min.js"></script>
-            <script src="/toastr/toastr.min.js"></script>
+            <script src="<%=url%>/vendor/jquery/tilt.jquery.min.js"></script>
+            <script src="<%=url%>/toastr/toastr.min.js"></script>
 
             <script>
 
-                console.log(JSON.parse('<%-JSON.stringify(countOfTargetsActivities)%>'));
                 var notificationCount = JSON.parse('<%-JSON.stringify(unreadNotificationCount)%>')
                 if (notificationCount) {
                     $('.button__badge').css('display', 'block')
@@ -333,7 +332,6 @@
                         });
                     }
 
-                    // if()
                 })
 
             </script>

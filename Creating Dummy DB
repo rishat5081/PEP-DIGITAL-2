@@ -192,19 +192,40 @@ Field_Executive.create({
 
 
 -------------------------------------------------------------------------------------
-Permissions.create({
-permission_name: "View Earning",
-permission_name: "Withdraw",
-permission_name: "Manage CSR",
-permission_name: "Manage Agencies",
-permission_name: "Manage Field Executive",
-permission_name: "Manage Team Lead",
-permission_name: "Manage Supervisor",
-permission_name: "Manage Report",
-permission_name: "Manage City Areas",
-permission_name: "Manage City",
-permission_name: "Manage Managers",
-}).then((re) => console.log(re));
+// Permissions.bulkCreate(
+//   [{
+//     permission_name: "Assign Area",
+//     controller: '/assignArea',
+//     icon: 'fa fa-map-marker'
+//   },
+//   {
+//     permission_name: "Convey Message",
+//     controller: '/conveyMessage',
+//     icon: 'fa fa-map-marker'
+//   },
+//   {
+//     permission_name: "Progress Report of Field Executive",
+//     controller: '/progressReport',
+//     icon: 'fa fa-tasks'
+//   },
+//   {
+//     permission_name: "Manage Incentive",
+//     controller: '/manageIncentive',
+//     icon: 'fa fa-gift'
+//   },
+//   {
+//     permission_name: "Verify Activity",
+//     controller: '/verifyActivity',
+//     icon: 'fa fa-tasks'
+//   },
+//   {
+//     permission_name: "Add Member to Team",
+//     controller: '/addMember',
+//     icon: 'fa fa-plus'
+//   },
+//   ]).then((re) => console.log(re));
+
+
 
 
 

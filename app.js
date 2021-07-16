@@ -1,8 +1,4 @@
-const { userInfo } = require("os");
-const Sequelize = require("sequelize");
-const { sequelize } = require("./Configuration Files/Sequelize/Sequelize Models/Lists of Packages/Activities");
-const Activities = require("./Configuration Files/Sequelize/Sequelize Models/Lists of Packages/Activities");
-const Op = Sequelize.Op,
+const Sequelize = require("sequelize"),
   express = require("express"),
   app = express(),
   path = require("path"),
@@ -47,6 +43,7 @@ const Op = Sequelize.Op,
     TeamLead_Login,
     Compaigns,
     Pendance_Clearance_Details,
+    Role_ExtraInfo,
   } = require("./Configuration Files/Sequelize/Database_Synchronization");
 //setting the .env file to read the server port and database ports
 require("dotenv").config();
@@ -427,7 +424,13 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
         sup_isPaused: 0,
         sup_isDeleted: 0,
       },
-    });
+    }).catch(error => {
+      if (error) {
+        console.error('Error fetching SuperVisor Data');
+        console.trace(error)
+        return null
+      }
+    })
     return { menuData, userInfo };
   }
   if (userRole.type_name === "Team Lead") {
@@ -437,7 +440,6 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
         exclude: [
           "team_L_isDeleted",
           "team_L_isPaused",
-          "createdAt",
           "updateTimestamp",
         ],
       },
@@ -446,7 +448,13 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
         team_L_isDeleted: 0,
         team_L_isPaused: 0,
       },
-    });
+    }).catch(error => {
+      if (error) {
+        console.error('Error fetching Team Lead Data');
+        console.trace(error)
+        return null
+      }
+    })
     return { menuData, userInfo };
   }
   if (userRole.type_name === "Freelance Field Executive") {
@@ -466,7 +474,13 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
         field_isDeleted: 0,
         field_isPaused: 0,
       },
-    });
+    }).catch(error => {
+      if (error) {
+        console.error('Error fetching Freelance Field Executive Data');
+        console.trace(error)
+        return null
+      }
+    })
     return { menuData, userInfo };
   }
   if (userRole.type_name === "Field Executive") {
@@ -486,23 +500,25 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
         field_isDeleted: 0,
         field_isPaused: 0,
       },
-    });
+    }).catch(error => {
+      if (error) {
+        console.error('Error fetching Field Executive Data');
+        console.trace(error)
+        return null
+      }
+    })
     return { menuData, userInfo };
   }
 }
 
+// -------------------------- Getting permissions from the DB -------------------------------------
 const getMenu = async (roleName) => {
   return await Permissions.findAll({
-    attributes: {
-      exclude: [
-        "permmission_id",
-        "paused",
-        "d_deleted",
-        "createdAt",
-        "updateTimestamp",
-        "User_Roles",
-      ],
-    },
+    attributes: [
+      "permission_name",
+      "controller",
+      "icon",
+    ],
     include: {
       model: User_Role,
       attributes: ["user_role_uuid", "type_name"],
@@ -516,7 +532,14 @@ const getMenu = async (roleName) => {
       paused: 0,
       d_deleted: 0,
     },
-  });
+  })
+    .catch(error => {
+      if (error) {
+        console.error('Error fetching Permissions Data');
+        console.trace(error)
+        return null
+      }
+    })
 };
 
 /**
@@ -587,9 +610,9 @@ server.listen(process.env.server_PORT, () => {
 });
 
 
-// setInterval(()=>{
-//     console.log("Hello")
-// },1000)
+// setInterval(() => {
+//   console.log("Hello")
+// }, 1000)
 
 
 

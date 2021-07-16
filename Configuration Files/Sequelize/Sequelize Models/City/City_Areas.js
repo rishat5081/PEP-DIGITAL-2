@@ -12,10 +12,6 @@ City_Areas.init(
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
-      validate: {
-        max: 11,
-        isNumeric: true
-      }
     },
     city_area_uuid: {
       type: DataTypes.UUID,
@@ -47,10 +43,6 @@ City_Areas.init(
       allowNull: false,
       primaryKey: false,
       autoIncrement: false,
-      validate: {
-        max: 11,
-        isNumeric: true
-      },
       references: {
         model: 'city_sup_assos',
         key: 'city_supp_assos_id'

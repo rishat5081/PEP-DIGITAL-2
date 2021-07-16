@@ -12,18 +12,14 @@ Carrier_Paid_Payment.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true,
-      validate: {
-        max: 11,
-        isNumeric: true
-      }
+      autoIncrement: true
     },
     carrier_paid_pay_uuid: {
       type: DataTypes.UUID,
       defaultValue: UUIDV4,
       autoIncrement: false,
       primaryKey: false,
-       
+
     },
     c_amount: {
       type: DataTypes.DOUBLE,
@@ -34,10 +30,6 @@ Carrier_Paid_Payment.init(
       allowNull: false,
       primaryKey: false,
       autoIncrement: false,
-      validate: {
-        max: 11,
-        isNumeric: true
-      },
       references: {
         model: 'super_admin',
         key: 'sa_id'
@@ -50,10 +42,6 @@ Carrier_Paid_Payment.init(
       allowNull: false,
       primaryKey: false,
       autoIncrement: false,
-      validate: {
-        max: 11,
-        isNumeric: true
-      },
       references: {
         model: 'carriers_services_payment',
         key: 'c_s_payment_id'

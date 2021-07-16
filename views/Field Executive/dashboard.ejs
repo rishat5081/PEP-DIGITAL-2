@@ -35,13 +35,16 @@
                         <nav id="menu">
                             <ul>
                                 <% permissions.forEach(element=> { %>
-                                    <li><a href="/user<%= element.controller %>/<%=info.uuid%>">
+                                    <li>
+                                        <a href="<%=url%>/user<%= element.controller %>/<%=info.uuid%>">
                                             <span class="<%= element.icon%>"></span>
                                             <%= element.permission_name %>
                                         </a>
                                     </li>
                                     <% }); %>
-                                        <li><a href="/user/signout"><span class="fa fa-sign-out"></span> Log Out</a>
+                                        <li>
+                                            <a href="<%=url%>/user/signout">
+                                                <span class="fa fa-sign-out"> </span> Log Out</a>
                                         </li>
                             </ul>
                             <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
@@ -59,7 +62,7 @@
                         <div class="col-3 profilearea  mt-3 ">
                             <div class="row  mt-1  profile_uppersection ">
                                 <div class="container_pic ">
-                                    <img class="font-size-sm" src="<%=profileData.field_userProfilePic%>">
+                                    <img class="font-size-sm" src="<%=url%>/<%=profileData.field_userProfilePic%>">
                                 </div>
                                 <div class=" ml-3 p-1 mt-1">
                                     <h4 class="font-size-sm ">
@@ -74,18 +77,7 @@
                                     </p>
                                 </div>
                             </div>
-
-
-                            <!-- <div class="row mt-1 p-3 text-justify profile_belowsection  ">
-                                <p class="text-muted font-size-sm"> What is a profile on a resume? A profile on a resume
-                                    is a written statement located at the top of your resume that briefly highlights the
-                                    experience and skills you bring to the position. It also lists achievements or
-                                    accomplishments
-                                    made at your current or previous role.</p>
-
-                            </div> -->
                         </div>
-
                         <div class="col-9">
                             <div id="carouselExampleCaptions" class="carousel slide mt-2 carouselimg"
                                 data-ride="carousel">
@@ -107,7 +99,7 @@
                                     <% webAds.map((data,index)=>{ %>
                                         <%if(index==0) {%>
                                             <div class="carousel-item active p-2">
-                                                <img src="<%=data.picPath%>" class="d-block w-100"
+                                                <img src="<%=url%>/<%=data.picPath%>" class="d-block w-100"
                                                     alt="<%= data.title %>">
                                                 <div class="carousel-caption d-none d-md-block">
                                                     <h5 class="font-weight-bolder text-danger">
@@ -120,7 +112,7 @@
                                             </div>
                                             <% }else{ %>
                                                 <div class="carousel-item p-2">
-                                                    <img src="<%=data.picPath%>" class="d-block w-100"
+                                                    <img src="<%=url%>/<%=data.picPath%>" class="d-block w-100"
                                                         alt="<%= data.title %>">
                                                     <div class="carousel-caption d-none d-md-block">
                                                         <h5 class="font-weight-bolder text-danger">
@@ -150,12 +142,12 @@
             </div>
         </div>
         <!--===============================================================================================-->
-        <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
+        <script src="<%=url%>/vendor/jquery/jquery-3.2.1.min.js"></script>
         <!--===============================================================================================-->
-        <script src="/vendor/bootstrap/js/popper.min.js"></script>
-        <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <script src="<%=url%>/vendor/bootstrap/js/popper.min.js"></script>
+        <script src="<%=url%>/vendor/bootstrap/js/bootstrap.min.js"></script>
         <!--===============================================================================================-->
-        <script src="/vendor/jquery/tilt.jquery.min.js"></script>
+        <script src="<%=url%>/vendor/jquery/tilt.jquery.min.js"></script>
         <script>
             $('.js-tilt').tilt({
                 scale: 1.1
@@ -173,7 +165,6 @@
                 $('.button__badge').html(JSON.parse('<%-JSON.stringify(unreadNotificationCount)%>'))
             }
 
-            console.log(JSON.parse('<%-JSON.stringify(webAds)%>'));
             var profileData = JSON.parse('<%-JSON.stringify(profileData)%>')
             const date = new Date(profileData.createdAt);
             $("#memberSince").html('<b>Member Since: </b>' + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());

@@ -4,7 +4,7 @@ const { DataTypes, Model, UUIDV4 } = require('sequelize'),
   Super_Admin = require('../Stakeholders/Super_Admin'),
   Companies_Access = require('../Company/Companies_Access')
 
-class Carriers extends Model {}
+class Carriers extends Model { }
 
 Carriers.init(
   {
@@ -13,17 +13,13 @@ Carriers.init(
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
-      validate: {
-        max: 11,
-        isNumeric: true
-      }
     },
-    carrier_uuid:{
+    carrier_uuid: {
       type: DataTypes.UUID,
       defaultValue: UUIDV4,
       autoIncrement: false,
       primaryKey: false,
-       
+
     },
     carrier_name: {
       type: DataTypes.TEXT,
@@ -43,10 +39,6 @@ Carriers.init(
       allowNull: false,
       primaryKey: false,
       autoIncrement: false,
-      validate: {
-        max: 11,
-        isNumeric: true
-      },
       references: {
         model: 'super_admin',
         key: 'sa_id'
@@ -57,10 +49,6 @@ Carriers.init(
       allowNull: false,
       primaryKey: false,
       autoIncrement: false,
-      validate: {
-        max: 11,
-        isNumeric: true
-      },
       references: {
         model: 'companies_access',
         key: 'comp_access_id'

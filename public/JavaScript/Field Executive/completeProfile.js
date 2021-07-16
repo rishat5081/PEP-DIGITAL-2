@@ -33,7 +33,7 @@ defaultBtn.addEventListener("change", function () {
                 displayToast('File Size Must be less than 3 MB', 'danger')
             }
         }
-        cancelBtn.addEventListener("click", function () {
+        cancelBtn.addEventListener("click", () => {
             img.src = "";
             img.hidden = true
             submitBTN.hidden = true
@@ -69,7 +69,7 @@ $('.submitBTN').on('click', () => {
                     cache: false,
                     contentType: false,
                     processData: false,
-                    success: function (response) {
+                    success: (response) => {
                         displayToast(response.messages, response.type)
                         $('#uploadImageModal').modal('hide');
                         $('body').removeClass('modal-open');

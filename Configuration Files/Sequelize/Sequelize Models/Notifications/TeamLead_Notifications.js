@@ -56,7 +56,6 @@ TeamLead_Notifications.init(
                 model: 'team_lead',
                 key: 'team_L_id'
             },
-
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE'
         }

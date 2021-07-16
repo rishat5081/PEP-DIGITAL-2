@@ -5,15 +5,15 @@
         <title>My Sales</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css" />
         <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/fonts-1/font-awesome-4.7.0/css/font-awesome.css" />
+        <link rel="stylesheet" type="text/css" href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.css" />
         <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/css/main.css" />
+        <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css" />
         <!--===============================================================================================-->
 
-        <link rel="stylesheet" type="text/css" href="/css/style_2.css" />
-        <link rel="stylesheet" type="text/css" href="/toastr/toastr.min.css" />
+        <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css" />
+        <link rel="stylesheet" type="text/css" href="<%=url%>/toastr/toastr.min.css" />
     </head>
     <style>
         /* Create the blue navigation bar */
@@ -28,11 +28,11 @@
             <div class="container-profile100">
                 <div class="header">
                     <div class="cover-image100">
-                        <img src="/logo/logo.png" class="pep-logo" alt="" />
+                        <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
                         <a href="#">
                             <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
                         </a>
-                        <a href="/user/notification">
+                        <a href="<%=url%>/user/notification">
                             <span class="fa fa-bell menu-button">
                                 <span class="button__badge" style="display: none;"></span>
                             </span>
@@ -41,14 +41,14 @@
                             <ul>
                                 <% permissions.forEach(element=> { %>
                                     <li>
-                                        <a href="/user<%= element.controller %>/<%=info.uuid%>">
+                                        <a href="<%=url%>/user<%= element.controller %>/<%=info.uuid%>">
                                             <span class="<%= element.icon%>"></span>
                                             <%= element.permission_name %>
                                         </a>
                                     </li>
                                     <% }); %>
                                         <li>
-                                            <a href="/user/signout">
+                                            <a href="<%=url%>/user/signout">
                                                 <span class="fa fa-sign-out"> </span> Log Out</a>
                                         </li>
                             </ul>
@@ -128,13 +128,13 @@
             </div>
         </div>
         <!--===============================================================================================-->
-        <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
+        <script src="<%=url%>/vendor/jquery/jquery-3.2.1.min.js"></script>
         <!--===============================================================================================-->
-        <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <script src="<%=url%>/vendor/bootstrap/js/bootstrap.min.js"></script>
         <!--===============================================================================================-->
-        <script src="/vendor/jquery/tilt.jquery.min.js"></script>
+        <script src="<%=url%>/vendor/jquery/tilt.jquery.min.js"></script>
 
-        <script src="/toastr/toastr.min.js"></script>
+        <script src="<%=url%>/toastr/toastr.min.js"></script>
         <script>
             $('.js-tilt').tilt({
                 scale: 1.1

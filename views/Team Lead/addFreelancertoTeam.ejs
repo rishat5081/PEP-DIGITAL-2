@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" type="text/css" href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="<%=url%>/css/style.css" />
+        <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css" />
+        <link rel="stylesheet" type="text/css" href="<%=url%>/toastr/toastr.min.css" />
+    </head>
+
+
+    <body>
+        <div class="limiter">
+            <div class="container-profile100">
+                <div class="header">
+                    <div class="cover-image100">
+                        <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
+                        <a href="#">
+                            <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+                        </a>
+                        <a href="<%=url%>/user/notification">
+                            <span class="fa fa-bell menu-button">
+                                <span class="button__badge" style="display: none;"></span>
+                            </span>
+                        </a>
+                        <nav id="menu">
+                            <ul>
+
+                                <li>
+                                    <a href="<%=url%>/user/signout">
+                                        <span class="fa fa-sign-out"> </span> Log Out</a>
+                                </li>
+                            </ul>
+                            <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+                        </nav>
+                    </div>
+                    <div class="container topmargin">
+                        <h4 class=" ml-1 mb-3">List of Employees</h4>
+                        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.."
+                            title="Type in a name">
+
+                        <table class="table" id="myTable" cellspacing="1">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Phone</th>
+                                    <th scope="col">Join Since</th>
+                                    <th scope="col">Add</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>987</td>
+                                    <td>1998</td>
+                                    <td onclick="Getdata(document.getElementsByTagName('tr')[1].cells[0].innerHTML)">
+                                        <button type="button" class="btn  btn-outline-info " value="1">Add</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td>5578</td>
+                                    <td>1998</td>
+                                    <td> <button type="button" class="btn  btn-outline-info"
+                                            onclick="Getdata(document.getElementsByTagName('tr')[2].cells[0].innerHTML)"
+                                            value="2">Add</button></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>Larry</td>
+                                    <td>the Bird</td>
+                                    <td>1234</td>
+                                    <td>1998</td>
+                                    <td> <button type="button" class="btn  btn-outline-info"
+                                            onclick="Getdata(document.getElementsByTagName('tr')[3].cells[0].innerHTML)"
+                                            value="3">Add</button></td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script src="<%=url%>/js/jquery.min.js"></script>
+        <script src="<%=url%>/bootstrap/js/bootstrap.min.js"></script>
+        <!-- Toastr -->
+        <!--===============================================================================================-->
+        <script src="<%=url%>/vendor/jquery/tilt.jquery.min.js"></script>
+        <script src="<%=url%>/toastr/toastr.min.js"></script>
+
+        <script>
+            function myFunction() {
+                var input, filter, table, tr, td, i, txtValue;
+                input = document.getElementById("myInput");
+                filter = input.value.toUpperCase();
+                table = document.getElementById("myTable");
+                tr = table.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[0];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+
+
+
+            function Getdata(id) {
+                console.log(id);
+            }
+        </script>
+    </body>
+
+</html>

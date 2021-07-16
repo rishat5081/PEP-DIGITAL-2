@@ -8,15 +8,15 @@
         <!--===============================================================================================-->
         <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
         <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css">
         <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/fonts-1/font-awesome-4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.min.css">
         <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/css/main.css">
+        <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css">
         <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/css/style.css">
-        <link rel="stylesheet" type="text/css" href="/css/style_2.css">
-        <link rel="stylesheet" href="/toastr/toastr.min.css">
+        <link rel="stylesheet" type="text/css" href="<%=url%>/css/style.css">
+        <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css">
+        <link rel="stylesheet" href="<%=url%>/toastr/toastr.min.css">
 
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
             integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -90,7 +90,8 @@
                             </a>
                             <nav id="menu">
                                 <ul>
-                                    <li><a href="/user/signout"><span class="fa fa-sign-out-alt"></span> Log Out</a>
+                                    <li><a href="<%=url%>/user/signout"><span class="fa fa-sign-out-alt"></span> Log
+                                            Out</a>
                                     </li>
                                 </ul>
                                 <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
@@ -101,8 +102,8 @@
                                 <div class="col-md-12" align="center">
                                     <div class="profile-pic">
                                         <div class="prf-img">
-                                            <img src="/img/profile.jpg" class="profile-img" alt="profile picture"
-                                                id="profileImage">
+                                            <img src="<%=url%>/img/profile.jpg" class="profile-img"
+                                                alt="profile picture" id="profileImage">
                                             <button type="button" class="edit" data-toggle="modal"
                                                 data-target="#uploadImageModal">Upload Pic
                                             </button>
@@ -143,12 +144,12 @@
             </div>
 
 
-            <script src="/JavaScript/Field Executive/completeProfile.js"></script>
+            <script src="<%=url%>/JavaScript/Field Executive/completeProfile.js"></script>
             <!--===============================================================================================-->
-            <script src="/js/jquery.min.js"></script>
-            <script src="/bootstrap/js/bootstrap.min.js"></script>
+            <script src="<%=url%>/js/jquery.min.js"></script>
+            <script src="<%=url%>/bootstrap/js/bootstrap.min.js"></script>
             <!-- Toastr -->
-            <script src="/toastr/toastr.min.js"></script>
+            <script src="<%=url%>/toastr/toastr.min.js"></script>
 
             <script>
                 var menu = document.getElementById("menu");

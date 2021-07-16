@@ -1,7 +1,0 @@
--Till 26-03-2021
-1. The Login for Supervisor, Team Lead and Field or Freelance is ready, 
-2. Sign Up 
-3. Authentication with email 
-4. Resending email
-5. Home, SignUp and Login Page dynamic from DB
-6. Profile Page of Freelance but no satisfied

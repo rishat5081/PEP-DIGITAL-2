@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Contact Us</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!--===============================================================================================-->
+        <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css" />
+        <link rel="stylesheet" type="text/css" href="<%=url%>/toastr/toastr.min.css" />
+        <!--===============================================================================================-->
+    </head>
+
+
+    <body>
+
+        <div class="limiter">
+            <div class="container-profile100">
+                <div class="header">
+                    <div class="cover-image100">
+                        <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
+                        <a href="#">
+                            <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+                        </a>
+                        <a href="<%=url%>/user/notification">
+                            <span class="fa fa-bell menu-button">
+                                <span class="button__badge" style="display: none;"></span>
+                            </span>
+                        </a>
+                        <nav id="menu">
+                            <ul>
+                                <% permissions.forEach(element=> { %>
+                                    <li>
+                                        <a href="<%=url%>/user<%= element.controller %>/<%=info.uuid%>">
+                                            <span class="<%= element.icon%>"></span>
+                                            <%= element.permission_name %>
+                                        </a>
+                                    </li>
+                                    <% }); %>
+                                        <li>
+                                            <a href="<%=url%>/user/signout">
+                                                <span class="fa fa-sign-out"> </span> Log Out</a>
+                                        </li>
+                            </ul>
+                            <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+                        </nav>
+                    </div>
+                    <h1 class="text-center w-100 mt-5 pt-4">Contact Us
+
+                    </h1>
+                    <hr class="con_line">
+                    <h3 class="text-center mr-5">We are happy to Help you<i class="fa smile"> &#xf118;</i></h3>
+                    <div class="row mb-5">
+                        <div class="col-sm">
+                            <div class="p-3  formstyle">
+                                <input type="text" id="name" placeholder="Name " class="form-control mb-4">
+                                <input type="text" id="subject" placeholder="Subject" class="form-control mb-4">
+                                <input type="text" class="form-control mb-4" placeholder="Activity UUID" id="UUID"
+                                    value="<%=activityUUID %> " disabled>
+                                <textarea id="complainMessage" name="subject" placeholder="Message"
+                                    class="form-control textbox mb-4"></textarea>
+                                <button type="submit" class="form-control contact_btn" id="submitComplain">Submit
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <ul class="addressend">
+                                <li>
+                                    <p><i class="fa fa-map-marker"></i>Office # 21, Crown Plaza Commercial Market,
+                                        Chandni Chowk, Rawalpindi </p>
+                                </li>
+                                <li>
+                                    <p><i class="fa fa-phone"></i>051 873 128 8 </p>
+                                </li>
+                                <li>
+                                    <p><i class="fa fa-envelope"></i>info@pakeproperty.com.pk</p>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--===============================================================================================-->
+        <script src="<%=url%>/vendor/jquery/jquery-3.2.1.min.js"></script>
+        <!--===============================================================================================-->
+        <script src="<%=url%>/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <!--===============================================================================================-->
+        <script src="<%=url%>/vendor/jquery/tilt.jquery.min.js"></script>
+
+        <script src="<%=url%>/toastr/toastr.min.js"></script>
+
+        <script type="application/javascript">
+
+            var menu = document.getElementById("menu");
+            function openMenu() {
+                menu.style.top = "0";
+            }
+            function closeMenu() {
+                menu.style.top = "-100vh";
+            }
+            $('#submitComplain').on('click', e => {
+
+                if ($('#name').val(), $('#subject').val(), $('#complainMessage').val() === null ||
+                    $('#name').val(), $('#subject').val(), $('#complainMessage').val() === "") {
+                    toastr.error("All fields are required")
+                    return
+                }
+                else {
+                    $.ajax({
+                        type: "POST",
+                        url: "<%=url%>/addComplain",
+                        data: {
+                            name: $('#name').val(),
+                            subject: $('#subject').val(),
+                            complainMessage: $('#complainMessage').val(),
+                            UUID: $('#UUID').val()
+                        },
+                        dataType: "JSON",
+                        error: (error) => {
+                            if (error) {
+                                toastr.error("response.responseText")
+                            }
+                        },
+                        success: (response) => {
+                            if (response) {
+                                toastr.success(response.status);
+                            }
+                        }
+                    });
+                }
+
+
+            })
+
+
+        </script>
+    </body>
+
+</html>

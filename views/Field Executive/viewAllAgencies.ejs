@@ -8,16 +8,16 @@
     <!--===============================================================================================-->
     <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="<%=url%>/bootstrap/css/bootstrap.min.css" />
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="/fonts-1/font-awesome-4.7.0/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.css" />
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css" />
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/style.css" />
 
-    <link rel="stylesheet" type="text/css" href="/css/style_2.css" />
-    <link rel="stylesheet" href="/toastr/toastr.min.css">
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css" />
+    <link rel="stylesheet" href="<%=url%>/toastr/toastr.min.css">
     <!--===============================================================================================-->
   </head>
 
@@ -26,11 +26,11 @@
       <div class="container-profile100">
         <div class="header">
           <div class="cover-image100">
-            <img src="/logo/logo.png" class="pep-logo" alt="" />
+            <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
             <a href="#">
               <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
             </a>
-            <a href="/user/notification">
+            <a href="<%=url%>/user/notification">
               <span class="fa fa-bell menu-button">
                 <span class="button__badge" style="display: none;"></span>
               </span>
@@ -39,14 +39,14 @@
               <ul>
                 <% permissions.forEach(element=> { %>
                   <li>
-                    <a href="/user<%= element.controller %>/<%=info.uuid%>">
+                    <a href="<%=url%>/user<%= element.controller %>/<%=info.uuid%>">
                       <span class="<%= element.icon%>"></span>
                       <%= element.permission_name %>
                     </a>
                   </li>
                   <% }); %>
                     <li>
-                      <a href="/user/signout">
+                      <a href="<%=url%>/user/signout">
                         <span class="fa fa-sign-out"> </span> Log Out</a>
                     </li>
               </ul>
@@ -92,21 +92,21 @@
                     <div class="row activity-form mb-5">
                       <div class="col-md-6">
                         <div class="profile-pic mb-5">
-                          <img src="/img/profile.jpg" id="fieldExecutive_ProfilePic">
+                          <img src="<%=url%>/img/profile.jpg" id="fieldExecutive_ProfilePic">
                         </div>
                         <div class="profile-data mt-5">
-                          <p><b>Added By :</b> <span id="fieldExecutive_Name">Saad</span></p>
-                          <p><b>Mobile:</b> <span id="fieldExecutive_Contact">+92 345 6789000</span></p>
+                          <p><b>Added By :</b> <span id="fieldExecutive_Name"></span></p>
+                          <p><b>Mobile:</b> <span id="fieldExecutive_Contact"></span></p>
                         </div>
                       </div>
                       <div class="col-md-6 mt-5">
                         <div class="profile-data">
-                          <p><b>Agency Name :</b> <span id="agencyName_tag">xxxxxxx</span></p>
-                          <p><b>Contact :</b> <span id="agencyContact_tag">examplexxxxxx</span></p>
-                          <p><b>City :</b> <span id="agencyCity_Tag">examplexxxxxx</span></p>
-                          <p><b>Address :</b> <span id="agencyAddress_Tag">examplexxxxxx</span></p>
-                          <p><b>Contacted Person :</b> <span id="agencyContactedPerson_Tag">examplexxxxxx</span></p>
-                          <p><b>Created Date:</b> <span id="agencyDate_Time">+92 345 6789000</span></p>
+                          <p><b>Agency Name :</b> <span id="agencyName_tag"></span></p>
+                          <p><b>Contact :</b> <span id="agencyContact_tag"></span></p>
+                          <p><b>City :</b> <span id="agencyCity_Tag"></span></p>
+                          <p><b>Address :</b> <span id="agencyAddress_Tag"></span></p>
+                          <p><b>Contacted Person :</b> <span id="agencyContactedPerson_Tag"></span></p>
+                          <p><b>Created Date:</b> <span id="agencyDate_Time"></span></p>
                         </div>
                       </div>
                     </div>
@@ -283,7 +283,7 @@
               $('#agencyContactedPerson_Tag').html(response.AgencyDetails.contactedPerson)
               $('#agencyTitle').html(response.AgencyDetails.agency_name)
 
-              $('#fieldExecutive_ProfilePic').attr('src', response.AgencyDetails.Field_Executive.field_userProfilePic)
+              $('#fieldExecutive_ProfilePic').attr('src', '<%=url%>' + response.AgencyDetails.Field_Executive.field_userProfilePic)
               $('#fieldExecutive_Name').html(response.AgencyDetails.Field_Executive.field_name)
               $('#fieldExecutive_Contact').html(response.AgencyDetails.Field_Executive.field_contact)
               toastr.success(response.details)

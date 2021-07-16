@@ -8,15 +8,15 @@
         <!--===============================================================================================-->
         <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
         <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css" />
         <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/fonts-1/font-awesome-4.7.0/css/font-awesome.css" />
+        <link rel="stylesheet" type="text/css" href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.css" />
         <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/css/main.css" />
+        <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css" />
         <!--===============================================================================================-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="/css/style_2.css" />
-        <link rel="stylesheet" type="text/css" href="/toastr/toastr.min.css" />
+        <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css" />
+        <link rel="stylesheet" type="text/css" href="<%=url%>/toastr/toastr.min.css" />
         <!--===============================================================================================-->
     </head>
 
@@ -27,25 +27,25 @@
             <div class="container-profile100">
                 <div class="header">
                     <div class="cover-image100">
-                        <img src="/logo/logo.png" class="pep-logo" alt="" />
+                        <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
                         <a href="#">
                             <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
                         </a>
-                        <a href="/user/notification">
+                        <a href="<%=url%>/user/notification">
                             <span class="fa fa-bell menu-button">
                         </a>
                         <nav id="menu">
                             <ul>
                                 <% permissions.forEach(element=> { %>
                                     <li>
-                                        <a href="/user<%= element.controller %>/<%=info.uuid%>">
+                                        <a href="<%=url%>/user<%= element.controller %>/<%=info.uuid%>">
                                             <span class="<%= element.icon%>"></span>
                                             <%= element.permission_name %>
                                         </a>
                                     </li>
                                     <% }); %>
                                         <li>
-                                            <a href="/user/signout">
+                                            <a href="<%=url%>/user/signout">
                                                 <span class="fa fa-sign-out"> </span> Log Out</a>
                                         </li>
                             </ul>
@@ -143,7 +143,6 @@
                             </div>
                             <div class="row setrows mt-3">
                                 <div class="col-8"></div>
-
                                 <div class="col-2 "><b>Activties Total</b></div>
                                 <div class="col-2 ">
                                     <b>
@@ -187,7 +186,7 @@
                             <div class="card cardcss">
                                 <div class="card-body">
                                     <p class="card-text"> Need to contact customer support service??</p>
-                                    <a href="#" class="btn custom-btn">Contact</a>
+                                    <button id="contactUS" class="btn custom-btn">Contact</button>
                                 </div>
                             </div>
                             <div class="card cardcss" id="bankDepositSection" style="display: none;">
@@ -205,13 +204,13 @@
         </div>
 
         <!--===============================================================================================-->
-        <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
+        <script src="<%=url%>/vendor/jquery/jquery-3.2.1.min.js"></script>
         <!--===============================================================================================-->
-        <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <script src="<%=url%>/vendor/bootstrap/js/bootstrap.min.js"></script>
         <!--===============================================================================================-->
-        <script src="/vendor/jquery/tilt.jquery.min.js"></script>
+        <script src="<%=url%>/vendor/jquery/tilt.jquery.min.js"></script>
 
-        <script src="/toastr/toastr.min.js"></script>
+        <script src="<%=url%>/toastr/toastr.min.js"></script>
 
         <script>
             var menu = document.getElementById("menu");
@@ -255,6 +254,11 @@
             $('#bankDepositBTN').click(e => {
                 var activity_Info = JSON.parse('<%-JSON.stringify(Activity_Info)%>');
                 window.open(`${window.location.origin}/user/bankDeposit/${activity_Info.list_act_uuid}`, '_blank')
+            })
+
+            $('#contactUS').click(e => {
+                var activity_Info = JSON.parse('<%-JSON.stringify(Activity_Info)%>');
+                window.open(`${window.location.origin}/user/contactUs/${activity_Info.list_act_uuid}`, '_blank')
             })
         </script>
         <script>

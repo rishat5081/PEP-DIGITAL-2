@@ -52,9 +52,6 @@ router.get("/dashboard/:fieldExeUUID", isUser_Login, isUserAuthentic, async (req
   // let Notification = await notificationOfExecutive(req.session.profileData.field_id)
   let unreadNotificationCount = await countofNotificationOfExecutive(req.session.profileData.field_id)
 
-  console.log(req.session.passport.user.userInfo);
-  console.log(req.session.passport.user.userRole);
-
   const webAds = await WebAds.findAll({
     attributes: ['title', 'description', 'picPath'],
     where: {
@@ -76,6 +73,7 @@ router.get("/dashboard/:fieldExeUUID", isUser_Login, isUserAuthentic, async (req
       id: req.session.passport.user.userInfo.login_id,
       uuid: req.session.profileData.field_uuid,
     },
+    url: req.protocol + '://' + req.get('host'),
     profileData,
     webAds,
     unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
@@ -118,7 +116,8 @@ router.get("/completeProfile/:fieldExeUUID", isUser_Login, isUserAuthentic, (req
  */
 router.get(
   "/startActivity/:fieldExeUUID",
-  isUser_Login, isUserAuthentic,
+  isUser_Login,
+  isUserAuthentic,
   async (req, res) => {
     /**
      * getting all the instructions for the activty to start
@@ -134,7 +133,10 @@ router.get(
         return instrucntions;
       })
       .catch((error) => {
-        return "No Instructions Found " + error;
+        if (error) {
+          console.error("No Instructions Found " + error);
+          return null;
+        }
       });
     /**
      * getting the agency types
@@ -148,7 +150,10 @@ router.get(
         return types;
       })
       .catch((error) => {
-        return "No Types Found";
+        if (error) {
+          console.error("No Types Found");
+          return null;
+        }
       });
 
     /**
@@ -196,7 +201,7 @@ router.get(
         id: req.session.passport.user.userInfo.login_id,
         uuid: req.session.profileData.field_uuid,
       },
-      // Notification,
+      url: req.protocol + '://' + req.get('host'),
       unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
       agencyTypes,
       CompaignsList,
@@ -290,6 +295,7 @@ router.get(
           id: req.session.passport.user.userInfo.login_id,
           uuid: req.session.profileData.field_uuid,
         },
+        url: req.protocol + '://' + req.get('host'),
         unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
         permissions: req.session.permissions.permissionObject,
       });
@@ -354,6 +360,7 @@ router.get("/viewAgencies/:fieldExeUUID", isUser_Login, isUserAuthentic, async (
     AgencyData,
     pakistanCityName,
     CompaignsList,
+    url: req.protocol + '://' + req.get('host'),
     unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
     info: {
       id: req.session.passport.user.userInfo.login_id,
@@ -454,6 +461,7 @@ router.get('/Profile/:fieldExeUUID',
       teamLead_Info,
       City_Area_Info,
       LoginEmail,
+      url: req.protocol + '://' + req.get('host'),
       countOfTargetsActivities,
       unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
       info: {
@@ -607,13 +615,7 @@ router.get('/completedActivity/:activityUUID'
       .catch(error => {
         if (error) {
           console.error('Error Fetching Activities : ' + error);
-
-          res.status(404).render("Web Appendage Pages/error", {
-            errorStatus: "Invalid Activity",
-            errorHeading: `The Activity is ID is incorrect.`,
-          });
-          res.end()
-          return
+          return null
         }
       })
 
@@ -624,6 +626,7 @@ router.get('/completedActivity/:activityUUID'
      */
 
     if (activitiesResponse) {
+
       const agencyInfo = activitiesResponse[0] //!== null ? { ...activitiesResponse[0].Agency_Info.dataValues } : null
       const Activity_Info = Object.assign({}, {
         list_act_id: activitiesResponse[0].dataValues.list_act_id,
@@ -666,11 +669,13 @@ router.get('/completedActivity/:activityUUID'
 
 
       let unreadNotificationCount = await countofNotificationOfExecutive(req.session.profileData.field_id)
+
       res.render("Field Executive/activityComplete", {
         sumOf_Activities: sumOf_Activities[0].dataValues,
         agencyInfo,
         Activity_Info,
         subActivities,
+        url: req.protocol + '://' + req.get('host'),
         unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
         info: {
           id: req.session.passport.user.userInfo.login_id,
@@ -680,7 +685,7 @@ router.get('/completedActivity/:activityUUID'
       })
       unreadNotificationCount = null
     }
-    else {
+    else if (activitiesResponse === null) {
       res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`)
     }
 
@@ -723,6 +728,7 @@ router.get('/notification', isUser_Login, async (req, res) => {
   res.render("Field Executive/notification", {
     unreadNotificationCount: unreadNotificationCount[0].dataValues.unreadNotificationCount,
     unreadNotification,
+    url: req.protocol + '://' + req.get('host'),
     info: {
       id: req.session.passport.user.userInfo.login_id,
       uuid: req.session.profileData.field_uuid,
@@ -801,25 +807,35 @@ router.get('/withdraws/:fieldExeUUID', isUser_Login, isUserAuthentic, async (req
         return null
     })
     .catch(error => {
-      if (error)
+      if (error) {
         console.log('Error Fetching Sum of Activities : ' + error);
+        return null;
+      }
     })
 
-  // console.log(sumOf_Activities);
+
+  // ------------------ End of Promise --------------------
+
+  if (PendingClearanceObject === null || sumOf_Activities === null) {
+    res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`)
+  }
+  else {
+    res.render("Field Executive/withdrawals", {
+      sumOf_Activities,
+      PendingClearanceObject,
+      url: req.protocol + '://' + req.get('host'),
+      info: {
+        id: req.session.passport.user.userInfo.login_id,
+        uuid: req.session.profileData.field_uuid,
+      },
+      permissions: req.session.permissions.permissionObject,
+    })
+  }
 
 
 
 
-  res.render("Field Executive/withdrawals", {
-    sumOf_Activities,
-    PendingClearanceObject,
-    url: req.protocol + '://' + req.get('host'),
-    info: {
-      id: req.session.passport.user.userInfo.login_id,
-      uuid: req.session.profileData.field_uuid,
-    },
-    permissions: req.session.permissions.permissionObject,
-  })
+
 })
 
 
@@ -873,11 +889,7 @@ router.get('/bankDeposit/:activityUUID', isUser_Login, async (req, res) => {
     .catch(error => {
       if (error) {
         console.error('Error Fetching Activities : ' + error);
-
-        res.status(404).render("Web Appendage Pages/error", {
-          errorStatus: "Invalid Activity",
-          errorHeading: `The Activity is ID is incorrect.`,
-        });
+        return null;
       }
     })
 
@@ -923,6 +935,7 @@ router.get('/bankDeposit/:activityUUID', isUser_Login, async (req, res) => {
         bankList,
         companyDetails,
         sumOf_Activities,
+        url: req.protocol + '://' + req.get('host'),
         activityDetails: activitiesResponse,
         info: {
           id: req.session.passport.user.userInfo.login_id,
@@ -939,15 +952,6 @@ router.get('/bankDeposit/:activityUUID', isUser_Login, async (req, res) => {
   else {
     res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`)
   }
-
-
-
-
-
-
-
-
-
 })
 
 
@@ -995,7 +999,7 @@ router.get('/depositslip/:field_exe_earn_uuid', async (req, res) => {
     .catch(error => {
       console.error('There is an error fetching bank depoist slip route');
       console.trace(error)
-      res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`)
+      return null;
     })
 
   if (bankDetails) {
@@ -1006,8 +1010,8 @@ router.get('/depositslip/:field_exe_earn_uuid', async (req, res) => {
     })
   } else {
     res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`)
+    res.end()
   }
-
 
 })
 
@@ -1044,7 +1048,10 @@ router.get('/progressAnalytics/:fieldExeUUID', isUser_Login, isUserAuthentic,
           return null
       })
       .catch(error => {
-        console.error('There is an error which fetching activities per month ' + error);
+        if (error) {
+          console.error('There is an error which fetching activities per month ' + error);
+          return null;
+        }
       })
 
 
@@ -1075,7 +1082,10 @@ router.get('/progressAnalytics/:fieldExeUUID', isUser_Login, isUserAuthentic,
           return null
       })
       .catch(error => {
-        console.error('There is an error which fetching activities per month ' + error);
+        if (error) {
+          console.error('There is an error which fetching activities per month ' + error);
+          return null;
+        }
       })
 
 
@@ -1103,27 +1113,70 @@ router.get('/progressAnalytics/:fieldExeUUID', isUser_Login, isUserAuthentic,
           return null
       })
       .catch(error => {
-        console.error('There is an error which fetching activities per month ' + error);
+        if (error) {
+          console.error('There is an error which fetching activities per month ' + error);
+          return null;
+        }
       })
 
+    if (activitiesPerMonth === null || cancelledactivitiesPerMonth === null || agencyCount === null) {
+      res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`)
+    }
+    else {
+      res.render("Field Executive/progressAnalytics", {
+        url: req.protocol + '://' + req.get('host'),
+        activitiesPerMonth,
+        cancelledactivitiesPerMonth,
+        agencyCount,
+        info: {
+          id: req.session.passport.user.userInfo.login_id,
+          uuid: req.session.profileData.field_uuid,
+        },
+        permissions: req.session.permissions.permissionObject,
+      })
+      res.end()
+    }
+  })
 
 
+router.get('/contactUs/:activityUUID', async (req, res) => {
 
+  const activity = await Activities.findOne({
+    attributes: ['list_act_id'],
+    where: {
+      deleted: 0,
+      paused: 0,
+      list_act_uuid: req.params.activityUUID,
+      field_id: req.session.profileData.field_id
+    }
+  }).then()
+    .catch(error => {
+      if (error) {
+        console.error('Error fetching Activity Details');
+        console.trace(error)
+        return null
+      }
+    })
 
-    res.render("Field Executive/progressAnalytics", {
+  if (activity === null) {
+    res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`)
+    res.end()
+  }
+  else {
+    res.render("Field Executive/contactUs", {
+      activityUUID: req.params.activityUUID,
       url: req.protocol + '://' + req.get('host'),
-      activitiesPerMonth,
-      cancelledactivitiesPerMonth,
-      agencyCount,
       info: {
         id: req.session.passport.user.userInfo.login_id,
         uuid: req.session.profileData.field_uuid,
       },
       permissions: req.session.permissions.permissionObject,
-    }
-    )
-  })
+    })
+  }
 
+
+
+})
 
 
 
@@ -1132,33 +1185,15 @@ router.get("/signout", (req, res) => {
   res.redirect("/login");
 })
 
-// ------------------------invalid route -----------------------
 
+// ------------------------invalid route -----------------------
+// redirect to the dashboard
 
 router.get('*', (req, res) => {
   res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`)
 });
 module.exports = { router }
 
-const notificationOfExecutive = async (field_id) => {
-  return await ExecutiveNotifications.findAll({
-    attributes: ['execu_notification_uuid', 'notification_text'],
-    where: {
-      isPaused: false,
-      deleted: false,
-      field_id
-    },
-    include: {
-      model: NotificationText,
-      attributes: ['notification_title', 'notification_icon'],
-      required: true
-    },
-    limit: 50
-  }).then((notifications) => {
-    if (notifications)
-      return notifications
-  })
-}
 
 const countofNotificationOfExecutive = async (field_id) => {
   return await ExecutiveNotifications.findAll({
@@ -1225,9 +1260,9 @@ const countofNotificationOfExecutive = async (field_id) => {
 //   // console.log(Activities_sss.map(data => data.dataValues.Activity.dataValues.list_act_id));
 
 //   const sumOf_Activities = await List_sub_Activities.findAll({
-//     attributes: [[sequelize.fn('sum', sequelize.col('`List_of_Package`.list_amount')), 'SumofValues'],
-//     [sequelize.literal('SUM(`List_of_Package`.bankAmount/100*`List_of_Package`.commissionAmount)'), 'Commission']
-//     ],
+// attributes: [[sequelize.fn('sum', sequelize.col('`List_of_Package`.list_amount')), 'SumofValues'],
+// [sequelize.literal('SUM(`List_of_Package`.bankAmount/100*`List_of_Package`.commissionAmount)'), 'Commission']
+// ],
 //     include: {
 //       attributes: [],
 //       model: List_of_Packages,
@@ -1254,9 +1289,6 @@ const countofNotificationOfExecutive = async (field_id) => {
 //     })
 
 //   console.log(sumOf_Activities);
-
-
-
 
 
 

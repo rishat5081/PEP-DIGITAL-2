@@ -3,7 +3,7 @@ const { DataTypes, Model, UUIDV4 } = require('sequelize'),
   sequelize = require('../../Sequelize'),
   Zone = require('../Zone')
 
-class City extends Model {}
+class City extends Model { }
 
 City.init(
   {
@@ -12,21 +12,27 @@ City.init(
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
-      validate: {
-        max: 11,
-        isNumeric: true
-      }
     },
-    city_uuid:{
+    city_uuid: {
       type: DataTypes.UUID,
       defaultValue: UUIDV4,
       autoIncrement: false,
       primaryKey: false,
-       
+
     },
     city_name: {
       type: DataTypes.TEXT,
       allowNull: true
+    },
+    paused: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false
+    },
+    deleted: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false
     },
     city_code: {
       type: DataTypes.TEXT,
@@ -37,10 +43,6 @@ City.init(
       allowNull: false,
       primaryKey: false,
       autoIncrement: false,
-      validate: {
-        max: 11,
-        isNumeric: true
-      },
       references: {
         model: 'zone',
         key: 'zone_id'

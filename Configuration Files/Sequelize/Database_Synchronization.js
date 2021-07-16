@@ -70,12 +70,16 @@ const sequelize = require("./Sequelize"),
   WebAds = require("./Sequelize Models/Web/WebAds"),
   Pendance_Clearance_Details = require("./Sequelize Models/Web/Pendance_Clearance_Details"),
   Department = require("./Sequelize Models/Department"),
-  Zone = require("./Sequelize Models/Zone");
+  Zone = require("./Sequelize Models/Zone"),
+  ComplainsOfActivities = require("./Sequelize Models/Complains/ComplainsOfActivities");
+
 
 /**Get all the models here
  * now Synchronizing it one by one into a function
  * and then it will create all the data base
  */
+
+
 
 const TruncateTables = async () => {
 
@@ -268,6 +272,11 @@ const TruncateTables = async () => {
 
 
   await Executive_Adver_Stock_Info.destroy({ truncate: true })
+    .then()
+    .catch(error => console.log('Error Deleting Table' + error))
+
+
+  await ComplainsOfActivities.destroy({ truncate: true })
     .then()
     .catch(error => console.log('Error Deleting Table' + error))
 
@@ -1332,6 +1341,15 @@ const Synchronizing = async () => {
       console.log("Error in Creating Table Pendance_Clearance_Details");
     });
 
+  await ComplainsOfActivities.sync({ force: true })
+    .then()
+    .catch((error) => {
+      console.log(error + "\n");
+      console.log("\n");
+      console.log("\n");
+      console.log("Error in Creating Table ComplainsOfActivities");
+    });
+
   console.log("*************************************************************");
   console.log("*************************************************************");
   console.log("*************************************************************");
@@ -1678,6 +1696,7 @@ const DevelopmentDatabase = async () => {
     .catch((error) => "Error in Login_Page");
 };
 
+
 module.exports = {
   Synchronizing,
   DevelopmentDatabase,
@@ -1733,6 +1752,7 @@ module.exports = {
   Field_Executive,
   GM_Company,
   Managers,
+  ComplainsOfActivities,
   WebAds,
   Super_Admin,
   Supervisor,

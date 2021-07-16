@@ -22,7 +22,7 @@ Carriers_Services.init(
       defaultValue: UUIDV4,
       autoIncrement: false,
       primaryKey: false,
-       
+
     },
     c_service_name: {
       type: DataTypes.TEXT,
@@ -54,10 +54,6 @@ Carriers_Services.init(
       allowNull: false,
       primaryKey: false,
       autoIncrement: false,
-      validate: {
-        max: 11,
-        isNumeric: true
-      },
       references: {
         model: 'carriers',
         key: 'carrier_id'
