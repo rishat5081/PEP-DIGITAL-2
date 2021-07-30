@@ -1,138 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/toastr/toastr.min.css"
+    />
+    <!--===============================================================================================-->
+  </head>
 
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" type="text/css" href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.css" />
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css" />
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="<%=url%>/css/style.css" />
-        <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css" />
-        <link rel="stylesheet" type="text/css" href="<%=url%>/toastr/toastr.min.css" />
-    </head>
+  <style>
+    #nameInput {
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0s linear 0.5s, opacity 0.5s linear;
+    }
 
+    #nameInput.show {
+      visibility: visible;
+      opacity: 1;
+      transition-delay: 0.4s;
+    }
+    #emailInput {
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0s linear 0.5s, opacity 0.5s linear;
+    }
 
-    <body>
-        <div class="limiter">
-            <div class="container-profile100">
-                <div class="header">
-                    <div class="cover-image100">
-                        <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
-                        <a href="#">
-                            <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
-                        </a>
-                        <a href="<%=url%>/user/notification">
-                            <span class="fa fa-bell menu-button">
-                                <span class="button__badge" style="display: none;"></span>
-                            </span>
-                        </a>
-                        <nav id="menu">
-                            <ul>
+    #emailInput.show {
+      visibility: visible;
+      opacity: 1;
+      transition-delay: 0.4s;
+    }
+  </style>
 
-                                <li>
-                                    <a href="<%=url%>/user/signout">
-                                        <span class="fa fa-sign-out"> </span> Log Out</a>
-                                </li>
-                            </ul>
-                            <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
-                        </nav>
-                    </div>
-                    <div class="container topmargin">
-                        <h4 class=" ml-1 mb-3">List of Employees</h4>
-                        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.."
-                            title="Type in a name">
+  <body>
+    <div class="limiter">
+      <div class="container-profile100">
+        <div class="header">
+          <div class="cover-image100">
+            <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
+            <a href="#">
+              <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+            </a>
+            <a href="<%=url%>/user/notification">
+              <span class="fa fa-bell menu-button">
+                <span class="button__badge" style="display: none"></span>
+              </span>
+            </a>
+            <nav id="menu">
+              <ul>
+                <% permissions.forEach(element=> { %>
+                <li>
+                  <a
+                    href="<%=url%>/teamlead<%= element.controller%>/<%=info.uuid%>"
+                  >
+                    <span class="<%= element.icon%>"></span>
+                    <%= element.permission_name %>
+                  </a>
+                </li>
+                <% }); %>
+                <li>
+                  <a href="<%=url%>/user/signout">
+                    <span class="fa fa-sign-out"> </span> Log Out</a
+                  >
+                </li>
+              </ul>
+              <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+            </nav>
+          </div>
 
-                        <table class="table" id="myTable" cellspacing="1">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Phone</th>
-                                    <th scope="col">Join Since</th>
-                                    <th scope="col">Add</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>987</td>
-                                    <td>1998</td>
-                                    <td onclick="Getdata(document.getElementsByTagName('tr')[1].cells[0].innerHTML)">
-                                        <button type="button" class="btn  btn-outline-info " value="1">Add</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>5578</td>
-                                    <td>1998</td>
-                                    <td> <button type="button" class="btn  btn-outline-info"
-                                            onclick="Getdata(document.getElementsByTagName('tr')[2].cells[0].innerHTML)"
-                                            value="2">Add</button></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
-                                    <td>1234</td>
-                                    <td>1998</td>
-                                    <td> <button type="button" class="btn  btn-outline-info"
-                                            onclick="Getdata(document.getElementsByTagName('tr')[3].cells[0].innerHTML)"
-                                            value="3">Add</button></td>
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+          <!-- --------------------------- -->
+          <div class="container topmargin">
+            <div class="text-center m-4 p-4">
+              <h4 class="ml-1 mb-3">List of Employees</h4>
             </div>
+            <div class="text-center m-4 d-flex flex-row">
+              <div class="input-group flex-row m-2 p-2">
+                <div class="input-group-prepend p-2">
+                  <div class="input-group-text">
+                    <input
+                      type="radio"
+                      id="name"
+                      name="searchType"
+                      aria-label="Radio button for following text input"
+                    />
+                    <label for=""> Search By Name </label>
+                  </div>
+                </div>
+                <input
+                  id="nameInput"
+                  type="text"
+                  onkeyup="searchMember()"
+                  class="form-control border-dark"
+                  aria-label="Text input with checkbox"
+                />
+              </div>
+
+              <div class="input-group flex-row m-2 p-2">
+                <div class="input-group-prepend p-2">
+                  <div class="input-group-text"></div>
+                  <input
+                    type="radio"
+                    id="email"
+                    name="searchType"
+                    aria-label="Radio button for following text input"
+                  />
+                  <label for=""> Search By Email </label>
+                </div>
+                <input
+                  id="emailInput"
+                  type="text"
+                  onkeyup="searchMember()"
+                  class="form-control border-dark"
+                  aria-label="Text input with checkbox"
+                />
+              </div>
+            </div>
+
+            <table class="table" id="myTable" cellspacing="1">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Phone</th>
+                  <th scope="col">Join Since</th>
+                  <th scope="col">Add</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%teamMember.forEach((member,index) =>{ %>
+                <tr>
+                  <th scope="row"><%=++index %></th>
+                  <td><%= member.field_name %></td>
+                  <td><%= member.User_Login_Information.login_email %></td>
+                  <td><%= member.field_contact %></td>
+                  <td><%= member.User_Login_Information.createdAt %></td>
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-outline-info"
+                      value="<%= member.field_uuid %>"
+                      onclick="addMembertoTeam(this.value)"
+                    >
+                      Add
+                    </button>
+                  </td>
+                </tr>
+                <% })%>
+              </tbody>
+            </table>
+          </div>
         </div>
+      </div>
+    </div>
 
+    <script src="<%=url%>/js/jquery.min.js"></script>
+    <script src="<%=url%>/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Toastr -->
+    <!--===============================================================================================-->
+    <script src="<%=url%>/vendor/jquery/tilt.jquery.min.js"></script>
+    <script src="<%=url%>/toastr/toastr.min.js"></script>
 
+    <script>
+      var emailRadio = document.getElementById("email");
+      var nameRadio = document.getElementById("name");
 
-        <script src="<%=url%>/js/jquery.min.js"></script>
-        <script src="<%=url%>/bootstrap/js/bootstrap.min.js"></script>
-        <!-- Toastr -->
-        <!--===============================================================================================-->
-        <script src="<%=url%>/vendor/jquery/tilt.jquery.min.js"></script>
-        <script src="<%=url%>/toastr/toastr.min.js"></script>
+      nameRadio.onchange = function () {
+        if (nameRadio.checked === true) {
+          document.getElementById("nameInput").classList.add("show");
+          document.getElementById("emailInput").classList.remove("show");
+        }
+      };
 
-        <script>
-            function myFunction() {
-                var input, filter, table, tr, td, i, txtValue;
-                input = document.getElementById("myInput");
-                filter = input.value.toUpperCase();
-                table = document.getElementById("myTable");
-                tr = table.getElementsByTagName("tr");
-                for (i = 0; i < tr.length; i++) {
-                    td = tr[i].getElementsByTagName("td")[0];
-                    if (td) {
-                        txtValue = td.textContent || td.innerText;
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            tr[i].style.display = "";
-                        } else {
-                            tr[i].style.display = "none";
-                        }
-                    }
-                }
+      emailRadio.onchange = function () {
+        if (emailRadio.checked === true) {
+          document.getElementById("emailInput").classList.add("show");
+          document.getElementById("nameInput").classList.remove("show");
+        }
+      };
+
+      var notificationCount = JSON.parse(
+        "<%-JSON.stringify(unreadNotificationCount)%>"
+      );
+      if (notificationCount) {
+        $(".button__badge").css("display", "block");
+        $(".button__badge").html();
+      }
+      $(".js-tilt").tilt({
+        scale: 1.1
+      });
+
+      var menu = document.getElementById("menu");
+
+      function openMenu() {
+        menu.style.top = "0";
+      }
+      function closeMenu() {
+        menu.style.top = "-100vh";
+      }
+
+      function searchMember() {
+        var input, filter, table, tr, td, i, txtValue;
+        let radioButton = $("#name").prop("checked") ? 0 : 1;
+        input = $("#name").prop("checked") ? $("#nameInput") : $("#emailInput");
+        filter = input[0].value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[radioButton];
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
             }
+          }
+        }
+      }
 
-
-
-            function Getdata(id) {
-                console.log(id);
+      function addMembertoTeam(id) {
+        console.log(id);
+        if (findID(id)) {
+          $.ajax({
+            type: "POST",
+            url: "/addMembertoTeam",
+            data: { id },
+            dataType: "json",
+            error: (error) => {
+              console.log(error);
+            },
+            success: (response) => {
+              console.log(response);
             }
-        </script>
-    </body>
+          });
+        } else {
+          toastr.error("Invalid ID, Try Again");
+        }
+      }
 
+      const findID = (id) => {
+        const data = JSON.parse(`<%-JSON.stringify(teamMember)%>`);
+        return data.find((member) => member.field_uuid === id);
+      };
+    </script>
+  </body>
 </html>

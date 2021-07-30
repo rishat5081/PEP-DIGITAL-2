@@ -298,6 +298,7 @@
                             success: (response) => {
                                 if (response) {
                                     toastr.success(response.status)
+                                    $('input').prop('disabled', (propertyName, propertyValue) => { return !propertyValue; });
                                 }
                             }
                         });

@@ -1489,3 +1489,44 @@ canvas {
 .topmargin {
   margin-top: 9vw;
 }
+
+/* ------------------------------------------- Convery Message to Team  --------------------------------------------- */
+
+.empnames {
+  letter-spacing: 1px;
+  background: #D0E7F5;
+  color: black;
+  width: 15vw;
+  height: auto;
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 4px;
+  margin-left: 6vw;
+}
+
+.executive_btn {
+  border-radius: 6px;
+  text-align: center;
+  padding: 1px;
+  height: 3vw;
+  max-width: 100%;
+  outline: none;
+  font-size: 14px;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-left: 58%;
+  color: white;
+  border: 1px solid #64b9ee;
+  background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
+  margin-bottom: 2vw;
+}
+
+.allot_btn {
+  background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
+  padding: 1px;
+  border-radius: 6px;
+  border: 1px solid #64b9ee;
+  margin-left: 40%;
+  margin-top: 1vw;
+  height: 3vw;
+}

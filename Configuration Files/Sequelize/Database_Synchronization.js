@@ -11,6 +11,7 @@ const sequelize = require("./Sequelize"),
   Payment_Carrier_Services = require("./Sequelize Models/Carrier/Payment_Carrier_Services"),
   City = require("./Sequelize Models/City/City"),
   City_Areas = require("./Sequelize Models/City/City_Areas"),
+  City_Sectors = require("./Sequelize Models/City/City_Sectors"),
   City_and_Supervisor_associate = require("./Sequelize Models/City/City_and_Supervisor_associate"),
   Compaigns = require("./Sequelize Models/Compaign/Compaigns"),
   Compaign_Activities = require("./Sequelize Models/Compaign/Compaign_Activities"),
@@ -61,6 +62,7 @@ const sequelize = require("./Sequelize"),
   Team_Lead_Adver_Stock = require("./Sequelize Models/Team Lead/Team_Lead_Adver_Stock"),
   User_Login_Information = require("./Sequelize Models/Users Login/User_Login_Information"),
   User_Role = require("./Sequelize Models/Users Login/User_Role"),
+  changeRoleLogs = require("./Sequelize Models/Users Login/changeRoleLogs"),
   Role_ExtraInfo = require("./Sequelize Models/Users Login/Role_ExtraInfo"),
   Login_Page = require("./Sequelize Models/Web/loginPage"),
   Banks_List = require("./Sequelize Models/Web/Banks_List"),
@@ -73,650 +75,306 @@ const sequelize = require("./Sequelize"),
   Zone = require("./Sequelize Models/Zone"),
   ComplainsOfActivities = require("./Sequelize Models/Complains/ComplainsOfActivities");
 
-
 /**Get all the models here
  * now Synchronizing it one by one into a function
  * and then it will create all the data base
  */
 
-
-
 const TruncateTables = async () => {
-
   console.log("*************************************************************");
   console.log("----------------- Deleting Tables Records -----------------");
   await sequelize
     .query("SET FOREIGN_KEY_CHECKS = 0", null, { raw: true })
     .then((response) => console.log("Creating Database.... Please Wait"));
 
-
-
   await Advertisement_Recommendation.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Advertisement_Stock.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Advertising_Stock_Allocation.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Request_of_Advertisement.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Agency_Info.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await AgencyTypes.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Carriers.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Carrier_Paid_Payment.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Carriers_Services.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Payment_Carrier_Services.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await City.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await City_Areas.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
+    .catch((error) => console.log("Error Deleting Table" + error));
 
-
-
-
-
+  await City_Sectors.destroy({ truncate: true })
+    .then()
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await City_and_Supervisor_associate.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Compaigns.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Compaign_Activities.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Compaign_Sale.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Companies_Access.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Company_Promotion.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Customer_Care_Activities.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Call_Receiving.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Executive_Adver_Stock_Info.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await ComplainsOfActivities.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Executive_Pending_Earning.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Executive_Withdraws.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Stock_Usage.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Activities.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await List_of_Packages.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await List_sub_Activities.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Activity_Instruction.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Carrier_Logs.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Company_Acess_Logs.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await SuperAdmin_Department_Logs.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Permissions.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Permission_Role_Assosiate.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Packages.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await PEP_Agents.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await PEP_Agents_Activities.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Promotion_Request_Status.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Promotion_Req_By_Supervisor.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Customer_Care_Respresentative.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Data_Entry_Operator.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Field_Executive.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await GM_Company.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Managers.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await ExecutiveNotifications.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await TeamLead_Notifications.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await SuperVisorNotification.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await ManagerNotifications.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await GMNotifications.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await ExecutiveLogins.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await GMLogin.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await ManagerLogin.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await SuperVisorLogin.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await TeamLead_Login.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Super_Admin.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Supervisor.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Training.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Training_Activities.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Team_Lead.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Team_Lead_Adver_Stock.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await User_Login_Information.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await User_Role.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Role_ExtraInfo.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Login_Page.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await SignUp_Page.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Web_Content.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Pendance_Clearance_Details.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Department.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
-
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await Zone.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await WebAds.destroy({ truncate: true })
     .then()
-    .catch(error => console.log('Error Deleting Table' + error))
-
-
+    .catch((error) => console.log("Error Deleting Table" + error));
 
   await sequelize
     .query("SET FOREIGN_KEY_CHECKS = 1", null, { raw: true })
     .then((response) => console.log("Done.... Please Wait"));
-
-
-
-
-
-
-
-}
+};
 const Synchronizing = async () => {
   /**
    * Commented lines are used to sync the database tables
@@ -836,6 +494,14 @@ const Synchronizing = async () => {
       console.log("\n");
       console.log("\n");
       console.log("Error in Creating Table City_Areas");
+    });
+  await City_Sectors.sync({ force: true })
+    .then()
+    .catch((error) => {
+      console.log(error + "\n");
+      console.log("\n");
+      console.log("\n");
+      console.log("Error in Creating Table City_Sectors");
     });
 
   await City_and_Supervisor_associate.sync({ force: true })
@@ -1341,6 +1007,16 @@ const Synchronizing = async () => {
       console.log("Error in Creating Table Pendance_Clearance_Details");
     });
 
+  await changeRoleLogs
+    .sync({ force: true })
+    .then()
+    .catch((error) => {
+      console.log(error + "\n");
+      console.log("\n");
+      console.log("\n");
+      console.log("Error in Creating Table changeRoleLogs");
+    });
+
   await ComplainsOfActivities.sync({ force: true })
     .then()
     .catch((error) => {
@@ -1371,7 +1047,7 @@ const DevelopmentDatabase = async () => {
   await Super_Admin.create({
     sa_name: "Saad",
     sa_email: "superA@aa",
-    sa_password: "$2b$10$IhwmSCZDgheT3pCvaTd4YezxKSXPgXnS84r6HKXI.56uXawidQ8Ee",
+    sa_password: "$2b$10$IhwmSCZDgheT3pCvaTd4YezxKSXPgXnS84r6HKXI.56uXawidQ8Ee"
   })
     .then((d) => console.log("Super_Admin --> Done"))
     .catch((error) => "Error in Super_Admin");
@@ -1381,13 +1057,13 @@ const DevelopmentDatabase = async () => {
     comp_name: "Pak e Property",
     comp_address: "Rawalpindi",
     comp_contact: "051-9765821",
-    access_Status: 1,
+    access_Status: 1
   })
     .then((d) => console.log("Companies_Access --> Done"))
     .catch((error) => "Error in Companies_Access");
 
   await Zone.create({
-    zone_name: "Punjab",
+    zone_name: "Punjab"
   })
     .then((d) => console.log("Zone --> Done"))
     .catch((error) => "Error in Zone");
@@ -1400,7 +1076,7 @@ const DevelopmentDatabase = async () => {
     gm_profile_pic: "/img/GM.jpg",
     gm_salary: "150000",
     comp_access_id: 1,
-    zone_id: 1,
+    zone_id: 1
   })
     .then((d) => console.log("GM_Company --> Done"))
     .catch((error) => "Error in GM_Company");
@@ -1410,7 +1086,7 @@ const DevelopmentDatabase = async () => {
     d_type: "Sale and Marketing",
     comp_access_id: 1,
     gm_id: 1,
-    sa_id: 1,
+    sa_id: 1
   })
     .then((d) => console.log("Department --> Done"))
     .catch((error) => "Error in Department");
@@ -1425,51 +1101,43 @@ const DevelopmentDatabase = async () => {
     man_salary: "140000",
     man_username: "manager_12",
     d_id: 1,
-    zone_id: 1,
+    zone_id: 1
   })
-    .then((d) => console.log('Manager -> Done'))
+    .then((d) => console.log("Manager -> Done"))
     .catch((error) => "Error in Manager" + error);
 
   await User_Role.create({
-    type_name: "GM Company",
+    type_name: "GM Company"
   })
     .then((d) => console.log("User_Role --> Done"))
     .catch((error) => "Error in User_Role");
 
-
   await User_Role.create({
-    type_name: "Manager",
+    type_name: "Manager"
   })
     .then((d) => console.log("User_Role --> Done"))
     .catch((error) => "Error in User_Role");
 
-
   await User_Role.create({
-    type_name: "SuperVisor",
+    type_name: "SuperVisor"
   })
     .then((d) => console.log("User_Role --> Done"))
     .catch((error) => "Error in User_Role");
 
-
-
   await User_Role.create({
-    type_name: "Team Lead",
+    type_name: "Team Lead"
   })
     .then((d) => console.log("User_Role --> Done"))
     .catch((error) => "Error in User_Role");
 
-
-
   await User_Role.create({
-    type_name: "Field Executive",
+    type_name: "Field Executive"
   })
     .then((d) => console.log("User_Role --> Done"))
     .catch((error) => "Error in User_Role");
 
-
-
   await User_Role.create({
-    type_name: "Freelance Field Executive",
+    type_name: "Freelance Field Executive"
   })
     .then((d) => console.log("User_Role --> Done"))
     .catch((error) => "Error in User_Role");
@@ -1477,7 +1145,7 @@ const DevelopmentDatabase = async () => {
   await City.create({
     city_name: "Rawalpindi",
     city_code: "352",
-    zone_id: 1,
+    zone_id: 1
   })
     .then((d) => console.log("City --> Done"))
     .catch((error) => "Error in City");
@@ -1486,7 +1154,7 @@ const DevelopmentDatabase = async () => {
     login_email: "test@aa",
     login_password:
       "$2b$10$IhwmSCZDgheT3pCvaTd4YezxKSXPgXnS84r6HKXI.56uXawidQ8Ee",
-    user_role_id: 6,
+    user_role_id: 6
   })
     .then((d) => console.log("User_Login_Information --> Done"))
     .catch((error) => "Error in User_Login_Information");
@@ -1500,24 +1168,22 @@ const DevelopmentDatabase = async () => {
     sup_commission: "2.5%",
     sup_username: "develop",
     man_id: 18,
-    login_id: 2,
+    login_id: 2
   })
     .then((d) => console.log("Supervisor --> Done"))
     .catch((error) => console.log("Error in User_Login_Information" + error));
 
   await City_and_Supervisor_associate.create({
     city_id: 1,
-    sup_id: 1,
+    sup_id: 1
   })
     .then((d) => console.log("City_and_Supervisor_associate --> Done"))
     .catch((error) => "Error in City_and_Supervisor_associate");
 
-
-
   await City_Areas.create({
     city_name: "Rawal Road",
     city_code: "101",
-    city_supp_assos_id: 1,
+    city_supp_assos_id: 1
   })
     .then((d) => console.log("City_Areas --> Done"))
     .catch((error) => "Error in City_Areas");
@@ -1536,7 +1202,6 @@ const DevelopmentDatabase = async () => {
   // })
   //   .then((d) => console.log("Team_Lead --> Done"))
   //   .catch((error) => console.log("Error in Team_Lead" + error));
-
 
   // await Field_Executive.create({
   //   field_name: "Saad",
@@ -1653,7 +1318,7 @@ const DevelopmentDatabase = async () => {
                                       <li><a href=""><i class="fa fa-google" aria-hidden="true"></i> Google</a></li>
                                       <li><a href=""><i class="fa fa-instagram" aria-hidden="true"></i> Instagram</a></li>`,
     sa_id: 1,
-    backgroundVideo: "/video/video.mp4",
+    backgroundVideo: "/video/video.mp4"
   })
     .then((d) => console.log("Web_Content --> Done"))
     .catch((error) => "Error in Web_Content");
@@ -1671,7 +1336,7 @@ const DevelopmentDatabase = async () => {
     pictureName: "img-01.png",
     pictureFolder: "/img/",
     alreadyHaveAccountIcon: "fa fa-long-arrow-right m-l-5",
-    sa_id: 1,
+    sa_id: 1
   })
     .then((d) => console.log("SignUp_Page --> Done"))
     .catch((error) => "Error in SignUp_Page");
@@ -1690,12 +1355,11 @@ const DevelopmentDatabase = async () => {
     pictureName: "img-01.png",
     pictureFolder: "/img/",
     createAccountIcon: "fa fa-long-arrow-right m-l-5",
-    sa_id: 1,
+    sa_id: 1
   })
     .then((d) => console.log("Login_Page --> Done"))
     .catch((error) => "Error in Login_Page");
 };
-
 
 module.exports = {
   Synchronizing,
@@ -1716,6 +1380,7 @@ module.exports = {
   ManagerNotifications,
   GMNotifications,
   City_Areas,
+  City_Sectors,
   City_and_Supervisor_associate,
   Compaigns,
   Compaign_Activities,
@@ -1764,11 +1429,12 @@ module.exports = {
   Training_Activities,
   User_Login_Information,
   User_Role,
+  changeRoleLogs,
   Role_ExtraInfo,
   Login_Page,
   SignUp_Page,
   Web_Content,
   Pendance_Clearance_Details,
   Department,
-  Zone,
+  Zone
 };

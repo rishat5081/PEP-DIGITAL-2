@@ -1,9 +1,9 @@
-'use strict'
-const { DataTypes, Model, UUIDV4 } = require('sequelize'),
-  sequelize = require('../../Sequelize'),
-  User_Role = require('./User_Role')
+"use strict";
+const { DataTypes, Model, UUIDV4 } = require("sequelize"),
+  sequelize = require("../../Sequelize"),
+  User_Role = require("./User_Role");
 
-class User_Login_Information extends Model { }
+class User_Login_Information extends Model {}
 
 User_Login_Information.init(
   {
@@ -21,7 +21,7 @@ User_Login_Information.init(
       type: DataTypes.UUID,
       defaultValue: UUIDV4,
       autoIncrement: false,
-      primaryKey: false,
+      primaryKey: false
     },
     paused: {
       type: DataTypes.BOOLEAN,
@@ -56,37 +56,33 @@ User_Login_Information.init(
       primaryKey: false,
       autoIncrement: false,
       references: {
-        model: 'user_login_role',
-        key: 'user_role_id'
+        model: "user_login_role",
+        key: "user_role_id"
       },
-      validate: {
-        max: 11,
-        isNumeric: true
-      },
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE'
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE"
     }
   },
   {
     sequelize,
     // We need to pass the connection instance
-    modelName: 'User_Login_Information',
-    tableName: 'user_login_information'
+    modelName: "User_Login_Information",
+    tableName: "user_login_information"
   }
-)
+);
 
 /**one user login info can have one role  */
 User_Role.hasOne(User_Login_Information, {
-  foreignKey: 'user_role_id'
-})
+  foreignKey: "user_role_id"
+});
 
 User_Login_Information.belongsTo(User_Role, {
-  targetKey: 'user_role_id',
-  foreignKey: 'user_role_id'
-})
+  targetKey: "user_role_id",
+  foreignKey: "user_role_id"
+});
 
 /*
  *boolean return type which will indicate that the table is defined or not
  */
 //console.log(User_Login_Information === sequelize.models.User_Login_Information)
-module.exports = User_Login_Information
+module.exports = User_Login_Information;

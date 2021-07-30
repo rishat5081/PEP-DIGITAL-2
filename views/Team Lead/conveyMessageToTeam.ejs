@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Message</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/toastr/toastr.min.css"
+    />
+    <!--===============================================================================================-->
+  </head>
+
+  <body>
+    <div class="limiter">
+      <div class="container-profile100">
+        <div class="header">
+          <div class="cover-image100">
+            <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
+            <a href="#">
+              <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+            </a>
+            <a href="<%=url%>/user/notification">
+              <span class="fa fa-bell menu-button">
+                <span class="button__badge" style="display: none"></span>
+              </span>
+            </a>
+            <nav id="menu">
+              <ul>
+                <% permissions.forEach(element=> { %>
+                <li>
+                  <a
+                    href="<%=url%>/teamlead<%= element.controller%>/<%=info.uuid%>"
+                  >
+                    <span class="<%= element.icon%>"></span>
+                    <%= element.permission_name %>
+                  </a>
+                </li>
+                <% }); %>
+                <li>
+                  <a href="<%=url%>/user/signout">
+                    <span class="fa fa-sign-out"> </span> Log Out</a
+                  >
+                </li>
+              </ul>
+              <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+            </nav>
+          </div>
+          <form class="p-3 saleup">
+            <div class="piccontainer">
+              <img class="profilepicture" src="<%=url%>/logo/logo.png" />
+            </div>
+            <div class="userinfo">
+              <label type="text "> <b>Fizza Afzal</b></label
+              ><br />
+              <label type="text "><b>Team Lead</b> </label><br />
+              <label>Islamabad</label><br />
+            </div>
+            <h3 class="text-center mt-4">Convey Message to Your Team</h3>
+            <div class="form-check-inline">
+              <label class="form-check-label">
+                <input
+                  type="radio"
+                  class="form-check-input"
+                  name="optradio"
+                  id="sendall"
+                  checked
+                />Send to All
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <label class="form-check-label">
+                <input
+                  type="radio"
+                  class="form-check-input"
+                  name="optradio"
+                  id="list_emp"
+                />Specify
+              </label>
+            </div>
+
+            <div class="col-10 ml-0" id="selectemp">
+              <div class="row d-flex">
+                <div class="col-md-6">
+                  <select
+                    id="choices-multiple-remove-button"
+                    placeholder="Select Employees"
+                    multiple
+                  >
+                    <% array.forEach(data => { %>
+                    <option><%= data.name %></option>
+                    <% }) %>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <br />
+            <br />
+            <textarea
+              class="form-control mb-3"
+              id="exampleFormControlTextarea1"
+              placeholder="Write your message here."
+              rows="8"
+            ></textarea>
+            <input class="executive_btn" id="executivebtn" value="Submit" />
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!--===============================================================================================-->
+    <script src="<%=url%>/js/jquery.min.js"></script>
+    <script src="<%=url%>/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Toastr -->
+    <!--===============================================================================================-->
+    <script src="<%=url%>/vendor/jquery/tilt.jquery.min.js"></script>
+    <script src="<%=url%>/toastr/toastr.min.js"></script>
+    <script>
+      var notificationCount = JSON.parse(
+        "<%-JSON.stringify(unreadNotificationCount)%>"
+      );
+      if (notificationCount) {
+        $(".button__badge").css("display", "block");
+        $(".button__badge").html(
+          JSON.parse("<%-JSON.stringify(unreadNotificationCount)%>")
+        );
+      }
+      $(".js-tilt").tilt({
+        scale: 1.1
+      });
+
+      var menu = document.getElementById("menu");
+
+      function openMenu() {
+        menu.style.top = "0";
+      }
+      function closeMenu() {
+        menu.style.top = "-100vh";
+      }
+      $(document).ready(function () {
+        $("#selectemp").hide();
+        var multipleCancelButton = new Choices(
+          "#choices-multiple-remove-button",
+          {
+            removeItemButton: true
+          }
+        );
+      });
+
+      $("#sendall").click(function () {
+        $("#selectemp").hide();
+      });
+      $("#list_emp").click(function () {
+        $("#selectemp").show();
+      });
+
+      $("#executivebtn").click(function () {
+        var employees = [];
+        $("#selectemp option ").each(function () {
+          var thisOptionValue = $(this).val();
+          employees.push(thisOptionValue);
+        });
+
+        console.log(employees);
+      });
+    </script>
+  </body>
+</html>

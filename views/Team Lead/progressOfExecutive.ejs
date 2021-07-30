@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Assign Area</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/toastr/toastr.min.css"
+    />
+    <!--===============================================================================================-->
+  </head>
+
+  <body>
+    <div class="limiter">
+      <div class="container-profile100">
+        <div class="header">
+          <div class="cover-image100">
+            <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
+            <a href="#">
+              <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+            </a>
+            <a href="<%=url%>/user/notification">
+              <span class="fa fa-bell menu-button">
+                <span class="button__badge" style="display: none"></span>
+              </span>
+            </a>
+            <nav id="menu">
+              <ul>
+                <% permissions.forEach(element=> { %>
+                <li>
+                  <a
+                    href="<%=url%>/teamlead<%= element.controller%>/<%=info.uuid%>"
+                  >
+                    <span class="<%= element.icon%>"></span>
+                    <%= element.permission_name %>
+                  </a>
+                </li>
+                <% }); %>
+                <li>
+                  <a href="<%=url%>/user/signout">
+                    <span class="fa fa-sign-out"> </span> Log Out</a
+                  >
+                </li>
+              </ul>
+              <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+            </nav>
+          </div>
+
+          <!-- --------------------- -->
+          <div class="container saleup">
+            <h4 class="ml-3">Employee Progress</h4>
+            <p class="ml-3 mt-3 mb-0">
+              The below graph displays the progress of Employees of current
+              year.
+            </p>
+            <div class="col-4 mt-0">
+              <select
+                class="empnames ml-1 mt-5 mb-5"
+                id="selectBoxID"
+                name="selectBox"
+              >
+                <option disabled selected value="null">Choose One</option>
+                <%array.forEach(data =>{ %>
+                <option value="<%= data.name %>"><%= data.name %></option>
+                <% }) %>
+              </select>
+            </div>
+            <canvas id="progressPerMonth" width="450" height="150"></canvas>
+          </div>
+
+          <!-- ---------------- -->
+        </div>
+      </div>
+    </div>
+
+    <!--===============================================================================================-->
+    <script src="<%=url%>/js/jquery.min.js"></script>
+    <script src="<%=url%>/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Toastr -->
+    <!--===============================================================================================-->
+    <script src="<%=url%>/vendor/jquery/tilt.jquery.min.js"></script>
+    <script src="<%=url%>/toastr/toastr.min.js"></script>
+    <script src="<%=url%>/js/chart.js "></script>
+    <script>
+      var notificationCount = JSON.parse(
+        "<%-JSON.stringify(unreadNotificationCount)%>"
+      );
+      if (notificationCount) {
+        $(".button__badge").css("display", "block");
+        $(".button__badge").html(
+          JSON.parse("<%-JSON.stringify(unreadNotificationCount)%>")
+        );
+      }
+      $(".js-tilt").tilt({
+        scale: 1.1
+      });
+
+      var menu = document.getElementById("menu");
+
+      function openMenu() {
+        menu.style.top = "0";
+      }
+      function closeMenu() {
+        menu.style.top = "-100vh";
+      }
+
+      var ctx1 = document.getElementById("progressPerMonth").getContext("2d");
+      var myChart1 = new Chart(ctx1, {
+        type: "bar",
+        data: {
+          labels: [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+          ],
+          datasets: [
+            {
+              label: "Employee Progress",
+              data: [],
+              backgroundColor: [
+                "rgba(255, 99, 132, 0.5)",
+                "rgba(54, 162, 235, 0.5)",
+                "rgba(255, 206, 86, 0.5)",
+                "rgba(75, 192, 192, 0.5)",
+                "rgba(153, 102, 255, 0.5)",
+                "rgb(221, 170, 74,0.5)",
+                "rgba(126, 175, 48, 0.5)",
+                "rgba(54, 87, 54,0.3)",
+                "rgba(116, 116, 243,0.3)",
+                "rgba(250, 127, 83,0.3)",
+                "rgba(83, 150, 250,0.4)",
+                " rgba(211, 83, 250,0.4)"
+              ],
+              borderColor: [
+                "rgba(255, 99, 132, 1)",
+                "rgba(54, 162, 235, 1)",
+                "rgba(255, 206, 86, 1)",
+                "rgba(75, 192, 192, 1)",
+                "rgba(153, 102, 255, 1)",
+                "rgba(255, 159, 64, 1)",
+                "rgba(126, 175, 48, 1)",
+                "rgba(54, 87, 54,1)",
+                "rgb(116, 116, 243, 1)",
+                "rgba(250, 127, 83,1)",
+                "rgba(83, 150, 250,1)",
+                "rgba(211, 83, 250,1)"
+              ],
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              suggestedMax: 100
+            }
+          }
+        }
+      });
+
+      $("#selectBoxID").on("change", () => {
+        var data1 = [];
+        var selectBox = document.getElementById("selectBoxID");
+        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+        var data2 = JSON.parse(`<%-JSON.stringify(array)%>`);
+
+        var val = data2.find((obj) => obj.name === selectedValue);
+        myChart1.data.datasets[0].data = val.emplprogress;
+        myChart1.update();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Recommendation on Incentive</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/toastr/toastr.min.css"
+    />
+    <!--===============================================================================================-->
+  </head>
+
+  <body>
+    <div class="limiter">
+      <div class="container-profile100">
+        <div class="header">
+          <div class="cover-image100">
+            <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
+            <a href="#">
+              <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+            </a>
+            <a href="<%=url%>/user/notification">
+              <span class="fa fa-bell menu-button">
+                <span class="button__badge" style="display: none"></span>
+              </span>
+            </a>
+            <nav id="menu">
+              <ul>
+                <% permissions.forEach(element=> { %>
+                <li>
+                  <a
+                    href="<%=url%>/teamlead<%= element.controller%>/<%=info.uuid%>"
+                  >
+                    <span class="<%= element.icon%>"></span>
+                    <%= element.permission_name %>
+                  </a>
+                </li>
+                <% }); %>
+                <li>
+                  <a href="<%=url%>/user/signout">
+                    <span class="fa fa-sign-out"> </span> Log Out</a
+                  >
+                </li>
+              </ul>
+              <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+            </nav>
+          </div>
+
+          <!-- --------------------- -->
+          <div class="container saleup">
+            <h3 class="text-center">Recommendation on incentive</h3>
+            <div class="col-sm-6 ml-0 mt-5">
+              <select id="employees" placeholder="Select Employees" multiple>
+                <% array.forEach(data =>{ %>
+                <option value="<%=data.name%>"><%= data.name %></option>
+                <% }) %>
+              </select>
+            </div>
+            <div class="col-sm-6 mt-4">
+              <select placeholder="Select Employees" class="form-control">
+                <option disabled>choose</option>
+              </select>
+              <input
+                class="mt-4 form-control"
+                type="text"
+                placeholder="....."
+              />
+            </div>
+            <br />
+            <textarea
+              class="form-control mb-3"
+              id="exampleFormControlTextarea1"
+              placeholder="Convey message to selected Team Members..."
+              rows="8"
+            ></textarea>
+            <input
+              class="executive_btn"
+              id="recommendationbtn"
+              value="Submit"
+            />
+          </div>
+          <!-- ---------------- -->
+        </div>
+      </div>
+    </div>
+
+    <!--===============================================================================================-->
+    <script src="<%=url%>/js/jquery.min.js"></script>
+    <script src="<%=url%>/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Toastr -->
+    <!--===============================================================================================-->
+    <script src="<%=url%>/vendor/jquery/tilt.jquery.min.js"></script>
+    <script src="<%=url%>/toastr/toastr.min.js"></script>
+    <script>
+      var notificationCount = JSON.parse(
+        "<%-JSON.stringify(unreadNotificationCount)%>"
+      );
+      if (notificationCount) {
+        $(".button__badge").css("display", "block");
+        $(".button__badge").html(
+          JSON.parse("<%-JSON.stringify(unreadNotificationCount)%>")
+        );
+      }
+      $(".js-tilt").tilt({
+        scale: 1.1
+      });
+
+      var menu = document.getElementById("menu");
+
+      function openMenu() {
+        menu.style.top = "0";
+      }
+      function closeMenu() {
+        menu.style.top = "-100vh";
+      }
+      $(document).ready(function () {
+        var multipleCancelButton = new Choices("#employees", {
+          removeItemButton: true
+        });
+      });
+      $("#recommendationbtn").click(function () {
+        var employees = [];
+        $("#employees option ").each(function () {
+          var thisOptionValue = $(this).val();
+          employees.push(thisOptionValue);
+        });
+
+        console.log(employees);
+      });
+    </script>
+  </body>
+</html>

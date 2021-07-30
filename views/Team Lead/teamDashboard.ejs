@@ -59,33 +59,39 @@
                     <div class="row dashboardarea">
                         <div class="col-3 profilearea  mt-3 ">
                             <div class="row  mt-1  profile_uppersection ">
-                                <div class="container_pic ">
-                                    <img class="font-size-sm" src="<%=url%>/<%=profileData.team_L_userProfilePic%>">
-                                </div>
-                                <div class=" ml-4 p-1 mt-1">
-                                    <h4 class="font-size-sm">
-                                        <%=profileData.team_L_name%>
-                                    </h4>
-                                    <h4 class="mt-2 badge badge-info mb-1 " style="font-size: large;">
-                                        <%=user_role.type_name%>
-                                    </h4>
-                                    <p class=" mt-2mb-1 font-size-sm">
-                                        <b>Contact:</b>
-                                        <%=profileData.team_L_contact%>
-                                    </p>
+                                <%if(profileData.team_L_userProfilePic!== null){%>
+                                    <div class="container_pic ">
+                                        <img class="font-size-sm" src="<%=url%>/<%=profileData.team_L_userProfilePic%>">
+                                    </div>
+                                    <% }else{ %>
+                                        <div class="container_pic ">
+                                            <img class="font-size-sm" src="<%=url%>/img/Team Lead.jpg">
+                                        </div>
+                                        <% } %>
+                                            <div class=" ml-4 p-1 mt-1">
+                                                <h4 class="font-size-sm">
+                                                    <%=profileData.team_L_name%>
+                                                </h4>
+                                                <h4 class="mt-2 badge badge-info mb-1 " style="font-size: large;">
+                                                    <%=user_role.type_name%>
+                                                </h4>
+                                                <p class=" mt-2mb-1 font-size-sm">
+                                                    <b>Contact:</b>
+                                                    <%=profileData.team_L_contact%>
+                                                </p>
 
-                                    <p class="mb-1 font-size-sm">
-                                        <b>Username:</b>
-                                        <%=profileData.team_L_username%>
-                                    </p>
-                                    <p class="mb-1 font-size-sm">
-                                        <b>Salary:</b>
-                                        <%=profileData.team_L_salary%>
-                                    </p>
-                                    <p class=" mt-1 font-size-sm text-center" id="memberSince">
+                                                <p class="mb-1 font-size-sm">
+                                                    <b>Username:</b>
+                                                    <%=profileData.team_L_username%>
+                                                </p>
+                                                <p class="mb-1 font-size-sm">
+                                                    <b>Salary:</b>
+                                                    <%=profileData.team_L_salary%>
+                                                </p>
+                                                <p class=" mt-1 font-size-sm text-center" id="memberSince">
 
-                                    </p>
-                                </div>
+                                                </p>
+                                            </div>
                             </div>
 
                             <div class="row  mt-1  profile_uppersection ">

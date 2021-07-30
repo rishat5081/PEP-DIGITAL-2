@@ -263,6 +263,15 @@ async function addPermissioins() {
 addPermissioins()
 
 
+City_Sectors.bulkCreate([
+  { city_area_id: 1, sector_name: "Benazir Hospital", sector_code: "245" },
+  { city_area_id: 1, sector_name: "PAF Chowk", sector_code: "244" },
+  { city_area_id: 1, sector_name: "Rawal Chowk", sector_code: "243" }
+]).then((a) => {
+  console.log(a);
+});
+
+
 
 
 WebAds.create({

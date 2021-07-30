@@ -44,6 +44,7 @@ const Sequelize = require("sequelize"),
     Compaigns,
     Pendance_Clearance_Details,
     Role_ExtraInfo,
+    WebAds,
   } = require("./Configuration Files/Sequelize/Database_Synchronization");
 //setting the .env file to read the server port and database ports
 require("dotenv").config();
@@ -656,18 +657,5 @@ server.listen(process.env.server_PORT, () => {
 app.get('*', (req, res) => {
   res.redirect('/');
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

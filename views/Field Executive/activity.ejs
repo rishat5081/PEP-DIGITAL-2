@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <title>Activity</title>
     <meta charset="UTF-8" />
@@ -8,14 +7,26 @@
     <!--===============================================================================================-->
     <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css"
+    />
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.css"
+    />
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css" />
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css" />
-    <link rel="stylesheet" type="text/css" href="<%=url%>/toastr/toastr.min.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/toastr/toastr.min.css"
+    />
     <!--===============================================================================================-->
   </head>
 
@@ -30,23 +41,26 @@
             </a>
             <a href="<%=url%>/user/notification">
               <span class="fa fa-bell menu-button">
-                <span class="button__badge" style="display: none;"></span>
+                <span class="button__badge" style="display: none"></span>
               </span>
             </a>
             <nav id="menu">
               <ul>
                 <% permissions.forEach(element=> { %>
-                  <li>
-                    <a href="<%=url%>/user<%= element.controller %>/<%=info.uuid%>">
-                      <span class="<%= element.icon%>"></span>
-                      <%= element.permission_name %>
-                    </a>
-                  </li>
-                  <% }); %>
-                    <li>
-                      <a href="<%=url%>/user/signout">
-                        <span class="fa fa-sign-out"> </span> Log Out</a>
-                    </li>
+                <li>
+                  <a
+                    href="<%=url%>/user<%= element.controller %>/<%=info.uuid%>"
+                  >
+                    <span class="<%= element.icon%>"></span>
+                    <%= element.permission_name %>
+                  </a>
+                </li>
+                <% }); %>
+                <li>
+                  <a href="<%=url%>/user/signout">
+                    <span class="fa fa-sign-out"> </span> Log Out</a
+                  >
+                </li>
               </ul>
               <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
             </nav>
@@ -64,13 +78,11 @@
                   <strong class="mb-4">Instructions to follow</strong>
                   <ul>
                     <%instrucntions.forEach((element,index)=> {%>
-                      <li>
-                        <strong>
-                          <%=++index%>
-                        </strong>-
-                        <%=element.instructionText %>
-                      </li>
-                      <% }); %>
+                    <li>
+                      <strong> <%=++index%> </strong>-
+                      <%=element.instructionText %>
+                    </li>
+                    <% }); %>
                   </ul>
                 </div>
               </div>
@@ -78,7 +90,11 @@
                 <div class="row activity-form">
                   <div class="col-md-12">
                     <p id="location" class="fetch-Location mx-4"></p>
-                    <button class="btn btn-success check-button mt-4" id="button" onclick="fetchLocation()">
+                    <button
+                      class="btn btn-success check-button mt-4"
+                      id="button"
+                      onclick="fetchLocation()"
+                    >
                       Start Activity
                     </button>
                     <hr />
@@ -89,78 +105,133 @@
                     <h3>Agency Details</h3>
                     <div class="row activity-form">
                       <div class="col-md-6">
-                        <input type="text" id="name_ofAgency" required placeholder="Name of Agency"
+                        <input
+                          type="text"
+                          id="name_ofAgency"
+                          required
+                          placeholder="Name of Agency"
                           oninvalid="this.setCustomValidity('Agency Name is Mandatory')"
-                          oninput="setCustomValidity('')" />
+                          oninput="setCustomValidity('')"
+                        />
                       </div>
                       <div class="col-md-6">
-                        <input type="text" id="nameof_Owner" required placeholder="Agency Owner Name"
+                        <input
+                          type="text"
+                          id="nameof_Owner"
+                          required
+                          placeholder="Agency Owner Name"
                           oninvalid="this.setCustomValidity('Owner Name is Mandatory')"
-                          oninput="setCustomValidity('')" />
+                          oninput="setCustomValidity('')"
+                        />
                       </div>
                     </div>
                     <div class="row activity-form">
                       <div class="col-md-6">
-                        <select id="Compaign" aria-placeholder="Select Compaign">
+                        <select
+                          id="Compaign"
+                          aria-placeholder="Select Compaign"
+                        >
                           <option disabled selected value="1">
                             Select Compaign
                           </option>
                           <% CompaignsList.forEach(element=> {%>
-                            <option class="mx-1 px-2" value="<%=element.comp_id %>">
-                              <%=element.comp_name %>
-                            </option>
-                            <% }); %>
+                          <option
+                            class="mx-1 px-2"
+                            value="<%=element.comp_id %>"
+                          >
+                            <%=element.comp_name %>
+                          </option>
+                          <% }); %>
                         </select>
                       </div>
                       <div class="col-md-6">
-                        <select id="agencyType" aria-placeholder="Select Agency Type">
+                        <select
+                          id="agencyType"
+                          aria-placeholder="Select Agency Type"
+                        >
                           <option disabled selected value="1">
                             Select Agency Type
                           </option>
                           <% agencyTypes.forEach(element=> {%>
-                            <option class="mx-1 px-2" value="<%=element.type_name %>">
-                              <%=element.type_name %>
-                            </option>
-                            <% }); %>
+                          <option
+                            class="mx-1 px-2"
+                            value="<%=element.type_name %>"
+                          >
+                            <%=element.type_name %>
+                          </option>
+                          <% }); %>
                         </select>
                       </div>
                     </div>
                     <div class="row activity-form">
                       <div class="col-md-6">
-                        <input type="text" id="ContactedPerson_num" required
+                        <input
+                          type="text"
+                          id="ContactedPerson_num"
+                          required
                           placeholder="Agency Contacted Person Number"
                           oninvalid="this.setCustomValidity('Contacted Person Number is Mandatory')"
-                          oninput="setCustomValidity('')" />
+                          oninput="setCustomValidity('')"
+                        />
                       </div>
                       <div class="col-md-6">
-                        <select id="agencyCityName" aria-placeholder="Agency City Name">
+                        <select
+                          id="agencyCityName"
+                          aria-placeholder="Agency City Name"
+                        >
                           <option disabled selected value="1">
                             Agency City Name
                           </option>
                           <% pakistanCityName.forEach(element=> {%>
-                            <option class="mx-1 px-2" value="<%=element.city %>,<%=element.admin_name %>">
-                              <%=element.city %> , <%=element.admin_name %>
-                            </option>
-                            <% }); %>
+                          <option
+                            class="mx-1 px-2"
+                            value="<%=element.city %>,<%=element.admin_name %>"
+                          >
+                            <%=element.city %> , <%=element.admin_name %>
+                          </option>
+                          <% }); %>
                         </select>
                       </div>
                       <div class="col-md-6">
-                        <input type="text" id="agencyAddress" required
+                        <input
+                          type="text"
+                          id="agencyAddress"
+                          required
                           oninvalid="this.setCustomValidity('Agency Address is Mandatory')"
-                          oninput="setCustomValidity('')" placeholder="Agency Address" />
+                          oninput="setCustomValidity('')"
+                          placeholder="Agency Address"
+                        />
                       </div>
                       <div class="col-md-6">
-                        <input type="text" id="name_ContactedPerson" required placeholder="Agency Contacted Person Name"
+                        <input
+                          type="text"
+                          id="name_ContactedPerson"
+                          required
+                          placeholder="Agency Contacted Person Name"
                           oninvalid="this.setCustomValidity('Contacted Person Name is Mandatory')"
-                          oninput="setCustomValidity('')" />
-                        <input type="checkbox" name="sameasOwnerName" id="sameasOwnerName" />
+                          oninput="setCustomValidity('')"
+                        />
+                        <input
+                          type="checkbox"
+                          name="sameasOwnerName"
+                          id="sameasOwnerName"
+                        />
                         <label>Same as Owner Name</label>
                       </div>
                       <div class="col-md-6 mt-0">
-                        <input type="text" id="agency_contact_num" required placeholder="Agency Contact Number"
+                        <input
+                          type="text"
+                          id="agency_contact_num"
+                          required
+                          placeholder="Agency Contact Number"
                           oninvalid="this.setCustomValidity('Agency Contact Number is Mandatory')"
-                          oninput="setCustomValidity('')" />
-                        <input type="checkbox" name="same_asAgency" id="same_asAgency" />
+                          oninput="setCustomValidity('')"
+                        />
+                        <input
+                          type="checkbox"
+                          name="same_asAgency"
+                          id="same_asAgency"
+                        />
                         <label>Same as Contact Person Number</label>
                       </div>
                     </div>
@@ -188,13 +259,17 @@
 
     <script src="/toastr/toastr.min.js"></script>
     <script>
-      var notificationCount = JSON.parse('<%-JSON.stringify(unreadNotificationCount)%>')
+      var notificationCount = JSON.parse(
+        "<%-JSON.stringify(unreadNotificationCount)%>"
+      );
       if (notificationCount) {
-        $('.button__badge').css('display', 'block')
-        $('.button__badge').html(JSON.parse('<%-JSON.stringify(unreadNotificationCount)%>'))
+        $(".button__badge").css("display", "block");
+        $(".button__badge").html(
+          JSON.parse("<%-JSON.stringify(unreadNotificationCount)%>")
+        );
       }
       $(".js-tilt").tilt({
-        scale: 1.1,
+        scale: 1.1
       });
 
       var menu = document.getElementById("menu");
@@ -364,7 +439,7 @@
               longitude: Location.coords.longitude,
               agencyType: $("#agencyType").find(":selected").val(),
               CompaignID: $("#Compaign").find(":selected").val(),
-              agencyCityName: $("#agencyCityName").find(":selected").val(),
+              agencyCityName: $("#agencyCityName").find(":selected").val()
             },
             dataType: "JSON",
             error: (error) => {
@@ -381,7 +456,7 @@
                 toastr.success(response.success);
                 window.location = `${window.location.origin}/user/activities/${response.agencyID}/${response.activity}`;
               }
-            },
+            }
           });
       });
 
@@ -405,5 +480,4 @@
     </script>
     <!--===============================================================================================-->
   </body>
-
 </html>
