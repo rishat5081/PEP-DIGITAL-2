@@ -271,7 +271,23 @@ City_Sectors.bulkCreate([
   console.log(a);
 });
 
+Database.NotificationText.create({
+  notification_title: "Message from your Team Lead",
+  notification_icon: "fa fa-exclamation-triangle"
+}).then(a =>{
+  console.log(a);
+})
+.catch(a =>{
+  console.log(a);
+})
 
+async function addCitySectorandExecutive() {
+  let f = await Database.Field_Executive.findOne({ where: { field_id: 1 } });
+  let c = await Database.City_Sectors.findOne({where: { city_sector_id: 2 }});
+
+  await c.addField_Executive(f);
+}
+addCitySectorandExecutive();
 
 
 WebAds.create({
@@ -327,33 +343,43 @@ SuperVisorLogin.sync({ force: true }).then(d => console.log(d))
 TeamLead_Login.sync({ force: true }).then(d => console.log(d))
 
 --------------------------------------------------------------------------------------------------------------------async function addPermissioins() {
+
+
+(async function () {
   const Perm = await Permissions.findOne({
     where: {
-      permmission_id: 3,
-    },
+      permmission_id: 18
+    }
     // include: {
     //   model: User_Role,
     //   where: {
     //     type_name: 'Freelance Field Executive',
     //   },
     // },
-  })
+  });
 
-
-  const user =  await User_Role.findOne({
-    where:{
-      type_name:'Team Lead'
+  const user = await User_Role.findOne({
+    where: {
+      type_name: "Team Lead"
     }
-  })
+  });
 
-  await user.addPermissions(Perm)
+  await user.addPermissions(Perm);
 
-  console.log(Perm)
-}
+  console.log(Perm);
+})();
 
-addPermissioins()
+---------------------------------------------------------
 
 
+
+(async function () {
+  const aa = await Database.Executive_Recommendation.create({
+    Recommendation: "Increment",
+    sa_id: 1
+  });
+  console.log(aa);
+})();
 ---------------------------------------------------------
 
 

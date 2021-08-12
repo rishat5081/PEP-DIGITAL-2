@@ -58,6 +58,11 @@ List_of_Packages.init(
       type: DataTypes.TEXT,
       allowNull: true
     },
+    isRepeat: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false
+    },
   },
   {
     sequelize,

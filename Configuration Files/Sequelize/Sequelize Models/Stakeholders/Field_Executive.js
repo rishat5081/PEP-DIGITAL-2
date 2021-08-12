@@ -3,7 +3,6 @@ const { DataTypes, Model, UUIDV4 } = require("sequelize"),
   sequelize = require("../../Sequelize"),
   User_Login_Information = require("../Users Login/User_Login_Information"),
   Team_Lead = require("./Team_Lead");
-const City_Sectors = require("../City/City_Sectors");
 const User_Role = require("../Users Login/User_Role");
 
 class Field_Executive extends Model {}
@@ -97,17 +96,6 @@ Field_Executive.init(
       onDelete: "CASCADE",
       onUpdate: "CASCADE"
     },
-    city_sector_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: "city_sectors",
-        key: "city_sector_id"
-      },
-
-      onDelete: "CASCADE",
-      onUpdate: "CASCADE"
-    }
   },
   {
     sequelize,
@@ -141,17 +129,7 @@ Field_Executive.belongsTo(Team_Lead, {
   foreignKey: "team_L_id"
 });
 
-/**
- * One city sector has one field executive
- */
-City_Sectors.hasOne(Field_Executive, {
-  foreignKey: "city_sector_id"
-});
 
-Field_Executive.belongsTo(City_Sectors, {
-  targetKey: "city_sector_id",
-  foreignKey: "city_sector_id"
-});
 
 /*
  *boolean return type which will indicate that the table is defined or not

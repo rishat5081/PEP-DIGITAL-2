@@ -276,7 +276,6 @@ router.get(
       }
     })
       .then((sectors) => {
-        console.warn(sectors);
         return sectors ? sectors : null;
       })
       .catch((error) => {
@@ -285,23 +284,45 @@ router.get(
         return error ? null : true;
       });
 
-    //getting the team member names and UUID
-
-    let teamMember = await Database.Field_Executive.findAll({
-      attributes: ["field_id", "field_uuid", "field_name", "city_sector_id"],
-      // include: {
-      //   model: Database.City_Sectors,
-      //   required: true,
-      //   attributes: ["sector_name"],
-      //   where: {
-      //     paused: 0,
-      //     deleted: 0
-      //   }
-      // },
+    //getting all team member
+    let allTeamMember = await Database.Field_Executive.findAll({
+      attributes: ["field_id", "field_uuid", "field_name", "field_contact"],
       where: {
         team_L_id: req.session.profileData.team_L_id,
         field_isDeleted: 0,
         field_isPaused: 0
+      }
+    })
+      .then((member) => {
+        return member ? member : null;
+      })
+      .catch((error) => {
+        console.error(
+          "Error in getting all the team members from the Database"
+        );
+        console.trace(error);
+        return error ? null : true;
+      });
+    //getting the team member names and UUID
+
+    let teamMember = await Database.Field_Executive.findAll({
+      attributes: ["field_id", "field_uuid"],
+      where: {
+        team_L_id: req.session.profileData.team_L_id,
+        field_isDeleted: 0,
+        field_isPaused: 0
+      },
+      include: {
+        model: Database.City_Sectors,
+        attributes: ["sector_name", "city_sector_uuid"],
+        required: true,
+        through: {
+          attributes: []
+        },
+        where: {
+          paused: 0,
+          deleted: 0
+        }
       }
     })
       .then((member) => {
@@ -314,12 +335,6 @@ router.get(
         return error ? null : true;
       });
 
-    let citySector = await Database.City_Sectors.findAll({
-      where: {
-        city_sector_id: teamMember.map((member) => member.city_sector_id)
-      }
-    });
-
     //end of getting data from DB
 
     if ((areaSectors, teamMember)) {
@@ -331,7 +346,7 @@ router.get(
         },
         areaSectors,
         teamMember,
-        citySector,
+        allTeamMember,
         user_role: req.session.passport.user.userRole,
         unreadNotificationCount:
           unreadNotificationCount[0].dataValues.unreadNotificationCount,
@@ -402,51 +417,204 @@ router.get(
   }
 );
 
+/**
+ * send the message to the team or also specific
+ */
 router.get(
   "/conveyMessage/:teamLeadUUID",
   isUser_Login,
   isUserAuthentic,
   async (req, res) => {
+    //getting the team lead notifications
     let unreadNotificationCount = await countofNotificationOfExecutive(
       req.session.profileData.team_L_uuid
     );
 
-    res.status(200).render("Team Lead/conveyMessageToTeam", {
-      array: data,
-      area,
-      info: {
-        id: req.session.passport.user.userInfo.login_id,
-        uuid: req.session.profileData.team_L_uuid
-      },
-      url: req.protocol + "://" + req.get("host"),
-      user_role: req.session.passport.user.userRole,
-      unreadNotificationCount:
-        unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      permissions: req.session.permissions.permissionObject
-    });
+    //getting the team-lead , member
+    let teamMember = await Database.Field_Executive.findAll({
+      attributes: ["field_id", "field_uuid", "field_name", "field_contact"],
+      where: {
+        team_L_id: req.session.profileData.team_L_id,
+        field_isDeleted: 0,
+        field_isPaused: 0
+      }
+    })
+      .then((member) => {
+        // console.warn(member);
+        return member ? member : null;
+      })
+      .catch((error) => {
+        console.error("Error in getting Member");
+        console.trace(error);
+        return error ? null : true;
+      });
 
-    unreadNotificationCount = null;
-    res.end();
+    if (teamMember !== null) {
+      res.status(200).render("Team Lead/conveyMessageToTeam", {
+        info: {
+          id: req.session.passport.user.userInfo.login_id,
+          uuid: req.session.profileData.team_L_uuid
+        },
+        teamMember,
+        url: req.protocol + "://" + req.get("host"),
+        user_role: req.session.passport.user.userRole,
+        unreadNotificationCount:
+          unreadNotificationCount[0].dataValues.unreadNotificationCount,
+        permissions: req.session.permissions.permissionObject
+      });
+
+      unreadNotificationCount = null;
+      res.end();
+    } else {
+      res.redirect(`/teamlead/dashboard/${req.session.profileData.team_L_id}`);
+    }
   }
 );
 
+/**
+ * getting the require info for the progress reports of the team member only
+ */
 router.get(
   "/progressReport/:teamLeadUUID",
   isUser_Login,
   isUserAuthentic,
   async (req, res) => {
+    /**
+     * getting the team lead notification
+     */
     let unreadNotificationCount = await countofNotificationOfExecutive(
       req.session.profileData.team_L_uuid
     );
 
+    /**
+     * getting the members from the database
+     */
+
+    let teamMember = await Database.Field_Executive.findAll({
+      attributes: ["field_id", "field_uuid", "field_name"],
+      where: {
+        team_L_id: req.session.profileData.team_L_id,
+        field_isDeleted: 0,
+        field_isPaused: 0
+      }
+    }).catch((error) => {
+      if (error) {
+        console.error("Error Fetching the Data of Executive");
+        console.trace(error);
+        return null;
+      }
+    });
+
+    /**
+     * getting the activities per month from the db
+     */
+    const activitiesPerMonth = await Database.Activities.findAll({
+      attributes: [
+        "field_id",
+        [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
+        [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
+        [sequelize.fn("COUNT", sequelize.col("*")), "activitiesPerMonth"]
+        // [
+        //   sequelize.fn("COUNT", sequelize.col("cancelled")),
+        //   "cancelledactivitiesPerMonth"
+        // ]
+      ],
+      group: ["moonth", "Year", "field_id"],
+      where: {
+        field_id: teamMember.map((member) => member.field_id),
+        deleted: false,
+        paused: false
+      }
+    })
+      .then((dbResponse) => {
+        if (dbResponse.length > 0) return dbResponse;
+        else return null;
+      })
+      .catch((error) => {
+        if (error) {
+          console.error(
+            "There is an error which fetching activities per month " + error
+          );
+          return null;
+        }
+      });
+
+    /**
+     * getting the cancelled activities from the db
+     */
+
+    const cancelledactivitiesPerMonth = await Database.Activities.findAll({
+      attributes: [
+        "field_id",
+        [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
+        [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
+        [
+          sequelize.fn("COUNT", sequelize.col("cancelled")),
+          "cancelledactivitiesPerMonth"
+        ]
+      ],
+      group: ["moonth", "Year", "field_id"],
+      where: {
+        field_id: teamMember.map((member) => member.field_id),
+        deleted: false,
+        paused: false,
+        cancelled: true
+      }
+    })
+      .then((dbResponse) => {
+        if (dbResponse.length > 0) return dbResponse;
+        else return null;
+      })
+      .catch((error) => {
+        if (error) {
+          console.error(
+            "There is an error which fetching activities per month " + error
+          );
+          return null;
+        }
+      });
+
+    /**
+     * getting the agency per month from the db
+     */
+    const agencyCount = await Database.Agency_Info.findAll({
+      attributes: [
+        "field_id",
+        [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
+        [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
+        [sequelize.fn("COUNT", sequelize.col("*")), "agencyCount"]
+      ],
+      group: ["moonth", "Year", "field_id"],
+      where: {
+        field_id: teamMember.map((member) => member.field_id),
+        deleted: false,
+        isPaused: false
+      }
+    })
+      .then((dbResponse) => {
+        if (dbResponse.length > 0) return dbResponse;
+        else return null;
+      })
+      .catch((error) => {
+        if (error) {
+          console.trace(error);
+          console.error(
+            "There is an error which fetching activities per month"
+          );
+          return null;
+        }
+      });
+
     res.status(200).render("Team Lead/progressOfExecutive", {
       url: req.protocol + "://" + req.get("host"),
-      array: data,
-      area,
       info: {
         id: req.session.passport.user.userInfo.login_id,
         uuid: req.session.profileData.team_L_uuid
       },
+      agencyCount,
+      teamMember,
+      cancelledactivitiesPerMonth,
+      activitiesPerMonth,
       user_role: req.session.passport.user.userRole,
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
@@ -467,22 +635,99 @@ router.get(
       req.session.profileData.team_L_uuid
     );
 
+    //getting the recommendation list from the data
+
+    let recommendation = await Database.Executive_Recommendation.findAll({
+      attributes: ["exec_recomm_uuid", "Recommendation"],
+      where: {
+        deleted: false,
+        paused: false
+      }
+    }).catch((error) => {
+      if (error) {
+        console.error("Error Fetching the Data of Executive Recommendation");
+        console.trace(error);
+        return null;
+      }
+    });
+    /**
+     * getting the members from the database
+     */
+
+    let teamMembers = await Database.Field_Executive.findAll({
+      attributes: ["field_id", "field_uuid", "field_name"],
+      where: {
+        team_L_id: req.session.profileData.team_L_id,
+        field_isDeleted: 0,
+        field_isPaused: 0
+      }
+    }).catch((error) => {
+      if (error) {
+        console.error("Error Fetching the Data of Executive");
+        console.trace(error);
+        return null;
+      }
+    });
+
     res.status(200).render("Team Lead/manageIncentive", {
       url: req.protocol + "://" + req.get("host"),
-      array: data,
-      area
+      info: {
+        id: req.session.passport.user.userInfo.login_id,
+        uuid: req.session.profileData.team_L_uuid
+      },
+      recommendation,
+      teamMembers,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      permissions: req.session.permissions.permissionObject
     });
   }
 );
 
-router.get(
-  "/verifyActivity/:teamLeadUUID",
-  isUser_Login,
-  isUserAuthentic,
-  async (req, res) => {
-    res.send("verifyActivity");
-  }
-);
+router.get("/notification", isUser_Login, async (req, res) => {
+  /**
+   * getting the count of the unread notifications
+   */
+  const unreadNotificationCount = await countofNotificationOfExecutive(
+    req.session.profileData.team_L_uuid
+  );
+  const unreadNotification = await Database.TeamLead_Notifications.findAll({
+    attributes: [
+      "teamLead_notification_uuid",
+      "notification_text",
+      "isRead",
+      "createdAt"
+    ],
+    include: {
+      model: Database.NotificationText,
+      attributes: ["notification_title", "notification_icon"],
+      required: true,
+      where: {
+        isPaused: false,
+        deleted: false
+      }
+    },
+    where: {
+      isPaused: false,
+      deleted: false,
+      team_L_id: req.session.profileData.team_L_id
+    },
+    limit: 50
+  }).then((notifications) => {
+    if (notifications) return notifications;
+  });
+  res.render("Team Lead/notification", {
+    unreadNotificationCount:
+      unreadNotificationCount[0].dataValues.unreadNotificationCount,
+    unreadNotification,
+    url: req.protocol + "://" + req.get("host"),
+    info: {
+      id: req.session.passport.user.userInfo.login_id,
+      uuid: req.session.profileData.team_L_uuid
+    },
+    permissions: req.session.permissions.permissionObject
+  });
+});
 
 router.get("/signout", (req, res) => {
   req.session.destroy();
@@ -539,6 +784,7 @@ router.get("*", async (req, res) => {
  *
  *
  */
+
 // async function name() {
 //   let teamMember = await Database.Field_Executive.findAll({
 //     attributes: ["field_id", "field_uuid", "field_name", "city_sector_id"],
@@ -622,3 +868,52 @@ router.get("*", async (req, res) => {
 //   // console.log(teamLeadDashboard.dataValues.City_Area.dataValues.City_and_Supervisor_associate.dataValues.city_supp_assos_id);
 // }
 // name()
+
+// //many to many relationship to get the data
+// async function name1() {
+//   let teamMember = await Database.Field_Executive.findOne({
+//     // attributes: ["field_id", "field_uuid", "field_name"],
+//     include: {
+//       model: Database.City_Sectors,
+//       attributes: ["sector_name"],
+//       required: true,
+//       through: {
+//         attributes: []
+//       },
+//       where: {
+//         paused: 0,
+//         deleted: 0
+//       }
+//     }
+//   });
+
+//   console.log(teamMember.dataValues.City_Sectors);
+// }
+// name1();
+
+async function name1() {
+  let teamMember = await Database.Field_Executive.findAll({
+    attributes: ["field_id", "field_uuid", "field_name", "field_contact"],
+    where: {
+      team_L_id: 1,
+      field_isDeleted: 0,
+      field_isPaused: 0
+    },
+    include: {
+      model: Database.City_Sectors,
+      attributes: ["sector_name", "city_sector_uuid"],
+      required: true,
+      through: {
+        attributes: []
+      },
+      where: {
+        paused: 0,
+        deleted: 0
+      }
+    }
+  });
+
+  console.log(teamMember);
+}
+
+// name1();

@@ -44,7 +44,7 @@
             <a href="#">
               <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
             </a>
-            <a href="<%=url%>/user/notification">
+            <a href="<%=url%>/teamlead/notification">
               <span class="fa fa-bell menu-button">
                 <span class="button__badge" style="display: none"></span>
               </span>
@@ -62,7 +62,7 @@
                 </li>
                 <% }); %>
                 <li>
-                  <a href="<%=url%>/user/signout">
+                  <a href="<%=url%>/teamlead/signout">
                     <span class="fa fa-sign-out"> </span> Log Out</a
                   >
                 </li>
@@ -70,64 +70,61 @@
               <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
             </nav>
           </div>
-          <form class="p-3 saleup">
-            <div class="piccontainer">
-              <img class="profilepicture" src="<%=url%>/logo/logo.png" />
-            </div>
-            <div class="userinfo">
-              <label type="text "> <b>Fizza Afzal</b></label
-              ><br />
-              <label type="text "><b>Team Lead</b> </label><br />
-              <label>Islamabad</label><br />
-            </div>
+          <div class="p-3 saleup">
             <h3 class="text-center mt-4">Convey Message to Your Team</h3>
-            <div class="form-check-inline">
-              <label class="form-check-label">
-                <input
-                  type="radio"
-                  class="form-check-input"
-                  name="optradio"
-                  id="sendall"
-                  checked
-                />Send to All
-              </label>
+            <div class="pt-5 pl-5 pb-3 mb-4">
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input
+                    type="radio"
+                    class="form-check-input"
+                    name="optradio"
+                    id="sendall"
+                  />Send to All
+                </label>
+              </div>
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input
+                    type="radio"
+                    class="form-check-input"
+                    name="optradio"
+                    id="list_emp"
+                  />Specify
+                </label>
+              </div>
             </div>
-            <div class="form-check-inline">
-              <label class="form-check-label">
-                <input
-                  type="radio"
-                  class="form-check-input"
-                  name="optradio"
-                  id="list_emp"
-                />Specify
-              </label>
-            </div>
-
-            <div class="col-10 ml-0" id="selectemp">
-              <div class="row d-flex">
-                <div class="col-md-6">
+            <div class="pr-5 pl-5">
+              <div class="col-10" id="selectemp">
+                <div class="col-md-6 p-2 mt-2 mb-4">
                   <select
                     id="choices-multiple-remove-button"
                     placeholder="Select Employees"
                     multiple
                   >
-                    <% array.forEach(data => { %>
-                    <option><%= data.name %></option>
+                    <%teamMember.forEach(member => {%>
+                    <option value="<%=member.field_uuid %>">
+                      <%=member.field_name %>
+                    </option>
                     <% }) %>
                   </select>
                 </div>
               </div>
+              <textarea
+                class="form-control mb-3 border border-dark"
+                id="messageTextArea"
+                placeholder="Write your message here."
+                rows="8"
+              ></textarea>
+              <div class="d-flex justify-content-center">
+                <input
+                  class="btn btn-success"
+                  id="executivebtn"
+                  value="Submit"
+                />
+              </div>
             </div>
-            <br />
-            <br />
-            <textarea
-              class="form-control mb-3"
-              id="exampleFormControlTextarea1"
-              placeholder="Write your message here."
-              rows="8"
-            ></textarea>
-            <input class="executive_btn" id="executivebtn" value="Submit" />
-          </form>
+          </div>
         </div>
       </div>
     </div>
@@ -185,8 +182,63 @@
           employees.push(thisOptionValue);
         });
 
-        console.log(employees);
+        if (
+          $("#messageTextArea").val().length < 0 ||
+          $("#messageTextArea").val().length === 0
+        ) {
+          toastr.error("Please Enter the text Message");
+          return;
+        }
+        if ($("#list_emp").prop("checked")) {
+          submitMessageToSpecific(employees);
+          return;
+        } else {
+          submitMessageToAll();
+        }
       });
+
+      const submitMessageToSpecific = (employeeData) => {
+        $.ajax({
+          type: "POST",
+          dataType: "json",
+          url: "/conveyMessageToSpecific",
+          data: {
+            employeeList: JSON.stringify(employeeData),
+            messageText: $("#messageTextArea").val()
+          },
+          error: (error) => {
+            if (error) {
+              toastr.error("Please try again");
+            }
+          },
+          success: (response) => {
+            if (response) {
+              toastr.success("Successfully send the message the member");
+            }
+          }
+        });
+      };
+
+      const submitMessageToAll = () => {
+        $.ajax({
+          type: "POST",
+          dataType: "json",
+          url: "/conveyMessageToAll",
+          data: { messageText: $("#messageTextArea").val() },
+          error: (error) => {
+            if (error) {
+              toastr.error("Please try again");
+            }
+          },
+          success: (response) => {
+            if (response) {
+              toastr.success("Successfully send the message all member");
+            }
+          }
+        });
+      };
+
+      console.log(JSON.parse(`<%-JSON.stringify(teamMember)%>`));
     </script>
   </body>
 </html>

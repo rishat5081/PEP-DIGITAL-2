@@ -1,4 +1,4 @@
-const sequelize = require("./Sequelize"),
+let sequelize = require("./Sequelize"),
   Advertisement_Recommendation = require("./Sequelize Models/Advertisement/Advertisement_Recommendation"),
   Advertisement_Stock = require("./Sequelize Models/Advertisement/Advertisement_Stock"),
   Advertising_Stock_Allocation = require("./Sequelize Models/Advertisement/Advertising_Stock_Allocation"),
@@ -12,6 +12,7 @@ const sequelize = require("./Sequelize"),
   City = require("./Sequelize Models/City/City"),
   City_Areas = require("./Sequelize Models/City/City_Areas"),
   City_Sectors = require("./Sequelize Models/City/City_Sectors"),
+  City_Sector_Assosiate = require("./Sequelize Models/City/City_Sector_Assosiate"),
   City_and_Supervisor_associate = require("./Sequelize Models/City/City_and_Supervisor_associate"),
   Compaigns = require("./Sequelize Models/Compaign/Compaigns"),
   Compaign_Activities = require("./Sequelize Models/Compaign/Compaign_Activities"),
@@ -22,6 +23,7 @@ const sequelize = require("./Sequelize"),
   Call_Receiving = require("./Sequelize Models/Customer Care/Call_Receiving"),
   Executive_Adver_Stock_Info = require("./Sequelize Models/Executive/Executive_Adver_Stock_Info"),
   Executive_Pending_Earning = require("./Sequelize Models/Executive/Executive_Pending_Earning"),
+  Recommendation_for_Executive = require("./Sequelize Models/Executive/Recommendation_for_Executive"),
   Executive_Withdraws = require("./Sequelize Models/Executive/Executive_Withdraws"),
   Stock_Usage = require("./Sequelize Models/Executive/Stock_Usage"),
   Activities = require("./Sequelize Models/Lists of Packages/Activities"),
@@ -68,6 +70,7 @@ const sequelize = require("./Sequelize"),
   Banks_List = require("./Sequelize Models/Web/Banks_List"),
   PEP_Banks_Details = require("./Sequelize Models/Web/PEP_Banks_Details"),
   SignUp_Page = require("./Sequelize Models/Web/signUpPage"),
+  Executive_Recommendation = require("./Sequelize Models/Web/Executive_Recommendation"),
   Web_Content = require("./Sequelize Models/Web/webContent"),
   WebAds = require("./Sequelize Models/Web/WebAds"),
   Pendance_Clearance_Details = require("./Sequelize Models/Web/Pendance_Clearance_Details"),
@@ -291,6 +294,10 @@ const TruncateTables = async () => {
     .then()
     .catch((error) => console.log("Error Deleting Table" + error));
 
+  await Recommendation_for_Executive.destroy({ truncate: true })
+    .then()
+    .catch((error) => console.log("Error Deleting Table" + error));
+
   await GMLogin.destroy({ truncate: true })
     .then()
     .catch((error) => console.log("Error Deleting Table" + error));
@@ -340,6 +347,10 @@ const TruncateTables = async () => {
     .catch((error) => console.log("Error Deleting Table" + error));
 
   await Role_ExtraInfo.destroy({ truncate: true })
+    .then()
+    .catch((error) => console.log("Error Deleting Table" + error));
+
+  await Executive_Recommendation.destroy({ truncate: true })
     .then()
     .catch((error) => console.log("Error Deleting Table" + error));
 
@@ -511,6 +522,14 @@ const Synchronizing = async () => {
       console.log("\n");
       console.log("\n");
       console.log("Error in Creating Table City_and_Supervisor_associate");
+    });
+  await City_Sector_Assosiate.sync({ force: true })
+    .then()
+    .catch((error) => {
+      console.log(error + "\n");
+      console.log("\n");
+      console.log("\n");
+      console.log("Error in Creating Table City_Sector_Assosiate");
     });
   await Compaigns.sync({ force: true })
     .then()
@@ -1007,6 +1026,24 @@ const Synchronizing = async () => {
       console.log("Error in Creating Table Pendance_Clearance_Details");
     });
 
+  await Executive_Recommendation.sync({ force: true })
+    .then()
+    .catch((error) => {
+      console.log(error + "\n");
+      console.log("\n");
+      console.log("\n");
+      console.log("Error in Creating Table Executive_Recommendation");
+    });
+
+  await Recommendation_for_Executive.sync({ force: true })
+    .then()
+    .catch((error) => {
+      console.log(error + "\n");
+      console.log("\n");
+      console.log("\n");
+      console.log("Error in Creating Table Recommendation_for_Executive");
+    });
+
   await changeRoleLogs
     .sync({ force: true })
     .then()
@@ -1382,6 +1419,7 @@ module.exports = {
   City_Areas,
   City_Sectors,
   City_and_Supervisor_associate,
+  City_Sector_Assosiate,
   Compaigns,
   Compaign_Activities,
   Compaign_Sale,
@@ -1404,6 +1442,7 @@ module.exports = {
   PEP_Agents,
   Permissions,
   ExecutiveLogins,
+  NotificationText,
   GMLogin,
   ManagerLogin,
   SuperVisorLogin,
@@ -1416,6 +1455,7 @@ module.exports = {
   Data_Entry_Operator,
   Field_Executive,
   GM_Company,
+  Recommendation_for_Executive,
   Managers,
   ComplainsOfActivities,
   WebAds,
@@ -1432,6 +1472,7 @@ module.exports = {
   changeRoleLogs,
   Role_ExtraInfo,
   Login_Page,
+  Executive_Recommendation,
   SignUp_Page,
   Web_Content,
   Pendance_Clearance_Details,

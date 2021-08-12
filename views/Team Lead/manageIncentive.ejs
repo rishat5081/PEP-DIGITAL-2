@@ -44,7 +44,7 @@
             <a href="#">
               <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
             </a>
-            <a href="<%=url%>/user/notification">
+            <a href="<%=url%>/teamlead/notification">
               <span class="fa fa-bell menu-button">
                 <span class="button__badge" style="display: none"></span>
               </span>
@@ -62,7 +62,7 @@
                 </li>
                 <% }); %>
                 <li>
-                  <a href="<%=url%>/user/signout">
+                  <a href="<%=url%>/teamlead/signout">
                     <span class="fa fa-sign-out"> </span> Log Out</a
                   >
                 </li>
@@ -75,34 +75,53 @@
           <div class="container saleup">
             <h3 class="text-center">Recommendation on incentive</h3>
             <div class="col-sm-6 ml-0 mt-5">
-              <select id="employees" placeholder="Select Employees" multiple>
-                <% array.forEach(data =>{ %>
-                <option value="<%=data.name%>"><%= data.name %></option>
+              <select
+                id="selectemployees"
+                placeholder="Select Employees"
+                multiple
+              >
+                <% teamMembers.forEach(member =>{ %>
+                <option value="<%=member.field_uuid%>">
+                  <%= member.field_name %>
+                </option>
                 <% }) %>
               </select>
             </div>
             <div class="col-sm-6 mt-4">
-              <select placeholder="Select Employees" class="form-control">
-                <option disabled>choose</option>
+              <select
+                placeholder="Select Subject"
+                id="selectRecommendation"
+                class="form-control"
+              >
+                <option disabled selected>Choose Recommendation</option>
+                <% recommendation.forEach(recomm =>{ %>
+                <option value="<%=recomm.exec_recomm_uuid%>">
+                  <%=recomm.Recommendation%>
+                </option>
+                <% }) %>
               </select>
               <input
                 class="mt-4 form-control"
                 type="text"
-                placeholder="....."
+                id="subjectTitle"
+                placeholder="Enter Subject Related Title"
               />
             </div>
             <br />
             <textarea
               class="form-control mb-3"
-              id="exampleFormControlTextarea1"
-              placeholder="Convey message to selected Team Members..."
-              rows="8"
+              id="recommendationTextarea"
+              placeholder="Convey your Recommendation to Supervisor"
+              rows="6"
+              cols="6"
             ></textarea>
-            <input
-              class="executive_btn"
-              id="recommendationbtn"
-              value="Submit"
-            />
+            <div class="div d-flex justify-content-center">
+              <input
+                class="btn btn-success text-center"
+                id="recommendation_btn"
+                value="Submit"
+              />
+            </div>
           </div>
           <!-- ---------------- -->
         </div>
@@ -138,20 +157,62 @@
       function closeMenu() {
         menu.style.top = "-100vh";
       }
-      $(document).ready(function () {
-        var multipleCancelButton = new Choices("#employees", {
+      $(document).ready(() => {
+        var multipleCancelButton = new Choices("#selectemployees", {
           removeItemButton: true
         });
       });
-      $("#recommendationbtn").click(function () {
-        var employees = [];
-        $("#employees option ").each(function () {
-          var thisOptionValue = $(this).val();
-          employees.push(thisOptionValue);
-        });
 
-        console.log(employees);
+      $("#recommendation_btn").click((e) => {
+        var employees = [];
+        employees = Array.prototype.slice
+          .call($("#selectemployees option:checked"), 0)
+          .map(function (v, i, a) {
+            return v.value;
+          });
+
+        if (
+          $("#recommendationTextarea").val().length < 0 ||
+          $("#recommendationTextarea").val().length === 0 ||
+          $("#subjectTitle").val().length < 0 ||
+          $("#subjectTitle").val().length === 0
+        ) {
+          toastr.error("All Fields are required");
+          return;
+        } else if (employees.length === 0) {
+          toastr.error("Please Select Employee");
+          return;
+        } else {
+          submitRecommendation(employees);
+        }
+        // Please do not add 15% because he was
       });
+
+      const submitRecommendation = (employeeData) => {
+        $.ajax({
+          type: "POST",
+          dataType: "json",
+          url: "/submitRecommendation",
+          data: {
+            employeeList: JSON.stringify(employeeData),
+            recommendationText: $("#recommendationTextarea").val(),
+            title: $("#subjectTitle").val(),
+            selectedRecommendation: $("#selectRecommendation")
+              .find(":selected")
+              .val()
+          },
+          error: (error) => {
+            if (error) {
+              toastr.error("Please try again");
+            }
+          },
+          success: (response) => {
+            if (response) {
+              toastr.success("Successfully Submit the Recommendations");
+            }
+          }
+        });
+      };
     </script>
   </body>
 </html>

@@ -44,7 +44,7 @@
             <a href="#">
               <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
             </a>
-            <a href="<%=url%>/user/notification">
+            <a href="<%=url%>/teamlead/notification">
               <span class="fa fa-bell menu-button">
                 <span class="button__badge" style="display: none"></span>
               </span>
@@ -62,7 +62,7 @@
                 </li>
                 <% }); %>
                 <li>
-                  <a href="<%=url%>/user/signout">
+                  <a href="<%=url%>/teamlead/signout">
                     <span class="fa fa-sign-out"> </span> Log Out</a
                   >
                 </li>
@@ -104,7 +104,7 @@
                     placeholder="Select Employees"
                     multiple="multiple"
                   >
-                    <%teamMember.forEach(area =>{ %>
+                    <%allTeamMember.forEach(area =>{ %>
                     <option value="<%=area.field_uuid%>">
                       <%= area.field_name %>
                     </option>
@@ -135,20 +135,31 @@
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
+                  <th scope="col">Contact</th>
                   <th scope="col">Current Area</th>
                 </tr>
               </thead>
               <tbody>
-                <% teamMember.forEach((element,index) => { %>
+                <% allTeamMember.forEach((element,index) => { %>
                 <tr>
-                  <td scope="col"><%= ++index %></td>
+                  <td scope="col"><strong> <%= ++index %> </strong></td>
                   <td scope="col"><%=element.field_name %></td>
+                  <td scope="col"><%=element.field_contact %></td>
 
-                  <%citySector.forEach(city =>{%>
-                  <%if(city.city_sector_id === element.city_sector_id){%>
-                    <td scope="col"><%=city.sector_name%></td>
-                  <% }%>
-                  <% })%>
+                  <td scope="col">
+                    <% teamMember.forEach(member => { %>
+                    <%if(element.field_uuid=== member.field_uuid ){%>
+
+                    <select name="" id="" class="form-group p-2 w-75">
+                      <%member.City_Sectors.forEach(area => {%>
+                      <option value="<%=area.city_sector_uuid %>">
+                        <%=area.sector_name %>
+                      </option>
+                      <% }) %>
+                    </select>
+
+                    <%} })%>
+                  </td>
                 </tr>
                 <% }) %>
               </tbody>
@@ -181,8 +192,9 @@
         scale: 1.1
       });
 
-      var menu = document.getElementById("menu");
-
+      var menu = document.getElementById("menu"),
+        teamMember = JSON.parse(`<%-JSON.stringify(teamMember)%>`),
+        allTeamMember = JSON.parse(`<%-JSON.stringify(allTeamMember)%>`);
       function openMenu() {
         menu.style.top = "0";
       }
@@ -194,19 +206,68 @@
           removeItemButton: true
         });
       });
-      $("#allotarea").click(function () {
-        var area = document.getElementById("area").value;
-        var employees = [];
+
+      //function to check if the user is already have the same area then prevent it
+
+      const checkUserArea = (dbData, selectedArea, employeeUUID) => {
+        var employeesSelected = [],
+          status = false;
+        for (const iteratorEmployee of employeeUUID) {
+          for (const data of dbData) {
+            if (data.field_uuid === iteratorEmployee) {
+              for (const dataArea of data.City_Sectors) {
+                if (selectedArea === dataArea.city_sector_uuid) {
+                  status = true;
+                }
+              }
+            }
+          }
+        }
+        return status;
+      };
+
+      $("#allotarea").click(() => {
+        var selectedArea = document.getElementById("area").value,
+          employees = [];
 
         $("#employees option ").each(function () {
           var thisOptionValue = $(this).val();
           employees.push(thisOptionValue);
         });
-        console.log(employees);
-      });
 
-      console.log(JSON.parse(`<%-JSON.stringify(citySector)%>`));
-      console.log(JSON.parse(`<%-JSON.stringify(teamMember)%>`));
+        let checkUserExists = false;
+        if (employees.length > 0)
+          checkUserExists = checkUserArea(teamMember, selectedArea, employees);
+        else {
+          toastr.error("Please select employee");
+          return;
+        }
+        if (checkUserExists) {
+          toastr.error("Sector is already allot to the user.");
+          return;
+        } else {
+          console.log(selectedArea, employees);
+          $.ajax({
+            type: "POST",
+            url: "/allocateSectorToExecutive",
+            data: { selectedArea, employees: JSON.stringify(employees) },
+            dataType: "json",
+            error: (error) => {
+              if (error) {
+                console.error(error);
+                toastr.error("There is an error while Allocating Area");
+              }
+            },
+            success: (response) => {
+              if (response) {
+                console.log(response);
+                toastr.success("Area Allocated to the Employees ");
+                location.reload(true);
+              }
+            }
+          });
+        }
+      });
     </script>
   </body>
 </html>

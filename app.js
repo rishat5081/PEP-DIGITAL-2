@@ -44,7 +44,7 @@ const Sequelize = require("sequelize"),
     Compaigns,
     Pendance_Clearance_Details,
     Role_ExtraInfo,
-    WebAds,
+    WebAds
   } = require("./Configuration Files/Sequelize/Database_Synchronization");
 //setting the .env file to read the server port and database ports
 require("dotenv").config();
@@ -90,11 +90,9 @@ app.set("view engine", "ejs");
 app.use(
   cookieParser("PEP DIGITAL", {
     maxAge: new Date(Date.now() + 1000 * 60 * 60), // for seven days // 1 sec * seconds * minutes * total hours of day * num of days in week
-    httpOnly: true,
+    httpOnly: true
   })
 );
-
-
 
 // console.log(new Date(Date.now() + 1000 * 60 * 60 * 24 * 7));
 //setInterval(() => console.log("sa"), 1000 * 60 * 24 * 7)
@@ -109,9 +107,9 @@ app.use(
       path: "/",
       httpOnly: true,
       secure: false,
-      maxAge: 1000 * 60 * 60 * 24 * 7,
+      maxAge: 1000 * 60 * 60 * 24 * 7
     },
-    resave: true,
+    resave: true
   })
 );
 
@@ -123,10 +121,6 @@ app.use(function (req, res, next) {
   res.locals.messages = require("express-messages")(req, res);
   next();
 });
-
-
-
-
 
 // app.enable('trust proxy')
 // app.use((req, res, next) => {
@@ -207,12 +201,11 @@ require("./Configuration Files/Sequelize/DBConnection").connectionTo_DB();
  * and then according to each role the page will be render
  */
 
-
 app.post(
   "/LoginForm",
   passportJs_File.authenticate("local-login", {
     failureRedirect: "/login",
-    failureFlash: true,
+    failureFlash: true
   }),
   (req, res, next) => {
     if (req.body.user_remember_me) {
@@ -224,7 +217,7 @@ app.post(
       if (!req.user.userInfo.verified) {
         res.status(200).render("Web Appendage Pages/confirmEmail", {
           message: req.flash("danger", "Please Verify your Email"),
-          uuid: req.user.userInfo.login_uuid,
+          uuid: req.user.userInfo.login_uuid
         });
       }
       if (req.user.userInfo.paused) {
@@ -233,7 +226,7 @@ app.post(
           errorHeading: `You have been temporarily block. 
                          In order to get your profile back. 
                          Contact your superiors. 
-                         `,
+                         `
         });
       }
       if (req.user.userInfo.login_uuid) {
@@ -293,7 +286,7 @@ app.post("/LoginForm", async (req, res) => {
           edit: element.dataValues.edit,
           delete_permission: element.dataValues.delete_permission,
           add_permission: element.dataValues.add_permission,
-          update_permission: element.dataValues.update_permission,
+          update_permission: element.dataValues.update_permission
         };
         permissionObject[index] = breakPermissions;
         breakPermissions = null;
@@ -307,16 +300,15 @@ app.post("/LoginForm", async (req, res) => {
        * Redirecting the user to the relevant route according to the user role
        */
 
-
       req.session.permissions = { permissionObject };
       req.session.profileData =
         profileInfo.userInfo !== null ? profileInfo.userInfo : null;
 
       if (req.user.userRole.type_name === "SuperVisor") {
-        if (profileInfo.userInfo.dataValues.sup_name !== null || '') {
+        if (profileInfo.userInfo.dataValues.sup_name !== null || "") {
           SuperVisorLogin.create({
             ipAddress: req.ip,
-            sup_id: profileInfo.userInfo.dataValues.sup_id,
+            sup_id: profileInfo.userInfo.dataValues.sup_id
           });
           res
             .status(200)
@@ -326,7 +318,7 @@ app.post("/LoginForm", async (req, res) => {
         } else {
           SuperVisorLogin.create({
             ipAddress: req.ip,
-            sup_id: profileInfo.userInfo.dataValues.sup_id,
+            sup_id: profileInfo.userInfo.dataValues.sup_id
           });
           res
             .status(200)
@@ -335,11 +327,11 @@ app.post("/LoginForm", async (req, res) => {
             );
         }
       }
-      if (req.user.userRole.type_name === "Team Lead" || '') {
+      if (req.user.userRole.type_name === "Team Lead" || "") {
         if (profileInfo.userInfo.dataValues.team_L_name !== null) {
           TeamLead_Login.create({
             ipAddress: req.ip,
-            team_L_id: profileInfo.userInfo.dataValues.team_L_id,
+            team_L_id: profileInfo.userInfo.dataValues.team_L_id
           });
           res
             .status(200)
@@ -349,7 +341,7 @@ app.post("/LoginForm", async (req, res) => {
         } else {
           TeamLead_Login.create({
             ipAddress: req.ip,
-            team_L_id: profileInfo.userInfo.dataValues.team_L_id,
+            team_L_id: profileInfo.userInfo.dataValues.team_L_id
           });
           res
             .status(200)
@@ -366,7 +358,7 @@ app.post("/LoginForm", async (req, res) => {
         if (profileInfo.userInfo.dataValues.field_name !== null) {
           ExecutiveLogins.create({
             ipAddress: req.ip,
-            field_id: profileInfo.userInfo.dataValues.field_id,
+            field_id: profileInfo.userInfo.dataValues.field_id
           });
           res
             .status(200)
@@ -376,7 +368,7 @@ app.post("/LoginForm", async (req, res) => {
         } else {
           ExecutiveLogins.create({
             ipAddress: req.ip,
-            field_id: profileInfo.userInfo.dataValues.field_id,
+            field_id: profileInfo.userInfo.dataValues.field_id
           });
           res
             .status(200)
@@ -389,7 +381,7 @@ app.post("/LoginForm", async (req, res) => {
     .catch((error) => {
       res.status(200).render("Web Appendage Pages/error", {
         errorStatus: "Sorry ! Your Profile is suspended. ",
-        errorHeading: `Please Contact the Customer Support.`,
+        errorHeading: `Please Contact the Customer Support.`
       });
     });
 });
@@ -402,7 +394,7 @@ function rememberMe_Cookies(res, uuid) {
     maxAge: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7 * 50),
     path: "/",
     secure: isDev ? false : true,
-    signed: isDev ? false : true,
+    signed: isDev ? false : true
   });
 }
 
@@ -417,45 +409,41 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
           "sup_isPaused",
           "login_id",
           "createdAt",
-          "updateTimestamp",
-        ],
+          "updateTimestamp"
+        ]
       },
       where: {
         login_id,
         sup_isPaused: 0,
-        sup_isDeleted: 0,
-      },
-    }).catch(error => {
-      if (error) {
-        console.error('Error fetching SuperVisor Data');
-        console.trace(error)
-        return null
+        sup_isDeleted: 0
       }
-    })
+    }).catch((error) => {
+      if (error) {
+        console.error("Error fetching SuperVisor Data");
+        console.trace(error);
+        return null;
+      }
+    });
     return { menuData, userInfo };
   }
   if (userRole.type_name === "Team Lead") {
     const menuData = await getMenu(userRole.type_name);
     const userInfo = await Team_Lead.findOne({
       attributes: {
-        exclude: [
-          "team_L_isDeleted",
-          "team_L_isPaused",
-          "updateTimestamp",
-        ],
+        exclude: ["team_L_isDeleted", "team_L_isPaused", "updateTimestamp"]
       },
       where: {
         login_id,
         team_L_isDeleted: 0,
-        team_L_isPaused: 0,
-      },
-    }).catch(error => {
-      if (error) {
-        console.error('Error fetching Team Lead Data');
-        console.trace(error)
-        return null
+        team_L_isPaused: 0
       }
-    })
+    }).catch((error) => {
+      if (error) {
+        console.error("Error fetching Team Lead Data");
+        console.trace(error);
+        return null;
+      }
+    });
     return { menuData, userInfo };
   }
   if (userRole.type_name === "Freelance Field Executive") {
@@ -466,22 +454,22 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
           "updateTimestamp",
           "field_isDeleted",
           "field_isPaused",
-          "login_id",
-        ],
+          "login_id"
+        ]
       },
       where: {
         login_id,
         salaryStatus: 0,
         field_isDeleted: 0,
-        field_isPaused: 0,
-      },
-    }).catch(error => {
-      if (error) {
-        console.error('Error fetching Freelance Field Executive Data');
-        console.trace(error)
-        return null
+        field_isPaused: 0
       }
-    })
+    }).catch((error) => {
+      if (error) {
+        console.error("Error fetching Freelance Field Executive Data");
+        console.trace(error);
+        return null;
+      }
+    });
     return { menuData, userInfo };
   }
   if (userRole.type_name === "Field Executive") {
@@ -492,22 +480,22 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
           "updateTimestamp",
           "field_isDeleted",
           "field_isPaused",
-          "login_id",
-        ],
+          "login_id"
+        ]
       },
       where: {
         login_id,
         salaryStatus: 1,
         field_isDeleted: 0,
-        field_isPaused: 0,
-      },
-    }).catch(error => {
-      if (error) {
-        console.error('Error fetching Field Executive Data');
-        console.trace(error)
-        return null
+        field_isPaused: 0
       }
-    })
+    }).catch((error) => {
+      if (error) {
+        console.error("Error fetching Field Executive Data");
+        console.trace(error);
+        return null;
+      }
+    });
     return { menuData, userInfo };
   }
 }
@@ -515,32 +503,27 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
 // -------------------------- Getting permissions from the DB -------------------------------------
 const getMenu = async (roleName) => {
   return await Permissions.findAll({
-    attributes: [
-      "permission_name",
-      "controller",
-      "icon",
-    ],
+    attributes: ["permission_name", "controller", "icon"],
     include: {
       model: User_Role,
       attributes: ["user_role_uuid", "type_name"],
       where: {
         type_name: roleName,
         paused: 0,
-        deleted: 0,
-      },
+        deleted: 0
+      }
     },
     where: {
       paused: 0,
-      d_deleted: 0,
-    },
-  })
-    .catch(error => {
-      if (error) {
-        console.error('Error fetching Permissions Data');
-        console.trace(error)
-        return null
-      }
-    })
+      d_deleted: 0
+    }
+  }).catch((error) => {
+    if (error) {
+      console.error("Error fetching Permissions Data");
+      console.trace(error);
+      return null;
+    }
+  });
 };
 
 /**
@@ -608,15 +591,12 @@ server.listen(process.env.server_PORT, () => {
     `\n \x1b[32m Node Server Listening at: ${process.env.server_PORT}\n \x1b[0m`
   );
   console.log(`\x1b[42m--------------------------------------\x1b[0m\n`);
+  console.log("Node Memory Status: ", process.memoryUsage());
 });
-
 
 // setInterval(() => {
 //   console.log("Hello")
 // }, 1000)
-
-
-
 
 // const getAllCustomerEarnings = async () => {
 //   return await Activities.findAll({
@@ -654,8 +634,10 @@ server.listen(process.env.server_PORT, () => {
 // });
 
 // ------------------------------------ Redirecting if route does not found -----------------------------------
-app.get('*', (req, res) => {
-  res.redirect('/');
+app.get("*", (req, res) => {
+  res.redirect("/");
 });
+
+
 
 
