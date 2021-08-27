@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 30, 2021 at 01:34 PM
+-- Generation Time: Aug 27, 2021 at 11:10 AM
 -- Server version: 8.0.20
 -- PHP Version: 7.2.19
 
@@ -111,7 +111,13 @@ INSERT INTO `activities` (`list_act_id`, `list_act_uuid`, `field_id`, `comp_id`,
 (68, '49a37e71-22bb-44a5-8a67-896c3e042beb', 4, 1, 39, 0, 0, 0, 1, '2021-06-17 19:14:14', '2021-06-17 19:14:18'),
 (69, 'b2a58c16-8cac-435a-827f-585d2d787516', 4, 1, 1, 0, 0, 0, 1, '2021-06-21 12:03:22', '2021-06-21 12:03:27'),
 (70, '8a196c02-9850-46bf-8913-ad7710485787', 4, 1, 1, 0, 0, 0, 1, '2021-06-21 12:05:25', '2021-06-21 12:05:50'),
-(81, '5d19809e-8925-4c2b-8698-d01bfa15552c', 4, 1, 47, 0, 0, 0, 0, '2021-06-21 13:31:29', '2021-06-21 13:31:29');
+(81, '5d19809e-8925-4c2b-8698-d01bfa15552c', 4, 1, 47, 0, 0, 0, 0, '2021-06-21 13:31:29', '2021-06-21 13:31:29'),
+(82, '7a7887f6-f877-4a3a-98cc-ad0458a29ef1', 4, 1, 48, 0, 0, 0, 0, '2021-08-09 13:44:55', '2021-08-09 13:44:55'),
+(83, 'cf5cafbd-371b-464d-a786-a26bad8d4c71', 4, 1, 49, 0, 0, 0, 0, '2021-08-09 13:52:13', '2021-08-09 13:52:13'),
+(84, '782b5d1d-c9c8-4ae9-bb1d-a9762db7773a', 4, 1, 1, 0, 0, 0, 0, '2021-08-09 13:54:13', '2021-08-09 13:54:13'),
+(85, 'f6139150-b90c-4ddf-826c-b3ad87413ff0', 4, 1, 1, 0, 0, 0, 0, '2021-08-09 14:29:35', '2021-08-09 14:29:35'),
+(86, '0393ceb8-e4b5-422c-b8f6-b9802296bcb4', 4, 1, 1, 0, 0, 0, 1, '2021-08-09 16:51:29', '2021-08-09 16:51:51'),
+(87, 'e3455010-e614-4ebc-b97a-1dd0158af305', 4, 1, 1, 0, 0, 0, 1, '2021-08-09 16:52:28', '2021-08-09 16:53:31');
 
 -- --------------------------------------------------------
 
@@ -311,7 +317,9 @@ INSERT INTO `agency_info` (`agency_id`, `agency_uuid`, `agency_name`, `agency_ty
 (44, '2bfdd69b-ff63-4de9-bb10-aeb55e215d5e', '78j', 'Buy, Sell, Rent, Agriculture and Investment', '03021101', 'Chiniot,Punjab', '8-alol', '73.070872', '33.6338787', 1, 'Saad', 'Saad', '03021101', 0, 0, 4, '2021-06-17 13:48:02', '2021-06-17 13:48:11'),
 (45, '98f0e8cc-2b3f-4434-aefe-db0b73361485', 'Pending rfffClearance6y', 'Buy, Sell, Rent, Agriculture and Investment', '03021101', 'Daggar,Khyber Pakhtunkhwa', '8-alol', '73.070872', '33.6338787', 1, 'Saad', 'Saad', '03021101', 0, 0, 4, '2021-06-17 13:50:22', '2021-06-17 13:50:26'),
 (46, 'f383d9ca-afdc-4176-a686-80f92d8ec7ee', 'Pending Clearance5tertgggdfg', 'Buy, Sell, Rent, Agriculture and Investment', 'df', 'Charsadda,Khyber Pakhtunkhwa', 'df', '73.0708891', '33.6338639', 1, 'dfgdfgd', 'dfgdfgd', 'df', 0, 0, 4, '2021-06-17 17:15:33', '2021-06-17 17:15:39'),
-(47, '5649a0e3-2cc1-4fae-83bb-4c2784ee8fc0', 'Pending Clearances8', 'Buy, Sell, Rent, Agriculture and Investment', '03021101', 'Chilas,Gilgit-Baltistan', '8-alol', '73.0708891', '33.6338639', 1, 'dfgdfgd', 'dfgdfgd', '03021101', 0, 0, 4, '2021-06-17 17:17:06', '2021-06-21 13:31:35');
+(47, '5649a0e3-2cc1-4fae-83bb-4c2784ee8fc0', 'Pending Clearances8', 'Buy, Sell, Rent, Agriculture and Investment', '03021101', 'Chilas,Gilgit-Baltistan', '8-alol', '73.0708891', '33.6338639', 1, 'dfgdfgd', 'dfgdfgd', '03021101', 0, 0, 4, '2021-06-17 17:17:06', '2021-06-21 13:31:35'),
+(48, '76a48b1a-2420-48da-9145-c81192d2d193', 'SSSAASD', 'Buy, Sell, Rent, Agriculture and Investment', '03021101', 'Chaman,Balochistān', 'dddddd', '73.0709525', '33.6338848', 1, 'asdasdasdas', 'asdasdasdas', '03021101', 0, 0, 4, '2021-08-09 13:44:54', '2021-08-09 13:45:01'),
+(49, 'd48f23a8-f3a1-4b6d-8380-341718e11805', 'Pending Clearance111111111', 'Buy, Sell, Rent, Agriculture and Investment', '03021101', 'Chaman,Balochistān', 'sdfsdfsd sdfsdfsdfs sdf sdfsdfs', '73.0709525', '33.6338848', 1, 'Saad', 'Saad', '03021101', 0, 0, 4, '2021-08-09 13:52:13', '2021-08-09 13:52:32');
 
 -- --------------------------------------------------------
 
@@ -477,7 +485,8 @@ INSERT INTO `changerolelogs` (`changeRole_id`, `changeRole_uuid`, `paused`, `del
 (1, '4152b805-9fea-4804-81d3-fd847cf8adbd', 0, 0, 5, 4, 4, 1, '2021-07-30 14:21:25', '2021-07-30 14:21:25'),
 (2, '7e3b05e3-5c64-4497-b712-172fd6e7f963', 0, 0, 5, 5, 1, 1, '2021-07-30 15:12:57', '2021-07-30 15:12:57'),
 (3, 'f26a88ed-efdd-4326-bc66-a1ef8c82d991', 0, 0, 5, 5, 1, 1, '2021-07-30 15:14:48', '2021-07-30 15:14:48'),
-(4, '1a62d300-0294-4553-9b13-8eae14d46302', 0, 0, 6, 5, 2, 1, '2021-07-30 15:56:55', '2021-07-30 15:56:55');
+(4, '1a62d300-0294-4553-9b13-8eae14d46302', 0, 0, 6, 5, 2, 1, '2021-07-30 15:56:55', '2021-07-30 15:56:55'),
+(5, 'f40ec412-5707-472a-925c-5cd4f00d23fb', 0, 0, 6, 5, 9, 1, '2021-08-09 13:59:29', '2021-08-09 13:59:29');
 
 -- --------------------------------------------------------
 
@@ -555,6 +564,36 @@ INSERT INTO `city_sectors` (`city_sector_id`, `city_sector_uuid`, `sector_name`,
 (1, '43773df3-57c6-4032-9f4d-35927d4bbd3a', 'Benazir Hospital', '245', 0, 0, 1, '2021-07-29 12:13:27', '2021-07-29 12:13:27'),
 (2, '0533502b-a4d4-4462-9312-c0c39f5df39c', 'PAF Chowk', '244', 0, 0, 1, '2021-07-29 12:13:27', '2021-07-29 12:13:27'),
 (3, '801da1e9-5bde-440b-8ca0-64bdd569054d', 'Rawal Chowk', '243', 0, 0, 1, '2021-07-29 12:13:27', '2021-07-29 12:13:27');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `city_sector_assosiate`
+--
+
+CREATE TABLE `city_sector_assosiate` (
+  `city_sector_assos_id` int NOT NULL,
+  `city_sector_assos_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `paused` tinyint(1) DEFAULT '0',
+  `city_sector_id` int NOT NULL,
+  `field_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `city_sector_assosiate`
+--
+
+INSERT INTO `city_sector_assosiate` (`city_sector_assos_id`, `city_sector_assos_uuid`, `deleted`, `paused`, `city_sector_id`, `field_id`, `createdAt`, `updateTimestamp`) VALUES
+(1, '501e7565-0eec-4da5-b706-5beb9257cd46', 0, 0, 1, 1, '2021-08-02 15:02:02', '2021-08-02 15:02:02'),
+(2, '63164f05-3372-4531-be22-65a5a9d25e48', 1, 1, 1, 2, '2021-08-02 17:28:33', '2021-08-02 17:28:33'),
+(3, '16974641-3ceb-4396-9604-aaff8d3aa643', 0, 0, 2, 1, '2021-08-02 17:29:33', '2021-08-02 17:29:33'),
+(4, '43f91255-8f41-474c-937e-0b545dce4e13', 0, 0, 3, 2, '2021-08-09 13:41:59', '2021-08-09 13:41:59'),
+(5, 'b5b0a9bc-99a3-439d-9bc0-235c4ed977aa', 0, 0, 3, 4, '2021-08-09 13:41:59', '2021-08-09 13:41:59'),
+(6, '1f1fd50c-0b32-459f-9372-b9cd1c9e120e', 0, 0, 2, 2, '2021-08-09 13:57:29', '2021-08-09 13:57:29'),
+(7, '8158c629-e6e7-4769-aa64-be11991a368d', 0, 0, 3, 1, '2021-08-11 17:14:11', '2021-08-11 17:14:11');
 
 -- --------------------------------------------------------
 
@@ -931,7 +970,13 @@ INSERT INTO `executivelogins` (`execu_login_id`, `execu_login_uuid`, `deleted`, 
 (8, 'fd9935c7-8bec-462d-a079-7ac06cfde483', 0, 0, 0, 0, '::1', NULL, 4, '2021-07-16 15:10:49', '2021-07-16 15:10:49'),
 (9, '43746ed0-fce0-411f-9d6a-1438b2f1c795', 0, 0, 0, 0, '::1', NULL, 4, '2021-07-26 11:34:06', '2021-07-26 11:34:06'),
 (10, '5e096ab6-1e37-4e86-ad08-e2900725941c', 0, 0, 0, 0, '::1', NULL, 4, '2021-07-27 13:22:05', '2021-07-27 13:22:05'),
-(11, '8a4915d5-5f10-45a1-a376-7e77dae53083', 0, 0, 0, 0, '::1', NULL, 4, '2021-07-27 16:52:04', '2021-07-27 16:52:04');
+(11, '8a4915d5-5f10-45a1-a376-7e77dae53083', 0, 0, 0, 0, '::1', NULL, 4, '2021-07-27 16:52:04', '2021-07-27 16:52:04'),
+(12, '5c64b5a6-93ee-49c5-a57a-31e34ec82d74', 0, 0, 0, 0, '::1', NULL, 4, '2021-08-04 13:49:13', '2021-08-04 13:49:13'),
+(13, 'beeb615f-09d2-48fd-a935-554e5ee5898f', 0, 0, 0, 0, '::1', NULL, 4, '2021-08-09 13:44:13', '2021-08-09 13:44:13'),
+(14, '9d7da3dc-26b9-4191-b828-0e0df5a4514c', 0, 0, 0, 0, '::1', NULL, 4, '2021-08-09 13:54:27', '2021-08-09 13:54:27'),
+(15, '59045484-4a44-46d3-971b-cb882cef4727', 0, 0, 0, 0, '::1', NULL, 4, '2021-08-09 14:29:17', '2021-08-09 14:29:17'),
+(16, '1888e174-7e47-47bc-ac6b-62386a07c678', 0, 0, 0, 0, '::1', NULL, 4, '2021-08-09 16:50:50', '2021-08-09 16:50:50'),
+(17, 'b7715565-f7c6-4297-9ea6-d9516fa36128', 0, 0, 0, 0, '::1', NULL, 4, '2021-08-09 16:52:12', '2021-08-09 16:52:12');
 
 -- --------------------------------------------------------
 
@@ -989,7 +1034,27 @@ INSERT INTO `executivenotifications` (`execu_notification_id`, `execu_notificati
 (31, 'bfb506b2-c67f-4faa-a251-f4eaea2f559e', 0, 0, 'You have started working on the Already Registered Agency Pending Clearances8...!!!', 1, 4, 2, '2021-06-21 12:58:53', '2021-06-21 13:42:49'),
 (32, 'ef8a38af-ff85-4913-8b50-fd6fc98d2b8e', 0, 0, 'You have started working on the Already Registered Agency Pending Clearances8...!!!', 1, 4, 2, '2021-06-21 13:00:20', '2021-06-21 13:42:49'),
 (33, '326c975f-f511-46dc-b1c8-1a5493d8b7ca', 0, 0, 'You have started working on the Already Registered Agency Pending Clearances8...!!!', 1, 4, 2, '2021-06-21 13:01:34', '2021-06-21 13:42:49'),
-(34, 'daa1d72d-e5f5-441d-ae54-42946ef99b73', 0, 0, 'You have started working on the Already Registered Agency Pending Clearances8...!!!', 1, 4, 2, '2021-06-21 13:31:29', '2021-06-21 13:42:49');
+(34, 'daa1d72d-e5f5-441d-ae54-42946ef99b73', 0, 0, 'You have started working on the Already Registered Agency Pending Clearances8...!!!', 1, 4, 2, '2021-06-21 13:31:29', '2021-06-21 13:42:49'),
+(35, '8889fdb3-81f4-40ca-bfc9-c2eae2b41a05', 0, 0, 'req.body.messageText', 0, 1, 4, '2021-08-04 13:33:46', '2021-08-04 13:33:46'),
+(36, 'dfa8663d-0706-4fcd-8c09-746199f083f8', 0, 0, 'req.body.messageText', 0, 2, 4, '2021-08-04 13:33:46', '2021-08-04 13:33:46'),
+(37, 'ee3b7c44-8f25-43f3-96eb-9c6f5c48e9ca', 0, 0, 'req.body.messageText', 0, 1, 4, '2021-08-04 13:34:05', '2021-08-04 13:34:05'),
+(38, '2f7cd5b9-4b68-41ff-b0fe-4192a5d46b70', 0, 0, 'req.body.messageText', 0, 2, 4, '2021-08-04 13:34:05', '2021-08-04 13:34:05'),
+(39, '123c3334-2d08-4b85-bd8e-66a3d3207207', 0, 0, 'await Convey Message to Your Team Convey Message to Your Team', 1, 4, 4, '2021-08-04 13:46:35', '2021-08-04 13:50:00'),
+(40, '1165b3ea-9607-4603-be18-30069b778f08', 0, 0, 'await Convey Message to Your Team Convey Message to Your Team', 1, 4, 4, '2021-08-04 13:46:35', '2021-08-04 13:50:00'),
+(41, 'd9344a05-0009-4bc7-a2b5-2be9cca96a51', 0, 0, 'You have started working on the Already Registered Agency Saad Sohail...!!!', 0, 4, 2, '2021-08-09 13:54:13', '2021-08-09 13:54:13'),
+(42, '868c81f9-fdf1-4a38-883d-4602f035db5f', 0, 0, 'fghfghfgh', 0, 1, 4, '2021-08-09 13:58:03', '2021-08-09 13:58:03'),
+(43, '0058cb1a-67ab-4689-8430-8076a7053ff2', 0, 0, 'fghfghfgh', 0, 4, 4, '2021-08-09 13:58:03', '2021-08-09 13:58:03'),
+(44, '3c772513-8bb0-4ef2-beab-10efd79ef782', 0, 0, 'fghfghfgh', 0, 1, 4, '2021-08-09 13:58:05', '2021-08-09 13:58:05'),
+(45, '19994b00-58e7-414f-adb0-8d42e016552d', 0, 0, 'fghfghfgh', 0, 4, 4, '2021-08-09 13:58:05', '2021-08-09 13:58:05'),
+(46, '39dfab18-4d5a-4e2a-886a-f8fc00032fa2', 0, 0, 'asdasdasdasd', 0, 1, 4, '2021-08-09 14:05:37', '2021-08-09 14:05:37'),
+(47, 'e02f4958-ca34-4f5e-bc78-b8720fbe447e', 0, 0, 'asdasdasdasd', 0, 2, 4, '2021-08-09 14:05:37', '2021-08-09 14:05:37'),
+(48, 'afa60e35-249a-47b2-b87f-f4174ce8ad9c', 0, 0, 'asdasdasdasd', 0, 4, 4, '2021-08-09 14:05:37', '2021-08-09 14:05:37'),
+(49, '0fdd7de3-ca49-4db8-a941-4de0391205c0', 0, 0, 'asdasdasdasd', 0, 9, 4, '2021-08-09 14:05:37', '2021-08-09 14:05:37'),
+(50, '319b4d80-8443-4580-bd6e-2c4ea28f67e5', 0, 0, 'sdasdasdas', 0, 1, 4, '2021-08-09 14:06:38', '2021-08-09 14:06:38'),
+(51, '56fb9548-8fa9-4bcd-b3d2-0f64ceda2ccf', 0, 0, 'sdasdasdas', 0, 4, 4, '2021-08-09 14:06:38', '2021-08-09 14:06:38'),
+(52, 'a3a28866-d318-408f-b81a-116c4bdb2112', 0, 0, 'You have started working on the Already Registered Agency Saad Sohail...!!!', 0, 4, 2, '2021-08-09 14:29:35', '2021-08-09 14:29:35'),
+(53, '383aeaa3-bf75-4aa9-8531-47a419ab7329', 0, 0, 'You have started working on the Already Registered Agency Saad Sohail...!!!', 0, 4, 2, '2021-08-09 16:51:29', '2021-08-09 16:51:29'),
+(54, '19ba8b8e-44c3-4389-9604-bdd25d2c1a3c', 0, 0, 'You have started working on the Already Registered Agency Saad Sohail...!!!', 0, 4, 2, '2021-08-09 16:52:28', '2021-08-09 16:52:28');
 
 -- --------------------------------------------------------
 
@@ -1006,6 +1071,33 @@ CREATE TABLE `executive_advert_stock` (
   `createdAt` datetime NOT NULL,
   `updateTimestamp` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `executive_recommendation`
+--
+
+CREATE TABLE `executive_recommendation` (
+  `exec_recomm_id` int NOT NULL,
+  `exec_recomm_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `Recommendation` text,
+  `sa_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `executive_recommendation`
+--
+
+INSERT INTO `executive_recommendation` (`exec_recomm_id`, `exec_recomm_uuid`, `paused`, `deleted`, `Recommendation`, `sa_id`, `createdAt`, `updateTimestamp`) VALUES
+(1, '67f64652-995b-4ef3-a30b-b4a5e758e6ef', 0, 0, 'Increment', 1, '2021-08-10 16:33:14', '2021-08-10 16:33:14'),
+(2, '0c4e03b0-be05-4473-99dc-3d99cef3c44f', 0, 0, 'Decrement', 1, '2021-08-10 16:33:35', '2021-08-10 16:33:35'),
+(3, '90d534ae-7190-4261-bb07-a173950e2311', 0, 0, 'Abuse Report', 1, '2021-08-10 16:34:01', '2021-08-10 16:34:01'),
+(4, '7375db6c-317c-4eb2-a4fc-2a788d16cc39', 0, 0, 'Promotion', 1, '2021-08-10 16:34:07', '2021-08-10 16:34:07');
 
 -- --------------------------------------------------------
 
@@ -1047,7 +1139,6 @@ CREATE TABLE `field_executive` (
   `field_isPaused` tinyint(1) DEFAULT '0',
   `login_id` int NOT NULL,
   `team_L_id` int DEFAULT NULL,
-  `city_sector_id` int DEFAULT NULL,
   `createdAt` datetime NOT NULL,
   `updateTimestamp` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1056,11 +1147,11 @@ CREATE TABLE `field_executive` (
 -- Dumping data for table `field_executive`
 --
 
-INSERT INTO `field_executive` (`field_id`, `field_uuid`, `field_name`, `field_userProfilePic`, `field_contact`, `field_target`, `field_DOB`, `field_salary`, `salaryStatus`, `field_commission`, `field_username`, `field_isDeleted`, `field_isPaused`, `login_id`, `team_L_id`, `city_sector_id`, `createdAt`, `updateTimestamp`) VALUES
-(1, 'ce1308f8-0452-42f6-b900-a144ea3ab1f3', NULL, NULL, NULL, NULL, '', NULL, 0, NULL, NULL, 0, 0, 6, 1, 1, '2021-04-19 14:45:32', '2021-07-30 15:43:44'),
-(2, '2723ae86-d5e5-47e4-a7e8-c99d852213e7', NULL, NULL, NULL, NULL, '', NULL, 0, NULL, NULL, 0, 0, 4, 1, NULL, '2021-04-19 14:46:07', '2021-07-30 15:56:55'),
-(4, 'aef06ba4-8d47-4810-92c1-9f4942fcd473', 'Saad', '/userprofileImage/c5dcd668-86ba-4bac-9da1-26d1c90e1ed8.png', '031245555', NULL, '2010-01-04', NULL, 0, NULL, 'rsasdasd12321', 0, 0, 5, NULL, NULL, '2021-04-19 15:19:48', '2021-06-15 13:59:35'),
-(9, '1016e851-da1a-46ab-8366-d472f0440981', 'voip_ITZ', '/userprofileImage/500493e0-b971-4e74-8eb1-523315fca4a5.jpeg', '3423423', NULL, '2021-06-02', NULL, 0, NULL, 'muna_safdar', 0, 0, 16, NULL, NULL, '2021-06-29 16:48:52', '2021-06-29 16:53:35');
+INSERT INTO `field_executive` (`field_id`, `field_uuid`, `field_name`, `field_userProfilePic`, `field_contact`, `field_target`, `field_DOB`, `field_salary`, `salaryStatus`, `field_commission`, `field_username`, `field_isDeleted`, `field_isPaused`, `login_id`, `team_L_id`, `createdAt`, `updateTimestamp`) VALUES
+(1, 'ce1308f8-0452-42f6-b900-a144ea3ab1f3', 'First Executive', NULL, NULL, NULL, '', NULL, 0, NULL, NULL, 0, 0, 6, 1, '2021-04-19 14:45:32', '2021-07-30 15:43:44'),
+(2, '2723ae86-d5e5-47e4-a7e8-c99d852213e7', 'Testing', NULL, NULL, NULL, '', NULL, 0, NULL, NULL, 0, 0, 4, 1, '2021-04-19 14:46:07', '2021-07-30 15:56:55'),
+(4, 'aef06ba4-8d47-4810-92c1-9f4942fcd473', 'Saad', '/userprofileImage/c5dcd668-86ba-4bac-9da1-26d1c90e1ed8.png', '031245555', NULL, '2010-01-04', NULL, 0, NULL, 'rsasdasd12321', 0, 0, 5, 1, '2021-04-19 15:19:48', '2021-06-15 13:59:35'),
+(9, '1016e851-da1a-46ab-8366-d472f0440981', 'voip_ITZ', '/userprofileImage/500493e0-b971-4e74-8eb1-523315fca4a5.jpeg', '3423423', NULL, '2021-06-02', NULL, 0, NULL, 'muna_safdar', 0, 0, 16, 1, '2021-06-29 16:48:52', '2021-08-09 13:59:29');
 
 -- --------------------------------------------------------
 
@@ -1135,7 +1226,9 @@ INSERT INTO `field_executive_pending_earning` (`field_exe_earn_id`, `field_exe_e
 (9, '3dd8e772-5030-46c2-87b3-4498486b821e', 0, 0, 0, '', NULL, NULL, 1, 0, NULL, NULL, 0, NULL, 0, NULL, NULL, '2021-06-24 18:30:52', 4, 64, '2021-06-17 18:30:52', '2021-06-17 18:30:52'),
 (10, '7fe0015c-2926-45e3-a550-fdf406aad039', 0, 0, 0, '', NULL, NULL, 1, 0, NULL, NULL, 0, NULL, 0, NULL, NULL, '2021-06-24 18:36:53', 4, 65, '2021-06-17 18:36:53', '2021-06-17 18:36:53'),
 (11, '754ef072-724f-4daf-9c32-c2cbbeb1807b', 0, 0, 0, '', NULL, NULL, 1, 0, NULL, NULL, 0, NULL, 0, NULL, NULL, '2021-06-24 18:40:59', 4, 66, '2021-06-17 18:40:59', '2021-06-17 18:40:59'),
-(19, '66747f56-e0e0-4bef-9d71-a18de3325fab', 0, 0, 0, '', NULL, NULL, 0, 0, NULL, NULL, 0, NULL, 0, NULL, NULL, '2021-06-28 13:31:35', 4, 81, '2021-06-21 13:31:35', '2021-06-21 13:31:35');
+(19, '66747f56-e0e0-4bef-9d71-a18de3325fab', 0, 0, 0, '', NULL, NULL, 0, 0, NULL, NULL, 0, NULL, 0, NULL, NULL, '2021-06-28 13:31:35', 4, 81, '2021-06-21 13:31:35', '2021-06-21 13:31:35'),
+(20, 'fb701793-d763-45a3-a5e9-34b57984a4d4', 0, 0, 0, NULL, NULL, NULL, 1, 0, NULL, NULL, 0, NULL, 0, NULL, NULL, '2021-08-16 13:45:01', 4, 82, '2021-08-09 13:45:01', '2021-08-09 13:45:01'),
+(21, '285b97b3-bf44-4525-9e35-08ebeefdb470', 0, 0, 0, NULL, NULL, NULL, 1, 0, NULL, NULL, 0, NULL, 0, NULL, NULL, '2021-08-16 13:52:32', 4, 83, '2021-08-09 13:52:32', '2021-08-09 13:52:32');
 
 -- --------------------------------------------------------
 
@@ -1205,6 +1298,7 @@ CREATE TABLE `lists` (
   `list_name` text,
   `list_deleted` tinyint(1) DEFAULT '0',
   `list_paused` tinyint(1) DEFAULT '0',
+  `isRepeat` tinyint(1) NOT NULL DEFAULT '0',
   `isBank` tinyint(1) DEFAULT '0',
   `bankAmount` float DEFAULT NULL,
   `commissionAmount` float DEFAULT NULL,
@@ -1218,11 +1312,11 @@ CREATE TABLE `lists` (
 -- Dumping data for table `lists`
 --
 
-INSERT INTO `lists` (`list_id`, `list_uuid`, `list_name`, `list_deleted`, `list_paused`, `isBank`, `bankAmount`, `commissionAmount`, `list_amount`, `list_description`, `createdAt`, `updateTimestamp`) VALUES
-(1, 'f349ff23-66a9-418b-9d41-e954bc1b3f1e', 'New Agency', 0, 0, 0, NULL, 0, 50, 'Since the above was an OR involving the same field, Sequelize allows you to use a slightly different structure which is more readable and generates the same behavior', '2021-04-19 16:47:23', '2021-04-19 16:47:23'),
-(2, '336c77d3-bb16-44d6-9ec5-a4aecc742a57', 'Testing 123', 0, 0, 1, 12, 20, 5, 'Note the usage of the sequelize.fn and sequelize.col methods, which should be used to specify an SQL function call and a table column, respectively. These methods should be used instead of passing a plain string (such as char_length(content)) because Sequelize needs to treat this situation differently (for example, using other symbol escaping approaches).', '2021-04-21 13:00:00', '2021-04-21 13:00:00'),
-(3, '7d218ff5-c75f-4a61-98a6-ab984a0a4827', 'Testing1222', 0, 0, 1, 40.01, 5, 25, 'Note the usage of the sequelize.fn and sequelize.col methods, which should be used to specify an SQL function call and a table column, respectively. These methods should be used instead of passing a plain string (such as char_length(content)) because Sequelize needs to treat this situation differently (for example, using other symbol escaping approaches).', '2021-04-21 15:04:09', '2021-04-21 15:04:09'),
-(4, '7d7cd5e3-3e6c-42f6-b99d-0d252095f998', 'Testing again', 0, 0, 0, NULL, 0, 30, 'Bind parameters are like replacements. Except replacements are escaped and inserted into the query by sequelize before the query is sent to the database, while bind parameters are sent to the database outside the SQL query text. A query can have either bind parameters or replacements. Bind parameters are referred to by either $1, $2, ... (numeric) or $key (alpha-numeric). This is independent of the dialect.', '2021-04-22 12:22:54', '2021-04-22 12:22:54');
+INSERT INTO `lists` (`list_id`, `list_uuid`, `list_name`, `list_deleted`, `list_paused`, `isRepeat`, `isBank`, `bankAmount`, `commissionAmount`, `list_amount`, `list_description`, `createdAt`, `updateTimestamp`) VALUES
+(1, 'f349ff23-66a9-418b-9d41-e954bc1b3f1e', 'New Agency', 0, 0, 0, 0, NULL, 0, 50, 'Since the above was an OR involving the same field, Sequelize allows you to use a slightly different structure which is more readable and generates the same behavior', '2021-04-19 16:47:23', '2021-04-19 16:47:23'),
+(2, '336c77d3-bb16-44d6-9ec5-a4aecc742a57', 'Testing 123', 0, 0, 0, 1, 12, 20, 5, 'Note the usage of the sequelize.fn and sequelize.col methods, which should be used to specify an SQL function call and a table column, respectively. These methods should be used instead of passing a plain string (such as char_length(content)) because Sequelize needs to treat this situation differently (for example, using other symbol escaping approaches).', '2021-04-21 13:00:00', '2021-04-21 13:00:00'),
+(3, '7d218ff5-c75f-4a61-98a6-ab984a0a4827', 'Testing1222', 0, 0, 1, 1, 40.01, 5, 25, 'Note the usage of the sequelize.fn and sequelize.col methods, which should be used to specify an SQL function call and a table column, respectively. These methods should be used instead of passing a plain string (such as char_length(content)) because Sequelize needs to treat this situation differently (for example, using other symbol escaping approaches).', '2021-04-21 15:04:09', '2021-04-21 15:04:09'),
+(4, '7d7cd5e3-3e6c-42f6-b99d-0d252095f998', 'Testing again', 0, 0, 0, 0, NULL, 0, 30, 'Bind parameters are like replacements. Except replacements are escaped and inserted into the query by sequelize before the query is sent to the database, while bind parameters are sent to the database outside the SQL query text. A query can have either bind parameters or replacements. Bind parameters are referred to by either $1, $2, ... (numeric) or $key (alpha-numeric). This is independent of the dialect.', '2021-04-22 12:22:54', '2021-04-22 12:22:54');
 
 -- --------------------------------------------------------
 
@@ -1321,7 +1415,13 @@ INSERT INTO `list_sub_activities` (`list_sub_act_id`, `list_sub_act_uuid`, `list
 (86, '1a285030-b468-4e34-adf2-6ce7345563f1', 3, 56, 0, 0, '2021-06-17 17:40:09', '2021-06-17 17:40:09'),
 (87, '32e19bf9-a247-49ee-91c8-8995e9bcf9f8', 4, 56, 0, 0, '2021-06-17 17:40:09', '2021-06-17 17:40:09'),
 (88, 'b02624e4-db22-4f51-be8c-6bf65d15e6fd', 4, 64, 0, 0, '2021-06-17 18:30:52', '2021-06-17 18:30:52'),
-(97, '16f65128-8445-423e-896b-4d5faaeeb777', 4, 81, 0, 0, '2021-06-21 13:31:35', '2021-06-21 13:31:35');
+(97, '16f65128-8445-423e-896b-4d5faaeeb777', 4, 81, 0, 0, '2021-06-21 13:31:35', '2021-06-21 13:31:35'),
+(98, 'e0bfb2a6-0f29-4e37-ac35-91fb06c2591c', 1, 82, 0, 0, '2021-08-09 13:44:55', '2021-08-09 13:44:55'),
+(99, '7630ce03-e814-4f97-9d22-95d728537edc', 2, 82, 0, 0, '2021-08-09 13:45:01', '2021-08-09 13:45:01'),
+(100, '6632b9b1-0c36-41b1-ac7c-8b4f8ebf3340', 3, 82, 0, 0, '2021-08-09 13:45:01', '2021-08-09 13:45:01'),
+(101, '7ca530d9-4b5a-4341-b187-6c7f517cf4bc', 1, 83, 0, 0, '2021-08-09 13:52:13', '2021-08-09 13:52:13'),
+(102, '07d529dd-80a3-45d5-ab9f-594590da5f41', 3, 83, 0, 0, '2021-08-09 13:52:32', '2021-08-09 13:52:32'),
+(103, '3a865b88-0329-4308-bf82-fed60d131388', 4, 83, 0, 0, '2021-08-09 13:52:32', '2021-08-09 13:52:32');
 
 -- --------------------------------------------------------
 
@@ -1413,6 +1513,7 @@ CREATE TABLE `managers` (
   `man_userProfilePic` text,
   `man_contact` text,
   `man_isDeleted` tinyint(1) DEFAULT '0',
+  `man_isPaused` tinyint(1) NOT NULL DEFAULT '0',
   `man_salary` text,
   `man_username` text,
   `d_id` int NOT NULL,
@@ -1425,8 +1526,8 @@ CREATE TABLE `managers` (
 -- Dumping data for table `managers`
 --
 
-INSERT INTO `managers` (`man_id`, `man_uuid`, `man_name`, `man_email`, `man_password`, `man_userProfilePic`, `man_contact`, `man_isDeleted`, `man_salary`, `man_username`, `d_id`, `zone_id`, `createdAt`, `updateTimestamp`) VALUES
-(1, 'dbae7a77-bd5c-42ff-acde-c042596b3b5c', 'Manager', 'manager@info.com', '$2b$10$WfgW1aVsxJOZ1tD.yMRSBuHFPl9NtHyiJJJSGRUt4EgbC5hEp1P1G', 'manager.png', '0333-5214777', 0, '140000', 'manager_12', 1, 1, '2021-04-19 14:38:37', '2021-04-19 14:38:37');
+INSERT INTO `managers` (`man_id`, `man_uuid`, `man_name`, `man_email`, `man_password`, `man_userProfilePic`, `man_contact`, `man_isDeleted`, `man_isPaused`, `man_salary`, `man_username`, `d_id`, `zone_id`, `createdAt`, `updateTimestamp`) VALUES
+(1, 'dbae7a77-bd5c-42ff-acde-c042596b3b5c', 'Manager', 'manager@info.com', '$2b$10$WfgW1aVsxJOZ1tD.yMRSBuHFPl9NtHyiJJJSGRUt4EgbC5hEp1P1G', 'manager.png', '0333-5214777', 0, 0, '140000', 'manager_12', 1, 1, '2021-04-19 14:38:37', '2021-04-19 14:38:37');
 
 -- --------------------------------------------------------
 
@@ -1453,7 +1554,8 @@ CREATE TABLE `notificationtext` (
 INSERT INTO `notificationtext` (`notification_id`, `notification_uuid`, `deleted`, `isPaused`, `notification_title`, `notification_icon`, `isRead`, `createdAt`, `updateTimestamp`) VALUES
 (1, '2b6f2cdd-bfbc-4b98-83fa-670e7d3d9ddd', 0, 0, 'Created New Agency', 'fa fa-home', 0, '2021-06-08 14:22:43', '2021-06-08 14:22:43'),
 (2, 'eb82ee5a-606c-4675-900d-c6319ff8ec90', 0, 0, 'Start Activity on Existing Agnecy', 'fa fa-building', 0, '2021-06-08 15:25:23', '2021-06-08 15:25:23'),
-(3, '2f95a32a-ff28-4728-9185-7d10b1752bb6', 0, 0, 'Start Activity on Existing Agnecy', 'fa fa-building', 0, '2021-06-08 15:26:00', '2021-06-08 15:26:00');
+(3, '2f95a32a-ff28-4728-9185-7d10b1752bb6', 0, 0, 'Start Activity on Existing Agnecy', 'fa fa-building', 0, '2021-06-08 15:26:00', '2021-06-08 15:26:00'),
+(4, '458e334d-3efd-4ea4-a592-d8e70c2bfe1d', 0, 0, 'Message from your Team Lead', 'fa fa-exclamation-triangle', 0, '2021-08-03 17:50:49', '2021-08-03 17:50:49');
 
 -- --------------------------------------------------------
 
@@ -1562,14 +1664,14 @@ INSERT INTO `permissions` (`permmission_id`, `permmission_uuid`, `paused`, `d_de
 (10, '496c9437-abc9-4fb4-9c35-c460fdd51cbb', 0, 0, 'Company Deposits', '/companyDeposits', 'fa fa-building-o', 0, 0, 1, 1, '2021-04-16 16:12:15', '2021-04-16 16:12:15'),
 (11, '741095d4-18d0-4695-b723-81756a90a45f', 0, 0, 'Start Activity', '/startActivity', 'fa fa-tasks', 0, 0, 1, 1, '2021-04-16 16:12:48', '2021-04-16 16:12:48'),
 (12, '80dff99c-df3c-451b-8a36-3eaf9cbb25f0', 0, 0, 'Manage Managers', NULL, NULL, 0, 0, 1, 1, '2021-04-23 15:30:17', '2021-04-23 15:30:17'),
-(13, '4c982daa-b39d-4e13-ab2c-385272566c63', 0, 0, 'View Agencies', '/viewAgencies', 'fa fa-building-o', 0, 0, 1, 1, '2021-04-23 15:31:14', '2021-04-23 15:31:14'),
+(13, '4c982daa-b39d-4e13-ab2c-385272566c63', 0, 0, 'View Agencies', '/viewAgencies', 'fa fa-building', 0, 0, 1, 1, '2021-04-23 15:31:14', '2021-04-23 15:31:14'),
 (14, 'd70a44e8-ba26-4bdf-bef7-aa2a2d65b6c1', 0, 0, 'Dashboard', '/dashboard', 'fa fa-bars', 0, 0, 1, 1, '2021-05-07 12:14:52', '2021-05-07 12:14:52'),
 (15, '2c9a7963-97f3-4cfb-8d49-51e9e77746d5', 0, 0, 'Assign Area', '/assignArea', 'fa fa-map-marker', 0, 0, 1, 1, '2021-07-26 11:43:37', '2021-07-26 11:43:37'),
 (16, 'e2159892-069f-417b-9edf-8e282ca07294', 0, 0, 'Convey Message', '/conveyMessage', 'fa fa-envelope', 0, 0, 1, 1, '2021-07-26 11:43:37', '2021-07-26 11:43:37'),
 (17, '67e8d060-ed62-4bf1-829d-6deaff1bd123', 0, 0, 'Progress Report of Field Executive', '/progressReport', 'fa fa-tasks', 0, 0, 1, 1, '2021-07-26 11:43:37', '2021-07-26 11:43:37'),
 (18, 'bc5093c2-d40c-4863-a92c-84b4e199dc05', 0, 0, 'Manage Incentive', '/manageIncentive', 'fa fa-gift', 0, 0, 1, 1, '2021-07-26 11:43:37', '2021-07-26 11:43:37'),
-(19, '1c3818b5-7ee6-4a05-8fb0-54c4a4d681ce', 0, 0, 'Verify Activity', '/verifyActivity', 'fa fa-tasks', 0, 0, 1, 1, '2021-07-26 11:43:37', '2021-07-26 11:43:37'),
-(20, '00f6e36d-f14b-4598-93c7-77d2ea2b5610', 0, 0, 'Add Freelancer to Team', '/addFreelance', 'fa fa-plus', 0, 0, 1, 1, '2021-07-26 11:43:37', '2021-07-26 11:43:37');
+(20, '00f6e36d-f14b-4598-93c7-77d2ea2b5610', 0, 0, 'Add Freelancer to Team', '/addFreelance', 'fa fa-plus', 0, 0, 1, 1, '2021-07-26 11:43:37', '2021-07-26 11:43:37'),
+(21, '9e93fe8e-8671-4586-aca0-bbae8b1b4c69', 0, 0, 'Assign Advertisement Giveaway', '/assignGiveaway', 'fa fa-gift', 0, 0, 1, 1, '2021-08-27 15:09:25', '2021-08-27 15:09:25');
 
 -- --------------------------------------------------------
 
@@ -1617,8 +1719,15 @@ INSERT INTO `permission_role_assosiate` (`perm_assos_id`, `perm_assos_uuid`, `pa
 (26, '676d8e90-e62a-486b-8919-0b9f5f30853f', 0, 0, 15, 4, '2021-07-26 11:53:28', '2021-07-26 11:53:28'),
 (27, '3749cb27-790a-4df3-bbb5-c8bdaedeafd5', 0, 0, 16, 4, '2021-07-26 11:53:34', '2021-07-26 11:53:34'),
 (28, '7f9209ff-ef33-44b7-ab40-139551ca4eed', 0, 0, 17, 4, '2021-07-26 11:53:36', '2021-07-26 11:53:36'),
-(29, 'bc26bd7b-9fb7-43a2-9a91-9b3cd843dbc2', 0, 0, 19, 4, '2021-07-26 11:53:41', '2021-07-26 11:53:41'),
-(30, '196752ae-7c6f-43da-ae80-dd73058a8e1d', 0, 0, 20, 4, '2021-07-26 11:53:45', '2021-07-26 11:53:45');
+(30, '196752ae-7c6f-43da-ae80-dd73058a8e1d', 0, 0, 20, 4, '2021-07-26 11:53:45', '2021-07-26 11:53:45'),
+(31, '1945dee7-e992-42ed-b8b5-6a45c0daac50', 0, 0, 18, 4, '2021-08-10 14:33:32', '2021-08-10 14:33:32'),
+(32, '4f0af0eb-613d-4d18-b68d-fa64fa1760aa', 0, 0, 2, 3, '2021-08-24 15:49:43', '2021-08-24 15:49:43'),
+(33, '45aef140-9a51-43c8-914f-f614e9ab8f5f', 0, 0, 14, 3, '2021-08-24 15:50:20', '2021-08-24 15:50:20'),
+(34, '14bad5a3-4782-4251-984b-bb8999907ab2', 0, 0, 16, 3, '2021-08-24 15:50:49', '2021-08-24 15:50:49'),
+(35, '423a4b97-c9dd-4738-9034-dc07b39f17f5', 0, 0, 13, 3, '2021-08-24 15:53:17', '2021-08-24 15:53:17'),
+(36, 'fc2ed1d1-b4c1-4e42-9856-da40f67cd17a', 0, 0, 15, 3, '2021-08-24 15:53:32', '2021-08-24 15:53:32'),
+(37, '6c8fe7b6-f6d9-4820-9e3a-1178f968162e', 0, 0, 18, 3, '2021-08-24 15:53:48', '2021-08-24 15:53:48'),
+(38, 'bae887a2-a3f0-4607-9b11-b0cba8609f6c', 0, 0, 7, 3, '2021-08-27 11:46:45', '2021-08-27 11:46:45');
 
 -- --------------------------------------------------------
 
@@ -1686,6 +1795,33 @@ CREATE TABLE `receiving_calls` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `recommendation_for_executive`
+--
+
+CREATE TABLE `recommendation_for_executive` (
+  `recomm_for_Exec_id` int NOT NULL,
+  `recomm_for_Exec_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `recommendationTitle` text,
+  `recommendationDetails` text,
+  `team_L_id` int NOT NULL,
+  `field_id` int NOT NULL,
+  `exec_recomm_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `recommendation_for_executive`
+--
+
+INSERT INTO `recommendation_for_executive` (`recomm_for_Exec_id`, `recomm_for_Exec_uuid`, `paused`, `deleted`, `recommendationTitle`, `recommendationDetails`, `team_L_id`, `field_id`, `exec_recomm_id`, `createdAt`, `updateTimestamp`) VALUES
+(1, '32bc1cc8-7056-45bd-a111-b5b9b613b670', 0, 0, 'uu', 'uu', 1, 1, 1, '2021-08-11 17:55:25', '2021-08-11 17:55:25');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `request_of_advertisement`
 --
 
@@ -1732,7 +1868,9 @@ CREATE TABLE `role_extrainfo` (
 
 INSERT INTO `role_extrainfo` (`role_creden_id`, `role_creden_uuid`, `paused`, `deleted`, `target`, `salary`, `commission`, `user_role_id`, `createdAt`, `updateTimestamp`) VALUES
 (1, '76771f99-5db6-4eef-86f4-69fc8606f3f6', 0, 0, NULL, NULL, NULL, 6, '2021-04-16 16:47:55', '2021-04-16 16:47:55'),
-(2, '13b7f8f2-ffbe-4902-9875-fc4a62914687', 0, 0, '10', '15000', '0.25%', 5, '2021-04-16 16:49:37', '2021-04-16 16:49:37');
+(2, '13b7f8f2-ffbe-4902-9875-fc4a62914687', 0, 0, '10', '15000', '0.25%', 5, '2021-04-16 16:49:37', '2021-04-16 16:49:37'),
+(4, '3d199064-414f-4a0f-89d4-b811285fac32', 0, 0, '15', '50000', '15%', 3, '2021-08-23 15:26:27', '2021-08-23 15:26:27'),
+(5, '47340da8-a862-49db-9f58-7c42473a0885', 0, 0, '150', '85100', '1.5%', 4, '2021-08-23 15:41:39', '2021-08-23 15:41:39');
 
 -- --------------------------------------------------------
 
@@ -1803,6 +1941,7 @@ CREATE TABLE `supervisor` (
   `sup_target` text,
   `sup_salary` text,
   `sup_commission` text,
+  `sup_DOB` text,
   `sup_username` text,
   `sup_isDeleted` tinyint(1) DEFAULT '0',
   `sup_isPaused` tinyint(1) DEFAULT '0',
@@ -1816,8 +1955,8 @@ CREATE TABLE `supervisor` (
 -- Dumping data for table `supervisor`
 --
 
-INSERT INTO `supervisor` (`sup_id`, `sup_uuid`, `sup_name`, `sup_userProfilePic`, `sup_contact`, `sup_target`, `sup_salary`, `sup_commission`, `sup_username`, `sup_isDeleted`, `sup_isPaused`, `login_id`, `man_id`, `createdAt`, `updateTimestamp`) VALUES
-(1, '4a531f36-7ce3-43f5-91c3-2cf358d78357', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 2, 1, '2021-03-24 12:34:04', '2021-03-24 12:34:04');
+INSERT INTO `supervisor` (`sup_id`, `sup_uuid`, `sup_name`, `sup_userProfilePic`, `sup_contact`, `sup_target`, `sup_salary`, `sup_commission`, `sup_DOB`, `sup_username`, `sup_isDeleted`, `sup_isPaused`, `login_id`, `man_id`, `createdAt`, `updateTimestamp`) VALUES
+(1, '4a531f36-7ce3-43f5-91c3-2cf358d78357', 'Supervisor Saad', '/userprofileImage/ec53183c-129c-4b99-9197-4a171c7bff00.png', '+923035229779', '15', '50000', '15%', '2021-08-24', 'super_username', 0, 0, 2, 1, '2021-03-24 12:34:04', '2021-08-27 11:02:44');
 
 -- --------------------------------------------------------
 
@@ -1839,6 +1978,87 @@ CREATE TABLE `supervisorlogin` (
   `updateTimestamp` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `supervisorlogin`
+--
+
+INSERT INTO `supervisorlogin` (`supervisor_login_id`, `supervisor_login_uuid`, `deleted`, `isPaused`, `loggedInStatus`, `loggedOutStatus`, `loggedOutDate`, `ipAddress`, `sup_id`, `createdAt`, `updateTimestamp`) VALUES
+(1, '9808ea4a-ee42-4cde-852e-e1e66eb7398b', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-23 12:20:26', '2021-08-23 12:20:26'),
+(2, 'c68a33db-a2d9-47e7-8f81-01ee622a9316', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-23 13:20:08', '2021-08-23 13:20:08'),
+(3, '0af82191-bf2e-45fd-bd8b-b6d1b71e329a', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-23 13:20:45', '2021-08-23 13:20:45'),
+(4, 'e73ac30b-191d-473d-ad9b-1fb86d224170', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-23 13:22:18', '2021-08-23 13:22:18'),
+(5, '3ff79ffe-54f3-4ca4-b7a0-8096662165d6', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-23 13:23:05', '2021-08-23 13:23:05'),
+(6, '930931cc-6aae-42d6-8418-23a607888adc', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-23 13:28:05', '2021-08-23 13:28:05'),
+(7, '81590422-71bb-40a4-80d3-6bb0938fab2f', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-23 13:36:41', '2021-08-23 13:36:41'),
+(8, '5ddd5a2d-422c-4164-b577-497cc8368247', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-23 14:04:41', '2021-08-23 14:04:41'),
+(9, '56542d7b-b251-4ce5-97df-e62c7fb0fa74', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-23 14:05:12', '2021-08-23 14:05:12'),
+(10, 'ea318add-c69b-45b6-9683-76b79159091f', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-23 14:07:38', '2021-08-23 14:07:38'),
+(11, 'c4bb048e-66c3-451c-9302-739bea37a23d', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-23 14:08:45', '2021-08-23 14:08:45'),
+(12, '7d64bb4f-1078-4043-af72-817fe28ac471', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-23 14:55:36', '2021-08-23 14:55:36'),
+(13, '80f514aa-9525-48ab-8006-76ff3a756868', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-23 14:56:53', '2021-08-23 14:56:53'),
+(14, 'c3850da0-9e34-435e-acb3-aa08f8d06894', 0, 0, 0, 0, NULL, '::ffff:127.0.0.1', 1, '2021-08-23 14:58:59', '2021-08-23 14:58:59'),
+(15, '842d46ef-c080-42f8-a3f6-d473ac95a58b', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-23 15:02:35', '2021-08-23 15:02:35'),
+(16, '87a493ec-8c65-43db-87b6-a20cd6afc94e', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-23 15:10:51', '2021-08-23 15:10:51'),
+(17, '1e668052-600e-476a-82f3-242c6a9f72b8', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-23 15:12:11', '2021-08-23 15:12:11'),
+(18, '9e3a0a14-2357-433b-a7ad-f851aa44c9c6', 0, 0, 0, 0, NULL, '::ffff:127.0.0.1', 1, '2021-08-23 15:14:50', '2021-08-23 15:14:50'),
+(19, '7f12e01c-f57c-4583-992c-82e6774d69e2', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-23 15:15:31', '2021-08-23 15:15:31'),
+(20, 'e9e78770-b23f-4443-935a-85af15bd3edc', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-23 15:15:49', '2021-08-23 15:15:49'),
+(21, '905ae271-2f82-4784-a164-9e158cf883f6', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-23 15:51:57', '2021-08-23 15:51:57'),
+(22, 'bd469923-8b7d-4e5b-99a9-a46015f4d312', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-23 15:55:34', '2021-08-23 15:55:34'),
+(23, 'a0bea9f0-afb0-4129-a44c-dc3200e8adaa', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-24 13:04:10', '2021-08-24 13:04:10'),
+(24, 'd024b32b-a163-421d-be4f-80350b60c412', 0, 0, 0, 0, NULL, '::ffff:127.0.0.1', 1, '2021-08-24 13:05:30', '2021-08-24 13:05:30'),
+(25, 'dfb989c6-6535-401d-8a05-31051c808d17', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-24 13:06:16', '2021-08-24 13:06:16'),
+(26, 'cd01b3f3-ffde-4ff1-bed6-44e80b02cbb8', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-24 13:06:43', '2021-08-24 13:06:43'),
+(27, '1bff614e-8d48-4b58-af3e-dbb0dcd16484', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-24 13:12:11', '2021-08-24 13:12:11'),
+(28, 'e6e30950-9bdd-4828-a724-588f1eef20d3', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-24 13:40:25', '2021-08-24 13:40:25'),
+(29, 'd59725a3-9f5b-4215-b9b5-158d8233b738', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-24 13:40:40', '2021-08-24 13:40:40'),
+(30, '8911f40c-c8fb-4803-9ed7-339e10d3bd8d', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-24 13:40:52', '2021-08-24 13:40:52'),
+(31, 'e5e7a794-b00d-48fb-80ff-79c1800992c3', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-24 14:19:26', '2021-08-24 14:19:26'),
+(32, '78300bfd-07e5-4c77-b4d1-8b4a9fd0e6e3', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-24 14:21:12', '2021-08-24 14:21:12'),
+(33, '47ecb429-e946-4af7-9706-1c48fc32f419', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-24 15:29:59', '2021-08-24 15:29:59'),
+(34, '97071f22-624b-4174-9c36-5b00e6670254', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-24 15:31:11', '2021-08-24 15:31:11'),
+(35, '300b431f-bd5d-41eb-943e-2642365da34e', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-24 15:32:25', '2021-08-24 15:32:25'),
+(36, '368e1971-aab6-470b-9f97-76b45e04b135', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-24 15:34:28', '2021-08-24 15:34:28'),
+(37, '3c51c5e0-1ad0-4d0d-bd6e-7e4db71ff684', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-24 15:54:15', '2021-08-24 15:54:15'),
+(38, 'fffc84f7-c062-4a8c-bdce-3e7b58984164', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-24 16:34:40', '2021-08-24 16:34:40'),
+(39, '80a03379-5780-4036-8c7c-0ecba685e787', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-24 16:44:49', '2021-08-24 16:44:49'),
+(40, 'b108d86e-0913-4edb-8b01-cf61a897ea7b', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-24 16:47:26', '2021-08-24 16:47:26'),
+(41, '15746bd3-a0d6-48a7-9515-964f861e517e', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-24 16:47:54', '2021-08-24 16:47:54'),
+(42, '3b84a003-9d6e-428b-97e9-3551c895dd93', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-24 16:48:24', '2021-08-24 16:48:24'),
+(43, '4c05c957-c979-4bbe-bdc7-269fda846491', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-25 12:55:34', '2021-08-25 12:55:34'),
+(44, '1d4ca05f-d5a9-4dd0-9a93-30134a2f1fda', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-25 13:02:22', '2021-08-25 13:02:22'),
+(45, 'fe84f7e9-acbb-466d-8eb9-13a9136239e0', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-25 13:03:15', '2021-08-25 13:03:15'),
+(46, '06fe8098-70c7-4e87-9a46-b4d289ea88e1', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-25 13:13:50', '2021-08-25 13:13:50'),
+(47, '02a33a35-a037-4c39-8813-880ff07b1206', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-25 13:15:18', '2021-08-25 13:15:18'),
+(48, '536a9ff7-43ab-4973-9c45-1e95fa1c7e0a', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-25 13:15:56', '2021-08-25 13:15:56'),
+(49, 'c6a54aff-0e17-43f9-b624-9d82eada4c6e', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-25 13:45:44', '2021-08-25 13:45:44'),
+(50, '1bf8052d-9448-484c-a830-3eed1aeacecb', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-25 13:48:28', '2021-08-25 13:48:28'),
+(51, 'a5981755-300f-436e-aea2-b447ce3b3aee', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-25 15:18:01', '2021-08-25 15:18:01'),
+(52, '7f1963ad-7eea-48ed-bc1e-e1915cb018b4', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-25 18:08:49', '2021-08-25 18:08:49'),
+(53, '1e357a65-c14e-41cc-a08c-ec6e936b3de5', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-25 18:10:08', '2021-08-25 18:10:08'),
+(54, '7d3cb449-395a-4985-8540-520256cdc7c7', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-25 18:11:52', '2021-08-25 18:11:52'),
+(55, '77d557dd-a373-47f2-a0f9-559a818ff529', 0, 0, 0, 0, NULL, '::ffff:127.0.0.1', 1, '2021-08-25 18:13:46', '2021-08-25 18:13:46'),
+(56, '6d5b5f91-a8ce-4403-8e21-ef285e4f1213', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-26 12:13:34', '2021-08-26 12:13:34'),
+(57, 'b09115d8-2d17-4b8e-94b7-295ba4139cc4', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-26 12:33:13', '2021-08-26 12:33:13'),
+(58, 'd0cb7375-7850-4490-8bc4-c7b692e9b1a3', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-26 13:47:22', '2021-08-26 13:47:22'),
+(59, 'b2afddd6-8a1c-4bd0-be93-9c5cea24c407', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-26 14:17:45', '2021-08-26 14:17:45'),
+(60, 'd918a2c1-2152-4b26-87cf-9321a484b99b', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-26 14:18:12', '2021-08-26 14:18:12'),
+(61, '8db156fe-8454-44e7-afd6-bcd9089f9536', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-26 15:10:02', '2021-08-26 15:10:02'),
+(62, '1349d3c8-4c62-4166-a252-14a7c2f71775', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-26 15:41:15', '2021-08-26 15:41:15'),
+(63, 'b8d9f403-ffe4-4a67-a349-0e06d4761cd5', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-26 16:57:25', '2021-08-26 16:57:25'),
+(64, '4708d03c-9f00-40f0-9703-60388ed018e3', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-26 17:13:21', '2021-08-26 17:13:21'),
+(65, 'bf232424-d4cb-4bbd-af99-9e8b9ca037f6', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-26 17:31:53', '2021-08-26 17:31:53'),
+(66, '8ebc0c44-9f5b-4919-a267-5970d9ed7beb', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-26 17:33:06', '2021-08-26 17:33:06'),
+(67, 'd2f17dfe-6a6d-445f-a8bd-8314218dd55c', 0, 0, 0, 0, NULL, '::ffff:127.0.0.1', 1, '2021-08-26 17:33:51', '2021-08-26 17:33:51'),
+(68, '549d5a4d-bd2b-43ca-a682-7fb69599efee', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-26 17:34:36', '2021-08-26 17:34:36'),
+(69, 'f3e66b57-9266-4eb7-9d77-89bcb4174c33', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-27 10:46:22', '2021-08-27 10:46:22'),
+(70, '9e0230fa-e122-4174-b97f-1ea17c8b2fa1', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-27 11:47:13', '2021-08-27 11:47:13'),
+(71, '04f3fd70-bd2e-45e6-b714-655419ba6c3f', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-27 11:50:13', '2021-08-27 11:50:13'),
+(72, 'eb502450-7847-4f9d-aad4-f2a1d3177ce4', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-27 12:10:45', '2021-08-27 12:10:45'),
+(73, '40f60b89-8655-4bdd-b76b-3f568fb996de', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-27 12:11:40', '2021-08-27 12:11:40'),
+(74, 'a80b61a4-d8f7-461d-a127-2bcbc4b418fe', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-27 15:37:18', '2021-08-27 15:37:18'),
+(75, '55b9748e-5971-40fc-bc44-3a74f7af6a78', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-27 15:39:29', '2021-08-27 15:39:29');
+
 -- --------------------------------------------------------
 
 --
@@ -1854,6 +2074,7 @@ CREATE TABLE `supervisornotification` (
   `notification_text` text,
   `isRead` tinyint(1) NOT NULL DEFAULT '0',
   `sup_id` int NOT NULL,
+  `notification_id` int NOT NULL,
   `createdAt` datetime NOT NULL,
   `updateTimestamp` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1954,7 +2175,61 @@ INSERT INTO `teamlead_login` (`teamLead_login_id`, `teamLead_login_uuid`, `delet
 (44, 'e03927de-dda3-4d09-9520-9f88e7fe136f', 0, 0, 0, 0, NULL, '::1', 1, '2021-07-30 17:29:11', '2021-07-30 17:29:11'),
 (45, '223fa8c3-f4cb-4326-ba16-e7a145952421', 0, 0, 0, 0, NULL, '::1', 1, '2021-07-30 17:29:51', '2021-07-30 17:29:51'),
 (46, '5bebf24c-cb4e-41f0-8ddd-bb7649ee022d', 0, 0, 0, 0, NULL, '::1', 1, '2021-07-30 17:33:52', '2021-07-30 17:33:52'),
-(47, 'cb5b5e3e-35c7-4a4c-9a3e-cdff69972d76', 0, 0, 0, 0, NULL, '::1', 1, '2021-07-30 17:35:19', '2021-07-30 17:35:19');
+(47, 'cb5b5e3e-35c7-4a4c-9a3e-cdff69972d76', 0, 0, 0, 0, NULL, '::1', 1, '2021-07-30 17:35:19', '2021-07-30 17:35:19'),
+(48, '39ae0462-e53c-4fc2-bc5e-5a5c8a14d00d', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-02 11:24:31', '2021-08-02 11:24:31'),
+(49, '0a82f6a9-37f5-4500-86a5-e7ca79e698cc', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-02 12:31:18', '2021-08-02 12:31:18'),
+(50, 'efbdd400-1293-408a-bc1b-f6ee62d8ba81', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-02 15:17:10', '2021-08-02 15:17:10'),
+(51, 'fd75d70c-b630-4499-aa03-7e5f99a8afa9', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-02 15:17:46', '2021-08-02 15:17:46'),
+(52, 'a9fc0d21-438f-4621-825a-c58aa7752632', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-02 15:46:48', '2021-08-02 15:46:48'),
+(53, 'caf16b7a-9120-4fb2-bc70-89b96d6f7204', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-02 15:47:31', '2021-08-02 15:47:31'),
+(54, 'b5231c4d-97e4-4032-a73e-30e4929de990', 0, 0, 0, 0, NULL, '::ffff:127.0.0.1', 1, '2021-08-02 15:47:52', '2021-08-02 15:47:52'),
+(55, '09ace600-cdb0-4efe-8bf4-24de79766e8a', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-02 15:54:49', '2021-08-02 15:54:49'),
+(56, '0f1b83d2-487c-419b-9807-685d790cd5ba', 0, 0, 0, 0, NULL, '::ffff:127.0.0.1', 1, '2021-08-02 16:28:26', '2021-08-02 16:28:26'),
+(57, '07675815-4aed-4d67-8ace-2c41c9cfe8c6', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-02 17:31:37', '2021-08-02 17:31:37'),
+(58, '1630802b-6ab3-455d-bad9-20fb5debe8a1', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-03 12:45:35', '2021-08-03 12:45:35'),
+(59, 'a907fac3-1389-494c-a57f-37d61fe99c5a', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-03 13:59:31', '2021-08-03 13:59:31'),
+(60, 'd46a2461-7f77-497f-ace4-0cb3ed7390ff', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-03 15:17:47', '2021-08-03 15:17:47'),
+(61, 'afeadb23-f8a6-4b02-af9e-fb30aa293009', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-03 16:22:24', '2021-08-03 16:22:24'),
+(62, 'be14a898-d0da-4e83-b323-7188c5f27d9c', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-03 17:01:24', '2021-08-03 17:01:24'),
+(63, '43ddad64-7e4a-4065-979e-88b5aeb92b3e', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-03 17:13:20', '2021-08-03 17:13:20'),
+(64, '68c0ec98-b776-4e50-9f86-020afc669195', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-03 17:13:52', '2021-08-03 17:13:52'),
+(65, '6c2e7a4e-43bb-4f1c-8a72-28a1209d37fd', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-03 17:19:57', '2021-08-03 17:19:57'),
+(66, 'e622445a-c761-4096-bc9c-4c81e7f2d410', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-03 17:33:18', '2021-08-03 17:33:18'),
+(67, 'ace62931-1652-4f26-b139-e3a3aaeb016b', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-04 13:42:39', '2021-08-04 13:42:39'),
+(68, '22694434-96c2-4809-80b4-515b393c4522', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-04 13:44:46', '2021-08-04 13:44:46'),
+(69, '5b8883d9-5643-4a64-83d4-b9b1c8721e98', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-04 13:46:08', '2021-08-04 13:46:08'),
+(70, '06d9de0b-bf79-4771-9f88-26bbd8bc9162', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-04 14:07:11', '2021-08-04 14:07:11'),
+(71, 'f3f35abd-0e95-4bfb-8018-3c342ef6f35a', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-04 14:46:59', '2021-08-04 14:46:59'),
+(72, '64611aa2-d062-48f1-8ca6-9af3367b94c3', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-04 14:48:20', '2021-08-04 14:48:20'),
+(73, 'f50967dc-1dba-4266-b288-bb7cb297848c', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-04 15:45:35', '2021-08-04 15:45:35'),
+(74, 'b74f653d-b829-4a67-b711-d1f57d84fbe9', 0, 0, 0, 0, NULL, '::ffff:127.0.0.1', 1, '2021-08-04 15:46:11', '2021-08-04 15:46:11'),
+(75, '672c0d8b-3ff5-40be-ada1-2c59da399499', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-04 15:47:49', '2021-08-04 15:47:49'),
+(76, '2347fba1-2e4b-404c-a6fe-bc263f4771b1', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-04 15:50:39', '2021-08-04 15:50:39'),
+(77, '8276f337-d8b8-4058-bd0a-379044e86148', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-05 11:30:04', '2021-08-05 11:30:04'),
+(78, 'e0914e39-38d5-42ee-a0f5-67131f1606c0', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-05 15:01:57', '2021-08-05 15:01:57'),
+(79, '9a302611-5155-4ea1-a991-91c6b1c428a2', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-05 15:11:22', '2021-08-05 15:11:22'),
+(80, 'f199a775-a9c9-41d9-9e3d-178a569c50b2', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-05 15:13:09', '2021-08-05 15:13:09'),
+(81, '65263d2d-3664-4539-b149-c2c4949ca03d', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-05 15:31:06', '2021-08-05 15:31:06'),
+(82, '1be41bf0-14b0-44de-9b6e-a2a42c141e02', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-09 13:28:25', '2021-08-09 13:28:25'),
+(83, '54014550-d4df-497e-bc7b-cbc7118cf7a5', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-09 13:38:28', '2021-08-09 13:38:28'),
+(84, 'ce8cd6c3-3a77-40a1-a411-a1b22853af7e', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-09 13:56:00', '2021-08-09 13:56:00'),
+(85, '9b2fee7e-b16c-4968-868b-40268fa65384', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-09 14:05:29', '2021-08-09 14:05:29'),
+(86, '5d762602-d1c0-465e-ac39-841a07219849', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-09 14:13:55', '2021-08-09 14:13:55'),
+(87, 'a78c214f-b741-4cae-814e-b1fe55c21605', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-09 14:14:51', '2021-08-09 14:14:51'),
+(88, '9e6c0ad9-bd7d-4837-99db-25537f05b838', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-10 14:20:29', '2021-08-10 14:20:29'),
+(89, '9699f715-269e-47cc-ab7c-1e38a4c91dc5', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-10 14:33:54', '2021-08-10 14:33:54'),
+(90, '0365108e-6310-4a08-8776-615972a9a67e', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-10 14:35:17', '2021-08-10 14:35:17'),
+(91, 'f90647da-2af7-4740-85d8-71cfc1942f59', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-10 14:36:21', '2021-08-10 14:36:21'),
+(92, 'f5e6863f-45d7-4817-9a98-609cdc880535', 0, 0, 0, 0, NULL, '::ffff:127.0.0.1', 1, '2021-08-10 16:54:40', '2021-08-10 16:54:40'),
+(93, 'dcb6ec1a-657f-431d-bff9-d24b8dc396bf', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-10 17:14:07', '2021-08-10 17:14:07'),
+(94, 'ae6325f4-b153-4954-bb0d-8dbe467ac597', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-11 12:30:35', '2021-08-11 12:30:35'),
+(95, '968d21d6-18f7-4ce6-a7b8-51fe2a345174', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-11 12:34:17', '2021-08-11 12:34:17'),
+(96, '75717982-9d3b-42a3-9a00-b6db7144b829', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-11 12:40:18', '2021-08-11 12:40:18'),
+(97, '3d4c0764-3d54-4915-96aa-7bbf0414b4df', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-11 12:40:48', '2021-08-11 12:40:48'),
+(98, '3c924636-d459-40ad-b6da-1ac4d6173b86', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-11 12:42:41', '2021-08-11 12:42:41'),
+(99, '9a9f0198-f179-495d-91b0-d4b6aa8f7827', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-11 12:43:15', '2021-08-11 12:43:15'),
+(100, '15e8039d-7fdd-4fb8-acc6-92bdd0cbb864', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-11 12:45:48', '2021-08-11 12:45:48'),
+(101, 'f7eb4657-0179-4e8a-b88b-a994578b8910', 0, 0, 0, 0, NULL, '::1', 1, '2021-08-11 17:35:06', '2021-08-11 17:35:06');
 
 -- --------------------------------------------------------
 
@@ -1971,6 +2246,7 @@ CREATE TABLE `teamlead_notifications` (
   `notification_text` text,
   `isRead` tinyint(1) NOT NULL DEFAULT '0',
   `team_L_id` int NOT NULL,
+  `notification_id` int NOT NULL,
   `createdAt` datetime NOT NULL,
   `updateTimestamp` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2022,7 +2298,7 @@ CREATE TABLE `team_lead` (
 
 INSERT INTO `team_lead` (`team_L_id`, `team_L_uuid`, `team_L_name`, `team_L_userProfilePic`, `team_L_contact`, `team_L_target`, `team_L_salary`, `team_L_commission`, `team_L_username`, `team_L_isDeleted`, `team_L_isPaused`, `city_area_id`, `sup_id`, `login_id`, `createdAt`, `updateTimestamp`) VALUES
 (1, '1c9741c6-492f-417c-a902-3459e1c374b9', 'Saad Team Lead 6', '/userprofileImage/28053ff9-2156-45ab-ba77-70366d47d2cc.png', '03218741000', '150', '85100', '1.5%', 'teamLead_112', 0, 0, 1, 1, 3, '2021-06-03 12:59:15', '2021-07-26 12:36:20'),
-(3, 'e893aa9b-d4a1-41b5-9089-c1d2f3b02fa4', 'Team Lead', 'Team Lead.jpg', '0321 8741000', '150', '85100', '1.5%', 'teamLead_11', 0, 0, 1, 1, 1, '2021-06-03 13:04:05', '2021-06-03 13:04:05');
+(3, 'e893aa9b-d4a1-41b5-9089-c1d2f3b02fa4', 'Team Lead', 'Team Lead.jpg', '0321 8741000', '150', '85100', '1.5%', 'teamLead_11', 0, 0, NULL, 1, 1, '2021-06-03 13:04:05', '2021-08-26 17:34:45');
 
 -- --------------------------------------------------------
 
@@ -2089,12 +2365,12 @@ CREATE TABLE `user_login_information` (
 
 INSERT INTO `user_login_information` (`login_id`, `login_uuid`, `paused`, `deleted`, `login_email`, `login_password`, `jwt`, `verified`, `user_role_id`, `createdAt`, `updateTimestamp`) VALUES
 (1, 'f416b96d-90c2-4eca-9977-ca88ddf7aefb', 0, 0, 'test@12', '$2b$10$yzvXW8fE.5cozYeXQPWLxO8aGQ9gP8zcJVCUGJdjRPKXhOx6Ua7Ou', NULL, 1, 6, '2021-04-19 14:38:39', '2021-04-19 14:38:39'),
-(2, 'ec53183c-129c-4b99-9197-4a171c7bff00', 0, 0, 'Supervisor@gmail.com', '$2b$10$yzvXW8fE.5cozYeXQPWLxO8aGQ9gP8zcJVCUGJdjRPKXhOx6Ua7Ou', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiU3VwZXJ2aXNvckBnbWFpbC5jb20iLCJpYXQiOjE2MTg4MjU1MzIsImV4cCI6MTYxOTQzMDMzMn0.D2q7ZZd70Uscxrvuaz1sMYDfWWTzOiTyvm42t1w_zgW2-vwrxC_1ak1iXeUS1JeT', 1, 3, '2021-04-19 14:45:32', '2021-04-19 14:45:32'),
+(2, 'ec53183c-129c-4b99-9197-4a171c7bff00', 0, 0, 'Supervisor@gmail.com', '$2b$10$yzvXW8fE.5cozYeXQPWLxO8aGQ9gP8zcJVCUGJdjRPKXhOx6Ua7Ou', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiU3VwZXJ2aXNvckBnbWFpbC5jb20iLCJpYXQiOjE2MTg4MjU1MzIsImV4cCI6MTYxOTQzMDMzMn0.D2q7ZZd70Uscxrvuaz1sMYDfWWTzOiTyvm42t1w_zgW2-vwrxC_1ak1iXeUS1JeT', 1, 3, '2021-04-19 14:45:32', '2021-08-25 15:11:23'),
 (3, '28053ff9-2156-45ab-ba77-70366d47d2cc', 0, 0, 'team@gmail.com', '$2b$10$yzvXW8fE.5cozYeXQPWLxO8aGQ9gP8zcJVCUGJdjRPKXhOx6Ua7Ou', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVhbUBnbWFpbC5jb20iLCJpYXQiOjE2MTg4MjU1NjcsImV4cCI6MTYxOTQzMDM2N30.76zjMIoTRVRI2U5M8huG9Tpd4Dh70yljCGaWBIzg_rneav-xLc0AHFCk7PooC8n6', 1, 4, '2021-04-19 14:46:07', '2021-07-26 12:36:20'),
 (4, 'c4c61caf-8a5a-4bec-a4fb-9839f5b0d4ff', 0, 0, 'rishat.81@gmai.com', '$2b$10$//pdVJzK66uhUWO5vteBd.QUllLxCAyTsAFz5Os1QrPN015T21ddu', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicmlzaGF0LjUwODFAZ21haWwuY29tIiwiaWF0IjoxNjE4ODI2ODQ5LCJleHAiOjE2MTk0MzE2NDl9.EAuwO3nDMbzcUTjw6jxsIIAiqLKBVYJogLgkY63kMX0818vHESjNzm_H3FNDlqHM', 1, 5, '2021-04-19 15:07:29', '2021-07-30 15:56:55'),
 (5, 'c5dcd668-86ba-4bac-9da1-26d1c90e1ed8', 0, 0, 'rishat.5081@gmail.com', '$2b$10$EHPVAp721YaKKBjt4QpeW.g91md3G7rWrnWO.TpQ8/QSNuUSaFmBq', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicmlzaGF0LjUwODFAZ21haWwuY29tIiwiaWF0IjoxNjE4ODI3NTg3LCJleHAiOjE2MTk0MzIzODd9.YCVj-wJh32cKSQA3Uw9uwRldFdCYSSbw3XG-bb8CLjddF_KJ7l5kcrITr8-GKuLD', 1, 6, '2021-04-19 15:19:47', '2021-06-04 17:49:51'),
 (6, '99009998-a33d-40b5-bcf8-6d3d4673209e', 0, 0, 'qqa!@A.COM', '$2b$10$Cr8Ij/WJ5YTPM1V1SRQnEOfJMxWRi41vXcY7QKw9.kUe60FPqMn4i', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicXFhIUBBLkNPTSIsImlhdCI6MTYyMTQ5MzIxNywiZXhwIjoxNjIyMDk4MDE3fQ.kOduARNeVMJMfuqR7MdzBmKAVnwkdCmYD84dX7WFOxTraojJnlpvCzDrVjiqP8Rx', 1, 6, '2021-05-20 11:46:57', '2021-07-30 15:43:44'),
-(16, '500493e0-b971-4e74-8eb1-523315fca4a5', 0, 0, 'voip.itz.solutions@gmail.com', '$2b$10$eykRe4128bfft6PCPxCBJuJwmmXnbIfcyRI7JNupowf9MaeIEWkRq', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidm9pcC5pdHouc29sdXRpb25zQGdtYWlsLmNvbSIsImlhdCI6MTYyNDk2NzMzMiwiZXhwIjoxNjI1NTcyMTMyfQ.m2CZYlHDvT74KPGY6zmrmpLbPBk-ZRmhQ7-XUdfSUU55_OTWTxglnjpxbhQCzXP8', 1, 6, '2021-06-29 16:48:52', '2021-06-29 16:52:41');
+(16, '500493e0-b971-4e74-8eb1-523315fca4a5', 0, 0, 'voip.itz.solutions@gmail.com', '$2b$10$eykRe4128bfft6PCPxCBJuJwmmXnbIfcyRI7JNupowf9MaeIEWkRq', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidm9pcC5pdHouc29sdXRpb25zQGdtYWlsLmNvbSIsImlhdCI6MTYyNDk2NzMzMiwiZXhwIjoxNjI1NTcyMTMyfQ.m2CZYlHDvT74KPGY6zmrmpLbPBk-ZRmhQ7-XUdfSUU55_OTWTxglnjpxbhQCzXP8', 1, 5, '2021-06-29 16:48:52', '2021-08-09 13:59:29');
 
 -- --------------------------------------------------------
 
@@ -2154,7 +2430,10 @@ INSERT INTO `webads` (`WebAds_id`, `WebAds_uuid`, `paused`, `deleted`, `title`, 
 (3, 'f9d2320b-36bd-4a6a-8f44-0101e06668fa', 0, 0, 'Development 3', 'This is dev server', '/img/GM.jpg', 1, 6, '2021-07-01 12:14:25', '2021-07-01 12:14:25'),
 (4, '5f632e10-389c-4f82-8f5e-0b43f5e1598a', 0, 0, 'Development 3', 'This is dev server', '/img/GM.jpg', 1, 4, '2021-07-26 12:07:48', '2021-07-26 12:07:48'),
 (5, 'e68568ed-a6ee-4af1-9d7b-84353477e82b', 0, 0, 'Development 3', 'This is dev server', '/img/profile.jpg', 1, 4, '2021-07-26 12:08:10', '2021-07-26 12:08:10'),
-(6, '2bc31813-9943-4955-ab9a-eb3011a52838', 0, 0, 'Development 3', 'This is dev server', '/img/Team Lead.jpg', 1, 4, '2021-07-26 12:08:24', '2021-07-26 12:08:24');
+(6, '2bc31813-9943-4955-ab9a-eb3011a52838', 0, 0, 'Development 3', 'This is dev server', '/img/Team Lead.jpg', 1, 4, '2021-07-26 12:08:24', '2021-07-26 12:08:24'),
+(7, '1b7d3d4d-eaa9-4632-a8a5-8b872f7efaaf', 0, 0, 'Supervisor', 'This is dev server', '/img/GM.jpg', 1, 3, '2021-08-24 15:29:15', '2021-08-24 15:29:15'),
+(8, 'a6617eb8-9902-4ca4-97fd-2c316c396ebe', 0, 0, 'Supervisor 2', 'This is dev server', '/img/GM.jpg', 1, 3, '2021-08-24 15:29:39', '2021-08-24 15:29:39'),
+(9, 'b95f6d72-2db6-4b9f-bb49-f3fb9706f0b4', 0, 0, 'Supervisor 3', 'This is dev server', '/img/GM.jpg', 1, 3, '2021-08-24 15:29:46', '2021-08-24 15:29:46');
 
 -- --------------------------------------------------------
 
@@ -2371,6 +2650,14 @@ ALTER TABLE `city_sectors`
   ADD KEY `city_area_id` (`city_area_id`);
 
 --
+-- Indexes for table `city_sector_assosiate`
+--
+ALTER TABLE `city_sector_assosiate`
+  ADD PRIMARY KEY (`city_sector_assos_id`),
+  ADD UNIQUE KEY `City_Sector_Assosiate_city_sector_id_field_id_unique` (`city_sector_id`,`field_id`),
+  ADD KEY `field_id` (`field_id`);
+
+--
 -- Indexes for table `city_sup_assos`
 --
 ALTER TABLE `city_sup_assos`
@@ -2512,6 +2799,13 @@ ALTER TABLE `executive_advert_stock`
   ADD KEY `field_id` (`field_id`);
 
 --
+-- Indexes for table `executive_recommendation`
+--
+ALTER TABLE `executive_recommendation`
+  ADD PRIMARY KEY (`exec_recomm_id`),
+  ADD KEY `sa_id` (`sa_id`);
+
+--
 -- Indexes for table `executive_stock_usage`
 --
 ALTER TABLE `executive_stock_usage`
@@ -2526,8 +2820,7 @@ ALTER TABLE `executive_stock_usage`
 ALTER TABLE `field_executive`
   ADD PRIMARY KEY (`field_id`),
   ADD KEY `login_id` (`login_id`),
-  ADD KEY `team_L_id` (`team_L_id`),
-  ADD KEY `city_sector_id` (`city_sector_id`);
+  ADD KEY `team_L_id` (`team_L_id`);
 
 --
 -- Indexes for table `field_executive_earning`
@@ -2674,6 +2967,15 @@ ALTER TABLE `receiving_calls`
   ADD KEY `cust_care_id` (`cust_care_id`);
 
 --
+-- Indexes for table `recommendation_for_executive`
+--
+ALTER TABLE `recommendation_for_executive`
+  ADD PRIMARY KEY (`recomm_for_Exec_id`),
+  ADD KEY `team_L_id` (`team_L_id`),
+  ADD KEY `field_id` (`field_id`),
+  ADD KEY `exec_recomm_id` (`exec_recomm_id`);
+
+--
 -- Indexes for table `request_of_advertisement`
 --
 ALTER TABLE `request_of_advertisement`
@@ -2721,7 +3023,8 @@ ALTER TABLE `supervisorlogin`
 --
 ALTER TABLE `supervisornotification`
   ADD PRIMARY KEY (`supervisor_notification_id`),
-  ADD KEY `sup_id` (`sup_id`);
+  ADD KEY `sup_id` (`sup_id`),
+  ADD KEY `notification_id` (`notification_id`);
 
 --
 -- Indexes for table `super_admin`
@@ -2741,7 +3044,8 @@ ALTER TABLE `teamlead_login`
 --
 ALTER TABLE `teamlead_notifications`
   ADD PRIMARY KEY (`teamLead_notification_id`),
-  ADD KEY `team_L_id` (`team_L_id`);
+  ADD KEY `team_L_id` (`team_L_id`),
+  ADD KEY `notification_id` (`notification_id`);
 
 --
 -- Indexes for table `teaml_adver_stock`
@@ -2816,7 +3120,7 @@ ALTER TABLE `zone`
 -- AUTO_INCREMENT for table `activities`
 --
 ALTER TABLE `activities`
-  MODIFY `list_act_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `list_act_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT for table `activity_instruction`
@@ -2852,7 +3156,7 @@ ALTER TABLE `agencytypes`
 -- AUTO_INCREMENT for table `agency_info`
 --
 ALTER TABLE `agency_info`
-  MODIFY `agency_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `agency_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `banks_list`
@@ -2894,7 +3198,7 @@ ALTER TABLE ` carriers_services_payment`
 -- AUTO_INCREMENT for table `changerolelogs`
 --
 ALTER TABLE `changerolelogs`
-  MODIFY `changeRole_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `changeRole_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `city`
@@ -2913,6 +3217,12 @@ ALTER TABLE `city_area`
 --
 ALTER TABLE `city_sectors`
   MODIFY `city_sector_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `city_sector_assosiate`
+--
+ALTER TABLE `city_sector_assosiate`
+  MODIFY `city_sector_assos_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `city_sup_assos`
@@ -3008,19 +3318,25 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `executivelogins`
 --
 ALTER TABLE `executivelogins`
-  MODIFY `execu_login_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `execu_login_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `executivenotifications`
 --
 ALTER TABLE `executivenotifications`
-  MODIFY `execu_notification_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `execu_notification_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `executive_advert_stock`
 --
 ALTER TABLE `executive_advert_stock`
   MODIFY `field_e_stock_id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `executive_recommendation`
+--
+ALTER TABLE `executive_recommendation`
+  MODIFY `exec_recomm_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `executive_stock_usage`
@@ -3044,7 +3360,7 @@ ALTER TABLE `field_executive_earning`
 -- AUTO_INCREMENT for table `field_executive_pending_earning`
 --
 ALTER TABLE `field_executive_pending_earning`
-  MODIFY `field_exe_earn_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `field_exe_earn_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `field_executive_withdraws`
@@ -3074,7 +3390,7 @@ ALTER TABLE `lists`
 -- AUTO_INCREMENT for table `list_sub_activities`
 --
 ALTER TABLE `list_sub_activities`
-  MODIFY `list_sub_act_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `list_sub_act_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
 -- AUTO_INCREMENT for table `login_page`
@@ -3104,7 +3420,7 @@ ALTER TABLE `managers`
 -- AUTO_INCREMENT for table `notificationtext`
 --
 ALTER TABLE `notificationtext`
-  MODIFY `notification_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `notification_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `packages`
@@ -3128,13 +3444,13 @@ ALTER TABLE `pep_banks_details`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `permmission_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `permmission_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `permission_role_assosiate`
 --
 ALTER TABLE `permission_role_assosiate`
-  MODIFY `perm_assos_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `perm_assos_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `promotion_requests_status`
@@ -3155,6 +3471,12 @@ ALTER TABLE `receiving_calls`
   MODIFY `receive_call_id` int NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `recommendation_for_executive`
+--
+ALTER TABLE `recommendation_for_executive`
+  MODIFY `recomm_for_Exec_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `request_of_advertisement`
 --
 ALTER TABLE `request_of_advertisement`
@@ -3164,7 +3486,7 @@ ALTER TABLE `request_of_advertisement`
 -- AUTO_INCREMENT for table `role_extrainfo`
 --
 ALTER TABLE `role_extrainfo`
-  MODIFY `role_creden_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `role_creden_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `sa_logs_ondepartment`
@@ -3188,7 +3510,7 @@ ALTER TABLE `supervisor`
 -- AUTO_INCREMENT for table `supervisorlogin`
 --
 ALTER TABLE `supervisorlogin`
-  MODIFY `supervisor_login_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `supervisor_login_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT for table `supervisornotification`
@@ -3206,7 +3528,7 @@ ALTER TABLE `super_admin`
 -- AUTO_INCREMENT for table `teamlead_login`
 --
 ALTER TABLE `teamlead_login`
-  MODIFY `teamLead_login_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `teamLead_login_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT for table `teamlead_notifications`
@@ -3254,7 +3576,7 @@ ALTER TABLE `user_login_role`
 -- AUTO_INCREMENT for table `webads`
 --
 ALTER TABLE `webads`
-  MODIFY `WebAds_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `WebAds_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `web_content`
@@ -3365,6 +3687,13 @@ ALTER TABLE `city_area`
 --
 ALTER TABLE `city_sectors`
   ADD CONSTRAINT `city_sectors_ibfk_1` FOREIGN KEY (`city_area_id`) REFERENCES `city_area` (`city_area_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `city_sector_assosiate`
+--
+ALTER TABLE `city_sector_assosiate`
+  ADD CONSTRAINT `city_sector_assosiate_ibfk_1` FOREIGN KEY (`city_sector_id`) REFERENCES `city_sectors` (`city_sector_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `city_sector_assosiate_ibfk_2` FOREIGN KEY (`field_id`) REFERENCES `field_executive` (`field_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `city_sup_assos`
@@ -3480,6 +3809,12 @@ ALTER TABLE `executive_advert_stock`
   ADD CONSTRAINT `executive_advert_stock_ibfk_2` FOREIGN KEY (`field_id`) REFERENCES `field_executive` (`field_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `executive_recommendation`
+--
+ALTER TABLE `executive_recommendation`
+  ADD CONSTRAINT `executive_recommendation_ibfk_1` FOREIGN KEY (`sa_id`) REFERENCES `super_admin` (`sa_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `executive_stock_usage`
 --
 ALTER TABLE `executive_stock_usage`
@@ -3492,8 +3827,7 @@ ALTER TABLE `executive_stock_usage`
 --
 ALTER TABLE `field_executive`
   ADD CONSTRAINT `field_executive_ibfk_1` FOREIGN KEY (`login_id`) REFERENCES `user_login_information` (`login_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `field_executive_ibfk_2` FOREIGN KEY (`team_L_id`) REFERENCES `team_lead` (`team_L_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `field_executive_ibfk_3` FOREIGN KEY (`city_sector_id`) REFERENCES `city_sectors` (`city_sector_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `field_executive_ibfk_2` FOREIGN KEY (`team_L_id`) REFERENCES `team_lead` (`team_L_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `field_executive_earning`
@@ -3595,6 +3929,14 @@ ALTER TABLE `receiving_calls`
   ADD CONSTRAINT `receiving_calls_ibfk_1` FOREIGN KEY (`cust_care_id`) REFERENCES `cust_care_csr` (`cust_care_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `recommendation_for_executive`
+--
+ALTER TABLE `recommendation_for_executive`
+  ADD CONSTRAINT `recommendation_for_executive_ibfk_1` FOREIGN KEY (`team_L_id`) REFERENCES `team_lead` (`team_L_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `recommendation_for_executive_ibfk_2` FOREIGN KEY (`field_id`) REFERENCES `field_executive` (`field_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `recommendation_for_executive_ibfk_3` FOREIGN KEY (`exec_recomm_id`) REFERENCES `executive_recommendation` (`exec_recomm_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `request_of_advertisement`
 --
 ALTER TABLE `request_of_advertisement`
@@ -3630,7 +3972,8 @@ ALTER TABLE `supervisorlogin`
 -- Constraints for table `supervisornotification`
 --
 ALTER TABLE `supervisornotification`
-  ADD CONSTRAINT `supervisornotification_ibfk_1` FOREIGN KEY (`sup_id`) REFERENCES `supervisor` (`sup_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `supervisornotification_ibfk_1` FOREIGN KEY (`sup_id`) REFERENCES `supervisor` (`sup_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `supervisornotification_ibfk_2` FOREIGN KEY (`notification_id`) REFERENCES `notificationtext` (`notification_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `teamlead_login`
@@ -3642,7 +3985,8 @@ ALTER TABLE `teamlead_login`
 -- Constraints for table `teamlead_notifications`
 --
 ALTER TABLE `teamlead_notifications`
-  ADD CONSTRAINT `teamlead_notifications_ibfk_1` FOREIGN KEY (`team_L_id`) REFERENCES `team_lead` (`team_L_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `teamlead_notifications_ibfk_1` FOREIGN KEY (`team_L_id`) REFERENCES `team_lead` (`team_L_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `teamlead_notifications_ibfk_2` FOREIGN KEY (`notification_id`) REFERENCES `notificationtext` (`notification_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `teaml_adver_stock`

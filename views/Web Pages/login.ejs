@@ -1,107 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Login</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--===============================================================================================-->
+    <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/vendor/bootstrap/css/bootstrap.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/fonts-1/font-awesome-4.7.0/css/font-awesome.min.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+    <!--===============================================================================================-->
+    <!-- <link rel="stylesheet" href="/toastr/toastr.min.css"> -->
+  </head>
 
-    <head>
-        <title>Login</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!--===============================================================================================-->
-        <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/fonts-1/font-awesome-4.7.0/css/font-awesome.min.css">
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/css/main.css">
-        <!--===============================================================================================-->
-        <!-- <link rel="stylesheet" href="/toastr/toastr.min.css"> -->
-    </head>
+  <body>
+    <div class="limiter">
+      <div class="container-login100">
+        <div class="wrap-login100">
+          <div class="login100-pic js-tilt" data-tilt>
+            <img
+              src="<%=dbData.pictureFolder%><%=dbData.pictureName%>"
+              alt="IMG"
+            />
+          </div>
 
-    <body>
-
-        <div class="limiter">
-            <div class="container-login100">
-                <div class="wrap-login100">
-                    <div class="login100-pic js-tilt" data-tilt>
-                        <img src="<%=dbData.pictureFolder%><%=dbData.pictureName%>" alt="IMG">
-                    </div>
-
-
-                    <form action="/LoginForm" method="POST" class="login100-form validate-form">
-
-                        <span class="login100-form-title">
-                            <%=dbData.loginTitle%>
-                        </span>
-                        <%- messages('Web Appendage Pages/message.ejs',locals) %>
-                            <div class="wrap-input100 validate-input"
-                                data-validate="Valid email is required: ex@abc.xyz">
-                                <input class="input100" type="text" placeholder="<%=dbData.emailPlaceHolder%>"
-                                    name="user_login_email">
-                                <span class="focus-input100"></span>
-                                <span class="symbol-input100">
-                                    <i class="<%=dbData.emailIcon%>" aria-hidden="true"></i>
-                                </span>
-                            </div>
-
-                            <div class="wrap-input100 validate-input" data-validate="Password is required">
-                                <input class="input100" type="password" placeholder="<%=dbData.passwordPlaceHolder%>"
-                                    name="user_login_password">
-                                <span class="focus-input100"></span>
-                                <span class="symbol-input100">
-                                    <i class="<%=dbData.passwordIcon%>" aria-hidden="true"></i>
-                                </span>
-                            </div>
-                            <div class="wrap-input100 validate-input">
-                                <input class="" type="checkbox" name="user_remember_me">
-                                <span class="txt2"> Remember Me</span>
-                            </div>
-
-                            <div class="container-login100-form-btn">
-                                <button class="login100-form-btn" type="submit">
-                                    <%=dbData.btnText%>
-                                </button>
-                            </div>
-
-                            <div class="text-center p-t-12">
-                                <span class="txt1">
-                                    <%=dbData.forgetText%>
-                                </span>
-                                <a class="txt2" href="#">
-                                    <%=dbData.forgetEmail%> / <%=dbData.forgetPassword%> ?
-                                </a>
-                            </div>
-
-                            <div class="text-center p-t-136">
-                                <a class="txt2" href="/signup">
-                                    <%=dbData.createAccountText%>
-                                        <i class="<%=dbData.createAccountIcon%>" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                    </form>
-                </div>
+          <form
+            action="/LoginForm"
+            method="POST"
+            class="login100-form validate-form"
+          >
+            <span class="login100-form-title"> <%=dbData.loginTitle%> </span>
+            <%- messages('Web Appendage Pages/message.ejs',locals) %>
+            <div
+              class="wrap-input100 validate-input"
+              data-validate="Valid email is required: ex@abc.xyz"
+            >
+              <input
+                class="input100"
+                type="text"
+                placeholder="<%=dbData.emailPlaceHolder%>"
+                name="user_login_email"
+              />
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="<%=dbData.emailIcon%>" aria-hidden="true"></i>
+              </span>
             </div>
+
+            <div
+              class="wrap-input100 validate-input"
+              data-validate="Password is required"
+            >
+              <input
+                class="input100"
+                type="password"
+                placeholder="<%=dbData.passwordPlaceHolder%>"
+                name="user_login_password"
+              />
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="<%=dbData.passwordIcon%>" aria-hidden="true"></i>
+              </span>
+            </div>
+            <div class="wrap-input100 validate-input">
+              <input class="" type="checkbox" name="user_remember_me" />
+              <span class="txt2"> Remember Me</span>
+            </div>
+
+            <div class="container-login100-form-btn">
+              <button class="login100-form-btn" type="submit">
+                <%=dbData.btnText%>
+              </button>
+            </div>
+
+            <div class="text-center p-t-12">
+              <span class="txt1"> <%=dbData.forgetText%> </span>
+              <a class="txt2" href="#">
+                <%=dbData.forgetEmail%> / <%=dbData.forgetPassword%> ?
+              </a>
+            </div>
+
+          
+            <div class="text-center p-t-136">
+              <a class="txt2" href="/signup">
+                <%=dbData.createAccountText%>
+                <i class="<%=dbData.createAccountIcon%>" aria-hidden="true"></i>
+              </a>
+            </div>
+          </form>
         </div>
-        <!--===============================================================================================-->
-        <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
-        <!--===============================================================================================-->
-        <!-- <script src="/vendor/bootstrap/js/bootstrap.min.js"></script> -->
-        <!--===============================================================================================-->
-        <script src="/vendor/jquery/tilt.jquery.min.js"></script>
-        <script>
-            $('.js-tilt').tilt({
-                scale: 1.1
-            })
+      </div>
+    </div>
+    <!--===============================================================================================-->
+    <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <!-- <script src="/vendor/bootstrap/js/bootstrap.min.js"></script> -->
+    <!--===============================================================================================-->
+    <script src="/vendor/jquery/tilt.jquery.min.js"></script>
+    <script>
+      $(".js-tilt").tilt({
+        scale: 1.1
+      });
+    </script>
 
-
-        </script>
-
-
-
-        <!--===============================================================================================-->
-        <script src="/js/main.js"></script>
-
-
-
-    </body>
-
+    <!--===============================================================================================-->
+    <script src="/js/main.js"></script>
+  </body>
 </html>

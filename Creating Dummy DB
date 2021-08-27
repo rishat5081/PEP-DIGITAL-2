@@ -227,6 +227,14 @@ Field_Executive.create({
 
 
 
+Database.Permissions.create({
+  permission_name: "Assign Advertisement Giveaway",
+  controller: "/assignGiveaway",
+  icon: "fa fa-gift"
+}).then((re) => console.log(re));
+
+
+
 
 
 ------------------------------------------------------------------------------------------------------
@@ -346,9 +354,9 @@ TeamLead_Login.sync({ force: true }).then(d => console.log(d))
 
 
 (async function () {
-  const Perm = await Permissions.findOne({
+  const Perm = await Database.Permissions.findOne({
     where: {
-      permmission_id: 18
+      permmission_id: 7
     }
     // include: {
     //   model: User_Role,
@@ -358,13 +366,13 @@ TeamLead_Login.sync({ force: true }).then(d => console.log(d))
     // },
   });
 
-  const user = await User_Role.findOne({
+  const user = await Database.User_Role.findOne({
     where: {
-      type_name: "Team Lead"
+      type_name: "Supervisor"
     }
   });
 
-  await user.addPermissions(Perm);
+   await user.addPermissions(Perm);
 
   console.log(Perm);
 })();

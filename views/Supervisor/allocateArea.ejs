@@ -1,16 +1,15 @@
+<script>
+  console.log(JSON.parse(`<%-JSON.stringify(teamMember)%>`));
+  console.log(JSON.parse(`<%-JSON.stringify(allTeamLeads)%>`));
+  console.log(JSON.parse(`<%-JSON.stringify(areaSectors)%>`));
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <title>Assign Area</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css"
-    />
-    <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
-
     <!--===============================================================================================-->
     <link
       rel="stylesheet"
@@ -72,7 +71,7 @@
           </div>
           <!-- --------------------- -->
           <div class="container saleup">
-            <h3 class="text-center mb-2">Allot Area to Employees</h3>
+            <h3 class="text-center mb-2">Allot City Area to Team Lead</h3>
 
             <div class="container p-2 mt-4">
               <div class="row">
@@ -86,8 +85,9 @@
                     placeholder="Select Area"
                   >
                     <%areaSectors.forEach(area =>{ %>
-                    <option value="<%=area.city_sector_uuid%>">
-                      <%= area.sector_name %>
+                    <option value="<%=area.city_area_uuid%>" class="p-2">
+                      <%= area.city_name %>
+                      <strong>(<%= area.city_code %>)</strong>
                     </option>
                     <% }) %>
                   </select>
@@ -96,17 +96,17 @@
 
               <div class="row">
                 <div class="col-sm-3">
-                  <h6 class="mt-3">Select Employees</h6>
+                  <h6 class="mt-3">Select Team Lead</h6>
                 </div>
                 <div class="col-sm-6">
                   <select
                     id="employees"
-                    placeholder="Select Employees"
-                    multiple="multiple"
+                    class="area w-100 h-100 p-2"
+                    placeholder="Select Team Lead"
                   >
-                    <%allTeamMember.forEach(area =>{ %>
-                    <option value="<%=area.field_uuid%>">
-                      <%= area.field_name %>
+                    <%allTeamLeads.forEach(teamLead =>{ %>
+                    <option value="<%=teamLead.team_L_uuid%>">
+                      <%= teamLead.team_L_name %>
                     </option>
                     <% }) %>
                   </select>
@@ -122,8 +122,9 @@
               </div>
             </div>
           </div>
+
           <div class="container mt-5">
-            <% if(!teamMember) { %>
+            <% if(!allTeamLeads) { %>
             <div class="text-center p-3 text-danger mt-5">
               <h5>You don't have any Team.</h5>
               <h5>Please build a team first.</h5>
@@ -140,25 +141,15 @@
                 </tr>
               </thead>
               <tbody>
-                <% allTeamMember.forEach((element,index) => { %>
+                <% allTeamLeads.forEach((element,index) => { %>
                 <tr>
                   <td scope="col"><strong> <%= ++index %> </strong></td>
-                  <td scope="col"><%=element.field_name %></td>
-                  <td scope="col"><%=element.field_contact %></td>
-
+                  <td scope="col"><%=element.team_L_name %></td>
+                  <td scope="col"><%=element.team_L_contact %></td>
                   <td scope="col">
                     <% teamMember.forEach(member => { %>
-                    <%if(element.field_uuid=== member.field_uuid ){%>
-
-                    <select name="" id="" class="form-group p-2 w-75">
-                      <%member.City_Sectors.forEach(area => {%>
-                      <option value="<%=area.city_sector_uuid %>">
-                        <%=area.sector_name %>
-                      </option>
-                      <% }) %>
-                    </select>
-
-                    <%} })%>
+                    <%if(element.team_L_uuid=== member.team_L_uuid ){%>
+                    <%=member.City_Area.city_name %> <%}else{ %> ---- <%} })%>
                   </td>
                 </tr>
                 <% }) %>
@@ -178,6 +169,7 @@
     <!--===============================================================================================-->
     <script src="<%=url%>/vendor/jquery/tilt.jquery.min.js"></script>
     <script src="<%=url%>/toastr/toastr.min.js"></script>
+
     <script>
       var notificationCount = JSON.parse(
         "<%-JSON.stringify(unreadNotificationCount)%>"
@@ -193,33 +185,25 @@
       });
 
       var menu = document.getElementById("menu"),
-        teamMember = JSON.parse(`<%-JSON.stringify(teamMember)%>`),
-        allTeamMember = JSON.parse(`<%-JSON.stringify(allTeamMember)%>`);
+        allTeamLeads = JSON.parse(`<%-JSON.stringify(allTeamLeads)%>`),
+        teamMember = JSON.parse(`<%-JSON.stringify(teamMember)%>`);
       function openMenu() {
         menu.style.top = "0";
       }
       function closeMenu() {
         menu.style.top = "-100vh";
       }
-      $(document).ready(function () {
-        var multipleCancelButton = new Choices("#employees", {
-          removeItemButton: true
-        });
-      });
 
       //function to check if the user is already have the same area then prevent it
 
       const checkUserArea = (dbData, selectedArea, employeeUUID) => {
         var employeesSelected = [],
           status = false;
-        for (const iteratorEmployee of employeeUUID) {
-          for (const data of dbData) {
-            if (data.field_uuid === iteratorEmployee) {
-              for (const dataArea of data.City_Sectors) {
-                if (selectedArea === dataArea.city_sector_uuid) {
-                  status = true;
-                }
-              }
+
+        for (const data of dbData) {
+          if (data.team_L_uuid === employeeUUID) {
+            if (selectedArea === data.City_Area.city_area_uuid) {
+              status = true;
             }
           }
         }
@@ -228,29 +212,23 @@
 
       $("#allotarea").click(() => {
         var selectedArea = document.getElementById("area").value,
-          employees = [];
-
-        $("#employees option ").each(function () {
-          var thisOptionValue = $(this).val();
-          employees.push(thisOptionValue);
-        });
+          employees = $("#employees").find(":selected").val();
 
         let checkUserExists = false;
-        if (employees.length > 0)
+        if (employees)
           checkUserExists = checkUserArea(teamMember, selectedArea, employees);
         else {
           toastr.error("Please select employee");
           return;
         }
         if (checkUserExists) {
-          toastr.error("Sector is already allot to the user.");
+          toastr.error("Area is already allot to the user.");
           return;
         } else {
-          console.log(selectedArea, employees);
           $.ajax({
             type: "POST",
-            url: `${window.location.origin}/allocateSectorToExecutive`,
-            data: { selectedArea, employees: JSON.stringify(employees) },
+            url: `${window.location.origin}/allocateAreaToTeamLead/<%=info.uuid%>`,
+            data: { selectedArea, employees },
             dataType: "json",
             error: (error) => {
               if (error) {

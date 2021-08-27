@@ -173,9 +173,11 @@ require("./Controller/Web Basic Controls/webBasicController")(app);
 // ------------------------------Controller for Team Lead-------------------------------
 require("./Controller/Team Lead/teamLeadController")(app);
 
-// ------------------------------Controller for Team Lead-------------------------------
+// ------------------------------Controller for Field Executive-------------------------------
 require("./Controller/Field Executive/fieldExecutive_Controls")(app);
 
+// ------------------------------Controller for Supervisor-------------------------------
+app.use(require("./Controller/Supervisor/SupervisorController").router);
 /****************************** Connecting to the Database ****************************************/
 /**Sequelize is using here
  * the Connect to DB is the async function
@@ -313,7 +315,7 @@ app.post("/LoginForm", async (req, res) => {
           res
             .status(200)
             .redirect(
-              `/supervisor/Dashboard/${profileInfo.userInfo.dataValues.sup_uuid}`
+              `/supervisor/dashboard/${profileInfo.userInfo.dataValues.sup_uuid}`
             );
         } else {
           SuperVisorLogin.create({
@@ -336,7 +338,7 @@ app.post("/LoginForm", async (req, res) => {
           res
             .status(200)
             .redirect(
-              `/teamlead/Dashboard/${profileInfo.userInfo.dataValues.team_L_uuid}`
+              `/teamlead/dashboard/${profileInfo.userInfo.dataValues.team_L_uuid}`
             );
         } else {
           TeamLead_Login.create({
@@ -408,7 +410,6 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
           "sup_isDeleted",
           "sup_isPaused",
           "login_id",
-          "createdAt",
           "updateTimestamp"
         ]
       },
@@ -637,7 +638,3 @@ server.listen(process.env.server_PORT, () => {
 app.get("*", (req, res) => {
   res.redirect("/");
 });
-
-
-
-

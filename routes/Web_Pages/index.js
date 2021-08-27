@@ -11,7 +11,6 @@ require('dotenv').config()
 
 const isUser_Login = (req, res, next) => {
   if (req.isAuthenticated()) {
-    res.locals.user = req.session.passport.user
     next()
   }
   else
@@ -25,7 +24,6 @@ const isUser_Login = (req, res, next) => {
 
 const isUser_Not_Login = (req, res, next) => {
   if (req.session.passport) {
-    res.locals.user = req.session.passport.user
     next()
   }
   else {

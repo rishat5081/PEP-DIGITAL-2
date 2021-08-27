@@ -243,7 +243,7 @@
         if (findID(id)) {
           $.ajax({
             type: "POST",
-            url: "/addMembertoTeam",
+            url: `${window.location.origin}/addMembertoTeam`,
             data: { id },
             dataType: "json",
             error: (error) => {

@@ -49,6 +49,10 @@ Supervisor.init(
       type: DataTypes.TEXT,
       allowNull: true
     },
+    sup_DOB: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
     sup_username: {
       type: DataTypes.TEXT,
       allowNull: true

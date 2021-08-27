@@ -1,8 +1,9 @@
-const { Op } = require("sequelize");
-const Database = require("../../Configuration Files/Sequelize/Database_Synchronization");
-const {
-  multerFile_Upload_Function
-} = require("../../Configuration Files/Multer Js/multer");
+const { Op } = require("sequelize"),
+  fs = require("fs"),
+  Database = require("../../Configuration Files/Sequelize/Database_Synchronization"),
+  {
+    multerFile_Upload_Function
+  } = require("../../Configuration Files/Multer Js/multer");
 
 module.exports = (app) => {
   /**
@@ -47,7 +48,7 @@ module.exports = (app) => {
   app.route("/teamlead/updateProfileInfo").post(async (req, res) => {
     const dbResponse = await Database.Role_ExtraInfo.findOne({
       include: {
-        model: User_Role,
+        model: Database.User_Role,
         attributes: [],
         where: {
           type_name: {
@@ -500,19 +501,30 @@ module.exports = (app) => {
             team_L_id: req.session.profileData.team_L_id,
             exec_recomm_id: recommendationID.exec_recomm_id,
             recommendationDetails: req.body.recommendationText,
-            recommendationTitle:req.body.title
+            recommendationTitle: req.body.title
           };
         })
       );
 
     if (
-      (recommendationID, selectedEmployee, executiveID, addRecommendation !== null)
+      (recommendationID,
+      selectedEmployee,
+      executiveID,
+      addRecommendation !== null)
     ) {
-      recommendationID = selectedEmployee = executiveID = addRecommendation = null;
+      recommendationID =
+        selectedEmployee =
+        executiveID =
+        addRecommendation =
+          null;
       res.status(200).send({ status: "Recommendation Added Successfully" });
       res.end();
     } else {
-      recommendationID = selectedEmployee = executiveID = addRecommendation = null;
+      recommendationID =
+        selectedEmployee =
+        executiveID =
+        addRecommendation =
+          null;
       res.status(500).send({ error: "Please try again" });
       res.end();
     }

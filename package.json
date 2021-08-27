@@ -39,7 +39,7 @@
     "uuid": "^8.3.2"
   },
   "main": "app.js",
-  "author": "",
+  "author": "Saad Sohail",
   "license": "ISC",
-  "description": ""
+  "description": "This is a office based project of the Zamulk.com"
 }

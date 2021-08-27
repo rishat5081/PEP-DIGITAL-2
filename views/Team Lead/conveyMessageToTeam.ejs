@@ -201,7 +201,7 @@
         $.ajax({
           type: "POST",
           dataType: "json",
-          url: "/conveyMessageToSpecific",
+          url: `${window.location.origin}/conveyMessageToSpecific`,
           data: {
             employeeList: JSON.stringify(employeeData),
             messageText: $("#messageTextArea").val()
@@ -223,7 +223,7 @@
         $.ajax({
           type: "POST",
           dataType: "json",
-          url: "/conveyMessageToAll",
+          url: `${window.location.origin}/conveyMessageToAll`,
           data: { messageText: $("#messageTextArea").val() },
           error: (error) => {
             if (error) {

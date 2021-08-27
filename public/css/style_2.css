@@ -747,11 +747,13 @@ input:focus {
   border: 2px solid #181718;
   display: inline-block;
   border-radius: 3px;
-  background: #c850c0 url(https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/White_check.svg/1200px-White_check.svg.png) center/1250% no-repeat;
+  background: #c850c0
+    url(https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/White_check.svg/1200px-White_check.svg.png)
+    center/1250% no-repeat;
   transition: background-size 0.2s ease;
 }
 
-.custom-checkbox input:checked+.checkmark {
+.custom-checkbox input:checked + .checkmark {
   background-size: 60%;
   transition: background-size 0.25s cubic-bezier(0.7, 0, 0.18, 1.24);
 }
@@ -944,7 +946,7 @@ ul.ui-autocomplete.ui-menu li {
 
 .info {
   margin-top: 3vw;
-  height: 500px
+  height: 500px;
 }
 
 .editbtn {
@@ -998,7 +1000,7 @@ ul.ui-autocomplete.ui-menu li {
   color: inherit;
   margin-left: 9%;
   border: 1px solid #3a8ffe;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, .05);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.05);
   background: transparent;
 }
 
@@ -1095,7 +1097,7 @@ ul.ui-autocomplete.ui-menu li {
   color: green;
   transform-origin: 50% 50%;
   font-size: 2vw;
-  font-family: 'Sigmar One', cursive;
+  font-family: "Sigmar One", cursive;
   cursor: pointer;
   position: absolute;
   top: 0;
@@ -1167,8 +1169,8 @@ ul.ui-autocomplete.ui-menu li {
 }
 
 .notify {
-  background: linear-gradient(-135deg, #D0E7F5, whitesmoke);
-  background-color: #D0E7F5;
+  background: linear-gradient(-135deg, #d0e7f5, whitesmoke);
+  background-color: #d0e7f5;
   width: 70%;
   border: 1px solid rgb(194, 193, 193);
   max-width: 100%;
@@ -1315,12 +1317,12 @@ ul.ui-autocomplete.ui-menu li {
   height: auto;
   background: #3a8ffe;
   margin-bottom: 0.5vw;
-  border: 1px solid rgba(86, 61, 124, .15);
+  border: 1px solid rgba(86, 61, 124, 0.15);
 }
 
 .activity_record {
   background-color: whitesmoke;
-  border: 1px solid rgba(86, 61, 124, .15);
+  border: 1px solid rgba(86, 61, 124, 0.15);
   margin-bottom: 0.3vw;
 }
 
@@ -1347,7 +1349,7 @@ ul.ui-autocomplete.ui-menu li {
 /* -------------------------------- Deposit Slip ------------------------------- */
 
 .deposittitle {
-  background-color: #D0E7F5;
+  background-color: #d0e7f5;
   max-width: 100%;
   padding: 1vw;
   width: 70%;
@@ -1407,7 +1409,8 @@ canvas {
   height: 40%;
 }
 
-.profile_uppersection, .profile_belowsection {
+.profile_uppersection,
+.profile_belowsection {
   border: 2px solid #23aed1;
 }
 
@@ -1494,7 +1497,7 @@ canvas {
 
 .empnames {
   letter-spacing: 1px;
-  background: #D0E7F5;
+  background: #d0e7f5;
   color: black;
   width: 15vw;
   height: auto;
@@ -1529,4 +1532,29 @@ canvas {
   margin-left: 40%;
   margin-top: 1vw;
   height: 3vw;
+}
+/* ------------------------------------------- Super visor Team Progress --------------------------------------------- */
+.teaminfo {
+  border-radius: 50%;
+  width: 6vw;
+  height: 6vw;
+  overflow: hidden;
+  margin-left: 46%;
+}
+
+.teampic {
+  height: 100%;
+  width: unset !important;
+  object-fit: contain;
+  overflow: hidden;
+}
+.cardsection {
+  border: 2px solid #3a8ffe;
+}
+
+.linear_bg {
+  background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: linear-gradient(-135deg, #c850c0, #4158d0);
 }

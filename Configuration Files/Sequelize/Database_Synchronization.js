@@ -1399,6 +1399,7 @@ const DevelopmentDatabase = async () => {
 };
 
 module.exports = {
+  sequelize,
   Synchronizing,
   DevelopmentDatabase,
   Advertisement_Recommendation,

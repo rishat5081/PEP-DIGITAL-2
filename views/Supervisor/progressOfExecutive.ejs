@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Prgress Analytics</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+    <link
+      rel="icon"
+      type="image/ico"
+      sizes="16x16"
+      href="<%=url%>/favicon.ico"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/toastr/toastr.min.css"
+    />
+    <!--===============================================================================================-->
+  </head>
+
+  <body>
+    <div class="limiter">
+      <div class="container-profile100">
+        <div class="header">
+          <div class="cover-image100">
+            <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
+            <a href="#">
+              <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+            </a>
+            <a href="<%=url%>/supervisor/notification">
+              <span class="fa fa-bell menu-button">
+                <span class="button__badge" style="display: none"></span>
+              </span>
+            </a>
+            <nav id="menu">
+              <ul>
+                <% permissions.forEach(element=> { %>
+                <li>
+                  <a
+                    href="<%=url%>/supervisor<%= element.controller%>/<%=info.uuid%>"
+                  >
+                    <span class="<%= element.icon%>"></span>
+                    <%= element.permission_name %>
+                  </a>
+                </li>
+                <% }); %>
+                <li>
+                  <a href="<%=url%>/supervisor/signout">
+                    <span class="fa fa-sign-out"> </span> Log Out</a
+                  >
+                </li>
+              </ul>
+              <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+            </nav>
+          </div>
+
+          <!-- --------------------- -->
+          <div class="container saleup">
+            <h4 class="areaheading mb-3 text-center">Progress Analytics</h4>
+            <p>The Team progress, sales, revenue will be shown below.</p>
+
+            <div class="text-center m-4 d-flex flex-row">
+              <div class="input-group flex-row m-2 p-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <input
+                      type="radio"
+                      id="progress_byCity"
+                      name="searchType"
+                      aria-label="Radio button for following text input"
+                    />
+                    <label for="">Show Progress by City</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="input-group flex-row m-2 p-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"></div>
+                  <input
+                    type="radio"
+                    id="progress_byTeamLead"
+                    name="searchType"
+                    aria-label="Radio button for following text input"
+                  />
+                  <label for=""> Show Progress by Team Lead</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-row w-100">
+              <div class="p-2 bd-highlight">
+                <select
+                  class="empnames ml-1 mt-2 mb-3 text-right"
+                  id="selectBox"
+                  name="selectBox"
+                  onchange="changeFunc()"
+                  hidden
+                >
+                  <option disabled selected value="null">Select City</option>
+                  <% cityNames.forEach(city => { %>
+                  <option value="<%= city.city_uuid %>">
+                    <%= city.city_name %>
+                  </option>
+                  <% }) %>
+                </select>
+              </div>
+              <div class="p-2 bd-highlight">
+                <select
+                  class="empnames ml-1 mt-2 mb-3 text-right"
+                  id="selectBox"
+                  name="selectBox"
+                  onchange="changeFunc()"
+                  hidden
+                >
+                  <option disabled selected value="null">
+                    Select Team Member
+                  </option>
+                  <% for (var i = 0; i < array.length; i++) { %>
+                  <option value="<%= array[i].name %>">
+                    <%= array[i].name %>
+                  </option>
+
+                  <% } %>
+                </select>
+              </div>
+            </div>
+
+            <div class="linear_bg mb-5 mt-5">
+              <div class="row m-1 p-2">
+                <div class="col-sm m-1">
+                  <div class="card">
+                    <div class="card-body m-0">
+                      <h5 class="card-title text-center">Sales(in percent)</h5>
+                      <h6
+                        class="card-subtitle mb-2 text-center text-muted"
+                        id="salesAvg"
+                      >
+                        0%
+                      </h6>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm m-1">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title text-center">Revenue</h5>
+                      <h6
+                        class="card-subtitle mb-2 text-center text-muted"
+                        id="revenue"
+                      >
+                        $00
+                      </h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-2 mt-5">
+              <div class="col">
+                <div style="height: 500px">
+                  <canvas id="progressPerMonth"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ---------------- -->
+        </div>
+      </div>
+    </div>
+
+    <!--===============================================================================================-->
+    <script src="<%=url%>/js/jquery.min.js"></script>
+    <script src="<%=url%>/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Toastr -->
+    <!--===============================================================================================-->
+    <script src="<%=url%>/vendor/jquery/tilt.jquery.min.js"></script>
+    <script src="<%=url%>/toastr/toastr.min.js"></script>
+    <script src="<%=url%>/js/chart.js "></script>
+
+    <script>
+      $("#progress_byCity").change((e) => {
+        console.log("sss");
+      });
+
+      $("#progress_byTeamLead").change((e) => {
+        console.error("sss");
+      });
+    </script>
+
+    <script>
+      var ctx1 = document.getElementById("progressPerMonth").getContext("2d");
+      var myChart1 = new Chart(ctx1, {
+        type: "bar",
+        data: {
+          labels: [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+          ],
+          datasets: [
+            {
+              label: "Employee Progress",
+              data: [],
+              backgroundColor: [
+                "rgba(255, 99, 132, 0.5)",
+                "rgba(54, 162, 235, 0.5)",
+                "rgba(255, 206, 86, 0.5)",
+                "rgba(75, 192, 192, 0.5)",
+                "rgba(153, 102, 255, 0.5)",
+                "rgb(221, 170, 74,0.5)",
+                "rgba(126, 175, 48, 0.5)",
+                "rgba(54, 87, 54,0.3)",
+                "rgba(116, 116, 243,0.3)",
+                "rgba(250, 127, 83,0.3)",
+                "rgba(83, 150, 250,0.4)",
+                " rgba(211, 83, 250,0.4)"
+              ],
+              borderColor: [
+                "rgba(255, 99, 132, 1)",
+                "rgba(54, 162, 235, 1)",
+                "rgba(255, 206, 86, 1)",
+                "rgba(75, 192, 192, 1)",
+                "rgba(153, 102, 255, 1)",
+                "rgba(255, 159, 64, 1)",
+                "rgba(126, 175, 48, 1)",
+                "rgba(54, 87, 54,1)",
+                "rgb(116, 116, 243, 1)",
+                "rgba(250, 127, 83,1)",
+                "rgba(83, 150, 250,1)",
+                "rgba(211, 83, 250,1)"
+              ],
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+
+          scales: {
+            y: {
+              beginAtZero: true,
+              suggestedMax: 100
+            }
+          }
+        }
+      });
+
+      function changeFunc() {
+        var data1 = [50, 60, 70, 80, 90, 100, 90, 80, 70, 60, 50, 40];
+        var selectBox = document.getElementById("selectBox");
+        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+        var data2 = JSON.parse(`<%-JSON.stringify(array)%>`);
+        var val = data2.find((obj) => obj.name === selectedValue).emplprogress;
+        var sales = data2.find((obj) => obj.name === selectedValue).salesAvg;
+        var revenue = data2.find(
+          (obj) => obj.name === selectedValue
+        ).TotalIncome;
+        document.getElementById("salesAvg").innerHTML = sales;
+        document.getElementById("revenue").innerHTML = revenue;
+        myChart1.data.datasets[0].data = val;
+
+        myChart1.update();
+      }
+    </script>
+
+    <script>
+      var notificationCount = JSON.parse(
+        "<%-JSON.stringify(unreadNotificationCount)%>"
+      );
+      if (notificationCount) {
+        $(".button__badge").css("display", "block");
+        $(".button__badge").html(
+          JSON.parse("<%-JSON.stringify(unreadNotificationCount)%>")
+        );
+      }
+      $(".js-tilt").tilt({
+        scale: 1.1
+      });
+
+      //  teamMembers = JSON.parse(`%-JSON.stringify(teamMember)%>`),
+      //   agencyCount = JSON.parse(`%-JSON.stringify(agencyCount)%>`),
+      //   cancelledactivitiesPerMonth = JSON.parse(
+      //     `%-JSON.stringify(cancelledactivitiesPerMonth)%>`
+      //   ),
+      //   activitiesPerMonth = JSON.parse(
+      //     `%-JSON.stringify(activitiesPerMonth)%>`
+      //   ),
+      var menu = document.getElementById("menu");
+
+      function openMenu() {
+        menu.style.top = "0";
+      }
+      function closeMenu() {
+        menu.style.top = "-100vh";
+      }
+
+      /**
+       * getting the canvas id from the DOM
+       *
+       */
+
+      // var activitiesPerMonth_ID = document
+      //   .getElementById("activitiesPerMonth")
+      //   .getContext("2d");
+      // var agencyPerMonth_ID = document
+      //   .getElementById("agencyPerMonth")
+      //   .getContext("2d");
+      // var cancelPerMonth_ID = document
+      //   .getElementById("cancelPerMonth")
+      //   .getContext("2d");
+
+      // /**
+      //  *
+      //  * Setting the charts to those canvas
+      //  */
+      // var activitiesPerMonth_Chart = new Chart(activitiesPerMonth_ID, {
+      //   type: "line",
+      //   data: {
+      //     labels: ["a", "b", "c", "d"],
+      //     datasets: [
+      //       {
+      //         label: "Actitivies Per Month",
+      //         data: [15, 5, 1, 5],
+      //         backgroundColor: [
+      //           "rgba(255, 99, 132, 0.5)",
+      //           "rgba(54, 162, 235, 0.5)",
+      //           "rgba(255, 206, 86, 0.5)",
+      //           "rgba(75, 192, 192, 0.5)",
+      //           "rgba(153, 102, 255, 0.5)",
+      //           "rgb(221, 170, 74,0.5)",
+      //           "rgba(126, 175, 48, 0.5)",
+      //           "rgba(54, 87, 54,0.3)",
+      //           "rgba(116, 116, 243,0.3)",
+      //           "rgba(250, 127, 83,0.3)",
+      //           "rgba(83, 150, 250,0.4)",
+      //           " rgba(211, 83, 250,0.4)"
+      //         ],
+      //         borderColor: [
+      //           "rgba(255, 99, 132, 1)",
+      //           "rgba(54, 162, 235, 1)",
+      //           "rgba(255, 206, 86, 1)",
+      //           "rgba(75, 192, 192, 1)",
+      //           "rgba(153, 102, 255, 1)",
+      //           "rgba(255, 159, 64, 1)",
+      //           "rgba(126, 175, 48, 1)",
+      //           "rgba(54, 87, 54,1)",
+      //           "rgb(116, 116, 243, 1)",
+      //           "rgba(250, 127, 83,1)",
+      //           "rgba(83, 150, 250,1)",
+      //           "rgba(211, 83, 250,1)"
+      //         ],
+      //         borderWidth: 1
+      //       }
+      //     ]
+      //   },
+      //   options: {
+      //     scales: {
+      //       y: {
+      //         beginAtZero: true,
+      //         suggestedMax: 100
+      //       }
+      //     }
+      //   }
+      // });
+      // var agencyPerMonth_Chart = new Chart(agencyPerMonth_ID, {
+      //   type: "bar",
+      //   data: {
+      //     labels: ["a", "b", "c", "d"],
+      //     datasets: [
+      //       {
+      //         label: "Agency Per Month",
+      //         data: [15, 5, 1, 5],
+      //         backgroundColor: [
+      //           "rgba(255, 99, 132, 0.5)",
+      //           "rgba(54, 162, 235, 0.5)",
+      //           "rgba(255, 206, 86, 0.5)",
+      //           "rgba(75, 192, 192, 0.5)",
+      //           "rgba(153, 102, 255, 0.5)",
+      //           "rgb(221, 170, 74,0.5)",
+      //           "rgba(126, 175, 48, 0.5)",
+      //           "rgba(54, 87, 54,0.3)",
+      //           "rgba(116, 116, 243,0.3)",
+      //           "rgba(250, 127, 83,0.3)",
+      //           "rgba(83, 150, 250,0.4)",
+      //           " rgba(211, 83, 250,0.4)"
+      //         ],
+      //         borderColor: [
+      //           "rgba(255, 99, 132, 1)",
+      //           "rgba(54, 162, 235, 1)",
+      //           "rgba(255, 206, 86, 1)",
+      //           "rgba(75, 192, 192, 1)",
+      //           "rgba(153, 102, 255, 1)",
+      //           "rgba(255, 159, 64, 1)",
+      //           "rgba(126, 175, 48, 1)",
+      //           "rgba(54, 87, 54,1)",
+      //           "rgb(116, 116, 243, 1)",
+      //           "rgba(250, 127, 83,1)",
+      //           "rgba(83, 150, 250,1)",
+      //           "rgba(211, 83, 250,1)"
+      //         ],
+      //         borderWidth: 1
+      //       }
+      //     ]
+      //   },
+      //   options: {
+      //     scales: {
+      //       y: {
+      //         beginAtZero: true,
+      //         suggestedMax: 100
+      //       }
+      //     }
+      //   }
+      // });
+
+      // var cancelPerMonth_Chart = new Chart(cancelPerMonth_ID, {
+      //   type: "doughnut",
+      //   data: {
+      //     labels: ["a", "b", "c", "d"],
+      //     datasets: [
+      //       {
+      //         label: "Cancelled Activities Per Month",
+      //         data: [15, 5, 1, 5],
+      //         backgroundColor: [
+      //           "rgba(255, 99, 132, 0.5)",
+      //           "rgba(54, 162, 235, 0.5)",
+      //           "rgba(255, 206, 86, 0.5)",
+      //           "rgba(75, 192, 192, 0.5)",
+      //           "rgba(153, 102, 255, 0.5)",
+      //           "rgb(221, 170, 74,0.5)",
+      //           "rgba(126, 175, 48, 0.5)",
+      //           "rgba(54, 87, 54,0.3)",
+      //           "rgba(116, 116, 243,0.3)",
+      //           "rgba(250, 127, 83,0.3)",
+      //           "rgba(83, 150, 250,0.4)",
+      //           " rgba(211, 83, 250,0.4)"
+      //         ],
+      //         borderColor: [
+      //           "rgba(255, 99, 132, 1)",
+      //           "rgba(54, 162, 235, 1)",
+      //           "rgba(255, 206, 86, 1)",
+      //           "rgba(75, 192, 192, 1)",
+      //           "rgba(153, 102, 255, 1)",
+      //           "rgba(255, 159, 64, 1)",
+      //           "rgba(126, 175, 48, 1)",
+      //           "rgba(54, 87, 54,1)",
+      //           "rgb(116, 116, 243, 1)",
+      //           "rgba(250, 127, 83,1)",
+      //           "rgba(83, 150, 250,1)",
+      //           "rgba(211, 83, 250,1)"
+      //         ],
+      //         borderWidth: 1
+      //       }
+      //     ]
+      //   },
+      //   options: {
+      //     scales: {
+      //       y: {
+      //         beginAtZero: true,
+      //         suggestedMax: 100
+      //       }
+      //     },
+
+      //     aspectRatio: 3
+      //     // circumference: 50
+      //   }
+      // });
+
+      // const updateActivities_Chart = (count, month, year) => {
+      //   console.log(count, month, year);
+      //   activitiesPerMonth_Chart.data.datasets[0].data = count;
+      //   activitiesPerMonth_Chart.data.labels = month;
+      //   activitiesPerMonth_Chart.update();
+      // };
+      // const updateCancelled_Chart = (count, month, year) => {
+      //   cancelPerMonth_Chart.data.datasets[0].data = count;
+      //   cancelPerMonth_Chart.data.labels = month;
+      //   cancelPerMonth_Chart.update();
+      // };
+      // const updateAgency_Chart = (count, month, year) => {
+      //   agencyPerMonth_Chart.data.datasets[0].data = count;
+      //   agencyPerMonth_Chart.data.labels = month;
+      //   agencyPerMonth_Chart.update();
+      // };
+
+      // $("#selectBoxID").on("change", (e) => {
+      //   var data1 = [];
+      //   var selectBox = document.getElementById("selectBoxID");
+      //   var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+      //   //console.log(selectedValue);
+
+      //   const teamMember_Id = teamMembers.find((member) =>
+      //     member.field_uuid === selectedValue ? member.field_id : null
+      //   );
+
+      //   // getting the selected user information from the raw data
+      //   const cancelActivity = cancelledactivitiesPerMonth.filter(
+      //     (cancelActivity) => cancelActivity.field_id === teamMember_Id.field_id
+      //   );
+      //   //console.log("Cancel - ", cancelActivity);
+
+      //   const agencyActivity = agencyCount.filter(
+      //     (activity) => activity.field_id === teamMember_Id.field_id
+      //   );
+      //   //console.log("Activity - ", agencyActivity);
+
+      //   const activityPerMonth = activitiesPerMonth.filter(
+      //     (activity) => activity.field_id === teamMember_Id.field_id
+      //   );
+      //   //console.log("Activity Month - ", activityPerMonth);
+
+      //   /**
+      //    *
+      //    *
+      //    *
+      //    *
+      //    */
+      //   //extracting the months and values
+      //   const cancelled_PerMonth = cancelActivity.map(
+      //     (activities) => activities.cancelledactivitiesPerMonth
+      //   );
+      //   //console.log(cancelled_PerMonth);
+
+      //   //name of months
+      //   const cancelled_Month = cancelActivity.map(
+      //     (activities) => activities.moonth
+      //   );
+      //   //console.log(cancelled_Month);
+      //   //years of the cancel activities
+      //   const cancelled_Year = cancelActivity.map(
+      //     (activities) => activities.Year
+      //   );
+      //   //console.log(cancelled_Year);
+
+      //   /**
+      //    *
+      //    *
+      //    *
+      //    *
+      //    */
+      //   //extracting the months and values
+      //   const agency_PerMonth = agencyActivity.map(
+      //     (activities) => activities.agencyCount
+      //   );
+      //   //console.log(agency_PerMonth);
+
+      //   //name of months
+      //   const agency_Month = agencyActivity.map(
+      //     (activities) => activities.moonth
+      //   );
+      //   //console.log(agency_Month);
+      //   //years of the cancel activities
+      //   const agency_Year = agencyActivity.map((activities) => activities.Year);
+      //   //console.log(agency_Year);
+
+      //   /**
+      //    *
+      //    *
+      //    *
+      //    *
+      //    */
+      //   //extracting the months and values
+      //   const activity_PerMonth = activityPerMonth.map(
+      //     (activities) => activities.activitiesPerMonth
+      //   );
+      //   //console.log(activity_PerMonth);
+
+      //   //name of months
+      //   const activity_Month = activityPerMonth.map(
+      //     (activities) => activities.moonth
+      //   );
+      //   //console.log(activity_Month);
+      //   //years of the cancel activities
+      //   const activity_Year = activityPerMonth.map(
+      //     (activities) => activities.Year
+      //   );
+      //   //console.log(activity_Year);
+
+      //   updateActivities_Chart(
+      //     activity_PerMonth,
+      //     activity_Month,
+      //     activity_Year
+      //   );
+      //   updateCancelled_Chart(
+      //     cancelled_PerMonth,
+      //     cancelled_Month,
+      //     cancelled_Year
+      //   );
+      //   updateAgency_Chart(agency_PerMonth, agency_Month, agency_Year);
+      // });
+    </script>
+  </body>
+</html>

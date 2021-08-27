@@ -1,4 +1,3 @@
-const { trace } = require("console");
 const {
     multerFile_Upload_Function
   } = require("../../Configuration Files/Multer Js/multer"),
