@@ -75,10 +75,7 @@ Request_of_Advertisement.init(
         model: 'managers',
         key: 'man_id'
       },
-      validate: {
-        max: 11,
-        isNumeric: true
-      },
+   
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE'
     },
@@ -91,10 +88,7 @@ Request_of_Advertisement.init(
         model: 'company_gm_info',
         key: 'gm_id'
       },
-      validate: {
-        max: 11,
-        isNumeric: true
-      },
+   
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE'
     }

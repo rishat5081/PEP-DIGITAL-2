@@ -1407,6 +1407,7 @@ module.exports = {
   Advertising_Stock_Allocation,
   Request_of_Advertisement,
   Agency_Info,
+  AgencyTypes,
   Carriers,
   Carrier_Paid_Payment,
   Carriers_Services,

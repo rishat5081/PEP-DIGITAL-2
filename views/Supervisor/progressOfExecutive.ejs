@@ -6,11 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css"
-    />
-    <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
-    <link
       rel="icon"
       type="image/ico"
       sizes="16x16"
@@ -20,8 +15,9 @@
     <link
       rel="stylesheet"
       type="text/css"
-      href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css"
+      href="<%=url%>/vendor/bootstrap/css/bootstrap.css"
     />
+
     <!--===============================================================================================-->
     <link
       rel="stylesheet"
@@ -37,6 +33,7 @@
       type="text/css"
       href="<%=url%>/toastr/toastr.min.css"
     />
+
     <!--===============================================================================================-->
   </head>
 
@@ -114,10 +111,9 @@
               <div class="p-2 bd-highlight">
                 <select
                   class="empnames ml-1 mt-2 mb-3 text-right"
-                  id="selectBox"
+                  id="selectCity"
                   name="selectBox"
-                  onchange="changeFunc()"
-                  hidden
+                  style="display: none"
                 >
                   <option disabled selected value="null">Select City</option>
                   <% cityNames.forEach(city => { %>
@@ -126,63 +122,32 @@
                   </option>
                   <% }) %>
                 </select>
+                <!-- --------------Spinner for loading of the data ------------------ -->
               </div>
+
               <div class="p-2 bd-highlight">
                 <select
                   class="empnames ml-1 mt-2 mb-3 text-right"
-                  id="selectBox"
+                  id="selectTeamLead"
                   name="selectBox"
-                  onchange="changeFunc()"
-                  hidden
+                  style="display: none"
                 >
                   <option disabled selected value="null">
                     Select Team Member
                   </option>
-                  <% for (var i = 0; i < array.length; i++) { %>
-                  <option value="<%= array[i].name %>">
-                    <%= array[i].name %>
-                  </option>
-
-                  <% } %>
                 </select>
               </div>
             </div>
-
-            <div class="linear_bg mb-5 mt-5">
-              <div class="row m-1 p-2">
-                <div class="col-sm m-1">
-                  <div class="card">
-                    <div class="card-body m-0">
-                      <h5 class="card-title text-center">Sales(in percent)</h5>
-                      <h6
-                        class="card-subtitle mb-2 text-center text-muted"
-                        id="salesAvg"
-                      >
-                        0%
-                      </h6>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm m-1">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title text-center">Revenue</h5>
-                      <h6
-                        class="card-subtitle mb-2 text-center text-muted"
-                        id="revenue"
-                      >
-                        $00
-                      </h6>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             <div class="row mb-2 mt-5">
               <div class="col">
-                <div style="height: 500px">
-                  <canvas id="progressPerMonth"></canvas>
+                <div>
+                  <canvas
+                    id="activitiesPerMonth"
+                    width="450"
+                    height="150"
+                  ></canvas>
+                  <canvas id="agencyPerMonth" width="450" height="150"></canvas>
+                  <canvas id="cancelPerMonth" width="450" height="150"></canvas>
                 </div>
               </div>
             </div>
@@ -203,37 +168,28 @@
     <script src="<%=url%>/js/chart.js "></script>
 
     <script>
-      $("#progress_byCity").change((e) => {
-        console.log("sss");
-      });
+      var activitiesPerMonth_ID = document
+          .getElementById("activitiesPerMonth")
+          .getContext("2d"),
+        agencyPerMonth_ID = document
+          .getElementById("agencyPerMonth")
+          .getContext("2d"),
+        cancelPerMonth_ID = document
+          .getElementById("cancelPerMonth")
+          .getContext("2d"),
+        teamLead_Data = [];
 
-      $("#progress_byTeamLead").change((e) => {
-        console.error("sss");
-      });
-    </script>
-
-    <script>
-      var ctx1 = document.getElementById("progressPerMonth").getContext("2d");
-      var myChart1 = new Chart(ctx1, {
-        type: "bar",
+      /**
+       *
+       * Setting the charts to those canvas
+       */
+      var activitiesPerMonth_Chart = new Chart(activitiesPerMonth_ID, {
+        type: "line",
         data: {
-          labels: [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December"
-          ],
+          labels: [],
           datasets: [
             {
-              label: "Employee Progress",
+              label: "Actitivies Per Month",
               data: [],
               backgroundColor: [
                 "rgba(255, 99, 132, 0.5)",
@@ -268,9 +224,12 @@
           ]
         },
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
-
+          plugins: {
+            title: {
+              display: true
+              // text: "Custom Chart Title"
+            }
+          },
           scales: {
             y: {
               beginAtZero: true,
@@ -279,23 +238,285 @@
           }
         }
       });
+      var agencyPerMonth_Chart = new Chart(agencyPerMonth_ID, {
+        type: "bar",
+        data: {
+          labels: [],
+          datasets: [
+            {
+              label: "Agency Per Month",
+              data: [],
+              backgroundColor: [
+                "rgba(255, 99, 132, 0.5)",
+                "rgba(54, 162, 235, 0.5)",
+                "rgba(255, 206, 86, 0.5)",
+                "rgba(75, 192, 192, 0.5)",
+                "rgba(153, 102, 255, 0.5)",
+                "rgb(221, 170, 74,0.5)",
+                "rgba(126, 175, 48, 0.5)",
+                "rgba(54, 87, 54,0.3)",
+                "rgba(116, 116, 243,0.3)",
+                "rgba(250, 127, 83,0.3)",
+                "rgba(83, 150, 250,0.4)",
+                " rgba(211, 83, 250,0.4)"
+              ],
+              borderColor: [
+                "rgba(255, 99, 132, 1)",
+                "rgba(54, 162, 235, 1)",
+                "rgba(255, 206, 86, 1)",
+                "rgba(75, 192, 192, 1)",
+                "rgba(153, 102, 255, 1)",
+                "rgba(255, 159, 64, 1)",
+                "rgba(126, 175, 48, 1)",
+                "rgba(54, 87, 54,1)",
+                "rgb(116, 116, 243, 1)",
+                "rgba(250, 127, 83,1)",
+                "rgba(83, 150, 250,1)",
+                "rgba(211, 83, 250,1)"
+              ],
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              suggestedMax: 100
+            }
+          }
+        }
+      });
+      var cancelPerMonth_Chart = new Chart(cancelPerMonth_ID, {
+        type: "doughnut",
+        data: {
+          labels: [],
+          datasets: [
+            {
+              label: "Cancelled Activities Per Month",
+              data: [],
+              backgroundColor: [
+                "rgba(255, 99, 132, 0.5)",
+                "rgba(54, 162, 235, 0.5)",
+                "rgba(255, 206, 86, 0.5)",
+                "rgba(75, 192, 192, 0.5)",
+                "rgba(153, 102, 255, 0.5)",
+                "rgb(221, 170, 74,0.5)",
+                "rgba(126, 175, 48, 0.5)",
+                "rgba(54, 87, 54,0.3)",
+                "rgba(116, 116, 243,0.3)",
+                "rgba(250, 127, 83,0.3)",
+                "rgba(83, 150, 250,0.4)",
+                " rgba(211, 83, 250,0.4)"
+              ],
+              borderColor: [
+                "rgba(255, 99, 132, 1)",
+                "rgba(54, 162, 235, 1)",
+                "rgba(255, 206, 86, 1)",
+                "rgba(75, 192, 192, 1)",
+                "rgba(153, 102, 255, 1)",
+                "rgba(255, 159, 64, 1)",
+                "rgba(126, 175, 48, 1)",
+                "rgba(54, 87, 54,1)",
+                "rgb(116, 116, 243, 1)",
+                "rgba(250, 127, 83,1)",
+                "rgba(83, 150, 250,1)",
+                "rgba(211, 83, 250,1)"
+              ],
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: "Cancel Activities Per Month"
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              suggestedMax: 100
+            }
+          },
+          //this aspect ratio will make the height and width of the donut
+          aspectRatio: 3
+        }
+      });
 
-      function changeFunc() {
-        var data1 = [50, 60, 70, 80, 90, 100, 90, 80, 70, 60, 50, 40];
-        var selectBox = document.getElementById("selectBox");
-        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-        var data2 = JSON.parse(`<%-JSON.stringify(array)%>`);
-        var val = data2.find((obj) => obj.name === selectedValue).emplprogress;
-        var sales = data2.find((obj) => obj.name === selectedValue).salesAvg;
-        var revenue = data2.find(
-          (obj) => obj.name === selectedValue
-        ).TotalIncome;
-        document.getElementById("salesAvg").innerHTML = sales;
-        document.getElementById("revenue").innerHTML = revenue;
-        myChart1.data.datasets[0].data = val;
+      $("#progress_byCity").change((e) => {
+        if ($("#selectTeamLead").css("display", "block"))
+          $("#selectTeamLead").css("display", "none");
+        $("#selectCity").css("display", "block");
+      });
 
-        myChart1.update();
-      }
+      $("#progress_byTeamLead").change((e) => {
+        if ($("#selectCity").css("display", "none"))
+          $("#selectCity").css("display", "block");
+        $("#selectTeamLead").css("display", "block");
+      });
+
+      $("#selectCity").change((e) => {
+        const cityDataSet = JSON.parse(`<%-JSON.stringify(cityNames)%>`);
+        if (
+          cityValueValidater(
+            cityDataSet,
+            $("#selectCity").find(":selected").val()
+          )
+        ) {
+          //making the ajax call to fetch the data from the server
+          let cityUUID = $("#selectCity").find(":selected").val();
+          $.ajax({
+            type: "GET",
+            url: `${window.location.origin}/getCityAnalytics/${cityUUID}/<%=info.uuid%>`,
+            error: (error) => {
+              if (error) {
+                toastr.error(error);
+                console.error(error);
+              }
+            },
+            success: (response) => {
+              if (response) {
+                toastr.success(response.status);
+                //displaying the activity per month
+                activitiesPerMonth_Chart.data.labels =
+                  response.activitiesPerMonth.map(
+                    (activity) => activity.moonth + " " + activity.Year
+                  );
+                activitiesPerMonth_Chart.data.datasets[0].data =
+                  response.activitiesPerMonth.map(
+                    (activity) => activity.activitiesPerMonth
+                  );
+                activitiesPerMonth_Chart.update();
+                //end of activity per month
+
+                // //displaying the agency per month
+
+                agencyPerMonth_Chart.data.labels = response.agencyCount.map(
+                  (activity) => activity.moonth + " " + activity.Year
+                );
+                agencyPerMonth_Chart.data.datasets[0].data =
+                  response.agencyCount.map((activity) => activity.agencyCount);
+                agencyPerMonth_Chart.update();
+
+                //end of agency per month
+
+                //displaying the cancel activities per month
+
+                cancelPerMonth_Chart.data.labels =
+                  response.cancelledactivitiesPerMonth.map(
+                    (activity) => activity.moonth + " " + activity.Year
+                  );
+                cancelPerMonth_Chart.data.datasets[0].data =
+                  response.cancelledactivitiesPerMonth.map(
+                    (activity) => activity.cancelledactivitiesPerMonth
+                  );
+                cancelPerMonth_Chart.update();
+                //end of cancel activities per month
+
+                const selectTeamLead =
+                  document.getElementById("selectTeamLead");
+                response.teamLeadID.forEach((teamLead) => {
+                  const option = document.createElement("option");
+                  option.value = teamLead.team_L_uuid;
+                  option.text = teamLead.team_L_name;
+                  teamLead_Data.push(teamLead);
+                  selectTeamLead.append(option);
+                });
+              }
+            }
+          });
+        } else {
+          toastr.error("Invalid City selected");
+          return;
+        }
+      });
+
+      const cityValueValidater = (dataSet, value) => {
+        return dataSet.find((data) => data.city_uuid === value);
+      };
+
+      // ------------- Team Lead select on change ---------------------
+      const teamLeadValidator = (teamLeadData, value) => {
+        return teamLeadData.find((lead) => lead.team_L_uuid === value);
+      };
+
+      $("#selectTeamLead").change((e) => {
+        if (
+          teamLeadValidator(
+            teamLead_Data,
+            $("#selectTeamLead").find(":selected").val()
+          )
+        ) {
+          //making the ajax call to fetch the data from the server
+          let teamLeadUUID = $("#selectTeamLead").find(":selected").val();
+          $.ajax({
+            type: "GET",
+            url: `${window.location.origin}/getTeamLeadAnalytics/${teamLeadUUID}/<%=info.uuid%>`,
+            error: (error) => {
+              if (error) {
+                toastr.error(error.responseJSON.error);
+                //displaying the activity per month
+                activitiesPerMonth_Chart.data.labels = [];
+                activitiesPerMonth_Chart.data.datasets[0].data = [];
+                activitiesPerMonth_Chart.update();
+                //end of activity per month
+                // //displaying the agency per month
+                agencyPerMonth_Chart.data.labels = [];
+                agencyPerMonth_Chart.data.datasets[0].data = [];
+                agencyPerMonth_Chart.update();
+                //end of agency per month
+                //displaying the cancel activities per month
+                cancelPerMonth_Chart.data.labels = [];
+                cancelPerMonth_Chart.data.datasets[0].data = [];
+                cancelPerMonth_Chart.update();
+                //  end of cancel activities per month
+              }
+            },
+            success: (response) => {
+              if (response) {
+                toastr.success(response.status);
+                //displaying the activity per month
+                activitiesPerMonth_Chart.data.labels =
+                  response.activitiesPerMonth.map(
+                    (activity) => activity.moonth + " " + activity.Year
+                  );
+                activitiesPerMonth_Chart.data.datasets[0].data =
+                  response.activitiesPerMonth.map(
+                    (activity) => activity.activitiesPerMonth
+                  );
+                activitiesPerMonth_Chart.update();
+                //end of activity per month
+                // //displaying the agency per month
+                agencyPerMonth_Chart.data.labels = response.agencyCount.map(
+                  (activity) => activity.moonth + " " + activity.Year
+                );
+                agencyPerMonth_Chart.data.datasets[0].data =
+                  response.agencyCount.map((activity) => activity.agencyCount);
+                agencyPerMonth_Chart.update();
+                //end of agency per month
+                //displaying the cancel activities per month
+                cancelPerMonth_Chart.data.labels =
+                  response.cancelledactivitiesPerMonth.map(
+                    (activity) => activity.moonth + " " + activity.Year
+                  );
+                cancelPerMonth_Chart.data.datasets[0].data =
+                  response.cancelledactivitiesPerMonth.map(
+                    (activity) => activity.cancelledactivitiesPerMonth
+                  );
+                cancelPerMonth_Chart.update();
+                //  end of cancel activities per month
+              } else {
+                toastr.error("No response");
+              }
+            }
+          });
+        } else {
+          toastr.error("Invalid City selected");
+          return;
+        }
+      });
     </script>
 
     <script>
@@ -329,299 +550,6 @@
         menu.style.top = "-100vh";
       }
 
-      /**
-       * getting the canvas id from the DOM
-       *
-       */
-
-      // var activitiesPerMonth_ID = document
-      //   .getElementById("activitiesPerMonth")
-      //   .getContext("2d");
-      // var agencyPerMonth_ID = document
-      //   .getElementById("agencyPerMonth")
-      //   .getContext("2d");
-      // var cancelPerMonth_ID = document
-      //   .getElementById("cancelPerMonth")
-      //   .getContext("2d");
-
-      // /**
-      //  *
-      //  * Setting the charts to those canvas
-      //  */
-      // var activitiesPerMonth_Chart = new Chart(activitiesPerMonth_ID, {
-      //   type: "line",
-      //   data: {
-      //     labels: ["a", "b", "c", "d"],
-      //     datasets: [
-      //       {
-      //         label: "Actitivies Per Month",
-      //         data: [15, 5, 1, 5],
-      //         backgroundColor: [
-      //           "rgba(255, 99, 132, 0.5)",
-      //           "rgba(54, 162, 235, 0.5)",
-      //           "rgba(255, 206, 86, 0.5)",
-      //           "rgba(75, 192, 192, 0.5)",
-      //           "rgba(153, 102, 255, 0.5)",
-      //           "rgb(221, 170, 74,0.5)",
-      //           "rgba(126, 175, 48, 0.5)",
-      //           "rgba(54, 87, 54,0.3)",
-      //           "rgba(116, 116, 243,0.3)",
-      //           "rgba(250, 127, 83,0.3)",
-      //           "rgba(83, 150, 250,0.4)",
-      //           " rgba(211, 83, 250,0.4)"
-      //         ],
-      //         borderColor: [
-      //           "rgba(255, 99, 132, 1)",
-      //           "rgba(54, 162, 235, 1)",
-      //           "rgba(255, 206, 86, 1)",
-      //           "rgba(75, 192, 192, 1)",
-      //           "rgba(153, 102, 255, 1)",
-      //           "rgba(255, 159, 64, 1)",
-      //           "rgba(126, 175, 48, 1)",
-      //           "rgba(54, 87, 54,1)",
-      //           "rgb(116, 116, 243, 1)",
-      //           "rgba(250, 127, 83,1)",
-      //           "rgba(83, 150, 250,1)",
-      //           "rgba(211, 83, 250,1)"
-      //         ],
-      //         borderWidth: 1
-      //       }
-      //     ]
-      //   },
-      //   options: {
-      //     scales: {
-      //       y: {
-      //         beginAtZero: true,
-      //         suggestedMax: 100
-      //       }
-      //     }
-      //   }
-      // });
-      // var agencyPerMonth_Chart = new Chart(agencyPerMonth_ID, {
-      //   type: "bar",
-      //   data: {
-      //     labels: ["a", "b", "c", "d"],
-      //     datasets: [
-      //       {
-      //         label: "Agency Per Month",
-      //         data: [15, 5, 1, 5],
-      //         backgroundColor: [
-      //           "rgba(255, 99, 132, 0.5)",
-      //           "rgba(54, 162, 235, 0.5)",
-      //           "rgba(255, 206, 86, 0.5)",
-      //           "rgba(75, 192, 192, 0.5)",
-      //           "rgba(153, 102, 255, 0.5)",
-      //           "rgb(221, 170, 74,0.5)",
-      //           "rgba(126, 175, 48, 0.5)",
-      //           "rgba(54, 87, 54,0.3)",
-      //           "rgba(116, 116, 243,0.3)",
-      //           "rgba(250, 127, 83,0.3)",
-      //           "rgba(83, 150, 250,0.4)",
-      //           " rgba(211, 83, 250,0.4)"
-      //         ],
-      //         borderColor: [
-      //           "rgba(255, 99, 132, 1)",
-      //           "rgba(54, 162, 235, 1)",
-      //           "rgba(255, 206, 86, 1)",
-      //           "rgba(75, 192, 192, 1)",
-      //           "rgba(153, 102, 255, 1)",
-      //           "rgba(255, 159, 64, 1)",
-      //           "rgba(126, 175, 48, 1)",
-      //           "rgba(54, 87, 54,1)",
-      //           "rgb(116, 116, 243, 1)",
-      //           "rgba(250, 127, 83,1)",
-      //           "rgba(83, 150, 250,1)",
-      //           "rgba(211, 83, 250,1)"
-      //         ],
-      //         borderWidth: 1
-      //       }
-      //     ]
-      //   },
-      //   options: {
-      //     scales: {
-      //       y: {
-      //         beginAtZero: true,
-      //         suggestedMax: 100
-      //       }
-      //     }
-      //   }
-      // });
-
-      // var cancelPerMonth_Chart = new Chart(cancelPerMonth_ID, {
-      //   type: "doughnut",
-      //   data: {
-      //     labels: ["a", "b", "c", "d"],
-      //     datasets: [
-      //       {
-      //         label: "Cancelled Activities Per Month",
-      //         data: [15, 5, 1, 5],
-      //         backgroundColor: [
-      //           "rgba(255, 99, 132, 0.5)",
-      //           "rgba(54, 162, 235, 0.5)",
-      //           "rgba(255, 206, 86, 0.5)",
-      //           "rgba(75, 192, 192, 0.5)",
-      //           "rgba(153, 102, 255, 0.5)",
-      //           "rgb(221, 170, 74,0.5)",
-      //           "rgba(126, 175, 48, 0.5)",
-      //           "rgba(54, 87, 54,0.3)",
-      //           "rgba(116, 116, 243,0.3)",
-      //           "rgba(250, 127, 83,0.3)",
-      //           "rgba(83, 150, 250,0.4)",
-      //           " rgba(211, 83, 250,0.4)"
-      //         ],
-      //         borderColor: [
-      //           "rgba(255, 99, 132, 1)",
-      //           "rgba(54, 162, 235, 1)",
-      //           "rgba(255, 206, 86, 1)",
-      //           "rgba(75, 192, 192, 1)",
-      //           "rgba(153, 102, 255, 1)",
-      //           "rgba(255, 159, 64, 1)",
-      //           "rgba(126, 175, 48, 1)",
-      //           "rgba(54, 87, 54,1)",
-      //           "rgb(116, 116, 243, 1)",
-      //           "rgba(250, 127, 83,1)",
-      //           "rgba(83, 150, 250,1)",
-      //           "rgba(211, 83, 250,1)"
-      //         ],
-      //         borderWidth: 1
-      //       }
-      //     ]
-      //   },
-      //   options: {
-      //     scales: {
-      //       y: {
-      //         beginAtZero: true,
-      //         suggestedMax: 100
-      //       }
-      //     },
-
-      //     aspectRatio: 3
-      //     // circumference: 50
-      //   }
-      // });
-
-      // const updateActivities_Chart = (count, month, year) => {
-      //   console.log(count, month, year);
-      //   activitiesPerMonth_Chart.data.datasets[0].data = count;
-      //   activitiesPerMonth_Chart.data.labels = month;
-      //   activitiesPerMonth_Chart.update();
-      // };
-      // const updateCancelled_Chart = (count, month, year) => {
-      //   cancelPerMonth_Chart.data.datasets[0].data = count;
-      //   cancelPerMonth_Chart.data.labels = month;
-      //   cancelPerMonth_Chart.update();
-      // };
-      // const updateAgency_Chart = (count, month, year) => {
-      //   agencyPerMonth_Chart.data.datasets[0].data = count;
-      //   agencyPerMonth_Chart.data.labels = month;
-      //   agencyPerMonth_Chart.update();
-      // };
-
-      // $("#selectBoxID").on("change", (e) => {
-      //   var data1 = [];
-      //   var selectBox = document.getElementById("selectBoxID");
-      //   var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-      //   //console.log(selectedValue);
-
-      //   const teamMember_Id = teamMembers.find((member) =>
-      //     member.field_uuid === selectedValue ? member.field_id : null
-      //   );
-
-      //   // getting the selected user information from the raw data
-      //   const cancelActivity = cancelledactivitiesPerMonth.filter(
-      //     (cancelActivity) => cancelActivity.field_id === teamMember_Id.field_id
-      //   );
-      //   //console.log("Cancel - ", cancelActivity);
-
-      //   const agencyActivity = agencyCount.filter(
-      //     (activity) => activity.field_id === teamMember_Id.field_id
-      //   );
-      //   //console.log("Activity - ", agencyActivity);
-
-      //   const activityPerMonth = activitiesPerMonth.filter(
-      //     (activity) => activity.field_id === teamMember_Id.field_id
-      //   );
-      //   //console.log("Activity Month - ", activityPerMonth);
-
-      //   /**
-      //    *
-      //    *
-      //    *
-      //    *
-      //    */
-      //   //extracting the months and values
-      //   const cancelled_PerMonth = cancelActivity.map(
-      //     (activities) => activities.cancelledactivitiesPerMonth
-      //   );
-      //   //console.log(cancelled_PerMonth);
-
-      //   //name of months
-      //   const cancelled_Month = cancelActivity.map(
-      //     (activities) => activities.moonth
-      //   );
-      //   //console.log(cancelled_Month);
-      //   //years of the cancel activities
-      //   const cancelled_Year = cancelActivity.map(
-      //     (activities) => activities.Year
-      //   );
-      //   //console.log(cancelled_Year);
-
-      //   /**
-      //    *
-      //    *
-      //    *
-      //    *
-      //    */
-      //   //extracting the months and values
-      //   const agency_PerMonth = agencyActivity.map(
-      //     (activities) => activities.agencyCount
-      //   );
-      //   //console.log(agency_PerMonth);
-
-      //   //name of months
-      //   const agency_Month = agencyActivity.map(
-      //     (activities) => activities.moonth
-      //   );
-      //   //console.log(agency_Month);
-      //   //years of the cancel activities
-      //   const agency_Year = agencyActivity.map((activities) => activities.Year);
-      //   //console.log(agency_Year);
-
-      //   /**
-      //    *
-      //    *
-      //    *
-      //    *
-      //    */
-      //   //extracting the months and values
-      //   const activity_PerMonth = activityPerMonth.map(
-      //     (activities) => activities.activitiesPerMonth
-      //   );
-      //   //console.log(activity_PerMonth);
-
-      //   //name of months
-      //   const activity_Month = activityPerMonth.map(
-      //     (activities) => activities.moonth
-      //   );
-      //   //console.log(activity_Month);
-      //   //years of the cancel activities
-      //   const activity_Year = activityPerMonth.map(
-      //     (activities) => activities.Year
-      //   );
-      //   //console.log(activity_Year);
-
-      //   updateActivities_Chart(
-      //     activity_PerMonth,
-      //     activity_Month,
-      //     activity_Year
-      //   );
-      //   updateCancelled_Chart(
-      //     cancelled_PerMonth,
-      //     cancelled_Month,
-      //     cancelled_Year
-      //   );
-      //   updateAgency_Chart(agency_PerMonth, agency_Month, agency_Year);
-      // });
     </script>
   </body>
 </html>

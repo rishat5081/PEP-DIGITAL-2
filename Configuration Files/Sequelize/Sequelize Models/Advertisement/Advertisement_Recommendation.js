@@ -32,10 +32,7 @@ Advertisement_Recommendation.init(
       allowNull: false,
       primaryKey: false,
       autoIncrement: false,
-      validate: {
-        max: 11,
-        isNumeric: true
-      },
+   
       references: {
         model: 'agency_info',
         key: 'agency_id'
@@ -50,10 +47,7 @@ Advertisement_Recommendation.init(
       allowNull: false,
       primaryKey: false,
       autoIncrement: false,
-      validate: {
-        max: 11,
-        isNumeric: true
-      },
+   
       references: {
         model: 'field_executive',
         key: 'field_id'
@@ -88,10 +82,7 @@ Advertisement_Recommendation.init(
       allowNull: false,
       primaryKey: false,
       autoIncrement: false,
-      validate: {
-        max: 11,
-        isNumeric: true
-      },
+   
       references: {
         model: 'team_lead',
         key: 'team_L_id'
@@ -116,10 +107,7 @@ Advertisement_Recommendation.init(
       allowNull: false,
       primaryKey: false,
       autoIncrement: false,
-      validate: {
-        max: 11,
-        isNumeric: true
-      },
+   
       references: {
         model: 'supervisor',
         key: 'sup_id'
@@ -144,10 +132,7 @@ Advertisement_Recommendation.init(
       allowNull: false,
       primaryKey: false,
       autoIncrement: false,
-      validate: {
-        max: 11,
-        isNumeric: true
-      },
+   
       references: {
         model: 'managers',
         key: 'man_id'

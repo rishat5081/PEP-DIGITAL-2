@@ -19,34 +19,38 @@
     </head>
     <body>
 
-        <div class="limiter">
-            <div class="container-profile100">
-                <div class="header">
-                    <div class="cover-image100">
-                        <a href="#">
-                            <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
-                        </a>
-                        <a href="<%=url%>/supervisor/notification">
-                            <span class="fa fa-bell menu-button">
-                                <span class="button__badge" style="display: none;"></span>
-                            </span>
-                        </a>
-                        <nav id="menu">
-                            <ul>
-                                <% permissions.forEach(element=> { %>
-                                    <li><a href="<%=url%>/supervisor<%= element.controller %>/<%=info.uuid%>">
-                                            <span class="<%= element.icon%>"></span>
-                                            <%= element.permission_name %>
-                                        </a>
+      <!--  Navigation-->
+      <div class="limiter">
+        <div class="container-profile100">
+            <div class="header">
+                <div class="cover-image100">
+                    <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
+                    <a href="#">
+                        <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+                    </a>
+                    <a href="<%=url%>/supervisor/notification">
+                        <span class="fa fa-bell menu-button">
+                            <span class="button__badge" style="display: none;"></span>
+                        </span>
+                    </a>
+                    <nav id="menu">
+                        <ul>
+                            <% permissions.forEach(element=> { %>
+                                <li>
+                                    <a href="<%=url%>/supervisor<%= element.controller%>/<%=info.uuid%>">
+                                        <span class="<%= element.icon%>"></span>
+                                        <%= element.permission_name %>
+                                    </a>
+                                </li>
+                                <% }); %>
+                                    <li>
+                                        <a href="<%=url%>/supervisor/signout">
+                                            <span class="fa fa-sign-out"> </span> Log Out</a>
                                     </li>
-                                    <% }); %>
-                                        <li><a href="<%=url%>/supervisor/signout"><span class="fa fa-sign-out"></span> Log
-                                                Out</a>
-                                        </li>
-                            </ul>
-                            <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
-                        </nav>
-                    </div>
+                        </ul>
+                        <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+                    </nav>
+                </div>
                     <div class="container profile-pic-section">
                         <div class="row head-section">
                             <div class="col-md-12" align="center">

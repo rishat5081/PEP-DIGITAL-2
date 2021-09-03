@@ -236,6 +236,33 @@ Database.Permissions.create({
 
 
 
+Advertisement_Stock.create({
+  adver_stock_name: "Pen",
+  adver_stock_descritpion: "Pen Containing PEP Logo",
+  adver_stock_total_Price: 15000.0,
+  adver_stock_Price_per_piece: 2.5,
+  adver_stock_total_Quantity: 6000,
+}).then((stock) => {
+  console.log(stock);
+});
+
+
+
+// Advertising_Stock_Allocation.create({
+//   adver_stock_allocated_Quantity: 60,
+//   adver_stock_id: 1,
+//   sup_id: 1,
+//   man_id: 1
+// });
+
+// Advertisement_Stock.increment(["adver_stock_remaining"], {
+//   by: 60,
+//   where: {
+//     adver_stock_id: 1
+//   }
+// }).then((stock) => {
+//   console.log(stock);
+// });
 
 ------------------------------------------------------------------------------------------------------
 

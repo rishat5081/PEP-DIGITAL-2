@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Manage Incentive</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--===============================================================================================-->
+    <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/toastr/toastr.min.css"
+    />
+  </head>
+
+  <body>
+    <!--  Navigation-->
+    <div class="limiter">
+      <div class="container-profile100">
+        <div class="header">
+          <div class="cover-image100">
+            <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
+            <a href="#">
+              <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+            </a>
+            <a href="<%=url%>/supervisor/notification">
+              <span class="fa fa-bell menu-button">
+                <span class="button__badge" style="display: none"></span>
+              </span>
+            </a>
+            <nav id="menu">
+              <ul>
+                <% permissions.forEach(element=> { %>
+                <li>
+                  <a
+                    href="<%=url%>/supervisor<%= element.controller%>/<%=info.uuid%>"
+                  >
+                    <span class="<%= element.icon%>"></span>
+                    <%= element.permission_name %>
+                  </a>
+                </li>
+                <% }); %>
+                <li>
+                  <a href="<%=url%>/supervisor/signout">
+                    <span class="fa fa-sign-out"> </span> Log Out</a
+                  >
+                </li>
+              </ul>
+              <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+            </nav>
+          </div>
+          <!-- --------------------- -->
+          <!-- advertisment,
+          cityNames, -->
+          <!-- --------------------------- -->
+          <div class="container saleup">
+            <div class="text-center">
+              <h4 class="areaheading text-center">
+                Giving Away Gifts to Agencies<i
+                  class="ml-2 fa fa-gift"
+                  aria-hidden="true"
+                ></i>
+              </h4>
+            </div>
+            <div
+              id="carouselExampleCaptions"
+              class="carousel slide mt-2 carouselimg"
+              data-ride="carousel"
+            >
+              <ol class="carousel-indicators">
+                <% advertisment.map((data,index)=>{ %> <%if(index==0) {%>
+                <li
+                  data-target="#carouselExampleCaptions"
+                  data-slide-to="<% index %> "
+                  class="active"
+                ></li>
+                <% }else{ %>
+                <li
+                  data-target="#carouselExampleCaptions"
+                  data-slide-to="<% index %>"
+                ></li>
+                <% }}) %>
+              </ol>
+              <div class="carousel-inner">
+                <% advertisment.map((stock,index)=>{ %> <%if(index==0) {%>
+                <div class="carousel-item active p-2">
+                  <img
+                    src="<%=url%>/<%=stock.Advertisement_Stock.adver_stock_image%>"
+                    class="d-block w-100"
+                    alt="<%= stock.Advertisement_Stock.adver_stock_name %>"
+                  />
+                  <div class="carousel-caption d-none d-md-block">
+                    <h5 class="font-weight-bolder text-danger">
+                      <%=stock.Advertisement_Stock.adver_stock_name %>
+                    </h5>
+                    <p class="text-danger">
+                      <%=stock.Advertisement_Stock.adver_stock_descritpion %>
+                    </p>
+                  </div>
+                </div>
+                <% }else{ %>
+                <div class="carousel-item p-2">
+                  <img
+                    src="<%=url%>/<%=stock.Advertisement_Stock.adver_stock_image%>"
+                    class="d-block w-100"
+                    alt="<%= stock.Advertisement_Stock.adver_stock_name %>"
+                  />
+                  <div class="carousel-caption d-none d-md-block">
+                    <h5 class="font-weight-bolder text-danger">
+                      <%=stock.Advertisement_Stock.adver_stock_name %>
+                    </h5>
+                    <p class="text-danger">
+                      <%=stock.Advertisement_Stock.adver_stock_descritpion %>
+                    </p>
+                  </div>
+                </div>
+                <% }}) %>
+              </div>
+              <a
+                class="carousel-control-prev text-dark"
+                href="#carouselExampleCaptions"
+                role="button"
+                data-slide="prev"
+              >
+                <span
+                  class="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a
+                class="carousel-control-next"
+                href="#carouselExampleCaptions"
+                role="button"
+                data-slide="next"
+              >
+                <span
+                  class="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+          </div>
+
+          <br />
+          <div class="container p-2 mt-4">
+            <div class="row mb-4">
+              <div class="col-sm-3">
+                <h6 class="mt-3">Select Agency Type</h6>
+              </div>
+              <div class="col-6">
+                <select class="area w-100 h-100 col-md-12 text-center">
+                  <option selected disabled>Choose One</option>
+                  <% agencyTypes.forEach(agency => { %>
+                  <option value="<%=agency.agencytype_uuid%>">
+                    <%=agency.type_name%>
+                  </option>
+                  <% }) %>
+                </select>
+              </div>
+            </div>
+            <div class="row mb-4">
+              <div class="col-sm-3">
+                <h6 class="mt-3">Select Gift</h6>
+              </div>
+              <div class="col-6">
+                <select
+                  class="area w-100 h-100 col-md-12 text-center"
+                  id="selectGift"
+                >
+                  <option selected disabled>Choose Gift</option>
+                  <!-- ------------ DOM Manipulation is done here because of the total quantity is not working here ----------------- -->
+                </select>
+              </div>
+            </div>
+
+            <div class="row mb-4">
+              <div class="col-sm-3">
+                <h6 class="mt-3">Enter Gift Amount</h6>
+              </div>
+              <div class="col-6">
+                <input
+                  class="border border-dark w-100 h-100 col-md-12"
+                  type="number"
+                  id="giftInput"
+                />
+              </div>
+              <div class="col-sm-3">
+                <h6 class="mt-3">
+                  Total Available Gifts: <strong id="totalGifts">00.00</strong>
+                </h6>
+              </div>
+            </div>
+
+            <div class="row mb-4">
+              <div class="col-sm-3">
+                <h6 class="mt-3">Select City</h6>
+              </div>
+              <div class="col-6">
+                <select
+                  class="area w-100 h-100 col-md-12 text-center"
+                  id="selectCity"
+                >
+                  <option selected disabled>Choose One</option>
+                  <% cityNames.forEach(city => { %>
+                  <option value="<%=city.city_uuid%>">
+                    <%=city.city_name%>
+                  </option>
+                  <% }) %>
+                </select>
+              </div>
+            </div>
+
+            <div class="row mb-4" style="display: none" id="selectCityAreaDIV">
+              <div class="col-sm-3">
+                <h6 class="mt-3">City Area</h6>
+              </div>
+              <div class="col-sm-6">
+                <select
+                  class="area w-100 h-100 col-md-12 text-center"
+                  id="selectCityArea"
+                >
+                  <option selected disabled>Choose One</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row mb-4" style="display: none" id="selectTeamLeadDIV">
+              <div class="col-sm-3">
+                <h6 class="mt-3">Team Leads</h6>
+              </div>
+              <div class="col-sm-6">
+                <select
+                  class="area w-100 h-100 col-md-12 text-center"
+                  id="selectTeamLead"
+                  placeholder="Team Lead"
+                >
+                  <option selected disabled>Choose One</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 text-center">
+                <button
+                  style="display: none"
+                  type="button"
+                  class="btn btn-success h-75 btn-width mb-3"
+                  id="giveSelectiveBTN"
+                >
+                  Give <i class="fa fa-gift" aria-hidden="true"></i>
+                </button>
+                <button
+                  style="display: none"
+                  type="button"
+                  class="btn btn-success h-75 btn-width mb-3"
+                  id="givetoAllBTN"
+                >
+                  Give to All Team Lead
+                  <i class="fa fa-gift" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <br />
+          <br />
+          <br />
+        </div>
+      </div>
+    </div>
+
+    <script src="<%=url%>/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="<%=url%>/vendor/bootstrap/js/popper.min.js"></script>
+    <script src="<%=url%>/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="<%=url%>/vendor/jquery/tilt.jquery.min.js"></script>
+    <script src="<%=url%>/toastr/toastr.min.js"></script>
+    <script>
+      var notificationCount = JSON.parse(
+        "<%-JSON.stringify(unreadNotificationCount)%>"
+      );
+      if (notificationCount) {
+        $(".button__badge").css("display", "block");
+        $(".button__badge").html(
+          JSON.parse("<%-JSON.stringify(unreadNotificationCount)%>")
+        );
+      }
+      $(".js-tilt").tilt({
+        scale: 1.1
+      });
+
+      // console.log(JSON.parse(`%-JSON.stringify(advertisment)%>`));
+      var menu = document.getElementById("menu");
+
+      function openMenu() {
+        menu.style.top = "0";
+      }
+      function closeMenu() {
+        menu.style.top = "-100vh";
+      }
+      giftData = JSON.parse(`<%-JSON.stringify(advertisment)%>`);
+      const selectGift = document.getElementById("selectGift");
+      giftData.forEach((gift) => {
+        const option = document.createElement("option");
+        option.value = gift.Advertisement_Stock.advert_stock_uuid;
+        option.id = gift.adver_stock_id;
+        option.text = gift.Advertisement_Stock.adver_stock_name;
+        selectGift.append(option);
+      });
+
+      $("#selectGift").change((e) => {
+        giftData = JSON.parse(`<%-JSON.stringify(advertisment)%>`);
+
+        giftData.forEach((gift) => {
+          const temp = +$("#selectGift").find(":selected").attr("id");
+          if (temp === gift.adver_stock_id) {
+            $("#totalGifts").html(gift.sumofQuantity);
+          }
+        });
+      });
+
+      let cityArea_fromDB = [],
+        teamLead_fromDB = [];
+
+      $("#selectCity").on("change", (e) => {
+        const cityDataSet = JSON.parse(`<%-JSON.stringify(cityNames)%>`);
+        if (
+          cityValueValidater(
+            cityDataSet,
+            $("#selectCity").find(":selected").val()
+          )
+        ) {
+          //making the ajax call to fetch the data from the server
+          let cityUUID = $("#selectCity").find(":selected").val();
+          $.ajax({
+            type: "GET",
+            url: `${window.location.origin}/getTeamLead/${cityUUID}/<%=info.uuid%>`,
+            error: (error) => {
+              if (error) {
+                toastr.error(error);
+                console.error(error);
+              }
+            },
+            success: (response) => {
+              (cityArea_fromDB = []), (teamLead_fromDB = []);
+              if (response) {
+                const selectCityArea =
+                  document.getElementById("selectCityArea");
+                response.teamLeadCityAreas.forEach((cityAreas) => {
+                  const option = document.createElement("option");
+                  option.value = cityAreas.city_area_uuid;
+                  option.text = cityAreas.city_name;
+                  cityArea_fromDB.push(cityAreas);
+                  selectCityArea.append(option);
+                });
+                teamLead_fromDB = response.teamLeads;
+                $("#selectCityAreaDIV").fadeIn();
+                $("#givetoAllBTN").fadeIn(600);
+              }
+            }
+          });
+        } else {
+          toastr.error("Invalid City selected");
+          return;
+        }
+      });
+
+      const cityValueValidater = (dataSet, value) => {
+        return dataSet.find((data) => data.city_uuid === value);
+      };
+
+      // --------------team lead city area select ------------------
+      $("#selectCityArea").on("change", (e) => {
+        if (
+          cityAreaValueValidater(
+            cityArea_fromDB,
+            $("#selectCityArea").find(":selected").val()
+          )
+        ) {
+          const selectedCityArea = cityArea_fromDB.find(
+            (cityArea) =>
+              cityArea.city_area_uuid ===
+              $("#selectCityArea").find(":selected").val()
+          );
+
+          const selectTeamLead = document.getElementById("selectTeamLead");
+          teamLead_fromDB.forEach((teamLead) => {
+            if (teamLead.city_area_id === selectedCityArea.city_area_id) {
+              const option = document.createElement("option");
+              option.value = teamLead.team_L_uuid;
+              option.text = teamLead.team_L_name;
+              selectTeamLead.append(option);
+            }
+          });
+          $("#selectTeamLeadDIV").fadeIn();
+          $("#givetoAllBTN").fadeOut();
+        } else {
+          toastr.error("Invalid City selected");
+          return;
+        }
+      });
+
+      const cityAreaValueValidater = (dataSet, value) => {
+        return dataSet.find((data) => data.city_area_uuid === value);
+      };
+
+      // --------------team lead select ------------------
+
+      $("#selectTeamLeadDIV").on("change", (e) => {
+        $("#giveSelectiveBTN").fadeIn();
+      });
+
+      /**
+       * selective button on click button
+       *
+       * */
+      $("#giveSelectiveBTN").on("click", (e) => {
+        const status = validateQuantity(
+          JSON.parse(`<%-JSON.stringify(advertisment)%>`),
+          +$("#selectGift").find(":selected").attr("id"),
+          +$("#giftInput").val()
+        );
+
+        // console.log(status);
+
+        if (
+          $("#giftInput").val().length > 0 &&
+          validateQuantity(
+            JSON.parse(`<%-JSON.stringify(advertisment)%>`),
+            +$("#selectGift").find(":selected").attr("id"),
+            +$("#giftInput").val()
+          )
+        ) {
+          // const cityArea = $("#selectCityArea").find(":selected").val(),
+          //   teamLead = $("#selectTeamLead").find(":selected").val();
+          // $.ajax({
+          //   type: "POST",
+          //   url: `${window.location.origin}/assignGiftToSelective/<%=info.uuid%>`,
+          //   data: {
+          //     testing: "tesing",
+          //     cityArea,
+          //     teamLead
+          //   },
+
+          $.ajax({
+            type: "POST",
+            url: `${window.location.origin}/assignGiftToSelective/<%=info.uuid%>`,
+            data: {
+              cityArea: $("#selectCityArea").find(":selected").val(),
+              teamLead: $("#selectTeamLead").find(":selected").val(),
+              giftAssigned: +$("#giftInput").val(),
+              gift: $("#selectGift").val()
+            },
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            dataType: "JSON",
+            error: (error) => {
+              console.error(error);
+            },
+            success: (response) => {
+              console.log(response);
+            }
+          });
+        } else {
+          toastr.error("Please Enter Valid Quantity.");
+          return;
+        }
+      });
+
+      /**
+       * send to ALl button on click button
+       *
+       * */
+      $("#givetoAllBTN").on("click", (e) => {
+        const status = validateQuantity(
+          JSON.parse(`<%-JSON.stringify(advertisment)%>`),
+          +$("#selectGift").find(":selected").attr("id"),
+          +$("#giftInput").val()
+        );
+
+        // console.log(status);
+
+        // $.ajax({
+        //   type: "POST",
+        //   url: `${window.location.origin}/assign`,
+        //   data: "data",
+        //   dataType: "dataType",
+        //   success: function (response) {}
+        // });
+      });
+
+      const validateQuantity = (data, adverStock_ID, enteredValue) => {
+        var status = false;
+        // console.log(data, adverStock_ID, enteredValue);
+        data.forEach((stock) => {
+          if (stock.adver_stock_id === adverStock_ID) {
+            const totalQuantity = +stock.sumofQuantity;
+
+            if (totalQuantity < enteredValue) {
+              status = false;
+            } else {
+              status = true;
+            }
+          }
+        });
+
+        return status;
+      };
+    </script>
+  </body>
+</html>

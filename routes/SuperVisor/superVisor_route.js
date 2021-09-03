@@ -1,7 +1,9 @@
 const express = require("express"),
   router = express.Router(),
+  { Op } = require("sequelize"),
   { isUser_Login } = require("../Web_Pages/index"),
-  Database = require("../../Configuration Files/Sequelize/Database_Synchronization");
+  Database = require("../../Configuration Files/Sequelize/Database_Synchronization"),
+  sequelize = require("../../Configuration Files/Sequelize/Sequelize");
 
 /**
  * checking the user id or the UUID is the one who is into the session
@@ -263,80 +265,6 @@ router.get(
  * getting the Progress Analytics  route to display all the team lead
  * of the supervisor is currently working on and also displaying the progress of the team by team.
  */
-var data = [
-  {
-    id: 1,
-    name: "Fizza",
-    currentarea: "Islamabad",
-    allottedarea: "ABC",
-    message: "you have absabdshbd assdr",
-    emplprogress: [70, 80, 90, 56, 63, 67, 89, 88, 76, 79, 100, 100],
-    recommend_msg: "decrement 10%",
-    salesAvg: "30%",
-    TotalIncome: "100$",
-    email: "abc@123.com"
-  },
-  {
-    id: 2,
-    name: "Afzal",
-    currentarea: "Rawalpindi",
-    allottedarea: "XYZ",
-    message: "jhdshaisodja dfssefs sdfew ",
-    emplprogress: [80, 90, 56, 63, 67, 89, 88, 76, 79, 60, 80, 90],
-    recommend_msg: "increment 10%",
-    salesAvg: "50%",
-    TotalIncome: "400$",
-    email: "abc@123.com"
-  },
-  {
-    id: 3,
-    name: "Hajra",
-    currentarea: "Islamabad",
-    allottedarea: "GHI",
-    message: "asndbuwi  vbzdfgfv dfgds",
-    emplprogress: [69, 87, 78, 95, 84, 75, 76, 68, 95, 73, 73, 72],
-    recommend_msg: "No change",
-    salesAvg: "70%",
-    TotalIncome: "300$",
-    email: "abc@123.com"
-  },
-  {
-    id: 1,
-    name: "Fizza",
-    currentarea: "Islamabad",
-    allottedarea: "ABC",
-    message: "you have absabdshbd assdr",
-    emplprogress: [70, 80, 90, 56, 63, 67, 89, 88, 76, 79, 100, 100],
-    recommend_msg: "decrement 10%",
-    salesAvg: "30%",
-    TotalIncome: "100$",
-    email: "abc@123.com"
-  },
-  {
-    id: 2,
-    name: "Afzal",
-    currentarea: "Rawalpindi",
-    allottedarea: "XYZ",
-    message: "jhdshaisodja dfssefs sdfew ",
-    emplprogress: [80, 90, 56, 63, 67, 89, 88, 76, 79, 60, 80, 90],
-    recommend_msg: "increment 10%",
-    salesAvg: "50%",
-    TotalIncome: "400$",
-    email: "abc@123.com"
-  },
-  {
-    id: 3,
-    name: "Hajra",
-    currentarea: "Islamabad",
-    allottedarea: "GHI",
-    message: "asndbuwi  vbzdfgfv dfgds",
-    emplprogress: [69, 87, 78, 95, 84, 75, 76, 68, 95, 73, 73, 72],
-    recommend_msg: "No change",
-    salesAvg: "70%",
-    TotalIncome: "300$",
-    email: "abc@123.com"
-  }
-];
 
 router.get(
   "/progressAnalytics/:sup_uuid",
@@ -349,7 +277,7 @@ router.get(
     );
 
     let cityNames = await Database.City.findAll({
-      attributes: ["city_name",'city_uuid'],
+      attributes: ["city_name", "city_uuid"],
       include: {
         model: Database.Supervisor,
         attributes: [],
@@ -377,7 +305,6 @@ router.get(
         uuid: req.session.profileData.sup_uuid
       },
       role: req.session.passport.user.userRole.type_name,
-      array: data,
       cityNames,
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
@@ -525,14 +452,187 @@ router.get(
  * from the city where the supervisor is currently working on
  * and also allow the supervisor to allote the Manage Incentive to the user
  */
+
+var data = [
+  {
+    id: 1,
+    name: "Fizza",
+    currentarea: "Islamabad",
+    allottedarea: "ABC",
+    message: "",
+    emplprogress: [70, 80, 90, 56, 63, 67, 89, 88, 76, 79, 100, 100],
+    recommend_msg: "decrement 10%",
+    salesAvg: "30%",
+    TotalIncome: "100$",
+    email: "abc@123.com",
+    agencytype: "samsung",
+    gift: "something"
+  },
+  {
+    id: 2,
+    name: "Afzal",
+    currentarea: "Rawalpindi",
+    allottedarea: "XYZ",
+    message: " ",
+    emplprogress: [80, 90, 56, 63, 67, 89, 88, 76, 79, 60, 80, 90],
+    recommend_msg: "increment 10%",
+    salesAvg: "50%",
+    TotalIncome: "400$",
+    email: "abc@123.com",
+    agencytype: "oppo",
+    gift: "something"
+  },
+  {
+    id: 3,
+    name: "Hajra",
+    currentarea: "Islamabad",
+    allottedarea: "GHI",
+    message: "",
+    emplprogress: [69, 87, 78, 95, 84, 75, 76, 68, 95, 73, 73, 72],
+    recommend_msg: "No change",
+    salesAvg: "70%",
+    TotalIncome: "300$",
+    email: "abc@123.com",
+    agencytype: "any",
+    gift: "something"
+  },
+  {
+    id: 1,
+    name: "Fizza",
+    currentarea: "Islamabad",
+    allottedarea: "ABC",
+    message: "",
+    emplprogress: [70, 80, 90, 56, 63, 67, 89, 88, 76, 79, 100, 100],
+    recommend_msg: "decrement 10%",
+    salesAvg: "30%",
+    TotalIncome: "100$",
+    email: "abc@123.com",
+    agencytype: "abc",
+    gift: "something"
+  },
+  {
+    id: 2,
+    name: "Afzal",
+    currentarea: "Rawalpindi",
+    allottedarea: "XYZ",
+    message: " ",
+    emplprogress: [80, 90, 56, 63, 67, 89, 88, 76, 79, 60, 80, 90],
+    recommend_msg: "increment 10%",
+    salesAvg: "50%",
+    TotalIncome: "400$",
+    email: "abc@123.com",
+    agencytype: "def",
+    gift: "something"
+  },
+  {
+    id: 3,
+    name: "Hajra",
+    currentarea: "Islamabad",
+    message: "",
+    emplprogress: [69, 87, 78, 95, 84, 75, 76, 68, 95, 73, 73, 72],
+    recommend_msg: "No change",
+    salesAvg: "70%",
+    TotalIncome: "300$",
+    email: "abc@123.com",
+    agencytype: "xyz",
+    gift: "something"
+  }
+];
 router.get(
   "/manageIncentive/:sup_uuid",
   isUser_Login,
   isUserAuthentic,
   async (req, res) => {
-    res.send({
-      sup_id: req.params.sup_uuid,
-      manageIncentive: "Manage Incentive"
+    // unread notification count
+    let unreadNotificationCount = await countofNotificationOfExecutive(
+      req.session.profileData.sup_id
+    );
+    /**
+     * getting all the Cities from the database
+     */
+    let cityNames = await Database.City.findAll({
+      attributes: ["city_name", "city_uuid"],
+      include: {
+        model: Database.Supervisor,
+        attributes: [],
+        required: true,
+        through: {
+          attributes: []
+        },
+
+        where: {
+          sup_id: req.session.profileData.sup_id,
+          sup_isDeleted: 0,
+          sup_isPaused: 0
+        }
+      },
+      where: {
+        paused: 0,
+        deleted: 0
+      }
+    });
+
+    /**
+     * Getting the advertisment which are allocated to the supervisor
+     */
+
+    let advertisment = await Database.Advertising_Stock_Allocation.findAll({
+      attributes: [
+        [
+          sequelize.fn("SUM", sequelize.col("adver_stock_allocated_Quantity")),
+          "sumofQuantity"
+        ],
+        "adver_stock_id"
+      ],
+      where: {
+        sup_id: req.session.profileData.sup_id,
+        paused: 0,
+        deleted: 0,
+        isConsumed: 0
+      },
+      include: {
+        model: Database.Advertisement_Stock,
+        required: true,
+        attributes: [
+          "adver_stock_id",
+          "advert_stock_uuid",
+          "adver_stock_name",
+          "adver_stock_descritpion",
+          "adver_stock_image"
+        ],
+        where: {
+          paused: 0,
+          deleted: 0
+        }
+      },
+      group: ["Advertisement_Stock.adver_stock_id"]
+    });
+
+    /**
+     * getting the agency types
+     */
+
+    let agencyTypes = await Database.AgencyTypes.findAll({
+      attributes: ["agencytype_uuid", "type_name"],
+      where: {
+        isPaused: 0,
+        deleted: 0
+      }
+    });
+    res.status(200).render("Supervisor/manageIncentive", {
+      url: req.protocol + "://" + req.get("host"),
+      info: {
+        id: req.session.passport.user.userInfo.login_id,
+        uuid: req.session.profileData.sup_uuid
+      },
+      advertisment,
+      cityNames,
+      agencyTypes,
+      array: data,
+      user_role: req.session.passport.user.userRole,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      permissions: req.session.permissions.permissionObject
     });
   }
 );
@@ -632,26 +732,69 @@ const countofNotificationOfExecutive = async (sup_id) => {
 // })();
 
 // (async function () {
-//   let cityNames = await Database.City.findAll({
-//     attributes: ["city_name"],
-//     include: {
-//       model: Database.Supervisor,
-//       attributes: [],
-//       required: true,
-//       through: {
-//         attributes: []
-//       },
-
-//       where: {
-//         sup_id: 1,
-//         sup_isDeleted: 0,
-//         sup_isPaused: 0
-//       }
-//     },
+//   let advertisment = await Database.Advertising_Stock_Allocation.findAll({
+//     attributes: [
+//       "adver_stock_alloc_uuid",
+//       "adver_stock_allocated_Quantity",
+//       "adver_stock_id"
+//     ],
 //     where: {
+//       sup_id: 1,
 //       paused: 0,
 //       deleted: 0
-//     }
+//     },
+//     include: {
+//       model: Database.Advertisement_Stock,
+//       required: true,
+//       attributes: [
+//         "advert_stock_uuid",
+//         "adver_stock_name",
+//         "adver_stock_descritpion",
+//         "adver_stock_image"
+//       ],
+//       where: {
+//         paused: 0,
+//         deleted: 0
+//       }
+//     },
 //   });
-//   console.log(cityNames);
+//   advertisment.forEach((ad) => {
+//     console.log(ad.dataValues);
+//   });
 // })();
+
+(async function () {
+  const clientData = {
+    cityArea: "8c27807b-a7ac-40b5-a58f-24b9eb3bfa93",
+    teamLead: "1c9741c6-492f-417c-a902-3459e1c374b9",
+    giftAssigned: "21",
+    gift: "984587c5-7ed2-45b7-877c-b71a17eb768f"
+  };
+
+  let getGiftData = await Database.Advertising_Stock_Allocation.findAll({
+    attributes: ["adver_stock_id", "adver_stock_allocated_Quantity", "used",
+    [sequelize.literal(`adver_stock_allocated_Quantity - ${clientData.giftAssigned}`),'New_Values']],
+    include: {
+      model: Database.Advertisement_Stock,
+      required: true,
+      attributes: ["adver_stock_name"],
+      where: {
+        advert_stock_uuid: clientData.gift,
+        paused: 0,
+        deleted: 0
+      }
+    },
+    where: {
+      isConsumed: 0,
+      paused: 0,
+      deleted: 0,
+      adver_stock_allocated_Quantity: {
+        [Op.gte]: +clientData.giftAssigned
+      }
+    }
+  });
+
+  getGiftData.forEach((data) => {
+    console.log(data);
+  });
+})();
