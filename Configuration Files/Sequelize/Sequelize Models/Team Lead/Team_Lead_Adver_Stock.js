@@ -2,8 +2,8 @@
 const { DataTypes, Model, UUIDV4 } = require("sequelize"),
   sequelize = require("../../Sequelize"),
   Advertising_Stock_Allocation = require("../Advertisement/Advertising_Stock_Allocation"),
-  Team_Lead= require('../Stakeholders/Team_Lead'),
-  Supervisor= require('../Stakeholders/Supervisor')
+  Team_Lead = require("../Stakeholders/Team_Lead"),
+  Supervisor = require("../Stakeholders/Supervisor");
 
 class Team_Lead_Adver_Stock extends Model {}
 
@@ -28,6 +28,16 @@ Team_Lead_Adver_Stock.init(
     used: {
       type: DataTypes.INTEGER,
       allowNull: true
+    },
+    paused: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false
+    },
+    deleted: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false
     },
     adver_stock_act_id: {
       type: DataTypes.INTEGER,

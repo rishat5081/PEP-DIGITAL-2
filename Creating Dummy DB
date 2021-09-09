@@ -228,10 +228,11 @@ Field_Executive.create({
 
 
 Database.Permissions.create({
-  permission_name: "Assign Advertisement Giveaway",
-  controller: "/assignGiveaway",
-  icon: "fa fa-gift"
+  permission_name: "Recommendations",
+  controller: "/recommendations",
+  icon: "fa fa-newspaper-o"
 }).then((re) => console.log(re));
+
 
 
 
@@ -270,7 +271,14 @@ Adding persmissions and assosiating it with the user role
 
 
 
-async function addPermissioins() {
+
+
+
+
+
+
+
+function addPermissioins() {
   const Perm = await Permissions.findOne({
     where: {
       permmission_id: 3,
@@ -316,7 +324,14 @@ Database.NotificationText.create({
   console.log(a);
 })
 
-async function addCitySectorandExecutive() {
+
+
+
+
+
+
+
+function addCitySectorandExecutive() {
   let f = await Database.Field_Executive.findOne({ where: { field_id: 1 } });
   let c = await Database.City_Sectors.findOne({where: { city_sector_id: 2 }});
 
@@ -380,29 +395,30 @@ TeamLead_Login.sync({ force: true }).then(d => console.log(d))
 --------------------------------------------------------------------------------------------------------------------async function addPermissioins() {
 
 
-(async function () {
-  const Perm = await Database.Permissions.findOne({
-    where: {
-      permmission_id: 7
-    }
-    // include: {
-    //   model: User_Role,
-    //   where: {
-    //     type_name: 'Freelance Field Executive',
-    //   },
-    // },
-  });
-
-  const user = await Database.User_Role.findOne({
-    where: {
-      type_name: "Supervisor"
-    }
-  });
-
-   await user.addPermissions(Perm);
-
-  console.log(Perm);
-})();
+  (async function () {
+    const Perm = await Database.Permissions.findOne({
+      where: {
+        permmission_id: 22
+      }
+      // include: {
+      //   model: User_Role,
+      //   where: {
+      //     type_name: 'Freelance Field Executive',
+      //   },
+      // },
+    });
+  
+    const user = await Database.User_Role.findOne({
+      where: {
+        type_name: "Supervisor"
+      }
+    });
+  
+     await user.addPermissions(Perm);
+  
+    console.log(Perm);
+  })();
+  
 
 ---------------------------------------------------------
 

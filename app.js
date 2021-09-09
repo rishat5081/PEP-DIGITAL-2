@@ -638,3 +638,4 @@ server.listen(process.env.server_PORT, () => {
 app.get("*", (req, res) => {
   res.redirect("/");
 });
+

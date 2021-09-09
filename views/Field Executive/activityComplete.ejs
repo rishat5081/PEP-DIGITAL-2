@@ -254,12 +254,12 @@
             $('#bankDepositBTN').click(e => {
                 var activity_Info = JSON.parse('<%-JSON.stringify(Activity_Info)%>');
                 window.open(`${window.location.origin}/user/bankDeposit/${activity_Info.list_act_uuid}`, '_blank')
-            })
+            });
 
             $('#contactUS').click(e => {
                 var activity_Info = JSON.parse('<%-JSON.stringify(Activity_Info)%>');
                 window.open(`${window.location.origin}/user/contactUs/${activity_Info.list_act_uuid}`, '_blank')
-            })
+            });
         </script>
         <script>
             $(function () {

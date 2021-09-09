@@ -36,6 +36,7 @@
   </head>
 
   <body>
+    <!--  Navigation-->
     <div class="limiter">
       <div class="container-profile100">
         <div class="header">
@@ -44,7 +45,7 @@
             <a href="#">
               <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
             </a>
-            <a href="<%=url%>/teamlead/notification">
+            <a href="<%=url%>/supervisor/notification">
               <span class="fa fa-bell menu-button">
                 <span class="button__badge" style="display: none"></span>
               </span>
@@ -54,7 +55,7 @@
                 <% permissions.forEach(element=> { %>
                 <li>
                   <a
-                    href="<%=url%>/teamlead<%= element.controller%>/<%=info.uuid%>"
+                    href="<%=url%>/supervisor<%= element.controller%>/<%=info.uuid%>"
                   >
                     <span class="<%= element.icon%>"></span>
                     <%= element.permission_name %>
@@ -62,7 +63,7 @@
                 </li>
                 <% }); %>
                 <li>
-                  <a href="<%=url%>/teamlead/signout">
+                  <a href="<%=url%>/supervisor/signout">
                     <span class="fa fa-sign-out"> </span> Log Out</a
                   >
                 </li>
@@ -70,8 +71,12 @@
               <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
             </nav>
           </div>
+          <!-- --------------------- -->
+          <!-- advertisment,
+            cityNames, -->
+          <!-- --------------------------- -->
           <div class="p-3 saleup">
-            <h3 class="text-center mt-4">Convey Message to Your Team</h3>
+            <h3 class="text-center mt-4">Convey Message to Your Team Lead</h3>
             <div class="pt-5 pl-5 pb-3 mb-4">
               <div class="form-check-inline">
                 <label class="form-check-label">
@@ -103,8 +108,8 @@
                     multiple
                   >
                     <%teamMember.forEach(member => {%>
-                    <option value="<%=member.field_uuid %>">
-                      <%=member.field_name %>
+                    <option value="<%=member.team_L_uuid %>">
+                      <%=member.team_L_name %>
                     </option>
                     <% }) %>
                   </select>
@@ -138,12 +143,12 @@
     <script src="<%=url%>/toastr/toastr.min.js"></script>
     <script>
       var notificationCount = JSON.parse(
-        "<%-JSON.stringify(unreadNotificationCount)%>"
+        `<%-JSON.stringify(unreadNotificationCount)%>`
       );
       if (notificationCount) {
         $(".button__badge").css("display", "block");
         $(".button__badge").html(
-          JSON.parse("<%-JSON.stringify(unreadNotificationCount)%>")
+          JSON.parse(`<%-JSON.stringify(unreadNotificationCount)%>`)
         );
       }
       $(".js-tilt").tilt({
@@ -201,7 +206,7 @@
         $.ajax({
           type: "POST",
           dataType: "json",
-          url: `${window.location.origin}/conveyMessageToSpecific`,
+          url: `${window.location.origin}/conveyMessageToSpecificTeamLead/<%=info.uuid%>`,
           data: {
             employeeList: JSON.stringify(employeeData),
             messageText: $("#messageTextArea").val()
@@ -220,11 +225,12 @@
         });
       };
 
+
       const submitMessageToAll = () => {
         $.ajax({
           type: "POST",
           dataType: "json",
-          url: `${window.location.origin}/conveyMessageToAll`,
+          url: `${window.location.origin}/conveyMessageToAllTeamLead/<%=info.uuid%>`,
           data: { messageText: $("#messageTextArea").val() },
           error: (error) => {
             if (error) {
@@ -240,7 +246,6 @@
         });
       };
 
-      console.log(JSON.parse(`<%-JSON.stringify(teamMember)%>`));
     </script>
   </body>
 </html>

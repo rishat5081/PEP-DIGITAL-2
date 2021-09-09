@@ -35,7 +35,8 @@
   </head>
 
   <body>
-    <div class="limiter">
+     <!--  Navigation-->
+     <div class="limiter">
       <div class="container-profile100">
         <div class="header">
           <div class="cover-image100">
@@ -43,7 +44,7 @@
             <a href="#">
               <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
             </a>
-            <a href="<%=url%>/teamlead/notification">
+            <a href="<%=url%>/supervisor/notification">
               <span class="fa fa-bell menu-button">
                 <span class="button__badge" style="display: none"></span>
               </span>
@@ -53,7 +54,7 @@
                 <% permissions.forEach(element=> { %>
                 <li>
                   <a
-                    href="<%=url%>/teamlead<%= element.controller%>/<%=info.uuid%>"
+                    href="<%=url%>/supervisor<%= element.controller%>/<%=info.uuid%>"
                   >
                     <span class="<%= element.icon%>"></span>
                     <%= element.permission_name %>
@@ -61,7 +62,7 @@
                 </li>
                 <% }); %>
                 <li>
-                  <a href="<%=url%>/teamlead/signout">
+                  <a href="<%=url%>/supervisor/signout">
                     <span class="fa fa-sign-out"> </span> Log Out</a
                   >
                 </li>

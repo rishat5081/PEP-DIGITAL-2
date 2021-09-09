@@ -1,151 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Withdrawal</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--===============================================================================================-->
+    <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/toastr/toastr.min.css"
+    />
+    <!--===============================================================================================-->
+  </head>
 
-    <head>
-        <title>Withdrawal</title>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <!--===============================================================================================-->
-        <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css" />
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.css" />
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css" />
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css" />
-        <link rel="stylesheet" type="text/css" href="<%=url%>/toastr/toastr.min.css" />
-        <!--===============================================================================================-->
-    </head>
-
-    <body>
-
-        <div class="limiter">
-            <div class="container-profile100">
-                <div class="header">
-                    <div class="cover-image100">
-                        <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
-                        <a href="#">
-                            <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
-                        </a>
-                        <a href="<%=url%>/user/notification">
-                            <span class="fa fa-bell menu-button">
-                                <span class="button__badge" style="display: none;"></span>
-                            </span>
-                        </a>
-                        <nav id="menu">
-                            <ul>
-                                <li>
-                                    <a href="<%=url%>/user/signout">
-                                        <span class="fa fa-sign-out"> </span> Log Out</a>
-                                </li>
-                            </ul>
-                            <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
-                        </nav>
-                    </div>
-                    <div class="align-items-center justify-content-center">
-                        <div class="card depositsection">
-                            <div class="deposittitle w-100 m-0">
-                                <h5>Bank Deposit Details</h5>
-                            </div>
-                            <div class="card-body ">
-                                <div class="row ">
-                                    <div class="col-sm-3 ">
-                                        <h6 class="mb-0 ">Bank Name</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary ">
-                                        <%= bankDetails.bankName %>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row ">
-                                    <div class="col-sm-3 ">
-                                        <h6 class="mb-0 ">Agency Name</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary ">
-                                        <%= bankDetails.Activity.Agency_Info.agency_name %>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row ">
-                                    <div class="col-sm-3 ">
-                                        <h6 class="mb-0 ">Activity Id</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary ">
-                                        <%= bankDetails.Activity.list_act_uuid %>
-                                    </div>
-                                </div>
-                                <hr>
-
-                                <div class="row ">
-                                    <div class="col-sm-3 ">
-                                        <h6 class="mb-0 ">Transaction Number</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary ">
-                                        <%= bankDetails.bank_deposited_referenceNumber %>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row ">
-                                    <div class="col-sm-3 ">
-                                        <h6 class="mb-0 ">Total Amount</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary ">
-                                        <%= bankDetails.totalAmount %>
-                                    </div>
-                                </div>
-                                <hr>
-
-                                <div class="row ">
-                                    <div class="col-sm-3 ">
-                                        <h6 class="mb-0 ">Deposit Amount</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary ">
-                                        <%= bankDetails.depositedAmount %>
-                                    </div>
-                                </div>
-                                <hr>
-
-                                <div class="row ">
-                                    <div class="col-sm-3 ">
-                                        <h6 class="mb-0 ">Transaction Number</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary ">
-                                        <%= bankDetails.bank_deposited_referenceNumber %>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="w-25 back-button">
-                            <a type="button" href="<%=url%>/user/withdraws/<%=uuid%>" class="btn custom-btn">Back</a>
-                        </div>
-                    </div>
+  <body>
+    <div class="limiter">
+      <div class="container-profile100">
+        <div class="header">
+          <div class="cover-image100">
+            <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
+            <a href="#">
+              <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+            </a>
+            <a href="<%=url%>/user/notification">
+              <span class="fa fa-bell menu-button">
+                <span class="button__badge" style="display: none"></span>
+              </span>
+            </a>
+            <nav id="menu">
+              <ul>
+                <li>
+                  <a href="<%=url%>/user/signout">
+                    <span class="fa fa-sign-out"> </span> Log Out</a
+                  >
+                </li>
+              </ul>
+              <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+            </nav>
+          </div>
+          <div class="align-items-center justify-content-center">
+            <div class="card depositsection">
+              <div class="deposittitle w-100 m-0">
+                <h5>Bank Deposit Details</h5>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Bank Name</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    <%= bankDetails.bankName %>
+                  </div>
                 </div>
+                <hr />
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Agency Name</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    <%= bankDetails.Activity.Agency_Info.agency_name %>
+                  </div>
+                </div>
+                <hr />
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Activity Id</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    <%= bankDetails.Activity.list_act_uuid %>
+                  </div>
+                </div>
+                <hr />
 
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Transaction Number</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    <%= bankDetails.bank_deposited_referenceNumber %>
+                  </div>
+                </div>
+                <hr />
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Total Amount</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    <%= bankDetails.totalAmount %>
+                  </div>
+                </div>
+                <hr />
+
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Deposit Amount</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    <%= bankDetails.depositedAmount %>
+                  </div>
+                </div>
+                <hr />
+
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Transaction Number</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    <%= bankDetails.bank_deposited_referenceNumber %>
+                  </div>
+                </div>
+              </div>
             </div>
-
+            <div class="w-25 back-button">
+              <a
+                type="button"
+                href="<%=url%>/user/withdraws/<%=uuid%>"
+                class="btn custom-btn"
+                >Back</a
+              >
+            </div>
+          </div>
         </div>
+      </div>
+    </div>
 
-        <!--===============================================================================================-->
-        <script src="<%=url%>/vendor/jquery/jquery-3.2.1.min.js "></script>
-        <!--===============================================================================================-->
-        <script src="<%=url%>/vendor/bootstrap/js/bootstrap.min.js "></script>
-        <!--===============================================================================================-->
-        <script src="<%=url%>/vendor/jquery/tilt.jquery.min.js "></script>
-        <script src="<%=url%>/toastr/toastr.min.js "></script>
-        <script>
-            var menu = document.getElementById("menu");
-            function openMenu() {
-                menu.style.top = "0";
-            }
-            function closeMenu() {
-                menu.style.top = "-100vh";
-            }
-            console.log(JSON.parse('<%-JSON.stringify(bankDetails)%>'));
-
-
-        </script>
-    </body>
-
+    <!--===============================================================================================-->
+    <script src="<%=url%>/vendor/jquery/jquery-3.2.1.min.js "></script>
+    <!--===============================================================================================-->
+    <script src="<%=url%>/vendor/bootstrap/js/bootstrap.min.js "></script>
+    <!--===============================================================================================-->
+    <script src="<%=url%>/vendor/jquery/tilt.jquery.min.js "></script>
+    <script src="<%=url%>/toastr/toastr.min.js "></script>
+    <script>
+      var menu = document.getElementById("menu");
+      function openMenu() {
+        menu.style.top = "0";
+      }
+      function closeMenu() {
+        menu.style.top = "-100vh";
+      }
+      console.log(JSON.parse("<%-JSON.stringify(bankDetails)%>"));
+    </script>
+  </body>
 </html>

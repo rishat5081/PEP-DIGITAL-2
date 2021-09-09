@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>View All Agencies</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--===============================================================================================-->
+    <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/toastr/toastr.min.css"
+    />
+  </head>
+
+  <body>
+    <!--  Navigation-->
+    <div class="limiter">
+      <div class="container-profile100">
+        <div class="header">
+          <div class="cover-image100">
+            <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
+            <a href="#">
+              <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+            </a>
+            <a href="<%=url%>/supervisor/notification">
+              <span class="fa fa-bell menu-button">
+                <span class="button__badge" style="display: none"></span>
+              </span>
+            </a>
+            <nav id="menu">
+              <ul>
+                <% permissions.forEach(element=> { %>
+                <li>
+                  <a
+                    href="<%=url%>/supervisor<%= element.controller%>/<%=info.uuid%>"
+                  >
+                    <span class="<%= element.icon%>"></span>
+                    <%= element.permission_name %>
+                  </a>
+                </li>
+                <% }); %>
+                <li>
+                  <a href="<%=url%>/supervisor/signout">
+                    <span class="fa fa-sign-out"> </span> Log Out</a
+                  >
+                </li>
+              </ul>
+              <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+            </nav>
+          </div>
+          <!-- --------------------- -->
+          <!-- advertisment,
+        cityNames, -->
+          <!-- --------------------------- -->
+          <div class="container saleup">
+            <div class="text-center">
+              <h4 class="areaheading mb-3 font-weight-bold">
+                List Of Agencies
+              </h4>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+                <select
+                  class="form-control mt-2 mb-3 w-75 h-75 pt-0 pt-lg-0"
+                  name="selectBox"
+                  id="selectBox"
+                  onchange="changefunc();"
+                >
+                  <option disabled selected value="null">Choose One</option>
+
+                  <option value="%= dropdownVals[i].Location %>">
+                    <= dropdownVals[i].Location %>
+                  </option>
+                </select>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <div
+                  class="
+                    input-group
+                    md-form
+                    form-sm form-1
+                    pl-0
+                    h-100
+                    pt-2 pt-lg-1
+                    pb-2
+                    w-75
+                  "
+                >
+                  <div class="input-group-prepend">
+                    <span
+                      class="input-group-text cyan lighten-2"
+                      id="basic-text1"
+                      ><i class="fa fa-search text-white" aria-hidden="true"></i
+                    ></span>
+                  </div>
+                  <input
+                    class="form-control my-0 h-100"
+                    id="myInput"
+                    onkeyup="myFunction()"
+                    type="text"
+                    placeholder="Search"
+                    aria-label="Search"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive-lg mt-4 mb-5" id="data">
+              <table class="table">
+                <thead class="table-primary">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Agency Name</th>
+                    <th scope="col">Current Activity</th>
+                    <th scope="col">Disable Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1 %></th>
+                    <td>%= dropdownVals[i].NAME %></td>
+                    <td>%= dropdownVals[i].Location %></td>
+                    <td class="ml-5 pl-3 pl-lg-5"><button>Disable</button></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2 %></th>
+                    <td>%= dropdownVals[i].NAME %></td>
+                    <td>%= dropdownVals[i].Location %></td>
+                    <td class="ml-5 pl-3 pl-lg-5"><button>Disable</button></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3 %></th>
+                    <td>%= dropdownVals[i].NAME %></td>
+                    <td>%= dropdownVals[i].Location %></td>
+                    <td class="ml-5 pl-3 pl-lg-5"><button>Disable</button></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">4 %></th>
+                    <td>%= dropdownVals[i].NAME %></td>
+                    <td>%= dropdownVals[i].Location %></td>
+                    <td class="ml-5 pl-3 pl-lg-5"><button>Disable</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <br />
+
+            <br />
+            <br />
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="<%=url%>/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="<%=url%>/vendor/bootstrap/js/popper.min.js"></script>
+    <script src="<%=url%>/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="<%=url%>/vendor/jquery/tilt.jquery.min.js"></script>
+    <script src="<%=url%>/toastr/toastr.min.js"></script>
+    <script>
+      var notificationCount = JSON.parse(
+        "<%-JSON.stringify(unreadNotificationCount)%>"
+      );
+      if (notificationCount) {
+        $(".button__badge").css("display", "block");
+        $(".button__badge").html(
+          JSON.parse("<%-JSON.stringify(unreadNotificationCount)%>")
+        );
+      }
+      $(".js-tilt").tilt({
+        scale: 1.1
+      });
+
+      // console.log(JSON.parse(`%-JSON.stringify(advertisment)%>`));
+      var menu = document.getElementById("menu");
+
+      function openMenu() {
+        menu.style.top = "0";
+      }
+      function closeMenu() {
+        menu.style.top = "-100vh";
+      }
+    </script>
+    <script>
+      $(document).ready(function () {
+        //   $('#data').after('<div id="nav" class="text-center"></div>');
+        var rowsShown = 1;
+        var rowsTotal = $("#data tbody tr").length;
+        if (rowsShown < rowsTotal) {
+          $("#data").after('<div id="nav" class="text-center" ></div>');
+          var numPages = rowsTotal / rowsShown;
+          for (i = 0; i < numPages; i++) {
+            var pageNum = i + 1;
+            $("#nav").append(
+              '<a href="#" rel="' + i + '">' + pageNum + "</a> "
+            );
+          }
+          $("#data tbody tr").hide();
+          $("#data tbody tr").slice(0, rowsShown).show();
+          $("#nav a").bind("click", function () {
+            var currPage = $(this).attr("rel");
+            var startItem = currPage * rowsShown;
+            var endItem = startItem + rowsShown;
+            $("#data tbody tr")
+              .css("opacity", "0.0")
+              .hide()
+              .slice(startItem, endItem)
+              .css("display", "table-row")
+              .animate(
+                {
+                  opacity: 1
+                },
+                300
+              );
+          });
+        }
+      });
+
+      var table1;
+      var input;
+
+      function changefunc() {
+        employees = [];
+        input = document.getElementById("selectBox");
+        var filter = input.value;
+        var table = document.getElementById("myTable");
+        var tr = table.getElementsByTagName("tr");
+        for (var i = 0; i < tr.length; i++) {
+          var td = tr[i].getElementsByTagName("td")[1];
+          if (td) {
+            if (td.innerHTML.indexOf(filter) > -1) {
+              tr[i].style.display = "";
+              thisOptionValue = tr[i].innerHTML;
+              employees.push(tr[i].rowIndex);
+            } else {
+              tr[i].style.display = "none";
+            }
+          }
+        }
+        console.log(employees);
+      }
+
+      function myFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = document.getElementById("myTable").getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+          td = tr[employees[i]].getElementsByTagName("td")[0];
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[employees[i]].style.display = "";
+              console.log(tr[employees[i]]);
+            } else {
+              tr[employees[i]].style.display = "none";
+            }
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

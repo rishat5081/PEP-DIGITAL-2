@@ -1,5 +1,6 @@
 const router = require("express").Router(),
   fs = require("fs"),
+  { Op } = require("sequelize"),
   Database = require("../../Configuration Files/Sequelize/Database_Synchronization"),
   {
     sequelize
@@ -694,7 +695,6 @@ router
   .post(isUserAuthentic, async (req, res) => {
     //getting the teams from the req.param teamLeadUUID
 
-
     console.log(req.body);
 
     let teamLeadInfo = await Database.City_Areas.findOne({
@@ -730,31 +730,308 @@ router
         }
       });
 
-    let giftAssigned = await Database.Advertisement_Stock.findOne({
-      attributes: ["adver_stock_id"],
-      wherer: {
-        deleted: 0,
+    let getGiftData = await Database.Advertising_Stock_Allocation.findAll({
+      attributes: [
+        "adver_stock_act_id",
+        "adver_stock_id",
+        "adver_stock_allocated_Quantity",
+        "used"
+      ],
+      include: {
+        model: Database.Advertisement_Stock,
+        required: true,
+        attributes: ["adver_stock_name"],
+        where: {
+          advert_stock_uuid: req.body.gift,
+          paused: 0,
+          deleted: 0
+        }
+      },
+      where: {
+        isConsumed: 0,
         paused: 0,
-        advert_stock_uuid: req.body.gift
+        deleted: 0,
+        sup_id: req.session.profileData.sup_id
       }
-    }).then((giftDetails) => giftDetails.adver_stock_id)
+    });
 
-    // if ((teamLeadCityAreas, teamLeads)) {
-    //   res.status(200).send({
-    //     status: "Displaying team lead",
-    //     teamLeadCityAreas,
-    //     teamLeads
-    //   });
-    //   teamLeadCityAreas = teamLeads = null;
-    //   res.end();
-    // } else {
-    //   teamLeadCityAreas = teamLeads = null;
-    //   res.status(404).send({ error: "No Record Found" });
-    //   res.end();
-    // }
+    /**
+     * here is the critical code for the assigning the gift..
+     * here if the user ask to allocate the gift
+     * the  total sum of the gift is taken care of
+     * first if the user enter the
+     */
+    let newObject = [];
+    if (getGiftData.length > 0) {
+      let sum = 0,
+        temp = 0;
+      getGiftData.some((data) => {
+        if (data.adver_stock_allocated_Quantity > +req.body.giftAssigned) {
+          temp = data.adver_stock_allocated_Quantity - req.body.giftAssigned;
+          data.adver_stock_allocated_Quantity = temp;
+          data.used = req.body.giftAssigned;
+          newObject.push({
+            quantity: data.adver_stock_allocated_Quantity,
+            used: +data.used,
+            isConsumed:
+              data.adver_stock_allocated_Quantity === 0 ? true : false, // : true ? false,
+            adver_stock_act_id: data.adver_stock_act_id
+          });
 
-    res.status(200).send({ ok: "ok" });
-    ////console.(req.body);
+          return true;
+        } else {
+          if (sum !== +req.body.giftAssigned) {
+            if (temp === 0) {
+              temp =
+                data.adver_stock_allocated_Quantity - req.body.giftAssigned;
+              sum += data.adver_stock_allocated_Quantity;
+
+              data.adver_stock_allocated_Quantity -= sum;
+              data.used = data.adver_stock_allocated_Quantity;
+
+              newObject.push({
+                quantity: data.adver_stock_allocated_Quantity,
+                used: sum,
+                isConsumed:
+                  data.adver_stock_allocated_Quantity === 0 ? true : false, // : true ? false,
+                adver_stock_act_id: data.adver_stock_act_id
+              });
+            } else {
+              sum += -temp;
+              data.used = -temp;
+              temp = data.adver_stock_allocated_Quantity - -temp;
+              data.adver_stock_allocated_Quantity = temp;
+
+              newObject.push({
+                quantity: data.adver_stock_allocated_Quantity,
+                used: +data.used,
+                isConsumed:
+                  data.adver_stock_allocated_Quantity === 0 ? true : false, // : true ? false,
+                adver_stock_act_id: data.adver_stock_act_id
+              });
+            }
+          }
+        }
+      });
+
+      /**
+       * now updating and allocating the record to the team lead
+       */
+
+      let allocateGift_ToTeamLead =
+        await Database.Team_Lead_Adver_Stock.bulkCreate(
+          newObject.map((data) => {
+            return {
+              team_L_id: teamLeadInfo.team_L_id,
+              sup_id: req.session.profileData.sup_id,
+              adver_stock_act_id: data.adver_stock_act_id,
+              total_Quantity: data.used
+            };
+          })
+        );
+
+      /**
+       * and now updating the advertisment record
+       */
+
+      newObject.forEach(async (data) => {
+        await Database.Advertising_Stock_Allocation.update(
+          {
+            adver_stock_allocated_Quantity: data.quantity,
+            isConsumed: data.isConsumed,
+            used: data.used
+          },
+          {
+            where: {
+              sup_id: req.session.profileData.sup_id,
+              adver_stock_act_id: data.adver_stock_act_id
+            }
+          }
+        );
+      });
+
+      if (allocateGift_ToTeamLead) {
+        res
+          .status(200)
+          .send({ status: "Successfully Gift Allocated to Team Lead" });
+        sum =
+          temp =
+          newObject =
+          teamLeadInfo =
+          getGiftData =
+          allocateGift_ToTeamLead =
+            0;
+        res.end();
+      }
+    } else {
+      res
+        .status(400)
+        .send({ error: "There is error getting Advertising Stock" });
+      res.end();
+    }
+  });
+
+/**
+ * sending the message to the specific team member
+ */
+router
+  .route("/conveyMessageToSpecificTeamLead/:sup_uuid")
+  .post(isUserAuthentic, async (req, res) => {
+    /**
+     * getting the team memebers from the database
+     */
+    let teamMember = await Database.Team_Lead.findAll({
+      attributes: ["team_L_id"],
+      where: {
+        sup_id: req.session.profileData.sup_id,
+        team_L_isDeleted: 0,
+        team_L_isPaused: 0,
+        team_L_uuid: JSON.parse(req.body.employeeList).map(
+          (employee) => employee
+        )
+      }
+    }).catch((error) => {
+      if (error) {
+        console.error("Error Fetching the Data of Team Lead");
+        console.trace(error);
+        return null;
+      }
+    });
+
+    let notificationID = await Database.NotificationText.findOne({
+      attributes: ["notification_id"],
+      where: {
+        [Op.or]: [
+          {
+            notification_title: {
+              [Op.like]: "%Supervisor%"
+            }
+          },
+          {
+            notification_title: {
+              [Op.like]: "%Message from your Supervisor%"
+            }
+          }
+        ]
+      }
+    }).catch((error) => {
+      console.error("Error in finding Notification Text");
+      console.trace(error);
+      return null;
+    });
+
+    let messageConveyed = await Database.TeamLead_Notifications.bulkCreate(
+      teamMember.map((member) => {
+        return {
+          team_L_id: member.dataValues.team_L_id,
+          notification_text: req.body.messageText,
+          notification_id: notificationID.dataValues.notification_id
+        };
+      })
+    ).catch((error) => {
+      console.error("Error in creating ExecutiveNotifications");
+      console.trace(error);
+      return null;
+    });
+
+    if ((teamMember, notificationID, messageConveyed === null)) {
+      res.status(500).send({ error: "Please try again" });
+      teamMember = notificationID = messageConveyed = null;
+      res.end();
+    } else {
+      res.status(200).send({ status: "Successfully, Message has been send" });
+      teamMember = notificationID = messageConveyed = null;
+      res.end();
+    }
+  });
+
+/**
+ * Controller for sending message to all the team member
+ */
+router
+  .route("/conveyMessageToAllTeamLead/:sup_uuid")
+  .post(isUserAuthentic, async (req, res) => {
+    let teamMember = await Database.Team_Lead.findAll({
+      attributes: ["team_L_id"],
+      where: {
+        sup_id: req.session.profileData.sup_id,
+        team_L_isDeleted: 0,
+        team_L_isPaused: 0
+      }
+    }).catch((error) => {
+      if (error) {
+        console.error("Error Fetching the Data of Team Lead");
+        console.trace(error);
+        return null;
+      }
+    });
+
+    let notificationID = await Database.NotificationText.findOne({
+      attributes: ["notification_id"],
+      where: {
+        [Op.or]: [
+          {
+            notification_title: {
+              [Op.like]: "%Supervisor%"
+            }
+          },
+          {
+            notification_title: {
+              [Op.like]: "%Message from your Supervisor%"
+            }
+          }
+        ]
+      }
+    }).catch((error) => {
+      console.error("Error in finding Notification Text");
+      console.trace(error);
+      return null;
+    });
+
+    let messageConveyed = await Database.TeamLead_Notifications.bulkCreate(
+      teamMember.map((member) => {
+        return {
+          team_L_id: member.dataValues.team_L_id,
+          notification_text: req.body.messageText,
+          notification_id: notificationID.dataValues.notification_id
+        };
+      })
+    ).catch((error) => {
+      console.error("Error in creating TeamLead Notifications");
+      console.trace(error);
+      return null;
+    });
+
+    if ((teamMember, notificationID, messageConveyed === null)) {
+      res.status(500).send({ error: "Please try again" });
+      teamMember = notificationID = messageConveyed = null;
+      res.end();
+    } else {
+      res.status(200).send({ status: "Successfully, Message has been send" });
+      teamMember = messageConveyed = notificationID = null;
+      res.end();
+    }
+  });
+
+
+
+
+  router.route("/readAllSupervisorNotifications").post(async (req, res) => {
+    const Notifications = await Database.SuperVisorNotification.update(
+      {
+        isRead: true
+      },
+      {
+        where: {
+          sup_id: req.session.profileData.sup_id,
+          isRead: false
+        }
+      }
+    ).then((response) => {
+      if (response) return response;
+    });
+
+    if (Notifications) res.send({ status: "Updated" });
   });
 
 module.exports = { router };
@@ -932,5 +1209,3 @@ module.exports = { router };
 //   // console.log("agencyCount: " , agencyCount);
 
 // })();
-
-

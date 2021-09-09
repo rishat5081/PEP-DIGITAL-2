@@ -713,12 +713,10 @@ module.exports = (app) => {
         console.trace(
           "There is an error while updating the Information of User @ Line"
         );
-        res
-          .status(404)
-          .send({
-            error: "error",
-            details: "Error! while updating your information."
-          });
+        res.status(404).send({
+          error: "error",
+          details: "Error! while updating your information."
+        });
       }
     } else
       res.status(404).send({ error: "error", details: "Invalid entered data" });
@@ -779,33 +777,26 @@ module.exports = (app) => {
                     res.status(200).send({ status: "Updated Successfully" });
                     return;
                   } else {
-                    res
-                      .status(503)
-                      .send({
-                        error:
-                          "There is an Issue in Updating. Please Try Again."
-                      });
+                    res.status(503).send({
+                      error: "There is an Issue in Updating. Please Try Again."
+                    });
                     return;
                   }
                 });
             }
           } else {
-            res
-              .status(503)
-              .send({
-                error:
-                  "There is an Issue in Getting Information. Please Try Again."
-              });
+            res.status(503).send({
+              error:
+                "There is an Issue in Getting Information. Please Try Again."
+            });
             return;
           }
         })
         .catch((error) => {
           console.error(error);
-          res
-            .status(503)
-            .send({
-              error: "There is an Issue in Submitting. Please Try Again."
-            });
+          res.status(503).send({
+            error: "There is an Issue in Submitting. Please Try Again."
+          });
         });
     }
   });

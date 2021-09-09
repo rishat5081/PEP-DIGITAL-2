@@ -70,13 +70,21 @@
           cityNames, -->
           <!-- --------------------------- -->
           <div class="container saleup">
-            <div class="text-center">
-              <h4 class="areaheading text-center">
-                Giving Away Gifts to Agencies<i
-                  class="ml-2 fa fa-gift"
-                  aria-hidden="true"
-                ></i>
-              </h4>
+            <div class="d-flex justify-content-between">
+              <div class="text-center align-items-center">
+                <h4 class="areaheading text-center">
+                  Giving Away Gifts to Agencies
+                  <i class="ml-2 fa fa-gift" aria-hidden="true"></i>
+                </h4>
+              </div>
+              <div class="align-items-end">
+                <a
+                  href="<%=url%>/supervisor/viewAllAssginedGifts/<%=info.uuid%>"
+                >
+                  <i class="fa fa-list" aria-hidden="true"></i>
+                  <span>View Gift Assigned History </span>
+                </a>
+              </div>
             </div>
             <div
               id="carouselExampleCaptions"
@@ -267,15 +275,15 @@
                 >
                   Give <i class="fa fa-gift" aria-hidden="true"></i>
                 </button>
-                <button
+                <!-- <button
                   style="display: none"
                   type="button"
                   class="btn btn-success h-75 btn-width mb-3"
-                  id="givetoAllBTN"
+                  <!-- id="givetoAllBTN" --
                 >
                   Give to All Team Lead
                   <i class="fa fa-gift" aria-hidden="true"></i>
-                </button>
+                </button> -->
               </div>
             </div>
           </div>
@@ -373,7 +381,7 @@
                 });
                 teamLead_fromDB = response.teamLeads;
                 $("#selectCityAreaDIV").fadeIn();
-                $("#givetoAllBTN").fadeIn(600);
+                // $("#givetoAllBTN").fadeIn(600);
               }
             }
           });
@@ -411,7 +419,7 @@
             }
           });
           $("#selectTeamLeadDIV").fadeIn();
-          $("#givetoAllBTN").fadeOut();
+          // $("#givetoAllBTN").fadeOut();
         } else {
           toastr.error("Invalid City selected");
           return;
@@ -449,17 +457,6 @@
             +$("#giftInput").val()
           )
         ) {
-          // const cityArea = $("#selectCityArea").find(":selected").val(),
-          //   teamLead = $("#selectTeamLead").find(":selected").val();
-          // $.ajax({
-          //   type: "POST",
-          //   url: `${window.location.origin}/assignGiftToSelective/<%=info.uuid%>`,
-          //   data: {
-          //     testing: "tesing",
-          //     cityArea,
-          //     teamLead
-          //   },
-
           $.ajax({
             type: "POST",
             url: `${window.location.origin}/assignGiftToSelective/<%=info.uuid%>`,
@@ -475,7 +472,10 @@
               console.error(error);
             },
             success: (response) => {
-              console.log(response);
+              if (response) {
+                toastr.success(response.status);
+                $("#giveSelectiveBTN").fadeOut();
+              }
             }
           });
         } else {
@@ -488,23 +488,23 @@
        * send to ALl button on click button
        *
        * */
-      $("#givetoAllBTN").on("click", (e) => {
-        const status = validateQuantity(
-          JSON.parse(`<%-JSON.stringify(advertisment)%>`),
-          +$("#selectGift").find(":selected").attr("id"),
-          +$("#giftInput").val()
-        );
+      // $("#givetoAllBTN").on("click", (e) => {
+      //   const status = validateQuantity(
+      //     JSON.parse(`%-JSON.stringify(advertisment)%>`),
+      //     +$("#selectGift").find(":selected").attr("id"),
+      //     +$("#giftInput").val()
+      //   );
 
-        // console.log(status);
+      //   // console.log(status);
 
-        // $.ajax({
-        //   type: "POST",
-        //   url: `${window.location.origin}/assign`,
-        //   data: "data",
-        //   dataType: "dataType",
-        //   success: function (response) {}
-        // });
-      });
+      //   // $.ajax({
+      //   //   type: "POST",
+      //   //   url: `${window.location.origin}/assign`,
+      //   //   data: "data",
+      //   //   dataType: "dataType",
+      //   //   success: function (response) {}
+      //   // });
+      // });
 
       const validateQuantity = (data, adverStock_ID, enteredValue) => {
         var status = false;
