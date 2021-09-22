@@ -7,44 +7,20 @@ const Sequelize = require("sequelize"),
   session = require("express-session"),
   passport = require("passport"),
   flash = require("connect-flash"),
-  mysql = require("mysql"),
   bodyparser = require("body-parser"),
-  open = require("open"),
   server = require("http").createServer(app),
   io = require("socket.io")(server),
   passportJs_File = require("./Configuration Files/Passport Js/passport"),
   {
     Synchronizing,
-    User_Login_Information,
     User_Role,
     Supervisor,
     Team_Lead,
     Field_Executive,
-    Menu_Manager_Assosiate,
-    Super_Admin,
-    SignUp_Page,
-    Login_Page,
-    Web_Content,
-    Companies_Access,
-    GM_Company,
-    Zone,
-    Department,
     Permissions,
-    Managers,
-    City,
-    City_and_Supervisor_associate,
-    City_Areas,
-    Permission_Role_Assosiate,
-    DevelopmentDatabase,
     ExecutiveLogins,
-    GMLogin,
-    ManagerLogin,
     SuperVisorLogin,
-    TeamLead_Login,
-    Compaigns,
-    Pendance_Clearance_Details,
-    Role_ExtraInfo,
-    WebAds
+    TeamLead_Login
   } = require("./Configuration Files/Sequelize/Database_Synchronization");
 //setting the .env file to read the server port and database ports
 require("dotenv").config();
@@ -639,3 +615,32 @@ app.get("*", (req, res) => {
   res.redirect("/");
 });
 
+// index.js
+// run with node --experimental-worker index.js on Node.js 10.x
+// const { Worker } = require("worker_threads");
+
+// function runService(workerData) {
+//   return new Promise((resolve, reject) => {
+//     const worker = new Worker("./script.js", { workerData });
+//     worker.on("message", resolve);
+//     worker.on("error", reject);
+//     worker.on("exit", (code) => {
+//       if (code !== 0)
+//         reject(new Error(`Worker stopped with exit code ${code}`));
+//     });
+//   });
+// }
+
+// async function run() {
+//   const result = await runService("world");
+//   console.log(result);
+// }
+
+// run().catch((err) => console.error(err));
+
+// Script.js
+// const { workerData, parentPort } = require("worker_threads");
+
+// // You can do any heavy stuff here, in a synchronous way
+// // without blocking the "main thread"
+// parentPort.postMessage({ hello: workerData });

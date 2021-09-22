@@ -20,7 +20,7 @@ const router = require("express").Router(),
 router
   .route("/supervisor/upload/:sup_uuid")
   .post(isUserAuthentic, async (req, res) => {
-    const userProfileImage = await Database.Supervisor.findOne({
+    const userProfileImage = await Database.Supervisor().findOne({
       attributes: ["sup_userProfilePic"],
 
       where: {
@@ -78,7 +78,7 @@ router
 router
   .route("/supervisor/updateProfileInfo/:sup_uuid")
   .post(isUserAuthentic, async (req, res) => {
-    const dbResponse = await Database.Role_ExtraInfo.findOne({
+    const dbResponse = await Database.Role_ExtraInfo().findOne({
       attributes: ["target", "commission", "salary"],
       include: {
         model: Database.User_Role,
@@ -209,7 +209,7 @@ router
   .route("/allocateAreaToTeamLead/:sup_uuid")
   .post(isUserAuthentic, async (req, res) => {
     //getting the sector ID from the database
-    let sectorID = await Database.City_Areas.findOne({
+    let sectorID = await Database.City_Areas().findOne({
       attributes: ["city_area_id"],
       where: {
         city_area_uuid: req.body.selectedArea,
@@ -250,7 +250,7 @@ router
   .get(isUserAuthentic, async (req, res) => {
     //getting the teams from the city UUID
     //getting the City id from City table
-    let teamLeadID = await Database.City.findAll({
+    let teamLeadID = await Database.City().findAll({
       attributes: ["city_id"],
       where: {
         city_uuid: req.params.cityUUID,
@@ -262,7 +262,7 @@ router
       .then((cityID) => cityID.map((city) => city.city_id))
       .then((cityAssosiate) =>
         //finding the city id from the assosiate and also validating the sup id from the session
-        Database.City_and_Supervisor_associate.findAll({
+        Database.City_and_Supervisor_associate().findAll({
           where: {
             city_id: cityAssosiate,
             sup_id: req.session.profileData.sup_id,
@@ -279,7 +279,7 @@ router
       )
       //getting the
       .then((cityAssosiate) =>
-        Database.City_Areas.findAll({
+        Database.City_Areas().findAll({
           where: {
             city_supp_assos_id: cityAssosiate,
             deleted: 0,
@@ -289,7 +289,7 @@ router
       )
       .then((cityAreas) => cityAreas.map((area) => area.city_area_id))
       .then((cityAreas_id) =>
-        Database.Team_Lead.findAll({
+        Database.Team_Lead().findAll({
           attributes: ["team_L_id", "team_L_uuid", "team_L_name"],
           where: {
             city_area_id: cityAreas_id,
@@ -303,7 +303,7 @@ router
      * getting the members from the database
      */
 
-    let teamMember = await Database.Field_Executive.findAll({
+    let teamMember = await Database.Field_Executive().findAll({
       attributes: ["field_id", "field_uuid", "field_name"],
       where: {
         team_L_id: teamLeadID.map((team) => team.team_L_id),
@@ -321,7 +321,7 @@ router
     /**
      * getting the activities per month from the db
      */
-    let activitiesPerMonth = await Database.Activities.findAll({
+    let activitiesPerMonth = await Database.Activities().findAll({
       attributes: [
         [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
         [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
@@ -355,7 +355,7 @@ router
      * getting the cancelled activities from the db
      */
 
-    let cancelledactivitiesPerMonth = await Database.Activities.findAll({
+    let cancelledactivitiesPerMonth = await Database.Activities().findAll({
       attributes: [
         [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
         [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
@@ -388,7 +388,7 @@ router
     /**
      * getting the agency per month from the db
      */
-    let agencyCount = await Database.Agency_Info.findAll({
+    let agencyCount = await Database.Agency_Info().findAll({
       attributes: [
         [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
         [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
@@ -458,7 +458,7 @@ router
   .get(isUserAuthentic, async (req, res) => {
     //getting the teams from the req.param teamLeadUUID
 
-    let teamLeadID = await Database.Team_Lead.findAll({
+    let teamLeadID = await Database.Team_Lead().findAll({
       attributes: ["team_L_id", "team_L_uuid", "team_L_name"],
       where: {
         team_L_uuid: req.params.teamLeadUUID,
@@ -471,7 +471,7 @@ router
      * getting the members from the database
      */
 
-    let teamMember = await Database.Field_Executive.findAll({
+    let teamMember = await Database.Field_Executive().findAll({
       attributes: ["field_id", "field_uuid", "field_name"],
       where: {
         team_L_id: teamLeadID.map((team) => team.team_L_id),
@@ -491,7 +491,7 @@ router
      */
 
     if (teamMember.length > 0) {
-      let activitiesPerMonth = await Database.Activities.findAll({
+      let activitiesPerMonth = await Database.Activities().findAll({
         attributes: [
           [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
           [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
@@ -525,7 +525,7 @@ router
        * getting the cancelled activities from the db
        */
 
-      let cancelledactivitiesPerMonth = await Database.Activities.findAll({
+      let cancelledactivitiesPerMonth = await Database.Activities().findAll({
         attributes: [
           [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
           [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
@@ -558,7 +558,7 @@ router
       /**
        * getting the agency per month from the db
        */
-      let agencyCount = await Database.Agency_Info.findAll({
+      let agencyCount = await Database.Agency_Info().findAll({
         attributes: [
           [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
           [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
@@ -624,7 +624,7 @@ router
   .get(isUserAuthentic, async (req, res) => {
     //getting the teams from the req.param teamLeadUUID
 
-    let teamLeadCityAreas = await Database.City.findAll({
+    let teamLeadCityAreas = await Database.City().findAll({
       attributes: ["city_id"],
       where: {
         city_uuid: req.params.cityUUID,
@@ -636,7 +636,7 @@ router
       .then((cityID) => cityID.map((city) => city.city_id))
       .then((cityAssosiate) =>
         //finding the city id from the assosiate and also validating the sup id from the session
-        Database.City_and_Supervisor_associate.findAll({
+        Database.City_and_Supervisor_associate().findAll({
           attributes: ["city_supp_assos_id"],
           where: {
             city_id: cityAssosiate,
@@ -654,7 +654,7 @@ router
       )
       //getting the
       .then((cityAssosiate) =>
-        Database.City_Areas.findAll({
+        Database.City_Areas().findAll({
           attributes: ["city_area_id", "city_area_uuid", "city_name"],
           where: {
             city_supp_assos_id: cityAssosiate,
@@ -664,7 +664,7 @@ router
         })
       );
 
-    let teamLeads = await Database.Team_Lead.findAll({
+    let teamLeads = await Database.Team_Lead().findAll({
       attributes: ["team_L_id", "team_L_uuid", "team_L_name", "city_area_id"],
       where: {
         city_area_id: teamLeadCityAreas.map((area) => area.city_area_id),
@@ -697,7 +697,7 @@ router
 
     console.log(req.body);
 
-    let teamLeadInfo = await Database.City_Areas.findOne({
+    let teamLeadInfo = await Database.City_Areas().findOne({
       attributes: ["city_area_id"],
       where: {
         city_area_uuid: req.body.cityArea,
@@ -709,7 +709,7 @@ router
       .then((cityID) => cityID.city_area_id)
       .then((cityAssosiate) =>
         //finding the city id from the assosiate and also validating the sup id from the session
-        Database.Team_Lead.findOne({
+        Database.Team_Lead().findOne({
           attributes: ["team_L_id"],
           where: {
             team_L_uuid: req.body.teamLead,
@@ -730,7 +730,7 @@ router
         }
       });
 
-    let getGiftData = await Database.Advertising_Stock_Allocation.findAll({
+    let getGiftData = await Database.Advertising_Stock_Allocation().findAll({
       attributes: [
         "adver_stock_act_id",
         "adver_stock_id",
@@ -880,7 +880,7 @@ router
     /**
      * getting the team memebers from the database
      */
-    let teamMember = await Database.Team_Lead.findAll({
+    let teamMember = await Database.Team_Lead().findAll({
       attributes: ["team_L_id"],
       where: {
         sup_id: req.session.profileData.sup_id,
@@ -898,7 +898,7 @@ router
       }
     });
 
-    let notificationID = await Database.NotificationText.findOne({
+    let notificationID = await Database.NotificationText().findOne({
       attributes: ["notification_id"],
       where: {
         [Op.or]: [
@@ -951,7 +951,7 @@ router
 router
   .route("/conveyMessageToAllTeamLead/:sup_uuid")
   .post(isUserAuthentic, async (req, res) => {
-    let teamMember = await Database.Team_Lead.findAll({
+    let teamMember = await Database.Team_Lead().findAll({
       attributes: ["team_L_id"],
       where: {
         sup_id: req.session.profileData.sup_id,
@@ -966,7 +966,7 @@ router
       }
     });
 
-    let notificationID = await Database.NotificationText.findOne({
+    let notificationID = await Database.NotificationText().findOne({
       attributes: ["notification_id"],
       where: {
         [Op.or]: [
@@ -1013,30 +1013,209 @@ router
     }
   });
 
-
-
-
-  router.route("/readAllSupervisorNotifications").post(async (req, res) => {
-    const Notifications = await Database.SuperVisorNotification.update(
-      {
-        isRead: true
-      },
-      {
+/**
+ * Controller for sending message to all the team member
+ */
+router
+  .route("/getAgenciesFromCityArea/:sup_uuid")
+  .post(isUserAuthentic, async (req, res) => {
+    /**
+     * checking if the req.body
+     *
+     */
+    if (req.body) {
+      let agencies = await Database.City_Areas().findOne({
+        attributes: ["city_area_id"],
         where: {
-          sup_id: req.session.profileData.sup_id,
-          isRead: false
+          city_area_uuid: req.body.cityAreaUUID,
+          deleted: 0,
+          paused: 0
         }
+      })
+        .then((cityData) =>
+          Database.Team_Lead().findAll({
+            attributes: ["team_L_id"],
+            where: {
+              sup_id: req.session.profileData.sup_id,
+              team_L_isDeleted: 0,
+              team_L_isPaused: 0,
+              city_area_id: cityData.city_area_id
+            },
+            include: {
+              model: Database.Field_Executive,
+              required: true,
+              attributes: ["field_id"],
+              where: {
+                field_isDeleted: 0,
+                field_isPaused: 0
+              }
+            }
+          })
+        )
+        .then((teamLead) => teamLead.map((team) => team.Field_Executives))
+        .then((teamLead) => {
+          let fieldExecutive = [];
+          teamLead.forEach((team) => {
+            team.forEach((field) => {
+              fieldExecutive.push(field.field_id);
+            });
+          });
+          return fieldExecutive;
+          fieldExecutive = null;
+        })
+        .then((fieldExecutive) =>
+          Database.Agency_Info().findAll({
+            attributes: {
+              exclude: ["updateTimestamp", "field_id"]
+            },
+            where: {
+              field_id: fieldExecutive
+            }
+          })
+        )
+        .catch((error) => {
+          if (error) {
+            console.error("Error Fetching the Data of Agencies Information");
+            console.trace(error);
+            return null;
+          }
+        });
+      // checking if the response of database is null or not
+      if (agencies === null) {
+        res.status(500).send({ error: "Please try again" });
+        agencies = null;
+        res.end();
+      } else {
+        res
+          .status(200)
+          .send({ status: "Successfully, Fetched Agencies", agencies });
+        agencies = null;
+        res.end();
       }
-    ).then((response) => {
-      if (response) return response;
-    });
-
-    if (Notifications) res.send({ status: "Updated" });
+    } else {
+      res.status(500).send({ error: "Please try again" });
+      res.end();
+    }
   });
+
+/**
+ * Controller for pausing the agency
+ */
+router
+  .route("/pauseAgency/:sup_uuid")
+  .post(isUserAuthentic, async (req, res) => {
+    /**
+     * checking if the req.body
+     *
+     */
+    let agencies = await Database.Agency_Info().findOne({
+      where: {
+        agency_uuid: req.body.agencyUUID
+      }
+    })
+      .then((agency) => {
+        agency.update(
+          {
+            isPaused:  agency.dataValues.isPaused === true ? false : true
+          },
+          {
+            sup_id: req.session.profileData.sup_id,
+            individualHooks: true
+          }
+        );
+      })
+      .catch((error) => {
+        if (error) {
+          console.error("Error Fetching the Data of Agencies Information");
+          console.trace(error);
+          return null;
+        }
+      });
+    // checking if the response of database is null or not
+    if (agencies === null) {
+      res.status(500).send({ error: "Please try again" });
+      agencies = null;
+      res.end();
+    } else {
+      res
+        .status(200)
+        .send({ status: "Successfully, Action Done Against Agency" });
+      agencies = null;
+      res.end();
+    }
+  });
+
+/**
+ * Controller for deleting the agency
+ */
+router
+  .route("/deleteAgency/:sup_uuid")
+  .post(isUserAuthentic, async (req, res) => {
+    /**
+     * checking if the req.body
+     *
+     */
+    let agencies = await Database.Agency_Info().findOne({
+      where: {
+        agency_uuid: req.body.agencyUUID
+      }
+    })
+      .then((agency) => {
+        agency.update(
+          {
+            deleted: agency.dataValues.deleted === true ? false : true
+          },
+          {
+            sup_id: req.session.profileData.sup_id,
+            individualHooks: true
+          }
+        );
+      })
+      .catch((error) => {
+        if (error) {
+          console.error("Error Fetching the Data of Agencies Information");
+          console.trace(error);
+          return null;
+        }
+      });
+    // checking if the response of database is null or not
+    if (agencies === null) {
+      res.status(500).send({ error: "Please try again" });
+      agencies = null;
+      res.end();
+    } else {
+      res
+        .status(200)
+        .send({ status: "Successfully, Action Done Against Agency" });
+      agencies = null;
+      res.end();
+    }
+  });
+/**
+ * reading all the notification to isRead to true
+ * so it will make the notification is read
+ */
+router.route("/readAllSupervisorNotifications").post(async (req, res) => {
+  const Notifications = await Database.SuperVisorNotification.update(
+    {
+      isRead: true
+    },
+    {
+      where: {
+        sup_id: req.session.profileData.sup_id,
+        isRead: false
+      }
+    }
+  ).then((response) => {
+    if (response) return response;
+  });
+
+  if (Notifications) res.send({ status: "Updated" });
+});
 
 module.exports = { router };
 
-// Database.Role_ExtraInfo.create({
+// Database.Role_ExtraInfo()()()().create({
 //   target: "150",
 //   salary: "85100",
 //   commission: "1.5%",
@@ -1047,7 +1226,7 @@ module.exports = { router };
 
 // (async function () {
 
-//   let teamLeadID = await Database.City.findAll({
+//   let teamLeadID = await Database.City().findAll({
 //     attributes: ["city_id"],
 //     where: {
 //       city_uuid: "415b3e45-9dde-432c-b453-b139a7ec6705",
@@ -1062,7 +1241,7 @@ module.exports = { router };
 //       // )
 //     )
 //     .then((data) =>
-//       Database.City_and_Supervisor_associate.findAll({
+//       Database.City_and_Supervisor_associate().findAll({
 //         where: {
 //           city_id: data
 //         }
@@ -1070,7 +1249,7 @@ module.exports = { router };
 //     )
 //     .then((data) => data.map((assos) => assos.city_supp_assos_id))
 //     .then((data) =>
-//       Database.City_Areas.findAll({
+//       Database.City_Areas().findAll({
 //         where: {
 //           city_supp_assos_id: data
 //         }
@@ -1078,7 +1257,7 @@ module.exports = { router };
 //     )
 //     .then((data) => data.map((areas) => areas.city_area_id))
 //     .then((data) =>
-//       Database.Team_Lead.findAll({
+//       Database.Team_Lead().findAll({
 //         where: {
 //           city_area_id: data
 //         }
@@ -1090,7 +1269,7 @@ module.exports = { router };
 //      * getting the members from the database
 //      */
 
-//      let teamMember = await Database.Field_Executive.findAll({
+//      let teamMember = await Database.Field_Executive().findAll({
 //       attributes: ["field_id", "field_uuid", "field_name"],
 //       where: {
 //         team_L_id: teamLeadID,
@@ -1108,7 +1287,7 @@ module.exports = { router };
 //     /**
 //      * getting the activities per month from the db
 //      */
-//     const activitiesPerMonth = await Database.Activities.findAll({
+//     const activitiesPerMonth = await Database.Activities().findAll({
 //       attributes: [
 //         [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
 //         [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
@@ -1142,7 +1321,7 @@ module.exports = { router };
 //      * getting the cancelled activities from the db
 //      */
 
-//     const cancelledactivitiesPerMonth = await Database.Activities.findAll({
+//     const cancelledactivitiesPerMonth = await Database.Activities().findAll({
 //       attributes: [
 //         [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
 //         [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
@@ -1175,7 +1354,7 @@ module.exports = { router };
 //     /**
 //      * getting the agency per month from the db
 //      */
-//     const agencyCount = await Database.Agency_Info.findAll({
+//     const agencyCount = await Database.Agency_Info().findAll({
 //       attributes: [
 //         [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
 //         [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
@@ -1208,4 +1387,93 @@ module.exports = { router };
 //   // console.log("Cancel: " , cancelledactivitiesPerMonth);
 //   // console.log("agencyCount: " , agencyCount);
 
+// })();
+// (async function () {
+//   Database.Agency_Info.update(
+//     {
+//       agency_name: "Testing_____1444777"
+//     },
+//     {
+//       where: {
+//         agency_uuid: "058541a2-0931-4856-8090-ab217534edb8"
+//       },
+//       sup_id: 1,
+//       individualHooks: true
+//       // plain: true
+//     }
+//   );
+// .then((status) => {
+//    console.log(status[1]);
+// });
+
+// Database.Agency_Info()()().create({
+//   field_id: 4
+// }).then((status) => {
+//   console.log(status);
+// });
+// })();
+// (async function () {
+//   let agencies = await Database.City_Areas().findOne({
+//     attributes: ["city_area_id"],
+//     where: {
+//       city_area_uuid: "8c27807b-a7ac-40b5-a58f-24b9eb3bfa93",
+//       deleted: 0,
+//       paused: 0
+//     }
+//   })
+//     .then((cityData) =>
+//       Database.Team_Lead().findAll({
+//         attributes: ["team_L_id"],
+//         where: {
+//           sup_id: 1,
+//           team_L_isDeleted: 0,
+//           team_L_isPaused: 0,
+//           city_area_id: cityData.city_area_id
+//         },
+//         include: {
+//           model: Database.Field_Executive,
+//           required: true,
+//           attributes: ["field_id"],
+//           where: {
+//             field_isDeleted: 0,
+//             field_isPaused: 0
+//           }
+//         }
+//       })
+//     )
+//     .then((teamLead) => teamLead.map((team) => team.Field_Executives))
+//     .then((teamLead) => {
+//       let fieldExecutive = [];
+//       teamLead.forEach((team) => {
+//         team.forEach((field) => {
+//           fieldExecutive.push(field.field_id);
+//         });
+//       });
+//       return fieldExecutive
+//     })
+//     .then((fieldExecutive) =>
+//       Database.Agency_Info().findAll({
+//         attributes: {
+//           exclude: ["updateTimestamp", "field_id"]
+//         },
+//         where: {
+//           deleted: 0,
+//           isPaused: 0,
+//           field_id: fieldExecutive
+//         }
+//       })
+//     )
+//     .catch((error) => {
+//       if (error) {
+//         console.error("Error Fetching the Data of Agencies Information");
+//         console.trace(error);
+//         return null;
+//       }
+//     });
+//   // agencies.forEach((eeee) => {
+//   //   // console.log(eeee);
+//   //   eeee.forEach((field) => {
+//   //     console.log(field.field_id);
+//   //   });
+//   // });
 // })();

@@ -605,14 +605,61 @@ router.get(
       req.session.profileData.sup_id
     );
 
-    
+    let cityNameData = await Database.City.findAll({
+      attributes: ["city_id", "city_uuid", "city_name"],
+      where: {
+        paused: 0,
+        deleted: 0
+      },
+      include: {
+        model: Database.Supervisor,
+        required: true,
+        attributes: [],
+        where: {
+          sup_isPaused: 0,
+          sup_isDeleted: 0,
+          sup_id: req.session.profileData.sup_id
+        }
+      }
+    });
 
+    let getCityArea = await Database.City_and_Supervisor_associate.findAll({
+      attributes: [
+        "city_supp_assos_id",
+        "city_id",
+        "sup_id",
+        "city_and_sup_asso_uuid"
+      ],
+      where: {
+        paused: 0,
+        deleted: 0,
+        sup_id: req.session.profileData.sup_id,
+        city_id: cityNameData.map((city) => city.city_id)
+      },
+      include: {
+        model: Database.City_Areas,
+        required: true,
+        attributes: [
+          "city_area_id",
+          "city_area_uuid",
+          "city_name",
+          "city_code",
+          "city_supp_assos_id"
+        ],
+        where: {
+          paused: 0,
+          deleted: 0
+        }
+      }
+    });
     res.status(200).render("Supervisor/viewAllAgencies", {
       url: req.protocol + "://" + req.get("host"),
       info: {
         id: req.session.passport.user.userInfo.login_id,
         uuid: req.session.profileData.sup_uuid
       },
+      getCityArea,
+      cityNameData,
       role: req.session.passport.user.userRole.type_name,
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
@@ -787,51 +834,57 @@ const countofNotificationOfExecutive = async (sup_id) => {
 };
 
 // (async function () {
-//   let supervisorDashboard = await Database.Supervisor.findOne({
-//     attributes: [],
-//     include: [
-//       {
-//         model: Database.Managers,
-//         required: true,
-//         attributes: ["man_name"],
-//         where: {
-//           man_isDeleted: 0,
-//           man_isPaused: 0
-//         }
-//       },
-//       {
-//         //this is the many to many relation ship
-//         model: Database.City,
-//         attributes: ["city_name"],
-//         required: true,
-//         through: {
-//           attributes: []
-//         },
-//         where: {
-//           paused: 0,
-//           deleted: 0
-//         }
+//   let cityNameData = await Database.City.findAll({
+//     attributes: ["city_id", "city_uuid", "city_name"],
+//     where: {
+//       paused: 0,
+//       deleted: 0
+//     },
+//     include: {
+//       model: Database.Supervisor,
+//       required: true,
+//       attributes: ["sup_id"],
+//       // through: {
+//       //   attributes: ["city_supp_assos_id", "city_id"]
+//       // },
+//       where: {
+//         sup_isPaused: 0,
+//         sup_isDeleted: 0,
+//         sup_id: 1
 //       }
+//     }
+//   });
+
+//   let getCityArea = await Database.City_and_Supervisor_associate.findAll({
+//     attributes: [
+//       "city_supp_assos_id",
+//       "city_id",
+//       "sup_id",
+//       "city_and_sup_asso_uuid"
 //     ],
 //     where: {
+//       paused: 0,
+//       deleted: 0,
 //       sup_id: 1,
-//       sup_isDeleted: 0,
-//       sup_isPaused: 0
-//     }
-//   })
-//     .then((data) => {
-//       if (data) return data;
-//       else return null;
-//     })
-//     .catch((error) => {
-//       if (error) {
-//         console.error("Error Fetchin Dashboard Data of Team Lead");
-//         console.trace(error);
-//         return null;
+//       city_id: cityNameData.map((city) => city.city_id)
+//     },
+//     include: {
+//       model: Database.City_Areas,
+//       required: true,
+//       attributes: [
+//         "city_area_id",
+//         "city_area_uuid",
+//         "city_name",
+//         "city_code",
+//         "city_supp_assos_id"
+//       ],
+//       where: {
+//         paused: 0,
+//         deleted: 0
 //       }
-//     });
+//     }
+//   });
 
-//   console.log(supervisorDashboard.dataValues.Cities);
 // })();
 
 // (async function () {

@@ -1,19 +1,15 @@
-const passport = require('passport'),
-  LocalStrategy = require('passport-local').Strategy,
-  RememberMe_Strategy = require('passport-remember-me').Strategy,
-  User_Login_Information = require('../Sequelize/Sequelize Models/Users Login/User_Login_Information'),
-  User_Role = require('../Sequelize/Sequelize Models/Users Login/User_Role'),
-  bcrypt = require('bcrypt')
-
-
+const passport = require("passport"),
+  LocalStrategy = require("passport-local").Strategy,
+  User_Login_Information = require("../Sequelize/Sequelize Models/Users Login/User_Login_Information"),
+  User_Role = require("../Sequelize/Sequelize Models/Users Login/User_Role"),
+  bcrypt = require("bcrypt");
 
 passport.serializeUser((user, done) => {
-  done(null, user)
-})
+  done(null, user);
+});
 
 passport.deserializeUser((id, done) => {
-
-  return done(null, id)
+  return done(null, id);
   // User_Login_Information.findOne({
   //   include: {
   //     model: User_Role,
@@ -27,14 +23,19 @@ passport.deserializeUser((id, done) => {
   //   }
   // }).then(response => { return done(null, response) })
   // console.log('Deserilize')
-})
+});
 
-passport.use('local-login', new LocalStrategy({
-
-  usernameField: 'user_login_email',
-  passwordField: 'user_login_password',
-  passReqToCallback: true
-}, authenticate_login))
+passport.use(
+  "local-login",
+  new LocalStrategy(
+    {
+      usernameField: "user_login_email",
+      passwordField: "user_login_password",
+      passReqToCallback: true
+    },
+    authenticate_login
+  )
+);
 
 function authenticate_login(req, email, password, done) {
   // bcrypt.compareSync(password, '$2b$10$IhwmSCZDgheT3pCvaTd4YezxKSXPgXnS84r6HKXI.56uXawidQ8Ee')
@@ -43,29 +44,51 @@ function authenticate_login(req, email, password, done) {
     include: {
       model: User_Role,
       foreignKey: User_Login_Information.user_role_id,
-      attributes: ['user_role_id', 'type_name']
+      attributes: ["user_role_id", "type_name"]
     },
-    attributes: ['login_id', 'login_email', 'login_uuid', 'login_password', 'verified', 'paused', 'createdAt', 'deleted'],
+    attributes: [
+      "login_id",
+      "login_email",
+      "login_uuid",
+      "login_password",
+      "verified",
+      "paused",
+      "createdAt",
+      "deleted"
+    ],
     where: {
       login_email: email,
       deleted: 0
     }
-  }).then(response => { return response })
-    .catch(error => done(null, false, req.flash('danger', 'In-Correct Email !!! Try Again. ')))
-
+  })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) =>
+      done(null, false, req.flash("danger", "In-Correct Email !!! Try Again. "))
+    );
 
   User_Login_Info.then((dbResponse) => {
     if (!dbResponse) {
-      return done(null, false, req.flash('danger', 'No User Found'))
+      return done(null, false, req.flash("danger", "No User Found"));
     }
     if (!bcrypt.compareSync(password, dbResponse.dataValues.login_password)) {
-      return done(null, false, req.flash('danger', 'In-Correct Password !!! Try Again. '))
-    }
-    else if (dbResponse.dataValues.paused) {
-      console.log("Error")
-      return done(null, false, req.flash('danger', 'You are not allow to use this Website, \n Please Connect your Team Lead.'))
-    }
-    else {
+      return done(
+        null,
+        false,
+        req.flash("danger", "In-Correct Password !!! Try Again. ")
+      );
+    } else if (dbResponse.dataValues.paused) {
+      console.log("Error");
+      return done(
+        null,
+        false,
+        req.flash(
+          "danger",
+          "You are not allow to use this Website, \n Please Connect your Team Lead."
+        )
+      );
+    } else {
       return done(null, {
         userInfo: {
           login_id: dbResponse.login_id,
@@ -74,36 +97,10 @@ function authenticate_login(req, email, password, done) {
           paused: dbResponse.paused
         },
         userRole: dbResponse.User_Role.dataValues
-      })
+      });
     }
-  })
-
-
-
-
-
-
+  });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // var tokens = {}
 
@@ -121,8 +118,6 @@ function authenticate_login(req, email, password, done) {
 //   tokens[token] = uid
 //   return fn()
 // }
-
-
 
 // function issueToken(user, done) {
 //   var token = utils.randomString(64)
@@ -163,7 +158,4 @@ function authenticate_login(req, email, password, done) {
 //   )
 // }
 
-
-
-
-module.exports = passport
+module.exports = passport;

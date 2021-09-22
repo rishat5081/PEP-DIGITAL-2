@@ -70,99 +70,58 @@
         cityNames, -->
           <!-- --------------------------- -->
           <div class="container saleup">
-            <div class="text-center">
-              <h4 class="areaheading mb-3 font-weight-bold">
-                List Of Agencies
-              </h4>
-            </div>
+            <br />
+            <h4 class="areaheading mb-3 font-weight-bold">List Of Agencies</h4>
             <div class="row">
-              <div class="col-sm-12 col-md-6">
+              <div class="col-md-6">
                 <select
                   class="form-control mt-2 mb-3 w-75 h-75 pt-0 pt-lg-0"
                   name="selectBox"
-                  id="selectBox"
-                  onchange="changefunc();"
+                  id="selectCity"
                 >
-                  <option disabled selected value="null">Choose One</option>
-
-                  <option value="%= dropdownVals[i].Location %>">
-                    <= dropdownVals[i].Location %>
+                  <option selected value="null">Select City</option>
+                  <!-- getCityArea,
+                  cityNameData, -->
+                  <% cityNameData.forEach(city => { %>
+                  <option value="<%= city.city_id %>">
+                    <%= city.city_name %>
                   </option>
+                  <% }) %>
                 </select>
               </div>
-              <div class="col-sm-12 col-md-6">
-                <div
-                  class="
-                    input-group
-                    md-form
-                    form-sm form-1
-                    pl-0
-                    h-100
-                    pt-2 pt-lg-1
-                    pb-2
-                    w-75
-                  "
+              <div class="col-md-6" style="display: none" id="cityAreaDiv">
+                <select
+                  class="form-control mt-2 mb-3 w-75 h-75 pt-0 pt-lg-0"
+                  name="selectBox"
+                  id="selectCityArea"
                 >
-                  <div class="input-group-prepend">
-                    <span
-                      class="input-group-text cyan lighten-2"
-                      id="basic-text1"
-                      ><i class="fa fa-search text-white" aria-hidden="true"></i
-                    ></span>
-                  </div>
-                  <input
-                    class="form-control my-0 h-100"
-                    id="myInput"
-                    onkeyup="myFunction()"
-                    type="text"
-                    placeholder="Search"
-                    aria-label="Search"
-                  />
-                </div>
+                  <option selected value="null">Select City Area</option>
+                </select>
               </div>
             </div>
-            <div class="table-responsive-lg mt-4 mb-5" id="data">
-              <table class="table">
+            <div class="table-responsive-lg mt-4 mb-5">
+              <table class="table" id="data">
                 <thead class="table-primary">
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Agency Name</th>
-                    <th scope="col">Current Activity</th>
-                    <th scope="col">Disable Amount</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Owner Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Contact</th>
+                    <th scope="col">First Visited</th>
+                    <th scope="col">Paused</th>
+                    <th scope="col">Disabled</th>
+                    <th scope="col">Pause</th>
+                    <th scope="col">Delete</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1 %></th>
-                    <td>%= dropdownVals[i].NAME %></td>
-                    <td>%= dropdownVals[i].Location %></td>
-                    <td class="ml-5 pl-3 pl-lg-5"><button>Disable</button></td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2 %></th>
-                    <td>%= dropdownVals[i].NAME %></td>
-                    <td>%= dropdownVals[i].Location %></td>
-                    <td class="ml-5 pl-3 pl-lg-5"><button>Disable</button></td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3 %></th>
-                    <td>%= dropdownVals[i].NAME %></td>
-                    <td>%= dropdownVals[i].Location %></td>
-                    <td class="ml-5 pl-3 pl-lg-5"><button>Disable</button></td>
-                  </tr>
-                  <tr>
-                    <th scope="row">4 %></th>
-                    <td>%= dropdownVals[i].NAME %></td>
-                    <td>%= dropdownVals[i].Location %></td>
-                    <td class="ml-5 pl-3 pl-lg-5"><button>Disable</button></td>
-                  </tr>
-                </tbody>
+                <tbody id="agencyDetailsTable"></tbody>
               </table>
+              <div class="text-center" id="agencyListingText">
+                <strong>The Agencies Will be Listed Down Here</strong>
+              </div>
             </div>
-            <br />
-
-            <br />
-            <br />
           </div>
         </div>
       </div>
@@ -199,9 +158,171 @@
       }
     </script>
     <script>
-      $(document).ready(function () {
+      /**
+       * setting the data with the select city tag on change
+       * on selecting any city then the areas accoring to the city will be
+       * done into the other select attribute
+       * on selecing the select city the select city area will be disappear
+       *
+       */
+      $("#selectCity").change((e) => {
+        if ($("#selectCity").find(":selected").val() === "null") {
+          $("#cityAreaDiv").css("display", "none");
+        } else {
+          const cityAreaData = JSON.parse(`<%-JSON.stringify(getCityArea)%>`),
+            selectCityArea = document.getElementById("selectCityArea");
+          const cityAreas = cityAreaData.some((area) => {
+            if (area.city_id === +$("#selectCity").find(":selected").val()) {
+              area.City_Areas.some((areaInfo) => {
+                const option = document.createElement("option");
+                option.value = areaInfo.city_area_uuid;
+                option.text =
+                  areaInfo.city_name + "  (" + areaInfo.city_code + ")";
+                selectCityArea.append(option);
+              });
+            }
+          });
+          $("#cityAreaDiv").css("display", "block");
+        }
+      });
+
+      const addAgenciesToTable = (agenciesData) => {
+        const tableBody = document.getElementById("agencyDetailsTable");
+        agenciesData.forEach((agency, index) => {
+          const tr = document.createElement("tr"),
+            id = document.createElement("th"),
+            Name = document.createElement("td"),
+            OwnerName = document.createElement("td"),
+            Address = document.createElement("td"),
+            Type = document.createElement("td"),
+            Contact = document.createElement("td"),
+            FirstVisit = document.createElement("td"),
+            Disabled = document.createElement("td"),
+            Pause = document.createElement("td"),
+            PauseTD = document.createElement("td"),
+            DeleteTD = document.createElement("td"),
+            pausedBTN = document.createElement("button"),
+            deleteBTN = document.createElement("button");
+
+          id.innerHTML = ++index;
+          Name.innerHTML = agency.agency_name;
+          OwnerName.innerHTML = agency.agency_owner_Name;
+          Address.innerHTML = agency.agency_address;
+          Type.innerHTML = agency.agency_type;
+          Contact.innerHTML = agency.agency_Contact;
+          FirstVisit.innerHTML = agency.firstVisit === true ? "Yes" : "Not";
+          Pause.innerHTML = agency.isPaused === true ? "Yes" : "No";
+          Disabled.innerHTML = agency.deleted === true ? "Yes" : "No";
+
+          if (agency.firstVisit) {
+            FirstVisit.style.color = "#2fa200";
+            FirstVisit.style.fontWeight = 700;
+          } else {
+            FirstVisit.style.color = "#ff0000";
+            FirstVisit.style.fontWeight = 700;
+          }
+
+          if (agency.isPaused) {
+            Pause.style.color = "#ff0000";
+            Pause.style.fontWeight = 700;
+          } else {
+            Pause.style.color = "#2fa200";
+            Pause.style.fontWeight = 700;
+          }
+
+          if (agency.deleted) {
+            Disabled.style.color = "#ff0000";
+            Disabled.style.fontWeight = 700;
+          } else {
+            Disabled.style.color = "#2fa200";
+            Disabled.style.fontWeight = 700;
+          }
+
+          pausedBTN.textContent =
+            agency.isPaused === true ? "Un Pause" : "Pause";
+          deleteBTN.textContent = agency.deleted === true ? "Open" : "Delete";
+
+          pausedBTN.className =
+            agency.isPaused === true
+              ? "btn btn-sm btn-primary"
+              : "btn btn-sm btn-warning";
+          deleteBTN.className =
+            agency.deleted === true
+              ? "btn btn-sm btn-success"
+              : "btn btn-sm btn-danger";
+
+          pausedBTN.onclick = function () {
+            onPausedeBTN(tr, agency.agency_uuid);
+          };
+          deleteBTN.onclick = function () {
+            onDeleteBTN(tr, agency.agency_uuid);
+          };
+
+          PauseTD.appendChild(pausedBTN);
+          DeleteTD.appendChild(deleteBTN);
+
+          $("#agencyListingText").css("display", "none");
+          tr.append(
+            id,
+            Name,
+            OwnerName,
+            Address,
+            Type,
+            Contact,
+            FirstVisit,
+            Pause,
+            Disabled,
+            PauseTD,
+            DeleteTD
+          );
+          tableBody.append(tr);
+        });
+      };
+
+      /**
+       * on selecting any city then the areas accoring to the city will be
+       * done into the other select attribute
+       *
+       */
+      var agencyData = [];
+      $("#selectCityArea").change((e) => {
+        if ($("#selectCityArea").find(":selected").val() === "null") {
+          $("#agencyDetailsTable tr").remove();
+          $("#agencyListingText").css("display", "block");
+          $("#nav").css("display", "none");
+        } else {
+          if (agencyData.length === 0) {
+            const cityAreaUUID = $("#selectCityArea").find(":selected").val();
+            $.ajax({
+              type: "POST",
+              url: `${window.location.origin}/getAgenciesFromCityArea/<%=info.uuid%>`,
+              data: { cityAreaUUID },
+              dataType: "json",
+              error: (error) => {
+                toastr.success(error.error);
+              },
+              success: (response) => {
+                if (response) {
+                  toastr.success(response.status);
+                  agencyData = [];
+                  agencyData = response.agencies;
+                  $("#agencyDetailsTable tr").remove();
+                  addAgenciesToTable(response.agencies);
+                  pagination();
+                }
+              }
+            });
+          } else {
+            $("#agencyDetailsTable tr").remove();
+            addAgenciesToTable(agencyData);
+            pagination();
+          }
+        }
+      });
+
+      function pagination() {
         //   $('#data').after('<div id="nav" class="text-center"></div>');
-        var rowsShown = 1;
+        var rowsShown = 10;
         var rowsTotal = $("#data tbody tr").length;
         if (rowsShown < rowsTotal) {
           $("#data").after('<div id="nav" class="text-center" ></div>');
@@ -231,51 +352,78 @@
               );
           });
         }
-      });
-
-      var table1;
-      var input;
-
-      function changefunc() {
-        employees = [];
-        input = document.getElementById("selectBox");
-        var filter = input.value;
-        var table = document.getElementById("myTable");
-        var tr = table.getElementsByTagName("tr");
-        for (var i = 0; i < tr.length; i++) {
-          var td = tr[i].getElementsByTagName("td")[1];
-          if (td) {
-            if (td.innerHTML.indexOf(filter) > -1) {
-              tr[i].style.display = "";
-              thisOptionValue = tr[i].innerHTML;
-              employees.push(tr[i].rowIndex);
-            } else {
-              tr[i].style.display = "none";
-            }
-          }
-        }
-        console.log(employees);
       }
 
-      function myFunction() {
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("myTable");
-        tr = document.getElementById("myTable").getElementsByTagName("tr");
-        for (i = 0; i < tr.length; i++) {
-          td = tr[employees[i]].getElementsByTagName("td")[0];
-          if (td) {
-            txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-              tr[employees[i]].style.display = "";
-              console.log(tr[employees[i]]);
-            } else {
-              tr[employees[i]].style.display = "none";
+      /**
+       *
+       * This is the paused BTN function
+       * it will paused the agency
+       *
+       */
+      const onPausedeBTN = (tr, agencyUUID) => {
+        const agencyStatus = agencyData.find(
+          (agency) => agency.agency_uuid === agencyUUID
+        );
+        if (agencyStatus) {
+          $.ajax({
+            type: "POST",
+            url: `${window.location.origin}/pauseAgency/<%=info.uuid%>`,
+            data: { agencyUUID },
+            dataType: "json",
+            success: (response) => {
+              if (response) {
+                toastr.success(response.status);
+                tr.cells[7].style.color =
+                  tr.cells[7].innerHTML === "Yes" ? "#2fa200" : "#ff0000";
+                tr.cells[7].innerHTML =
+                  tr.cells[7].innerHTML === "Yes" ? "No" : "Yes";
+                tr.cells[9].getElementsByTagName("button")[0].className =
+                  tr.cells[7].innerHTML === "Yes"
+                    ? "btn btn-sm btn-primary"
+                    : "btn btn-sm btn-warning";
+
+                tr.cells[9].getElementsByTagName("button")[0].innerHTML =
+                  tr.cells[7].innerHTML === "Yes" ? "Un-Pause" : "Pause";
+              }
+            },
+            error: (error) => {
+              console.error(error);
             }
-          }
+          });
         }
-      }
+      };
+      const onDeleteBTN = (tr, agencyUUID) => {
+        const agencyStatus = agencyData.find(
+          (agency) => agency.agency_uuid === agencyUUID
+        );
+        if (agencyStatus) {
+          $.ajax({
+            type: "POST",
+            url: `${window.location.origin}/deleteAgency/<%=info.uuid%>`,
+            data: { agencyUUID },
+            dataType: "json",
+            success: (response) => {
+              if (response) {
+                toastr.success(response.status);
+                tr.cells[8].style.color =
+                  tr.cells[8].innerHTML === "Yes" ? "#2fa200" : "#ff0000";
+                tr.cells[8].innerHTML =
+                  tr.cells[8].innerHTML === "Yes" ? "No" : "Yes";
+                tr.cells[10].getElementsByTagName("button")[0].className =
+                  tr.cells[8].innerHTML === "Yes"
+                    ? "btn btn-sm btn-success"
+                    : "btn btn-sm btn-danger";
+
+                tr.cells[10].getElementsByTagName("button")[0].innerHTML =
+                  tr.cells[8].innerHTML === "Yes" ? "Open" : "Delete";
+              }
+            },
+            error: (error) => {
+              console.error(error);
+            }
+          });
+        }
+      };
     </script>
   </body>
 </html>

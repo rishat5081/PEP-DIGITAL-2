@@ -4,6 +4,7 @@ let sequelize = require("./Sequelize"),
   Advertising_Stock_Allocation = require("./Sequelize Models/Advertisement/Advertising_Stock_Allocation"),
   Request_of_Advertisement = require("./Sequelize Models/Advertisement/Request_of_Advertisement"),
   Agency_Info = require("./Sequelize Models/Agency Models/Agency_Info"),
+  AgencyLogs_Supervisor = require("./Sequelize Models/Agency Models/AgencyLogs_Supervisor"),
   AgencyTypes = require("./Sequelize Models/Agency Models/AgencyTypes"),
   Carriers = require("./Sequelize Models/Carrier/Carriers"),
   Carrier_Paid_Payment = require("./Sequelize Models/Carrier/Carrier_Paid_Payment"),
@@ -83,7 +84,7 @@ let sequelize = require("./Sequelize"),
  * and then it will create all the data base
  */
 
-const TruncateTables = async () => {
+let TruncateTables = async () => {
   console.log("*************************************************************");
   console.log("----------------- Deleting Tables Records -----------------");
   await sequelize
@@ -107,6 +108,10 @@ const TruncateTables = async () => {
     .catch((error) => console.log("Error Deleting Table" + error));
 
   await Agency_Info.destroy({ truncate: true })
+    .then()
+    .catch((error) => console.log("Error Deleting Table" + error));
+
+  await AgencyLogs_Supervisor.destroy({ truncate: true })
     .then()
     .catch((error) => console.log("Error Deleting Table" + error));
 
@@ -386,7 +391,7 @@ const TruncateTables = async () => {
     .query("SET FOREIGN_KEY_CHECKS = 1", null, { raw: true })
     .then((response) => console.log("Done.... Please Wait"));
 };
-const Synchronizing = async () => {
+let Synchronizing = async () => {
   /**
    * Commented lines are used to sync the database tables
    * forcely and then check the foreign key true
@@ -437,6 +442,14 @@ const Synchronizing = async () => {
       console.log("\n");
       console.log("\n");
       console.log("Error in Creating Table Request_of_Advertisement");
+    });
+  await AgencyLogs_Supervisor.sync({ force: true })
+    .then()
+    .catch((error) => {
+      console.log(error + "\n");
+      console.log("\n");
+      console.log("\n");
+      console.log("Error in Creating Table AgencyLogs_Supervisor");
     });
   await Agency_Info.sync({ force: true })
     .then()
@@ -1080,7 +1093,7 @@ const Synchronizing = async () => {
   console.log("*************************************************************");
 };
 
-const DevelopmentDatabase = async () => {
+let DevelopmentDatabase = async () => {
   await Super_Admin.create({
     sa_name: "Saad",
     sa_email: "superA@aa",
@@ -1407,6 +1420,7 @@ module.exports = {
   Advertising_Stock_Allocation,
   Request_of_Advertisement,
   Agency_Info,
+  AgencyLogs_Supervisor,
   AgencyTypes,
   Carriers,
   Carrier_Paid_Payment,
@@ -1481,3 +1495,86 @@ module.exports = {
   Department,
   Zone
 };
+sequelize =
+  Synchronizing =
+  DevelopmentDatabase =
+  Advertisement_Recommendation =
+  Advertisement_Stock =
+  Advertising_Stock_Allocation =
+  Request_of_Advertisement =
+  Agency_Info =
+  AgencyLogs_Supervisor =
+  AgencyTypes =
+  Carriers =
+  Carrier_Paid_Payment =
+  Carriers_Services =
+  Payment_Carrier_Services =
+  City =
+  ExecutiveNotifications =
+  TeamLead_Notifications =
+  SuperVisorNotification =
+  ManagerNotifications =
+  GMNotifications =
+  City_Areas =
+  City_Sectors =
+  City_and_Supervisor_associate =
+  City_Sector_Assosiate =
+  Compaigns =
+  Compaign_Activities =
+  Compaign_Sale =
+  Companies_Access =
+  Company_Promotion =
+  Customer_Care_Activities =
+  Call_Receiving =
+  Executive_Adver_Stock_Info =
+  Executive_Pending_Earning =
+  Executive_Withdraws =
+  Stock_Usage =
+  Activities =
+  Activity_Instruction =
+  List_of_Packages =
+  List_sub_Activities =
+  Carrier_Logs =
+  Company_Acess_Logs =
+  SuperAdmin_Department_Logs =
+  Packages =
+  PEP_Agents =
+  Permissions =
+  ExecutiveLogins =
+  NotificationText =
+  GMLogin =
+  ManagerLogin =
+  SuperVisorLogin =
+  TeamLead_Login =
+  Permission_Role_Assosiate =
+  PEP_Agents_Activities =
+  Promotion_Request_Status =
+  Promotion_Req_By_Supervisor =
+  Customer_Care_Respresentative =
+  Data_Entry_Operator =
+  Field_Executive =
+  GM_Company =
+  Recommendation_for_Executive =
+  Managers =
+  ComplainsOfActivities =
+  WebAds =
+  Super_Admin =
+  Supervisor =
+  Team_Lead =
+  Banks_List =
+  PEP_Banks_Details =
+  Team_Lead_Adver_Stock =
+  Training =
+  Training_Activities =
+  User_Login_Information =
+  User_Role =
+  changeRoleLogs =
+  Role_ExtraInfo =
+  Login_Page =
+  Executive_Recommendation =
+  SignUp_Page =
+  Web_Content =
+  Pendance_Clearance_Details =
+  Department =
+  Zone =
+    null;
