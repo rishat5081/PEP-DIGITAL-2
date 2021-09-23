@@ -1,6 +1,6 @@
 const passport = require("passport"),
   LocalStrategy = require("passport-local").Strategy,
-  User_Login_Information = require("../Sequelize/Sequelize Models/Users Login/User_Login_Information"),
+  DataBase = require("../Sequelize/Database_Synchronization"),
   User_Role = require("../Sequelize/Sequelize Models/Users Login/User_Role"),
   bcrypt = require("bcrypt");
 
@@ -40,10 +40,9 @@ passport.use(
 function authenticate_login(req, email, password, done) {
   // bcrypt.compareSync(password, '$2b$10$IhwmSCZDgheT3pCvaTd4YezxKSXPgXnS84r6HKXI.56uXawidQ8Ee')
 
-  const User_Login_Info = User_Login_Information.findOne({
+  const User_Login_Info = DataBase.User_Login_Information.findOne({
     include: {
-      model: User_Role,
-      foreignKey: User_Login_Information.user_role_id,
+      model: DataBase.User_Role,
       attributes: ["user_role_id", "type_name"]
     },
     attributes: [

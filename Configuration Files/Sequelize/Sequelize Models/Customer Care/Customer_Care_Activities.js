@@ -1,10 +1,13 @@
-'use strict'
-const { DataTypes, UUIDV4 } = require('sequelize'),
-  sequelize = require('../../Sequelize'),
-  Customer_Care_Respresentative = require('../Stakeholders/Customer_Care_Respresentative'),
-  Agency_Info = require('../Agency Models/Agency_Info'),
-  Customer_Care_Activities = sequelize.define(
-    'Customer_Care_Activities',
+// "use strict";
+// const { DataTypes, UUIDV4 } = require("sequelize"),
+//   sequelize = require("../../Sequelize"),
+//   Customer_Care_Respresentative = require("../Stakeholders/Customer_Care_Respresentative"),
+//   Agency_Info = require("../Agency Models/Agency_Info");
+
+"use strict";
+module.exports = (sequelize, { DataTypes, UUIDV4 }) => {
+  const Customer_Care_Activities = sequelize.define(
+    "Customer_Care_Activities",
     {
       cust_c_act_id: {
         type: DataTypes.INTEGER,
@@ -20,8 +23,7 @@ const { DataTypes, UUIDV4 } = require('sequelize'),
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false,
-         
+        primaryKey: false
       },
       cust_deleted: {
         type: DataTypes.BOOLEAN,
@@ -38,8 +40,8 @@ const { DataTypes, UUIDV4 } = require('sequelize'),
           isNumeric: true
         },
         references: {
-          model: 'cust_care_csr',
-          key: 'cust_care_id'
+          model: "cust_care_csr",
+          key: "cust_care_id"
         }
       },
       agency_id: {
@@ -52,8 +54,8 @@ const { DataTypes, UUIDV4 } = require('sequelize'),
           isNumeric: true
         },
         references: {
-          model: 'agency_info',
-          key: 'agency_id'
+          model: "agency_info",
+          key: "agency_id"
         }
       },
       feedback: {
@@ -68,39 +70,67 @@ const { DataTypes, UUIDV4 } = require('sequelize'),
     {
       sequelize,
       // We need to pass the connection instance
-      modelName: 'Customer_Care_Activities',
-      tableName: 'cust_care_activities'
+      modelName: "Customer_Care_Activities",
+      tableName: "cust_care_activities"
     }
-  )
+  );
 
-/**
- * one CSR will make many activities
- */
-Customer_Care_Respresentative.hasMany(Customer_Care_Activities, {
-  foreignKey: 'cust_care_id'
-})
+  Customer_Care_Activities.associate = (models) => {
+    /**
+     * one CSR will make many activities
+     */
+    models.Customer_Care_Respresentative.hasMany(Customer_Care_Activities, {
+      foreignKey: "cust_care_id"
+    });
 
-Customer_Care_Activities.belongsTo(Customer_Care_Respresentative, {
-  targetKey: 'cust_care_id',
-  foreignKey: 'cust_care_id'
-})
+    Customer_Care_Activities.belongsTo(models.Customer_Care_Respresentative, {
+      targetKey: "cust_care_id",
+      foreignKey: "cust_care_id"
+    });
 
-/**
- * one CSR will call many agencies
- */
-Agency_Info.hasMany(Customer_Care_Activities, {
-  foreignKey: 'agency_id'
-})
+    /**
+     * one CSR will call many agencies
+     */
+    models.Agency_Info.hasMany(Customer_Care_Activities, {
+      foreignKey: "agency_id"
+    });
 
-Customer_Care_Activities.belongsTo(Agency_Info, {
-  targetKey: 'agency_id',
-  foreignKey: 'agency_id'
-})
+    Customer_Care_Activities.belongsTo(models.Agency_Info, {
+      targetKey: "agency_id",
+      foreignKey: "agency_id"
+    });
+  };
 
-/*
- *boolean return type which will indicate that the table is defined or not
- */
-// console.log(
-//   Customer_Care_Activities === sequelize.models.Customer_Care_Activities
-// )
-module.exports = Customer_Care_Activities
+  // /**
+  //  * one CSR will make many activities
+  //  */
+  // Customer_Care_Respresentative.hasMany(Customer_Care_Activities, {
+  //   foreignKey: "cust_care_id"
+  // });
+
+  // Customer_Care_Activities.belongsTo(Customer_Care_Respresentative, {
+  //   targetKey: "cust_care_id",
+  //   foreignKey: "cust_care_id"
+  // });
+
+  // /**
+  //  * one CSR will call many agencies
+  //  */
+  // Agency_Info.hasMany(Customer_Care_Activities, {
+  //   foreignKey: "agency_id"
+  // });
+
+  // Customer_Care_Activities.belongsTo(Agency_Info, {
+  //   targetKey: "agency_id",
+  //   foreignKey: "agency_id"
+  // });
+
+  /*
+   *boolean return type which will indicate that the table is defined or not
+   */
+  // console.log(
+  //   Customer_Care_Activities === sequelize.models.Customer_Care_Activities
+  // )
+  // module.exports = Customer_Care_Activities;
+  return Customer_Care_Activities;
+};

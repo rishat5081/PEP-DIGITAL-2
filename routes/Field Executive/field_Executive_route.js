@@ -1,25 +1,24 @@
 const {
-  Activity_Instruction,
-  Compaigns,
-  List_sub_Activities,
-  List_of_Packages,
-  Agency_Info,
-  Team_Lead,
-  City_Areas,
-  User_Login_Information,
-  Activities,
-  ExecutiveNotifications,
-  Banks_List,
-  PEP_Banks_Details,
-  Executive_Pending_Earning,
-  Field_Executive,
-  WebAds
-} = require("../../Configuration Files/Sequelize/Database_Synchronization");
-const NotificationText = require("../../Configuration Files/Sequelize/Sequelize Models/Notifications/NotificationText");
-const {
-    sequelize,
-    sum
-  } = require("../../Configuration Files/Sequelize/Sequelize Models/Lists of Packages/Activities"),
+    Activity_Instruction,
+    Compaigns,
+    List_sub_Activities,
+    List_of_Packages,
+    Agency_Info,
+    Team_Lead,
+    City_Areas,
+    User_Login_Information,
+    Activities,
+    ExecutiveNotifications,
+    Banks_List,
+    PEP_Banks_Details,
+    Executive_Pending_Earning,
+    Field_Executive,
+    WebAds,
+    NotificationText
+  } = require("../../Configuration Files/Sequelize/Database_Synchronization"),
+  {
+    sequelize
+  } = require("../../Configuration Files/Sequelize/Database_Synchronization"),
   AgencyTypes = require("../../Configuration Files/Sequelize/Sequelize Models/Agency Models/AgencyTypes"),
   { Op, QueryTypes } = require("sequelize"),
   express = require("express"),

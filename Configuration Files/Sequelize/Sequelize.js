@@ -5,6 +5,7 @@ require("dotenv").config();
 // const databaseName = require('../../app')
 
 module.exports = new Sequelize(
+  // "aksjd",
   process.env.db,
   process.env.db_user,
   process.env.db_password,
@@ -73,4 +74,3 @@ module.exports = new Sequelize(
 //     //     console.log(iterator.dataValues)
 //     //   }
 //   })
-

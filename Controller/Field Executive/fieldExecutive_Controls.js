@@ -1,26 +1,24 @@
-const {
-    multerFile_Upload_Function
-  } = require("../../Configuration Files/Multer Js/multer"),
-  {
-    Field_Executive,
-    Role_ExtraInfo,
-    Agency_Info,
-    User_Role,
-    List_sub_Activities,
-    List_of_Packages,
-    User_Login_Information,
-    ExecutiveNotifications,
-    Executive_Pending_Earning,
-    Pendance_Clearance_Details,
-    ComplainsOfActivities
-  } = require("../../Configuration Files/Sequelize/Database_Synchronization"),
-  fs = require("fs"),
-  { Op, QueryTypes } = require("sequelize");
-
-const Activities = require("../../Configuration Files/Sequelize/Sequelize Models/Lists of Packages/Activities");
-const NotificationText = require("../../Configuration Files/Sequelize/Sequelize Models/Notifications/NotificationText");
-
 module.exports = (app) => {
+  const {
+      multerFile_Upload_Function
+    } = require("../../Configuration Files/Multer Js/multer"),
+    {
+      Field_Executive,
+      Role_ExtraInfo,
+      Agency_Info,
+      User_Role,
+      List_sub_Activities,
+      List_of_Packages,
+      User_Login_Information,
+      ExecutiveNotifications,
+      Executive_Pending_Earning,
+      Pendance_Clearance_Details,
+      ComplainsOfActivities,
+      NotificationText,
+      Activities
+    } = require("../../Configuration Files/Sequelize/Database_Synchronization"),
+    fs = require("fs"),
+    { Op, QueryTypes } = require("sequelize");
   /**
    * Uploading the user profile image to the server
    * Updating the user profile image

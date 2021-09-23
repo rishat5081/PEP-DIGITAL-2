@@ -1,11 +1,14 @@
-'use strict'
-const { DataTypes, UUIDV4 } = require('sequelize'),
-  sequelize = require('../../Sequelize'),
-  Manager = require('../Stakeholders/Manager'),
-  Department = require('../Department'),
-  User_Login_Information = require('../Users Login/User_Login_Information'),
-  Customer_Care_Respresentative = sequelize.define(
-    'Customer_Care_Respresentative',
+// "use strict";
+// const { { DataTypes, Model, UUIDV4 }, UUIDV4 } = require("sequelize"),
+//   sequelize = require("../../Sequelize"),
+//   Manager = require("../Stakeholders/Manager"),
+//   Department = require("../Department"),
+//   User_Login_Information = require("../Users Login/User_Login_Information");
+
+"use strict";
+module.exports = (sequelize, { DataTypes,  UUIDV4 }) => {
+  const Customer_Care_Respresentative = sequelize.define(
+    "Customer_Care_Respresentative",
     {
       cust_care_id: {
         type: DataTypes.INTEGER,
@@ -21,8 +24,7 @@ const { DataTypes, UUIDV4 } = require('sequelize'),
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false,
-         
+        primaryKey: false
       },
       cust_care_name: {
         type: DataTypes.TEXT,
@@ -75,8 +77,8 @@ const { DataTypes, UUIDV4 } = require('sequelize'),
           isNumeric: true
         },
         references: {
-          model: 'managers',
-          key: 'man_id'
+          model: "managers",
+          key: "man_id"
         }
       },
       d_id: {
@@ -89,8 +91,8 @@ const { DataTypes, UUIDV4 } = require('sequelize'),
           isNumeric: true
         },
         references: {
-          model: 'departments',
-          key: 'd_id'
+          model: "departments",
+          key: "d_id"
         }
       },
       login_id: {
@@ -103,8 +105,8 @@ const { DataTypes, UUIDV4 } = require('sequelize'),
           isNumeric: true
         },
         references: {
-          model: 'user_login_information',
-          key: 'login_id'
+          model: "user_login_information",
+          key: "login_id"
         }
       },
       totalCallTime: {
@@ -115,44 +117,77 @@ const { DataTypes, UUIDV4 } = require('sequelize'),
     {
       sequelize,
       // We need to pass the connection instance
-      modelName: 'Customer_Care_Respresentative',
-      tableName: 'cust_care_csr'
+      modelName: "Customer_Care_Respresentative",
+      tableName: "cust_care_csr"
     }
-  )
+  );
 
-/**one manager can have many CSR  */
-Manager.hasMany(Customer_Care_Respresentative, {
-  foreignKey: 'man_id'
-})
+  Customer_Care_Respresentative.associate = (models) => {
+    /**one manager can have many CSR  */
+    models.Managers.hasMany(Customer_Care_Respresentative, {
+      foreignKey: "man_id"
+    });
 
-Customer_Care_Respresentative.belongsTo(Manager, {
-  targetKey: 'man_id',
-  foreignKey: 'man_id'
-})
+    Customer_Care_Respresentative.belongsTo(models.Managers, {
+      targetKey: "man_id",
+      foreignKey: "man_id"
+    });
 
-/**one department can have many CSR  */
-Department.hasMany(Customer_Care_Respresentative, {
-  foreignKey: 'd_id'
-})
+    /**one department can have many CSR  */
+    models.Department.hasMany(Customer_Care_Respresentative, {
+      foreignKey: "d_id"
+    });
 
-Customer_Care_Respresentative.belongsTo(Department, {
-  targetKey: 'd_id',
-  foreignKey: 'd_id'
-})
+    Customer_Care_Respresentative.belongsTo(models.Department, {
+      targetKey: "d_id",
+      foreignKey: "d_id"
+    });
 
-User_Login_Information.hasOne(Customer_Care_Respresentative, {
-  foreignKey: 'login_id'
-})
+    models.User_Login_Information.hasOne(Customer_Care_Respresentative, {
+      foreignKey: "login_id"
+    });
 
-Customer_Care_Respresentative.belongsTo(User_Login_Information, {
-  targetKey: 'login_id',
-  foreignKey: 'login_id'
-})
-/*
- *boolean return type which will indicate that the table is defined or not
- */
-// console.log(
-//   Customer_Care_Respresentative ===
-//     sequelize.models.Customer_Care_Respresentative
-// )
-module.exports = Customer_Care_Respresentative
+    Customer_Care_Respresentative.belongsTo(models.User_Login_Information, {
+      targetKey: "login_id",
+      foreignKey: "login_id"
+    });
+  };
+
+  // /**one manager can have many CSR  */
+  // Manager.hasMany(Customer_Care_Respresentative, {
+  //   foreignKey: "man_id"
+  // });
+
+  // Customer_Care_Respresentative.belongsTo(Manager, {
+  //   targetKey: "man_id",
+  //   foreignKey: "man_id"
+  // });
+
+  // /**one department can have many CSR  */
+  // Department.hasMany(Customer_Care_Respresentative, {
+  //   foreignKey: "d_id"
+  // });
+
+  // Customer_Care_Respresentative.belongsTo(Department, {
+  //   targetKey: "d_id",
+  //   foreignKey: "d_id"
+  // });
+
+  // User_Login_Information.hasOne(Customer_Care_Respresentative, {
+  //   foreignKey: "login_id"
+  // });
+
+  // Customer_Care_Respresentative.belongsTo(User_Login_Information, {
+  //   targetKey: "login_id",
+  //   foreignKey: "login_id"
+  // });
+  /*
+   *boolean return type which will indicate that the table is defined or not
+   */
+  // console.log(
+  //   Customer_Care_Respresentative ===
+  //     sequelize.models.Customer_Care_Respresentative
+  // )
+  // module.exports = Customer_Care_Respresentative;
+  return Customer_Care_Respresentative;
+};

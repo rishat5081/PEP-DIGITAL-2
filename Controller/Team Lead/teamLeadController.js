@@ -1,11 +1,10 @@
-const { Op } = require("sequelize"),
-  fs = require("fs"),
-  Database = require("../../Configuration Files/Sequelize/Database_Synchronization"),
-  {
-    multerFile_Upload_Function
-  } = require("../../Configuration Files/Multer Js/multer");
-
 module.exports = (app) => {
+  const { Op } = require("sequelize"),
+    fs = require("fs"),
+    Database = require("../../Configuration Files/Sequelize/Database_Synchronization"),
+    {
+      multerFile_Upload_Function
+    } = require("../../Configuration Files/Multer Js/multer");
   /**
    * Upload image of the user at the starting of the new user login
    */

@@ -1,7 +1,7 @@
 const Database = require("../../Configuration Files/Sequelize/Database_Synchronization"),
   {
     sequelize
-  } = require("../../Configuration Files/Sequelize/Sequelize Models/Department"),
+  } = require("../../Configuration Files/Sequelize/Database_Synchronization"),
   { Op } = require("sequelize"),
   express = require("express"),
   router = express.Router(),
@@ -891,29 +891,29 @@ router.get("*", async (req, res) => {
 // }
 // name1();
 
-async function name1() {
-  let teamMember = await Database.Field_Executive.findAll({
-    attributes: ["field_id", "field_uuid", "field_name", "field_contact"],
-    where: {
-      team_L_id: 1,
-      field_isDeleted: 0,
-      field_isPaused: 0
-    },
-    include: {
-      model: Database.City_Sectors,
-      attributes: ["sector_name", "city_sector_uuid"],
-      required: true,
-      through: {
-        attributes: []
-      },
-      where: {
-        paused: 0,
-        deleted: 0
-      }
-    }
-  });
+// async function name1() {
+//   let teamMember = await Database.Field_Executive.findAll({
+//     attributes: ["field_id", "field_uuid", "field_name", "field_contact"],
+//     where: {
+//       team_L_id: 1,
+//       field_isDeleted: 0,
+//       field_isPaused: 0
+//     },
+//     include: {
+//       model: Database.City_Sectors,
+//       attributes: ["sector_name", "city_sector_uuid"],
+//       required: true,
+//       through: {
+//         attributes: []
+//       },
+//       where: {
+//         paused: 0,
+//         deleted: 0
+//       }
+//     }
+//   });
 
-  console.log(teamMember);
-}
+//   console.log(teamMember);
+// }
 
 // name1();

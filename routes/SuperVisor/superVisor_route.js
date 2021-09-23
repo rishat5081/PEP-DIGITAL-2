@@ -834,57 +834,67 @@ const countofNotificationOfExecutive = async (sup_id) => {
 };
 
 // (async function () {
-//   let cityNameData = await Database.City.findAll({
-//     attributes: ["city_id", "city_uuid", "city_name"],
-//     where: {
-//       paused: 0,
-//       deleted: 0
-//     },
-//     include: {
-//       model: Database.Supervisor,
-//       required: true,
-//       attributes: ["sup_id"],
-//       // through: {
-//       //   attributes: ["city_supp_assos_id", "city_id"]
-//       // },
-//       where: {
-//         sup_isPaused: 0,
-//         sup_isDeleted: 0,
-//         sup_id: 1
-//       }
-//     }
-//   });
+  // let cityNameData = await Database.City.findAll({
+  //   attributes: ["city_id", "city_uuid", "city_name"],
+  //   where: {
+  //     paused: 0,
+  //     deleted: 0
+  //   },
+  //   include: {
+  //     model: Database.Supervisor,
+  //     required: true,
+  //     attributes: ["sup_id"],
+  //     // through: {
+  //     //   attributes: ["city_supp_assos_id", "city_id"]
+  //     // },
+  //     where: {
+  //       sup_isPaused: 0,
+  //       sup_isDeleted: 0,
+  //       sup_id: 1
+  //     }
+  //   }
+  // });
 
-//   let getCityArea = await Database.City_and_Supervisor_associate.findAll({
-//     attributes: [
-//       "city_supp_assos_id",
-//       "city_id",
-//       "sup_id",
-//       "city_and_sup_asso_uuid"
-//     ],
-//     where: {
-//       paused: 0,
-//       deleted: 0,
-//       sup_id: 1,
-//       city_id: cityNameData.map((city) => city.city_id)
-//     },
-//     include: {
-//       model: Database.City_Areas,
-//       required: true,
-//       attributes: [
-//         "city_area_id",
-//         "city_area_uuid",
-//         "city_name",
-//         "city_code",
-//         "city_supp_assos_id"
-//       ],
-//       where: {
-//         paused: 0,
-//         deleted: 0
-//       }
-//     }
-//   });
+  // let getCityArea = await Database.City_and_Supervisor_associate.findAll({
+  //   attributes: [
+  //     "city_supp_assos_id",
+  //     "city_id",
+  //     "sup_id",
+  //     "city_and_sup_asso_uuid"
+  //   ],
+  //   where: {
+  //     paused: 0,
+  //     deleted: 0,
+  //     sup_id: 1,
+  //     city_id: cityNameData.map((city) => city.city_id)
+  //   },
+  //   include: {
+  //     model: Database.City_Areas,
+  //     required: true,
+  //     attributes: [
+  //       "city_area_id",
+  //       "city_area_uuid",
+  //       "city_name",
+  //       "city_code",
+  //       "city_supp_assos_id"
+  //     ],
+  //     where: {
+  //       paused: 0,
+  //       deleted: 0
+  //     }
+  //   }
+  // });
 
+  // await Database.Permissions.findAll({
+  //   include: {
+  //     model: Database.User_Role,
+  //     through: {
+  //       attributes: []
+  //     }
+  //   }
+  // }).then((data) => {
+  //   console.log(data.length);
+  // });
 // })();
 
 // (async function () {
