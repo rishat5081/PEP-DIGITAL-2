@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Dashboard</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--===============================================================================================-->
+        <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.css">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css">
+        <!--===============================================================================================-->
+    </head>
+    <body>
+
+      <!--  Navigation-->
+      <div class="limiter">
+        <div class="container-profile100">
+            <div class="header">
+                <div class="cover-image100">
+                    <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
+                    <a href="#">
+                        <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+                    </a>
+                    <a href="<%=url%>/manager/notification">
+                        <span class="fa fa-bell menu-button">
+                            <span class="button__badge" style="display: none;"></span>
+                        </span>
+                    </a>
+                    <nav id="menu">
+                        <ul>
+                            <%if(permissions){%>
+                            <% permissions.forEach(element=> { %>
+                                <li>
+                                    <a href="<%=url%>/manager<%= element.controller%>/<%=info.uuid%>">
+                                        <span class="<%= element.icon%>"></span>
+                                        <%= element.permission_name %>
+                                    </a>
+                                </li>
+                                <% })} %>
+                                    <li>
+                                        <a href="<%=url%>/manager/signout">
+                                            <span class="fa fa-sign-out"> </span> Log Out</a>
+                                    </li>
+                        </ul>
+                        <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+                    </nav>
+                </div>
+                    <div class="container profile-pic-section">
+                        <div class="row head-section">
+                            <div class="col-md-12" align="center">
+                                <h2>Dashboard</h2>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row dashboardarea">
+                        <div class="col-3 profilearea  mt-3 ">
+                            <div class="row  mt-1  profile_uppersection ">
+                                <%if(profileData.man_userProfilePic!== null){%>
+                                    <div class="container_pic ">
+                                        <img class="font-size-sm" src="<%=url%><%=profileData.man_userProfilePic%>">
+                                    </div>
+                                    <% }else{ %>
+                                        <div class="container_pic ">
+                                            <img class="font-size-sm" src="<%=url%>/img/jazzcash.png">
+                                        </div>
+                                        <% } %>
+                                            <div class=" ml-4 p-1 mt-1">
+                                                <h4 class="font-size-sm">
+                                                    <%=profileData.man_name%>
+                                                </h4>
+                                             
+                                                <h4 class="mt-2 badge badge-info mb-1 " style="font-size: large;">
+                                                    <%=user_role.type_name%>
+                                                </h4>
+                                                <p class=" mt-2mb-1 font-size-sm">
+                                                    <b>Contact:</b>
+                                                    <%=profileData.man_contact%>
+                                                </p>
+
+                                                <p class="mb-1 font-size-sm">
+                                                    <b>Username:</b>
+                                                    <%=profileData.man_username%>
+                                                </p>
+                                                <p class="mb-1 font-size-sm">
+                                                    <b>Salary:</b>
+                                                    <%=profileData.man_salary%>
+                                                </p>
+                                                <p class=" mt-1 font-size-sm text-center" id="memberSince">
+
+                                                </p>
+                                            </div>
+                            </div>
+
+                            <div class="row  mt-1  profile_uppersection ">
+                                <div>
+                                    <strong class="font-size-sm">
+                                        Company Relevant Information
+                                    </strong>
+                                    <p class="mb-1 font-size-sm">
+                                        <b>Department Name:</b>
+                                        <%=profileData.d_name%>
+                                    </p>
+                                    <p class="mb-1 font-size-sm">
+                                        <b>Zone:</b>
+                                        <%=profileData.zone_name%>
+                                      
+                                    </p>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-9">
+                            <div id="carouselExampleCaptions" class="carousel slide mt-2 carouselimg"
+                                data-ride="carousel">
+                                <ol class="carousel-indicators">
+                                    <% webAds.map((data,index)=>{ %>
+                                        <%if(index==0) {%>
+                                            <li data-target="#carouselExampleCaptions" data-slide-to="<% index %> "
+                                                class="active">
+                                            </li>
+                                            <% }else{ %>
+                                                <li data-target="#carouselExampleCaptions" data-slide-to="<% index %>">
+                                                </li>
+                                                <% }}) %>
+
+                                </ol>
+                                <div class="carousel-inner">
+                                    <% webAds.map((data,index)=>{ %>
+                                        <%if(index==0) {%>
+                                            <div class="carousel-item active p-2">
+                                                <img src="<%=url%>/<%=data.picPath%>" class="d-block w-100"
+                                                    alt="<%= data.title %>">
+                                                <div class="carousel-caption d-none d-md-block">
+                                                    <h5 class="font-weight-bolder text-danger">
+                                                        <%=data.title %>
+                                                    </h5>
+                                                    <p class="text-danger">
+                                                        <%= data.description %>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <% }else{ %>
+                                                <div class="carousel-item p-2">
+                                                    <img src="<%=url%>/<%=data.picPath%>" class="d-block w-100"
+                                                        alt="<%= data.title %>">
+                                                    <div class="carousel-caption d-none d-md-block">
+                                                        <h5 class="font-weight-bolder text-danger">
+                                                            <%= data.title %>
+                                                        </h5>
+                                                        <p class="text-danger">
+                                                            <%= data.description %>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <% }}) %>
+                                </div>
+                                <a class="carousel-control-prev text-dark" href="#carouselExampleCaptions" role="button"
+                                    data-slide="prev">
+                                    <span class="carousel-control-prev-icon bg-dark" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next " href="#carouselExampleCaptions" role="button"
+                                    data-slide="next">
+                                    <span class="carousel-control-next-icon bg-dark" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <!--===============================================================================================-->
+        <script src="<%=url%>/vendor/jquery/jquery-3.2.1.min.js"></script>
+        <!--===============================================================================================-->
+        <script src="<%=url%>/vendor/bootstrap/js/popper.min.js"></script>
+        <script src="<%=url%>/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <!--===============================================================================================-->
+        <script src="<%=url%>/vendor/jquery/tilt.jquery.min.js"></script>
+        <script>
+            $('.js-tilt').tilt({
+                scale: 1.1
+            })
+            var menu = document.getElementById("menu");
+            function openMenu() {
+                menu.style.top = "0";
+            }
+            function closeMenu() {
+                menu.style.top = "-100vh";
+            }
+            var notificationCount = JSON.parse('<%-JSON.stringify(unreadNotificationCount)%>')
+            if (notificationCount) {
+                $('.button__badge').css('display', 'block')
+                $('.button__badge').html(JSON.parse('<%-JSON.stringify(unreadNotificationCount)%>'))
+            }
+
+            var profileData = JSON.parse('<%-JSON.stringify(profileData)%>')
+            const date = new Date(profileData.createdAt);
+            $("#memberSince").html('<b>Member Since: </b>' + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
+        </script>
+        <!--===============================================================================================-->
+
+    </body>
+
+</html>

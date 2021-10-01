@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Notifications</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--===============================================================================================-->
+    <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css" />
+    <!--===============================================================================================-->
+  </head>
+
+  <body>
+    <!--  Navigation-->
+    <div class="limiter">
+      <div class="container-profile100">
+        <div class="header">
+          <div class="cover-image100">
+            <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
+            <a href="#">
+              <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+            </a>
+            <a href="<%=url%>/manager/notification">
+              <span class="fa fa-bell menu-button">
+                <span class="button__badge" style="display: none"></span>
+              </span>
+            </a>
+            <nav id="menu">
+              <ul>
+                <% permissions.forEach(element=> { %>
+                <li>
+                  <a
+                    href="<%=url%>/manager<%= element.controller%>/<%=info.uuid%>"
+                  >
+                    <span class="<%= element.icon%>"></span>
+                    <%= element.permission_name %>
+                  </a>
+                </li>
+                <% }); %>
+                <li>
+                  <a href="<%=url%>/manager/signout">
+                    <span class="fa fa-sign-out"> </span> Log Out</a
+                  >
+                </li>
+              </ul>
+              <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+            </nav>
+          </div>
+          <!-- --------------------- -->
+          <div class="notifytitle">
+            <div class="row">
+              <div class="col-6">
+                <h3>
+                  Notifications
+                  <i class="fa fa-bell" aria-hidden="true"></i>
+                </h3>
+              </div>
+            </div>
+          </div>
+          <div class="notificationtitle">
+            <div class="row">
+              <div class="col-6">
+                <h3>Unread Notification</h3>
+              </div>
+            </div>
+          </div>
+          <hr class="line" />
+          <% unreadNotification.forEach(element=> { %> <% if(!element.isRead){
+          %>
+          <div class="d-flex bd-highlight p-2 mt-0 notify" id="nonoti">
+            <div class="p-2 bd-highlight notificationIcons">
+              <span
+                class="<%=element.NotificationText.notification_icon %>"
+              ></span>
+            </div>
+            <div class="p-2 bd-highlight w-100">
+              <%=element.NotificationText.notification_title %>
+              <%=element.notification_text %>
+            </div>
+          </div>
+          <% } %> <% }) %>
+          <div class="notificationtitle mt-4">
+            <div class="row">
+              <div class="col-6">
+                <h3>Earlier</h3>
+              </div>
+            </div>
+          </div>
+          <hr class="line" />
+          <% unreadNotification.forEach(element=> { %> <% if(element.isRead){ %>
+          <div class="d-flex bd-highlight p-2 mt-0 notify" id="nonoti">
+            <div class="p-2 bd-highlight notificationIcons">
+              <span
+                class="<%=element.NotificationText.notification_icon %>"
+              ></span>
+            </div>
+            <div class="p-2 bd-highlight w-100">
+              <strong>
+                <%=element.NotificationText.notification_title %>
+              </strong>
+              <br />
+              <%=element.notification_text%>
+            </div>
+          </div>
+          <%} }) %>
+        </div>
+      </div>
+    </div>
+    <!--===============================================================================================-->
+    <script src="<%=url%>/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="<%=url%>/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="<%=url%>/vendor/jquery/tilt.jquery.min.js"></script>
+
+    <script src="<%=url%>/toastr/toastr.min.js"></script>
+    <script>
+      var notificationCount = JSON.parse(
+        "<%-JSON.stringify(unreadNotificationCount)%>"
+      );
+      var notifications = JSON.parse("<%-JSON.stringify(unreadNotification)%>");
+      if (notificationCount) {
+        $(".button__badge").css("display", "block");
+        $(".button__badge").html(
+          JSON.parse("<%-JSON.stringify(unreadNotificationCount)%>")
+        );
+      }
+      $(".js-tilt").tilt({
+        scale: 1.1
+      });
+
+      var menu = document.getElementById("menu");
+      function openMenu() {
+        menu.style.top = "0";
+      }
+      function closeMenu() {
+        menu.style.top = "-100vh";
+      }
+
+      // A $( document ).ready() block.
+      $(document).ready(function () {
+        $.ajax({
+          type: "POST",
+          url: `${window.location.origin}/readAllManagerNotifications`,
+          data: { updateStatus: true },
+          dataType: "application/json",
+          error: (error) => {},
+          success: (response) => {}
+        });
+      });
+    </script>
+  </body>
+</html>

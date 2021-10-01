@@ -2,9 +2,7 @@ const router = require("express").Router(),
   fs = require("fs"),
   { Op } = require("sequelize"),
   Database = require("../../Configuration Files/Sequelize/Database_Synchronization"),
-  {
-    sequelize
-  } = require("../../Configuration Files/Sequelize/Database_Synchronization"),
+  { sequelize } = require("../../Configuration Files/Sequelize/Sequelize"),
   {
     multerFile_Upload_Function
   } = require("../../Configuration Files/Multer Js/multer"),
@@ -1122,6 +1120,7 @@ router
           },
           {
             sup_id: req.session.profileData.sup_id,
+            man_id: 0,
             individualHooks: true
           }
         );
@@ -1169,6 +1168,7 @@ router
           },
           {
             sup_id: req.session.profileData.sup_id,
+            man_id: 0,
             individualHooks: true
           }
         );

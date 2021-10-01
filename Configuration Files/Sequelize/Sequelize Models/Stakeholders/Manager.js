@@ -41,7 +41,19 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         type: DataTypes.TEXT,
         allowNull: true
       },
+      man_DOB: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
       man_contact: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      man_target: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      man_commission: {
         type: DataTypes.TEXT,
         allowNull: true
       },
@@ -57,6 +69,19 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
       man_username: {
         type: DataTypes.TEXT,
         allowNull: true
+      },
+      login_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: false,
+        autoIncrement: false,
+        references: {
+          model: "user_login_information",
+          key: "login_id"
+        },
+
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE"
       },
       d_id: {
         type: DataTypes.INTEGER,
@@ -107,6 +132,15 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
     Managers.belongsTo(models.Department, {
       targetKey: "d_id",
       foreignKey: "d_id"
+    });
+
+    models.User_Login_Information.hasOne(Managers, {
+      foreignKey: "login_id"
+    });
+
+    Managers.belongsTo(models.User_Login_Information, {
+      targetKey: "login_id",
+      foreignKey: "login_id"
     });
   };
 

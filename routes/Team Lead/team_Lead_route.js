@@ -1,8 +1,5 @@
 const Database = require("../../Configuration Files/Sequelize/Database_Synchronization"),
-  {
-    sequelize
-  } = require("../../Configuration Files/Sequelize/Database_Synchronization"),
-  { Op } = require("sequelize"),
+  sequelize = require("../../Configuration Files/Sequelize/Sequelize"),
   express = require("express"),
   router = express.Router(),
   { isUser_Login } = require("../Web_Pages/index");

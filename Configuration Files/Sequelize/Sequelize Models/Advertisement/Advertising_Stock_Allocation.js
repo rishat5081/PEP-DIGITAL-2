@@ -73,7 +73,7 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         primaryKey: false,
         autoIncrement: false,
         references: {
-          model: "manager",
+          model: "managers",
           key: "man_id"
         }
       }

@@ -1,4 +1,4 @@
-function getAttributes(tableName) {
+module.exports.getAttributes = (tableName) => {
   var columnName = [];
   for (let key in tableName.rawAttributes) {
     if (
@@ -10,6 +10,4 @@ function getAttributes(tableName) {
   }
 
   return columnName;
-}
-
-module.exports = { getAttributes };
+};

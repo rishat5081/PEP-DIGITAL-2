@@ -14,12 +14,10 @@ const {
     Executive_Pending_Earning,
     Field_Executive,
     WebAds,
-    NotificationText
+    NotificationText,
+    AgencyTypes
   } = require("../../Configuration Files/Sequelize/Database_Synchronization"),
-  {
-    sequelize
-  } = require("../../Configuration Files/Sequelize/Database_Synchronization"),
-  AgencyTypes = require("../../Configuration Files/Sequelize/Sequelize Models/Agency Models/AgencyTypes"),
+  sequelize = require("../../Configuration Files/Sequelize/Sequelize"),
   { Op, QueryTypes } = require("sequelize"),
   express = require("express"),
   router = express.Router(),

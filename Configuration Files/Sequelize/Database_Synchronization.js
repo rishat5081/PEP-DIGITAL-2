@@ -1,1372 +1,471 @@
-let sequelize = require("./Sequelize");
-let Sequelize = require("sequelize");
-let Models = {
-  Advertisement_Recommendation:
-    require("./Sequelize Models/Advertisement/Advertisement_Recommendation")(
+let sequelize = require("./Sequelize"),
+  Sequelize = require("sequelize"),
+  Models = {
+    Advertisement_Recommendation:
+      require("./Sequelize Models/Advertisement/Advertisement_Recommendation")(
+        sequelize,
+        Sequelize
+      ),
+    Advertisement_Stock:
+      require("./Sequelize Models/Advertisement/Advertisement_Stock")(
+        sequelize,
+        Sequelize
+      ),
+    Advertising_Stock_Allocation:
+      require("./Sequelize Models/Advertisement/Advertising_Stock_Allocation")(
+        sequelize,
+        Sequelize
+      ),
+    Request_of_Advertisement:
+      require("./Sequelize Models/Advertisement/Request_of_Advertisement")(
+        sequelize,
+        Sequelize
+      ),
+    Agency_Info: require("./Sequelize Models/Agency Models/Agency_Info")(
       sequelize,
       Sequelize
     ),
-  Advertisement_Stock:
-    require("./Sequelize Models/Advertisement/Advertisement_Stock")(
+    AgencyLogs_Supervisor:
+      require("./Sequelize Models/Agency Models/AgencyLogs_Supervisor")(
+        sequelize,
+        Sequelize
+      ),
+    AgencyTypes: require("./Sequelize Models/Agency Models/AgencyTypes")(
       sequelize,
       Sequelize
     ),
-  Advertising_Stock_Allocation:
-    require("./Sequelize Models/Advertisement/Advertising_Stock_Allocation")(
+    Carriers: require("./Sequelize Models/Carrier/Carriers")(
       sequelize,
       Sequelize
     ),
-  Request_of_Advertisement:
-    require("./Sequelize Models/Advertisement/Request_of_Advertisement")(
+    Carrier_Paid_Payment:
+      require("./Sequelize Models/Carrier/Carrier_Paid_Payment")(
+        sequelize,
+        Sequelize
+      ),
+    Carriers_Services: require("./Sequelize Models/Carrier/Carriers_Services")(
       sequelize,
       Sequelize
     ),
-  Agency_Info: require("./Sequelize Models/Agency Models/Agency_Info")(
-    sequelize,
-    Sequelize
-  ),
-  AgencyLogs_Supervisor:
-    require("./Sequelize Models/Agency Models/AgencyLogs_Supervisor")(
+    Payment_Carrier_Services:
+      require("./Sequelize Models/Carrier/Payment_Carrier_Services")(
+        sequelize,
+        Sequelize
+      ),
+    City: require("./Sequelize Models/City/City")(sequelize, Sequelize),
+    City_Areas: require("./Sequelize Models/City/City_Areas")(
       sequelize,
       Sequelize
     ),
-  AgencyTypes: require("./Sequelize Models/Agency Models/AgencyTypes")(
-    sequelize,
-    Sequelize
-  ),
-  Carriers: require("./Sequelize Models/Carrier/Carriers")(
-    sequelize,
-    Sequelize
-  ),
-  Carrier_Paid_Payment:
-    require("./Sequelize Models/Carrier/Carrier_Paid_Payment")(
+    City_Sectors: require("./Sequelize Models/City/City_Sectors")(
       sequelize,
       Sequelize
     ),
-  Carriers_Services: require("./Sequelize Models/Carrier/Carriers_Services")(
-    sequelize,
-    Sequelize
-  ),
-  Payment_Carrier_Services:
-    require("./Sequelize Models/Carrier/Payment_Carrier_Services")(
+    City_Sector_Assosiate:
+      require("./Sequelize Models/City/City_Sector_Assosiate")(
+        sequelize,
+        Sequelize
+      ),
+    City_and_Supervisor_associate:
+      require("./Sequelize Models/City/City_and_Supervisor_associate")(
+        sequelize,
+        Sequelize
+      ),
+    Compaigns: require("./Sequelize Models/Compaign/Compaigns")(
       sequelize,
       Sequelize
     ),
-  City: require("./Sequelize Models/City/City")(sequelize, Sequelize),
-  City_Areas: require("./Sequelize Models/City/City_Areas")(
-    sequelize,
-    Sequelize
-  ),
-  City_Sectors: require("./Sequelize Models/City/City_Sectors")(
-    sequelize,
-    Sequelize
-  ),
-  City_Sector_Assosiate:
-    require("./Sequelize Models/City/City_Sector_Assosiate")(
+    Compaign_Activities:
+      require("./Sequelize Models/Compaign/Compaign_Activities")(
+        sequelize,
+        Sequelize
+      ),
+    Compaign_Sale: require("./Sequelize Models/Compaign/Compaign_Sale")(
       sequelize,
       Sequelize
     ),
-  City_and_Supervisor_associate:
-    require("./Sequelize Models/City/City_and_Supervisor_associate")(
+    Companies_Access: require("./Sequelize Models/Company/Companies_Access")(
       sequelize,
       Sequelize
     ),
-  Compaigns: require("./Sequelize Models/Compaign/Compaigns")(
-    sequelize,
-    Sequelize
-  ),
-  Compaign_Activities:
-    require("./Sequelize Models/Compaign/Compaign_Activities")(
+    Company_Promotion: require("./Sequelize Models/Company/Company_Promotion")(
       sequelize,
       Sequelize
     ),
-  Compaign_Sale: require("./Sequelize Models/Compaign/Compaign_Sale")(
-    sequelize,
-    Sequelize
-  ),
-  Companies_Access: require("./Sequelize Models/Company/Companies_Access")(
-    sequelize,
-    Sequelize
-  ),
-  Company_Promotion: require("./Sequelize Models/Company/Company_Promotion")(
-    sequelize,
-    Sequelize
-  ),
-  Customer_Care_Activities:
-    require("./Sequelize Models/Customer Care/Customer_Care_Activities")(
+    Customer_Care_Activities:
+      require("./Sequelize Models/Customer Care/Customer_Care_Activities")(
+        sequelize,
+        Sequelize
+      ),
+    ComplainsOfActivities:
+      require("./Sequelize Models/Complains/ComplainsOfActivities")(
+        sequelize,
+        Sequelize
+      ),
+    Call_Receiving: require("./Sequelize Models/Customer Care/Call_Receiving")(
       sequelize,
       Sequelize
     ),
-  Call_Receiving: require("./Sequelize Models/Customer Care/Call_Receiving")(
-    sequelize,
-    Sequelize
-  ),
-  Executive_Adver_Stock_Info:
-    require("./Sequelize Models/Executive/Executive_Adver_Stock_Info")(
+    Executive_Adver_Stock_Info:
+      require("./Sequelize Models/Executive/Executive_Adver_Stock_Info")(
+        sequelize,
+        Sequelize
+      ),
+    Executive_Pending_Earning:
+      require("./Sequelize Models/Executive/Executive_Pending_Earning")(
+        sequelize,
+        Sequelize
+      ),
+    Recommendation_for_Executive:
+      require("./Sequelize Models/Executive/Recommendation_for_Executive")(
+        sequelize,
+        Sequelize
+      ),
+    Executive_Withdraws:
+      require("./Sequelize Models/Executive/Executive_Withdraws")(
+        sequelize,
+        Sequelize
+      ),
+    Stock_Usage: require("./Sequelize Models/Executive/Stock_Usage")(
       sequelize,
       Sequelize
     ),
-  Executive_Pending_Earning:
-    require("./Sequelize Models/Executive/Executive_Pending_Earning")(
+    Activities: require("./Sequelize Models/Lists of Packages/Activities")(
       sequelize,
       Sequelize
     ),
-  Recommendation_for_Executive:
-    require("./Sequelize Models/Executive/Recommendation_for_Executive")(
+    List_of_Packages:
+      require("./Sequelize Models/Lists of Packages/List_of_Packages")(
+        sequelize,
+        Sequelize
+      ),
+    List_sub_Activities:
+      require("./Sequelize Models/Lists of Packages/List_sub_Activities")(
+        sequelize,
+        Sequelize
+      ),
+    Activity_Instruction:
+      require("./Sequelize Models/Lists of Packages/Activity_Instruction")(
+        sequelize,
+        Sequelize
+      ),
+    Carrier_Logs: require("./Sequelize Models/Logs/Carrier_Logs")(
       sequelize,
       Sequelize
     ),
-  Executive_Withdraws:
-    require("./Sequelize Models/Executive/Executive_Withdraws")(
+    Company_Acess_Logs: require("./Sequelize Models/Logs/Company_Acess_Logs")(
       sequelize,
       Sequelize
     ),
-  Stock_Usage: require("./Sequelize Models/Executive/Stock_Usage")(
-    sequelize,
-    Sequelize
-  ),
-  Activities: require("./Sequelize Models/Lists of Packages/Activities")(
-    sequelize,
-    Sequelize
-  ),
-  List_of_Packages:
-    require("./Sequelize Models/Lists of Packages/List_of_Packages")(
+    SuperAdmin_Department_Logs:
+      require("./Sequelize Models/Logs/SuperAdmin_Department_Logs")(
+        sequelize,
+        Sequelize
+      ),
+    Permissions: require("./Sequelize Models/Permission/Permissions")(
       sequelize,
       Sequelize
     ),
-  List_sub_Activities:
-    require("./Sequelize Models/Lists of Packages/List_sub_Activities")(
+    Permission_Role_Assosiate:
+      require("./Sequelize Models/Permission/Permission_Role_Assosiate")(
+        sequelize,
+        Sequelize
+      ),
+    Packages: require("./Sequelize Models/Packages of Company/Packages")(
       sequelize,
       Sequelize
     ),
-  Activity_Instruction:
-    require("./Sequelize Models/Lists of Packages/Activity_Instruction")(
+    PEP_Agents: require("./Sequelize Models/PEP Agents/PEP_Agents")(
       sequelize,
       Sequelize
     ),
-  Carrier_Logs: require("./Sequelize Models/Logs/Carrier_Logs")(
-    sequelize,
-    Sequelize
-  ),
-  Company_Acess_Logs: require("./Sequelize Models/Logs/Company_Acess_Logs")(
-    sequelize,
-    Sequelize
-  ),
-  SuperAdmin_Department_Logs:
-    require("./Sequelize Models/Logs/SuperAdmin_Department_Logs")(
+    PEP_Agents_Activities:
+      require("./Sequelize Models/PEP Agents/PEP_Agents_Activities")(
+        sequelize,
+        Sequelize
+      ),
+    Promotion_Request_Status:
+      require("./Sequelize Models/Promotion/Promotion_Request_Status")(
+        sequelize,
+        Sequelize
+      ),
+    Promotion_Req_By_Supervisor:
+      require("./Sequelize Models/Promotion/Promotion_Req_By_Supervisor")(
+        sequelize,
+        Sequelize
+      ),
+    Customer_Care_Respresentative:
+      require("./Sequelize Models/Stakeholders/Customer_Care_Respresentative")(
+        sequelize,
+        Sequelize
+      ),
+    Data_Entry_Operator:
+      require("./Sequelize Models/Stakeholders/Data_Entry_Operator")(
+        sequelize,
+        Sequelize
+      ),
+    Field_Executive: require("./Sequelize Models/Stakeholders/Field_Executive")(
       sequelize,
       Sequelize
     ),
-  Permissions: require("./Sequelize Models/Permission/Permissions")(
-    sequelize,
-    Sequelize
-  ),
-  Permission_Role_Assosiate:
-    require("./Sequelize Models/Permission/Permission_Role_Assosiate")(
+    GM_Company: require("./Sequelize Models/Stakeholders/GM_Company")(
       sequelize,
       Sequelize
     ),
-  Packages: require("./Sequelize Models/Packages of Company/Packages")(
-    sequelize,
-    Sequelize
-  ),
-  PEP_Agents: require("./Sequelize Models/PEP Agents/PEP_Agents")(
-    sequelize,
-    Sequelize
-  ),
-  PEP_Agents_Activities:
-    require("./Sequelize Models/PEP Agents/PEP_Agents_Activities")(
+    Managers: require("./Sequelize Models/Stakeholders/Manager")(
       sequelize,
       Sequelize
     ),
-  Promotion_Request_Status:
-    require("./Sequelize Models/Promotion/Promotion_Request_Status")(
+    NotificationText:
+      require("./Sequelize Models/Notifications/NotificationText")(
+        sequelize,
+        Sequelize
+      ),
+    ExecutiveNotifications:
+      require("./Sequelize Models/Notifications/ExecutiveNotifications")(
+        sequelize,
+        Sequelize
+      ),
+    TeamLead_Notifications:
+      require("./Sequelize Models/Notifications/TeamLead_Notifications")(
+        sequelize,
+        Sequelize
+      ),
+    SuperVisorNotification:
+      require("./Sequelize Models/Notifications/SuperVisorNotification")(
+        sequelize,
+        Sequelize
+      ),
+    ManagerNotifications:
+      require("./Sequelize Models/Notifications/ManagerNotifications")(
+        sequelize,
+        Sequelize
+      ),
+    GMNotifications:
+      require("./Sequelize Models/Notifications/GMNotifications")(
+        sequelize,
+        Sequelize
+      ),
+    ExecutiveLogins:
+      require("./Sequelize Models/Login Activities/ExecutiveLogins")(
+        sequelize,
+        Sequelize
+      ),
+    GMLogin: require("./Sequelize Models/Login Activities/GMLogin")(
       sequelize,
       Sequelize
     ),
-  Promotion_Req_By_Supervisor:
-    require("./Sequelize Models/Promotion/Promotion_Req_By_Supervisor")(
+    ManagerLogin: require("./Sequelize Models/Login Activities/ManagerLogin")(
       sequelize,
       Sequelize
     ),
-  Customer_Care_Respresentative:
-    require("./Sequelize Models/Stakeholders/Customer_Care_Respresentative")(
+    SuperVisorLogin:
+      require("./Sequelize Models/Login Activities/SuperVisorLogin")(
+        sequelize,
+        Sequelize
+      ),
+    TeamLead_Login:
+      require("./Sequelize Models/Login Activities/TeamLead_Login")(
+        sequelize,
+        Sequelize
+      ),
+    Super_Admin: require("./Sequelize Models/Stakeholders/Super_Admin")(
       sequelize,
       Sequelize
     ),
-  Data_Entry_Operator:
-    require("./Sequelize Models/Stakeholders/Data_Entry_Operator")(
+    Supervisor: require("./Sequelize Models/Stakeholders/Supervisor")(
       sequelize,
       Sequelize
     ),
-  Field_Executive: require("./Sequelize Models/Stakeholders/Field_Executive")(
-    sequelize,
-    Sequelize
-  ),
-  GM_Company: require("./Sequelize Models/Stakeholders/GM_Company")(
-    sequelize,
-    Sequelize
-  ),
-  Managers: require("./Sequelize Models/Stakeholders/Manager")(
-    sequelize,
-    Sequelize
-  ),
-  NotificationText:
-    require("./Sequelize Models/Notifications/NotificationText")(
+    Training: require("./Sequelize Models/Training/Training")(
       sequelize,
       Sequelize
     ),
-  ExecutiveNotifications:
-    require("./Sequelize Models/Notifications/ExecutiveNotifications")(
+    Training_Activities:
+      require("./Sequelize Models/Training/Training_Activities")(
+        sequelize,
+        Sequelize
+      ),
+    Team_Lead: require("./Sequelize Models/Stakeholders/Team_Lead")(
       sequelize,
       Sequelize
     ),
-  TeamLead_Notifications:
-    require("./Sequelize Models/Notifications/TeamLead_Notifications")(
+    Team_Lead_Adver_Stock:
+      require("./Sequelize Models/Team Lead/Team_Lead_Adver_Stock")(
+        sequelize,
+        Sequelize
+      ),
+    User_Login_Information:
+      require("./Sequelize Models/Users Login/User_Login_Information")(
+        sequelize,
+        Sequelize
+      ),
+    User_Role: require("./Sequelize Models/Users Login/User_Role")(
       sequelize,
       Sequelize
     ),
-  SuperVisorNotification:
-    require("./Sequelize Models/Notifications/SuperVisorNotification")(
+    changeRoleLogs: require("./Sequelize Models/Users Login/changeRoleLogs")(
       sequelize,
       Sequelize
     ),
-  ManagerNotifications:
-    require("./Sequelize Models/Notifications/ManagerNotifications")(
+    Role_ExtraInfo: require("./Sequelize Models/Users Login/Role_ExtraInfo")(
       sequelize,
       Sequelize
     ),
-  GMNotifications: require("./Sequelize Models/Notifications/GMNotifications")(
-    sequelize,
-    Sequelize
-  ),
-  ExecutiveLogins:
-    require("./Sequelize Models/Login Activities/ExecutiveLogins")(
+    Login_Page: require("./Sequelize Models/Web/loginPage")(
       sequelize,
       Sequelize
     ),
-  GMLogin: require("./Sequelize Models/Login Activities/GMLogin")(
-    sequelize,
-    Sequelize
-  ),
-  ManagerLogin: require("./Sequelize Models/Login Activities/ManagerLogin")(
-    sequelize,
-    Sequelize
-  ),
-  SuperVisorLogin:
-    require("./Sequelize Models/Login Activities/SuperVisorLogin")(
+    Banks_List: require("./Sequelize Models/Web/Banks_List")(
       sequelize,
       Sequelize
     ),
-  TeamLead_Login: require("./Sequelize Models/Login Activities/TeamLead_Login")(
-    sequelize,
-    Sequelize
-  ),
-  Super_Admin: require("./Sequelize Models/Stakeholders/Super_Admin")(
-    sequelize,
-    Sequelize
-  ),
-  Supervisor: require("./Sequelize Models/Stakeholders/Supervisor")(
-    sequelize,
-    Sequelize
-  ),
-  Training: require("./Sequelize Models/Training/Training")(
-    sequelize,
-    Sequelize
-  ),
-  Training_Activities:
-    require("./Sequelize Models/Training/Training_Activities")(
+    PEP_Banks_Details: require("./Sequelize Models/Web/PEP_Banks_Details")(
       sequelize,
       Sequelize
     ),
-  Team_Lead: require("./Sequelize Models/Stakeholders/Team_Lead")(
-    sequelize,
-    Sequelize
-  ),
-  Team_Lead_Adver_Stock:
-    require("./Sequelize Models/Team Lead/Team_Lead_Adver_Stock")(
+    SignUp_Page: require("./Sequelize Models/Web/signUpPage")(
       sequelize,
       Sequelize
     ),
-  User_Login_Information:
-    require("./Sequelize Models/Users Login/User_Login_Information")(
+    Executive_Recommendation:
+      require("./Sequelize Models/Web/Executive_Recommendation")(
+        sequelize,
+        Sequelize
+      ),
+    Web_Content: require("./Sequelize Models/Web/webContent")(
       sequelize,
       Sequelize
     ),
-  User_Role: require("./Sequelize Models/Users Login/User_Role")(
-    sequelize,
-    Sequelize
-  ),
-  changeRoleLogs: require("./Sequelize Models/Users Login/changeRoleLogs")(
-    sequelize,
-    Sequelize
-  ),
-  Role_ExtraInfo: require("./Sequelize Models/Users Login/Role_ExtraInfo")(
-    sequelize,
-    Sequelize
-  ),
-  Login_Page: require("./Sequelize Models/Web/loginPage")(sequelize, Sequelize),
-  Banks_List: require("./Sequelize Models/Web/Banks_List")(
-    sequelize,
-    Sequelize
-  ),
-  PEP_Banks_Details: require("./Sequelize Models/Web/PEP_Banks_Details")(
-    sequelize,
-    Sequelize
-  ),
-  SignUp_Page: require("./Sequelize Models/Web/signUpPage")(
-    sequelize,
-    Sequelize
-  ),
-  Executive_Recommendation:
-    require("./Sequelize Models/Web/Executive_Recommendation")(
-      sequelize,
-      Sequelize
-    ),
-  Web_Content: require("./Sequelize Models/Web/webContent")(
-    sequelize,
-    Sequelize
-  ),
-  WebAds: require("./Sequelize Models/Web/WebAds")(sequelize, Sequelize),
-  Pendance_Clearance_Details:
-    require("./Sequelize Models/Web/Pendance_Clearance_Details")(
-      sequelize,
-      Sequelize
-    ),
-  Department: require("./Sequelize Models/Department")(sequelize, Sequelize),
-  Zone: require("./Sequelize Models/Zone")(sequelize, Sequelize)
-};
+    WebAds: require("./Sequelize Models/Web/WebAds")(sequelize, Sequelize),
+    Pendance_Clearance_Details:
+      require("./Sequelize Models/Web/Pendance_Clearance_Details")(
+        sequelize,
+        Sequelize
+      ),
+    Department: require("./Sequelize Models/Department")(sequelize, Sequelize),
+    Zone: require("./Sequelize Models/Zone")(sequelize, Sequelize)
+  };
 /**Get all the models here
  * now Synchronizing it one by one into a function
  * and then it will create all the data base
  */
 
-// Object.keys(Models).forEach((modelName) => {
-//   if ("assosiate" in Models[modelName]) {
-//     console.log(modelName);
-//     //   db[modelName].associate(db);
-//   }
-// });
-
-Models.Sequelize = Sequelize;
-Models.sequelize = sequelize;
-
+//associating the models
 Object.keys(Models).forEach((modelName) => {
   if (Models[modelName].associate) {
     Models[modelName].associate(Models);
   }
 });
 
+let Synchronizing = async () => {
+  /**
+   * Commented lines are used to sync the database tables
+   * forcely and then check the foreign key true
+   */
+  console.log("*************************************************************");
+  console.log("----------------- Creating Database Started -----------------");
+
+  /**
+   * Allowing the data base to igonre the Foreign
+   */
+  await sequelize
+    .query("SET FOREIGN_KEY_CHECKS = 0", null, { raw: true })
+    .then((response) => console.log("Creating Database.... Please Wait"));
+
+  await sequelize
+    .sync({ force: true })
+    .then()
+    .catch((error) => {
+      console.error(error + "\n");
+      console.log("\n");
+      console.log("\n");
+      console.error("Error in Creating Table : " + sequelize);
+    });
+
+  console.log("*************************************************************");
+  console.log("*************************************************************");
+  console.log("*************************************************************");
+  /**
+   * Again allowing database to not to ignore foreign key
+   */
+  await sequelize
+    .query("SET FOREIGN_KEY_CHECKS = 1", { raw: true })
+    .then((response) => console.log("DataBase Configured..... !!!"));
+
+  console.log("*************************************************************");
+  console.log("----------------- Done Database -----------------");
+  console.log("*************************************************************");
+  console.log("*************************************************************");
+  console.log("*************************************************************");
+};
+//  Synchronizing();
+
+
+
+
+
+
+
+
+// Dropping all the Tables from the database
+let DropDatabaseTables = async () => {
+  console.log("*************************************************************");
+  console.log("----------------- Deleting All Tables -----------------");
+  await sequelize
+    .query("SET FOREIGN_KEY_CHECKS = 0", null, { raw: true })
+    .then((response) =>
+      console.log("Deleting Database Tables.... Please Wait")
+    );
+
+  await sequelize
+    .drop({ truncate: true })
+    .then()
+    .catch((error) => {
+      console.error(error + "\n");
+      console.log("\n");
+      console.log("\n");
+      console.error("Error in Deleting Table : " + sequelize);
+    });
+
+  await sequelize
+    .query("SET FOREIGN_KEY_CHECKS = 1", null, { raw: true })
+    .then((response) => console.log("-----> Done...."));
+};
+// DropDatabaseTables()
+
+// Wiping out all the table record
+
+let WipeOutTableRecord = async () => {
+  console.log("*************************************************************");
+  console.log(
+    "----------------- Trucating All Tables Record -----------------"
+  );
+  await sequelize
+    .query("SET FOREIGN_KEY_CHECKS = 0", null, { raw: true })
+    .then((response) =>
+      console.log("Trucating All Tables Record.... Please Wait")
+    );
+
+  await sequelize
+    .drop({ truncate: true })
+    .then()
+    .catch((error) => {
+      console.error(error + "\n");
+      console.log("\n");
+      console.log("\n");
+      console.error("Error in Trucating Table : " + sequelize);
+    });
+
+  await sequelize
+    .query("SET FOREIGN_KEY_CHECKS = 1", null, { raw: true })
+    .then((response) => console.log("-----> Done...."));
+};
+
+
+
+
 module.exports = Models;
-
-// let TruncateTables = async () => {
-//   console.log("*************************************************************");
-//   console.log("----------------- Deleting Tables Records -----------------");
-//   await sequelize
-//     .query("SET FOREIGN_KEY_CHECKS = 0", null, { raw: true })
-//     .then((response) => console.log("Creating Database.... Please Wait"));
-
-//   await Advertisement_Recommendation.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Advertisement_Stock.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Advertising_Stock_Allocation.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Request_of_Advertisement.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Agency_Info.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await AgencyLogs_Supervisor.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await AgencyTypes.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Carriers.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Carrier_Paid_Payment.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Carriers_Services.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Payment_Carrier_Services.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await City.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await City_Areas.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await City_Sectors.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await City_and_Supervisor_associate.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Compaigns.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Compaign_Activities.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Compaign_Sale.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Companies_Access.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Company_Promotion.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Customer_Care_Activities.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Call_Receiving.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Executive_Adver_Stock_Info.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await ComplainsOfActivities.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Executive_Pending_Earning.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Executive_Withdraws.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Stock_Usage.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Activities.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await List_of_Packages.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await List_sub_Activities.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Activity_Instruction.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Carrier_Logs.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Company_Acess_Logs.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await SuperAdmin_Department_Logs.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Permissions.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Permission_Role_Assosiate.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Packages.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await PEP_Agents.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await PEP_Agents_Activities.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Promotion_Request_Status.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Promotion_Req_By_Supervisor.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Customer_Care_Respresentative.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Data_Entry_Operator.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Field_Executive.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await GM_Company.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Managers.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await ExecutiveNotifications.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await TeamLead_Notifications.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await SuperVisorNotification.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await ManagerNotifications.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await GMNotifications.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await ExecutiveLogins.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Recommendation_for_Executive.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await GMLogin.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await ManagerLogin.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await SuperVisorLogin.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await TeamLead_Login.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Super_Admin.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Supervisor.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Training.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Training_Activities.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Team_Lead.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Team_Lead_Adver_Stock.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await User_Login_Information.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await User_Role.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Role_ExtraInfo.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Executive_Recommendation.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Login_Page.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await SignUp_Page.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Web_Content.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Pendance_Clearance_Details.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Department.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await Zone.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await WebAds.destroy({ truncate: true })
-//     .then()
-//     .catch((error) => console.log("Error Deleting Table" + error));
-
-//   await sequelize
-//     .query("SET FOREIGN_KEY_CHECKS = 1", null, { raw: true })
-//     .then((response) => console.log("Done.... Please Wait"));
-// };
-// let Synchronizing = async () => {
-//   /**
-//    * Commented lines are used to sync the database tables
-//    * forcely and then check the foreign key true
-//    */
-//   console.log("*************************************************************");
-//   console.log("----------------- Creating Database Started -----------------");
-
-//   /**
-//    * Allowing the data base to igonre the Foreign
-//    */
-//   await sequelize
-//     .query("SET FOREIGN_KEY_CHECKS = 0", null, { raw: true })
-//     .then((response) => console.log("Creating Database.... Please Wait"));
-
-//   /**
-//    * Setting the all tables
-//    */
-//   await Advertisement_Recommendation.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Advertisement_Recommendation");
-//     });
-
-//   await Advertisement_Stock.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Advertisement_Stock");
-//     });
-//   await Advertising_Stock_Allocation.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Advertising_Stock_Allocation");
-//     });
-
-//   await Request_of_Advertisement.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Request_of_Advertisement");
-//     });
-//   await AgencyLogs_Supervisor.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table AgencyLogs_Supervisor");
-//     });
-//   await Agency_Info.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Agency_Info");
-//     });
-
-//   await AgencyTypes.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table AgencyTypes");
-//     });
-
-//   await Carriers.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Carriers");
-//     });
-//   await Carrier_Paid_Payment.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Carrier_Paid_Payment");
-//     });
-
-//   await Carriers_Services.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Carriers_Services");
-//     });
-//   await Payment_Carrier_Services.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Payment_Carrier_Services");
-//     });
-
-//   await City.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table City");
-//     });
-//   await City_Areas.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table City_Areas");
-//     });
-//   await City_Sectors.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table City_Sectors");
-//     });
-
-//   await City_and_Supervisor_associate.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table City_and_Supervisor_associate");
-//     });
-//   await City_Sector_Assosiate.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table City_Sector_Assosiate");
-//     });
-//   await Compaigns.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Compaigns");
-//     });
-
-//   await NotificationText.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table NotificationText");
-//     });
-//   await ExecutiveNotifications.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table ExecutiveNotifications");
-//     });
-//   await TeamLead_Notifications.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table TeamLead_Notifications");
-//     });
-//   await SuperVisorNotification.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table   SuperVisorNotification");
-//     });
-//   await ManagerNotifications.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table ManagerNotifications");
-//     });
-//   await GMNotifications.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table GMNotifications");
-//     });
-
-//   await Compaign_Activities.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Compaign_Activities");
-//     });
-//   await Compaign_Sale.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Compaign_Sale");
-//     });
-
-//   await Companies_Access.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Companies_Access");
-//     });
-//   await Company_Promotion.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Company_Promotion");
-//     });
-
-//   await Customer_Care_Activities.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Customer_Care_Activities");
-//     });
-//   await Call_Receiving.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Call_Receiving");
-//     });
-
-//   await Executive_Adver_Stock_Info.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Executive_Adver_Stock_Info");
-//     });
-//   await Executive_Pending_Earning.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Executive_Pending_Earning");
-//     });
-//   await Executive_Withdraws.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Executive_Withdraws");
-//     });
-
-//   await Stock_Usage.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Stock_Usage");
-//     });
-
-//   await ExecutiveLogins.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table ExecutiveLogins");
-//     });
-//   await GMLogin.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table GMLogin");
-//     });
-//   await ManagerLogin.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table ManagerLogin");
-//     });
-//   await SuperVisorLogin.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table SuperVisorLogin");
-//     });
-//   await TeamLead_Login.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table TeamLead_Login");
-//     });
-
-//   await Activities.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table  Activities");
-//     });
-//   await Activity_Instruction.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Activity_Instruction");
-//     });
-
-//   await List_of_Packages.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table List_of_Packages");
-//     });
-//   await List_sub_Activities.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table List_sub_Activities");
-//     });
-
-//   await Carrier_Logs.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Carrier_Logs");
-//     });
-//   await Company_Acess_Logs.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Company_Acess_Logs");
-//     });
-
-//   await SuperAdmin_Department_Logs.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table SuperAdmin_Department_Logs");
-//     });
-//   await Packages.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Packages");
-//     });
-//   await PEP_Agents.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table PEP_Agents");
-//     });
-//   await PEP_Agents_Activities.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table PEP_Agents_Activities");
-//     });
-//   await Promotion_Request_Status.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Promotion_Request_Status");
-//     });
-//   await Promotion_Req_By_Supervisor.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Promotion_Req_By_Supervisor");
-//     });
-//   await Permissions.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Permissions");
-//     });
-
-//   await User_Login_Information.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table User_Login_Information");
-//     });
-//   await User_Role.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table User_Role");
-//     });
-//   await Permission_Role_Assosiate.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Permission_Role_Assosiate");
-//     });
-//   await Customer_Care_Respresentative.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Customer_Care_Respresentative");
-//     });
-//   await Data_Entry_Operator.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Data_Entry_Operator");
-//     });
-//   await Field_Executive.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Field_Executive");
-//     });
-//   await GM_Company.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table GM_Company");
-//     });
-//   await Managers.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Managers");
-//     });
-//   await Super_Admin.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Super_Admin");
-//     });
-//   await Supervisor.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Supervisor");
-//     });
-//   await Team_Lead.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Team_Lead");
-//     });
-//   await Training.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Training");
-//     });
-//   await Training_Activities.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Training_Activities");
-//     });
-//   await Team_Lead_Adver_Stock.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Team_Lead_Adver_Stock");
-//     });
-//   await Banks_List.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Banks_List");
-//     });
-//   await PEP_Banks_Details.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table PEP_Banks_Details");
-//     });
-
-//   await Department.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Department");
-//     });
-
-//   await Role_ExtraInfo.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Role_ExtraInfo");
-//     });
-
-//   await Zone.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Zone");
-//     });
-
-//   /**
-//    * Configuring the Web Pages
-//    */
-//   await Login_Page.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Login_Page");
-//     });
-//   await SignUp_Page.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table SignUp_Page");
-//     });
-
-//   await Web_Content.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Web_Content");
-//     });
-
-//   await WebAds.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table WebAds");
-//     });
-
-//   await Pendance_Clearance_Details.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Pendance_Clearance_Details");
-//     });
-
-//   await Executive_Recommendation.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Executive_Recommendation");
-//     });
-
-//   await Recommendation_for_Executive.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table Recommendation_for_Executive");
-//     });
-
-//   await changeRoleLogs
-//     .sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table changeRoleLogs");
-//     });
-
-//   await ComplainsOfActivities.sync({ force: true })
-//     .then()
-//     .catch((error) => {
-//       console.log(error + "\n");
-//       console.log("\n");
-//       console.log("\n");
-//       console.log("Error in Creating Table ComplainsOfActivities");
-//     });
-
-//   console.log("*************************************************************");
-//   console.log("*************************************************************");
-//   console.log("*************************************************************");
-//   /**
-//    * Again allowing database to not to ignore foreign key
-//    */
-//   await sequelize
-//     .query("SET FOREIGN_KEY_CHECKS = 1", { raw: true })
-//     .then((response) => console.log("DataBase Configured..... !!!"));
-
-//   console.log("*************************************************************");
-//   console.log("----------------- Done Database -----------------");
-//   console.log("*************************************************************");
-//   console.log("*************************************************************");
-//   console.log("*************************************************************");
-// };
 
 // let DevelopmentDatabase = async () => {
 //   await Super_Admin.create({
@@ -1685,172 +784,3 @@ module.exports = Models;
 //     .then((d) => console.log("Login_Page --> Done"))
 //     .catch((error) => "Error in Login_Page");
 // };
-
-// module.exports = {
-//   sequelize,
-//   Synchronizing,
-//   DevelopmentDatabase,
-//   Advertisement_Recommendation,
-//   Advertisement_Stock,
-//   Advertising_Stock_Allocation,
-//   Request_of_Advertisement,
-//   Agency_Info,
-//   AgencyLogs_Supervisor,
-//   AgencyTypes,
-//   Carriers,
-//   Carrier_Paid_Payment,
-//   Carriers_Services,
-//   Payment_Carrier_Services,
-//   City,
-//   ExecutiveNotifications,
-//   TeamLead_Notifications,
-//   SuperVisorNotification,
-//   ManagerNotifications,
-//   GMNotifications,
-//   City_Areas,
-//   City_Sectors,
-//   City_and_Supervisor_associate,
-//   City_Sector_Assosiate,
-//   Compaigns,
-//   Compaign_Activities,
-//   Compaign_Sale,
-//   Companies_Access,
-//   Company_Promotion,
-//   Customer_Care_Activities,
-//   Call_Receiving,
-//   Executive_Adver_Stock_Info,
-//   Executive_Pending_Earning,
-//   Executive_Withdraws,
-//   Stock_Usage,
-//   Activities,
-//   Activity_Instruction,
-//   List_of_Packages,
-//   List_sub_Activities,
-//   Carrier_Logs,
-//   Company_Acess_Logs,
-//   SuperAdmin_Department_Logs,
-//   Packages,
-//   PEP_Agents,
-//   Permissions,
-//   ExecutiveLogins,
-//   NotificationText,
-//   GMLogin,
-//   ManagerLogin,
-//   SuperVisorLogin,
-//   TeamLead_Login,
-//   Permission_Role_Assosiate,
-//   PEP_Agents_Activities,
-//   Promotion_Request_Status,
-//   Promotion_Req_By_Supervisor,
-//   Customer_Care_Respresentative,
-//   Data_Entry_Operator,
-//   Field_Executive,
-//   GM_Company,
-//   Recommendation_for_Executive,
-//   Managers,
-//   ComplainsOfActivities,
-//   WebAds,
-//   Super_Admin,
-//   Supervisor,
-//   Team_Lead,
-//   Banks_List,
-//   PEP_Banks_Details,
-//   Team_Lead_Adver_Stock,
-//   Training,
-//   Training_Activities,
-//   User_Login_Information,
-//   User_Role,
-//   changeRoleLogs,
-//   Role_ExtraInfo,
-//   Login_Page,
-//   Executive_Recommendation,
-//   SignUp_Page,
-//   Web_Content,
-//   Pendance_Clearance_Details,
-//   Department,
-//   Zone
-// };
-
-// sequelize =
-//   Synchronizing =
-//   DevelopmentDatabase =
-//   Advertisement_Recommendation =
-//   Advertisement_Stock =
-//   Advertising_Stock_Allocation =
-//   Request_of_Advertisement =
-//   Agency_Info =
-//   AgencyLogs_Supervisor =
-//   AgencyTypes =
-//   Carriers =
-//   Carrier_Paid_Payment =
-//   Carriers_Services =
-//   Payment_Carrier_Services =
-//   City =
-//   ExecutiveNotifications =
-//   TeamLead_Notifications =
-//   SuperVisorNotification =
-//   ManagerNotifications =
-//   GMNotifications =
-//   City_Areas =
-//   City_Sectors =
-//   City_and_Supervisor_associate =
-//   City_Sector_Assosiate =
-//   Compaigns =
-//   Compaign_Activities =
-//   Compaign_Sale =
-//   Companies_Access =
-//   Company_Promotion =
-//   Customer_Care_Activities =
-//   Call_Receiving =
-//   Executive_Adver_Stock_Info =
-//   Executive_Pending_Earning =
-//   Executive_Withdraws =
-//   Stock_Usage =
-//   Activities =
-//   Activity_Instruction =
-//   List_of_Packages =
-//   List_sub_Activities =
-//   Carrier_Logs =
-//   Company_Acess_Logs =
-//   SuperAdmin_Department_Logs =
-//   Packages =
-//   PEP_Agents =
-//   Permissions =
-//   ExecutiveLogins =
-//   NotificationText =
-//   GMLogin =
-//   ManagerLogin =
-//   SuperVisorLogin =
-//   TeamLead_Login =
-//   Permission_Role_Assosiate =
-//   PEP_Agents_Activities =
-//   Promotion_Request_Status =
-//   Promotion_Req_By_Supervisor =
-//   Customer_Care_Respresentative =
-//   Data_Entry_Operator =
-//   Field_Executive =
-//   GM_Company =
-//   Recommendation_for_Executive =
-//   Managers =
-//   ComplainsOfActivities =
-//   WebAds =
-//   Super_Admin =
-//   Supervisor =
-//   Team_Lead =
-//   Banks_List =
-//   PEP_Banks_Details =
-//   Team_Lead_Adver_Stock =
-//   Training =
-//   Training_Activities =
-//   User_Login_Information =
-//   User_Role =
-//   changeRoleLogs =
-//   Role_ExtraInfo =
-//   Login_Page =
-//   Executive_Recommendation =
-//   SignUp_Page =
-//   Web_Content =
-//   Pendance_Clearance_Details =
-//   Department =
-//   Zone =
-//     null;

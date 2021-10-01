@@ -23,7 +23,7 @@ router.get(
   isUserAuthentic,
   async (req, res) => {
     //getting the count of the notificaiton
-    let unreadNotificationCount = await countofNotificationOfExecutive(
+    let unreadNotificationCount = await countofNotificationOfSuperVisor(
       req.session.profileData.sup_id
     );
 
@@ -81,7 +81,7 @@ router.get(
       })
       .catch((error) => {
         if (error) {
-          console.error("Error Fetchin Dashboard Data of Team Lead");
+          console.error("Error Fetchin Dashboard Data of SuperVisor");
           console.trace(error);
           return null;
         }
@@ -147,7 +147,11 @@ router.get(
       res.status(200).render(`Supervisor/completeProfile`, {
         message: req.flash("info", "Please Complete your Profile"),
         url: req.protocol + "://" + req.get("host"),
-        profileData: req.session.profileData.sup_userProfilePic
+        profileData: req.session.profileData.sup_userProfilePic,
+        info: {
+          id: req.session.passport.user.userInfo.login_id,
+          uuid: req.session.profileData.sup_uuid
+        },
       });
     } else {
       res
@@ -225,7 +229,7 @@ router.get(
       }
     });
     // unread notification count
-    let unreadNotificationCount = await countofNotificationOfExecutive(
+    let unreadNotificationCount = await countofNotificationOfSuperVisor(
       req.session.profileData.sup_id
     );
 
@@ -259,7 +263,7 @@ router.get(
   isUserAuthentic,
   async (req, res) => {
     // unread notification count
-    let unreadNotificationCount = await countofNotificationOfExecutive(
+    let unreadNotificationCount = await countofNotificationOfSuperVisor(
       req.session.profileData.sup_id
     );
 
@@ -311,7 +315,7 @@ router.get(
   isUserAuthentic,
   async (req, res) => {
     //getting the notification
-    let unreadNotificationCount = await countofNotificationOfExecutive(
+    let unreadNotificationCount = await countofNotificationOfSuperVisor(
       req.session.profileData.sup_uuid
     );
 
@@ -431,7 +435,7 @@ router.get(
   isUserAuthentic,
   async (req, res) => {
     // unread notification count
-    let unreadNotificationCount = await countofNotificationOfExecutive(
+    let unreadNotificationCount = await countofNotificationOfSuperVisor(
       req.session.profileData.sup_id
     );
     /**
@@ -532,7 +536,7 @@ router.get(
   isUserAuthentic,
   async (req, res) => {
     // unread notification count
-    let unreadNotificationCount = await countofNotificationOfExecutive(
+    let unreadNotificationCount = await countofNotificationOfSuperVisor(
       req.session.profileData.sup_id
     );
 
@@ -601,7 +605,7 @@ router.get(
   isUserAuthentic,
   async (req, res) => {
     // unread notification count
-    let unreadNotificationCount = await countofNotificationOfExecutive(
+    let unreadNotificationCount = await countofNotificationOfSuperVisor(
       req.session.profileData.sup_id
     );
 
@@ -679,7 +683,7 @@ router.get(
   isUserAuthentic,
   async (req, res) => {
     //getting the team lead notifications
-    let unreadNotificationCount = await countofNotificationOfExecutive(
+    let unreadNotificationCount = await countofNotificationOfSuperVisor(
       req.session.profileData.sup_id
     );
 
@@ -746,7 +750,7 @@ router.get("/notification", isUser_Login, async (req, res) => {
   /**
    * getting the count of the unread notifications
    */
-  const unreadNotificationCount = await countofNotificationOfExecutive(
+  const unreadNotificationCount = await countofNotificationOfSuperVisor(
     req.session.profileData.sup_id
   );
   const unreadNotification = await Database.SuperVisorNotification.findAll({
@@ -804,14 +808,11 @@ module.exports = { router, isUserAuthentic };
 /**
  * getting the count of notifications from the database
  */
-const countofNotificationOfExecutive = async (sup_id) => {
+const countofNotificationOfSuperVisor = async (sup_id) => {
   return await Database.SuperVisorNotification.findAll({
     attributes: [
       [
-        Database.sequelize.fn(
-          "COUNT",
-          Database.sequelize.col("supervisor_notification_id")
-        ),
+        sequelize.fn("COUNT", sequelize.col("supervisor_notification_id")),
         "unreadNotificationCount"
       ]
     ],
@@ -834,67 +835,67 @@ const countofNotificationOfExecutive = async (sup_id) => {
 };
 
 // (async function () {
-  // let cityNameData = await Database.City.findAll({
-  //   attributes: ["city_id", "city_uuid", "city_name"],
-  //   where: {
-  //     paused: 0,
-  //     deleted: 0
-  //   },
-  //   include: {
-  //     model: Database.Supervisor,
-  //     required: true,
-  //     attributes: ["sup_id"],
-  //     // through: {
-  //     //   attributes: ["city_supp_assos_id", "city_id"]
-  //     // },
-  //     where: {
-  //       sup_isPaused: 0,
-  //       sup_isDeleted: 0,
-  //       sup_id: 1
-  //     }
-  //   }
-  // });
+// let cityNameData = await Database.City.findAll({
+//   attributes: ["city_id", "city_uuid", "city_name"],
+//   where: {
+//     paused: 0,
+//     deleted: 0
+//   },
+//   include: {
+//     model: Database.Supervisor,
+//     required: true,
+//     attributes: ["sup_id"],
+//     // through: {
+//     //   attributes: ["city_supp_assos_id", "city_id"]
+//     // },
+//     where: {
+//       sup_isPaused: 0,
+//       sup_isDeleted: 0,
+//       sup_id: 1
+//     }
+//   }
+// });
 
-  // let getCityArea = await Database.City_and_Supervisor_associate.findAll({
-  //   attributes: [
-  //     "city_supp_assos_id",
-  //     "city_id",
-  //     "sup_id",
-  //     "city_and_sup_asso_uuid"
-  //   ],
-  //   where: {
-  //     paused: 0,
-  //     deleted: 0,
-  //     sup_id: 1,
-  //     city_id: cityNameData.map((city) => city.city_id)
-  //   },
-  //   include: {
-  //     model: Database.City_Areas,
-  //     required: true,
-  //     attributes: [
-  //       "city_area_id",
-  //       "city_area_uuid",
-  //       "city_name",
-  //       "city_code",
-  //       "city_supp_assos_id"
-  //     ],
-  //     where: {
-  //       paused: 0,
-  //       deleted: 0
-  //     }
-  //   }
-  // });
+// let getCityArea = await Database.City_and_Supervisor_associate.findAll({
+//   attributes: [
+//     "city_supp_assos_id",
+//     "city_id",
+//     "sup_id",
+//     "city_and_sup_asso_uuid"
+//   ],
+//   where: {
+//     paused: 0,
+//     deleted: 0,
+//     sup_id: 1,
+//     city_id: cityNameData.map((city) => city.city_id)
+//   },
+//   include: {
+//     model: Database.City_Areas,
+//     required: true,
+//     attributes: [
+//       "city_area_id",
+//       "city_area_uuid",
+//       "city_name",
+//       "city_code",
+//       "city_supp_assos_id"
+//     ],
+//     where: {
+//       paused: 0,
+//       deleted: 0
+//     }
+//   }
+// });
 
-  // await Database.Permissions.findAll({
-  //   include: {
-  //     model: Database.User_Role,
-  //     through: {
-  //       attributes: []
-  //     }
-  //   }
-  // }).then((data) => {
-  //   console.log(data.length);
-  // });
+// await Database.Permissions.findAll({
+//   include: {
+//     model: Database.User_Role,
+//     through: {
+//       attributes: []
+//     }
+//   }
+// }).then((data) => {
+//   console.log(data.length);
+// });
 // })();
 
 // (async function () {

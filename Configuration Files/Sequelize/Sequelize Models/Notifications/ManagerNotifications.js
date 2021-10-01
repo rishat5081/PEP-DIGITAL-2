@@ -56,6 +56,18 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
 
         onDelete: "CASCADE",
         onUpdate: "CASCADE"
+      },
+      notification_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: false,
+        autoIncrement: false,
+        references: {
+          model: "notificationText",
+          key: "notification_id"
+        },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE"
       }
     },
     {
@@ -77,6 +89,20 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
       targetKey: "man_id",
       foreignKey: "man_id"
     });
+
+
+     /**
+     * One Supervisor table will have many notifications
+     */
+      models.NotificationText.hasMany(ManagerNotifications, {
+        foreignKey: "notification_id"
+      });
+  
+      ManagerNotifications.belongsTo(models.NotificationText, {
+        targetKey: "notification_id",
+        foreignKey: "notification_id"
+      });
+
   };
 
   // /**

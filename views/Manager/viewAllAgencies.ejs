@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>View All Agencies</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--===============================================================================================-->
+    <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/toastr/toastr.min.css"
+    />
+  </head>
+
+  <body>
+    <!--  Navigation-->
+    <div class="limiter">
+      <div class="container-profile100">
+        <div class="header">
+          <div class="cover-image100">
+            <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
+            <a href="#">
+              <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+            </a>
+            <a href="<%=url%>/manager/notification">
+              <span class="fa fa-bell menu-button">
+                <span class="button__badge" style="display: none"></span>
+              </span>
+            </a>
+            <nav id="menu">
+              <ul>
+                <% permissions.forEach(element=> { %>
+                <li>
+                  <a
+                    href="<%=url%>/manager<%= element.controller%>/<%=info.uuid%>"
+                  >
+                    <span class="<%= element.icon%>"></span>
+                    <%= element.permission_name %>
+                  </a>
+                </li>
+                <% }); %>
+                <li>
+                  <a href="<%=url%>/manager/signout">
+                    <span class="fa fa-sign-out"> </span> Log Out</a
+                  >
+                </li>
+              </ul>
+              <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+            </nav>
+          </div>
+          <!-- --------------------- -->
+          <!-- advertisment,
+        cityNames, -->
+          <!-- --------------------------- -->
+          <div class="container saleup">
+            <br />
+            <h4 class="areaheading mb-3 font-weight-bold">List Of Agencies</h4>
+            <div class="row">
+              <div class="col-md-6">
+                <select
+                  class="form-control mt-2 mb-3 w-75 h-75 pt-0 pt-lg-0"
+                  name="selectBox"
+                  id="selectCity"
+                >
+                  <option selected value="null">Select City</option>
+                  <!-- getCityArea,
+                  cityNameData, -->
+                  <% cityNameData.forEach(city => { %>
+                  <option value="<%= city.city_id %>">
+                    <%= city.city_name %>
+                  </option>
+                  <% }) %>
+                </select>
+              </div>
+              <div class="col-md-6" style="display: none" id="cityAreaDiv">
+                <select
+                  class="form-control mt-2 mb-3 w-75 h-75 pt-0 pt-lg-0"
+                  name="selectBox"
+                  id="selectCityArea"
+                >
+                  <option selected value="null">Select City Area</option>
+                </select>
+              </div>
+            </div>
+            <div class="table-responsive-lg mt-4 mb-5">
+              <table class="table" id="data">
+                <thead class="table-primary">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Owner Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Contact</th>
+                    <th scope="col">First Visited</th>
+                    <th scope="col">Paused</th>
+                    <th scope="col">Disabled</th>
+                    <th scope="col">Pause</th>
+                    <th scope="col">Delete</th>
+                  </tr>
+                </thead>
+                <tbody id="agencyDetailsTable"></tbody>
+              </table>
+              <div class="text-center" id="agencyListingText">
+                <strong>The Agencies Will be Listed Down Here</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="<%=url%>/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="<%=url%>/vendor/bootstrap/js/popper.min.js"></script>
+    <script src="<%=url%>/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="<%=url%>/vendor/jquery/tilt.jquery.min.js"></script>
+    <script src="<%=url%>/toastr/toastr.min.js"></script>
+    <script>
+      var notificationCount = JSON.parse(
+        "<%-JSON.stringify(unreadNotificationCount)%>"
+      );
+      if (notificationCount) {
+        $(".button__badge").css("display", "block");
+        $(".button__badge").html(
+          JSON.parse("<%-JSON.stringify(unreadNotificationCount)%>")
+        );
+      }
+      $(".js-tilt").tilt({
+        scale: 1.1
+      });
+
+      // console.log(JSON.parse(`%-JSON.stringify(advertisment)%>`));
+      var menu = document.getElementById("menu");
+
+      function openMenu() {
+        menu.style.top = "0";
+      }
+      function closeMenu() {
+        menu.style.top = "-100vh";
+      }
+    </script>
+    <script>
+      /**
+       * setting the data with the select city tag on change
+       * on selecting any city then the areas accoring to the city will be
+       * done into the other select attribute
+       * on selecing the select city the select city area will be disappear
+       *
+       */
+      $("#selectCity").change((e) => {
+        if ($("#selectCity").find(":selected").val() === "null") {
+          $("#cityAreaDiv").css("display", "none");
+        } else {
+          const cityAreaData = JSON.parse(`<%-JSON.stringify(getCityArea)%>`),
+            selectCityArea = document.getElementById("selectCityArea");
+          const cityAreas = cityAreaData.some((area) => {
+            if (area.city_id === +$("#selectCity").find(":selected").val()) {
+              area.City_Areas.some((areaInfo) => {
+                const option = document.createElement("option");
+                option.value = areaInfo.city_area_uuid;
+                option.text =
+                  areaInfo.city_name + "  (" + areaInfo.city_code + ")";
+                selectCityArea.append(option);
+              });
+            }
+          });
+          $("#cityAreaDiv").css("display", "block");
+        }
+      });
+
+      const addAgenciesToTable = (agenciesData) => {
+        const tableBody = document.getElementById("agencyDetailsTable");
+        agenciesData.forEach((agency, index) => {
+          const tr = document.createElement("tr"),
+            id = document.createElement("th"),
+            Name = document.createElement("td"),
+            OwnerName = document.createElement("td"),
+            Address = document.createElement("td"),
+            Type = document.createElement("td"),
+            Contact = document.createElement("td"),
+            FirstVisit = document.createElement("td"),
+            Disabled = document.createElement("td"),
+            Pause = document.createElement("td"),
+            PauseTD = document.createElement("td"),
+            DeleteTD = document.createElement("td"),
+            pausedBTN = document.createElement("button"),
+            deleteBTN = document.createElement("button");
+
+          id.innerHTML = ++index;
+          Name.innerHTML = agency.agency_name;
+          OwnerName.innerHTML = agency.agency_owner_Name;
+          Address.innerHTML = agency.agency_address;
+          Type.innerHTML = agency.agency_type;
+          Contact.innerHTML = agency.agency_Contact;
+          FirstVisit.innerHTML = agency.firstVisit === true ? "Yes" : "Not";
+          Pause.innerHTML = agency.isPaused === true ? "Yes" : "No";
+          Disabled.innerHTML = agency.deleted === true ? "Yes" : "No";
+
+          if (agency.firstVisit) {
+            FirstVisit.style.color = "#2fa200";
+            FirstVisit.style.fontWeight = 700;
+          } else {
+            FirstVisit.style.color = "#ff0000";
+            FirstVisit.style.fontWeight = 700;
+          }
+
+          if (agency.isPaused) {
+            Pause.style.color = "#ff0000";
+            Pause.style.fontWeight = 700;
+          } else {
+            Pause.style.color = "#2fa200";
+            Pause.style.fontWeight = 700;
+          }
+
+          if (agency.deleted) {
+            Disabled.style.color = "#ff0000";
+            Disabled.style.fontWeight = 700;
+          } else {
+            Disabled.style.color = "#2fa200";
+            Disabled.style.fontWeight = 700;
+          }
+
+          pausedBTN.textContent =
+            agency.isPaused === true ? "Un Pause" : "Pause";
+          deleteBTN.textContent = agency.deleted === true ? "Open" : "Delete";
+
+          pausedBTN.className =
+            agency.isPaused === true
+              ? "btn btn-sm btn-primary"
+              : "btn btn-sm btn-warning";
+          deleteBTN.className =
+            agency.deleted === true
+              ? "btn btn-sm btn-success"
+              : "btn btn-sm btn-danger";
+
+          pausedBTN.onclick = function () {
+            onPausedeBTN(tr, agency.agency_uuid);
+          };
+          deleteBTN.onclick = function () {
+            onDeleteBTN(tr, agency.agency_uuid);
+          };
+
+          PauseTD.appendChild(pausedBTN);
+          DeleteTD.appendChild(deleteBTN);
+
+          $("#agencyListingText").css("display", "none");
+          tr.append(
+            id,
+            Name,
+            OwnerName,
+            Address,
+            Type,
+            Contact,
+            FirstVisit,
+            Pause,
+            Disabled,
+            PauseTD,
+            DeleteTD
+          );
+          tableBody.append(tr);
+        });
+      };
+
+      /**
+       * on selecting any city then the areas accoring to the city will be
+       * done into the other select attribute
+       *
+       */
+      var agencyData = [];
+      $("#selectCityArea").change((e) => {
+        if ($("#selectCityArea").find(":selected").val() === "null") {
+          $("#agencyDetailsTable tr").remove();
+          $("#agencyListingText").css("display", "block");
+          $("#nav").css("display", "none");
+        } else {
+          if (agencyData.length === 0) {
+            const cityAreaUUID = $("#selectCityArea").find(":selected").val();
+            $.ajax({
+              type: "POST",
+              url: `${window.location.origin}/getCityAgencies/<%=info.uuid%>`,
+              data: { cityAreaUUID },
+              dataType: "json",
+              error: (error) => {
+                toastr.success(error.error);
+              },
+              success: (response) => {
+                if (response) {
+                  toastr.success(response.status);
+                  agencyData = [];
+                  agencyData = response.agencies;
+                  $("#agencyDetailsTable tr").remove();
+                  addAgenciesToTable(response.agencies);
+                  pagination();
+                }
+              }
+            });
+          } else {
+            $("#agencyDetailsTable tr").remove();
+            addAgenciesToTable(agencyData);
+            pagination();
+          }
+        }
+      });
+
+      function pagination() {
+        //   $('#data').after('<div id="nav" class="text-center"></div>');
+        var rowsShown = 10;
+        var rowsTotal = $("#data tbody tr").length;
+        if (rowsShown < rowsTotal) {
+          $("#data").after('<div id="nav" class="text-center" ></div>');
+          var numPages = rowsTotal / rowsShown;
+          for (i = 0; i < numPages; i++) {
+            var pageNum = i + 1;
+            $("#nav").append(
+              '<a href="#" rel="' + i + '">' + pageNum + "</a> "
+            );
+          }
+          $("#data tbody tr").hide();
+          $("#data tbody tr").slice(0, rowsShown).show();
+          $("#nav a").bind("click", function () {
+            var currPage = $(this).attr("rel");
+            var startItem = currPage * rowsShown;
+            var endItem = startItem + rowsShown;
+            $("#data tbody tr")
+              .css("opacity", "0.0")
+              .hide()
+              .slice(startItem, endItem)
+              .css("display", "table-row")
+              .animate(
+                {
+                  opacity: 1
+                },
+                300
+              );
+          });
+        }
+      }
+
+      /**
+       *
+       * This is the paused BTN function
+       * it will paused the agency
+       *
+       */
+      const onPausedeBTN = (tr, agencyUUID) => {
+        const agencyStatus = agencyData.find(
+          (agency) => agency.agency_uuid === agencyUUID
+        );
+        if (agencyStatus) {
+          $.ajax({
+            type: "PUT",
+            url: `${window.location.origin}/pauseAgencyByManager/<%=info.uuid%>`,
+            data: { agencyUUID },
+            dataType: "json",
+            success: (response) => {
+              if (response) {
+                toastr.success(response.status);
+                tr.cells[7].style.color =
+                  tr.cells[7].innerHTML === "Yes" ? "#2fa200" : "#ff0000";
+                tr.cells[7].innerHTML =
+                  tr.cells[7].innerHTML === "Yes" ? "No" : "Yes";
+                tr.cells[9].getElementsByTagName("button")[0].className =
+                  tr.cells[7].innerHTML === "Yes"
+                    ? "btn btn-sm btn-primary"
+                    : "btn btn-sm btn-warning";
+
+                tr.cells[9].getElementsByTagName("button")[0].innerHTML =
+                  tr.cells[7].innerHTML === "Yes" ? "Un-Pause" : "Pause";
+              }
+            },
+            error: (error) => {
+              console.error(error);
+            }
+          });
+        }
+      };
+      const onDeleteBTN = (tr, agencyUUID) => {
+        const agencyStatus = agencyData.find(
+          (agency) => agency.agency_uuid === agencyUUID
+        );
+        if (agencyStatus) {
+          $.ajax({
+            type: "PUT",
+            url: `${window.location.origin}/managerDeleteAgency/<%=info.uuid%>`,
+            data: { agencyUUID },
+            dataType: "json",
+            success: (response) => {
+              if (response) {
+                toastr.success(response.status);
+                tr.cells[8].style.color =
+                  tr.cells[8].innerHTML === "Yes" ? "#2fa200" : "#ff0000";
+                tr.cells[8].innerHTML =
+                  tr.cells[8].innerHTML === "Yes" ? "No" : "Yes";
+                tr.cells[10].getElementsByTagName("button")[0].className =
+                  tr.cells[8].innerHTML === "Yes"
+                    ? "btn btn-sm btn-success"
+                    : "btn btn-sm btn-danger";
+
+                tr.cells[10].getElementsByTagName("button")[0].innerHTML =
+                  tr.cells[8].innerHTML === "Yes" ? "Open" : "Delete";
+              }
+            },
+            error: (error) => {
+              console.error(error);
+            }
+          });
+        }
+      };
+    </script>
+  </body>
+</html>

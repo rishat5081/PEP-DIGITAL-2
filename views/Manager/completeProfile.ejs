@@ -120,9 +120,9 @@
               <div class="col-md-12" align="center">
                 <div class="profile-pic">
                   <div class="prf-img">
-                    <% if(profileData===null) {%>
+                    <% if(profileData) {%>
                     <img
-                      src="<%=url%>/img/profile.jpg"
+                      src="<%=url%>/<%=profileData%>"
                       class="profile-img"
                       alt="profile picture"
                       id="profileImage"
@@ -130,12 +130,13 @@
 
                     <% }else{ %>
                     <img
-                      src="<%=url%>/<%=profileData %>"
+                      src="<%=url%>/img/profile.jpg"
                       class="profile-img"
                       alt="profile picture"
                       id="profileImage"
                     />
                     <% } %>
+
                     <button
                       type="button"
                       class="edit"
@@ -201,7 +202,6 @@
     <script src="<%=url%>/bootstrap/js/bootstrap.min.js"></script>
     <!-- Toastr -->
     <script src="<%=url%>/toastr/toastr.min.js"></script>
-
     <script>
       var menu = document.getElementById("menu");
       function openMenu() {
@@ -264,6 +264,7 @@
        */
       $(".submitBTN").on("click", () => {
         $("#userProfileForm").submit((e) => {
+          console.log("asdkjbak");
           e.preventDefault();
           displayToast("Uploading File", "success");
           var fd = new FormData(document.getElementById("userProfileForm"));
@@ -276,8 +277,8 @@
           if (files[0].size < 3000000) {
             if (fd) {
               $.ajax({
-                type: "POST",
-                url: `${window.location.origin}/supervisor/upload/<%=info.uuid%>`,
+                type: "PUT",
+                url: `${window.location.origin}/manager/upload/<%=info.uuid%>`,
                 data: fd,
                 cache: false,
                 contentType: false,
@@ -313,8 +314,8 @@
             $("#dob").val())
           ) {
             $.ajax({
-              type: "POST",
-              url: `${window.location.origin}/supervisor/updateProfileInfo/<%=info.uuid%>`,
+              type: "put",
+              url: `${window.location.origin}/manager/updateProfileInfo/<%=info.uuid%>`,
               data: {
                 name: $("#name").val(),
                 contact: $("#contact").val(),
@@ -334,7 +335,7 @@
                 displayToast(response.messages, response.type);
                 if (response) {
                   displayToast("Redirecting to Profile Page", "success");
-                  window.location = `${window.location.origin}/supervisor/dashboard/${response.uuid}`;
+                  window.location = `${window.location.origin}/manager/dashboard/${response.uuid}`;
                 }
               }
             });

@@ -6,7 +6,7 @@
 
 "use strict";
 module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
-  const AgencyLogs_Supervisor = require("./AgencyLogs_Supervisor");
+  const  AgencyLogs_Supervisor  = require("./AgencyLogs_Supervisor")(sequelize, { DataTypes, Model, UUIDV4 });
   class Agency_Info extends Model {}
 
   Agency_Info.init(
@@ -99,14 +99,17 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
             previousPaused: AgencyInfo._previousDataValues.isPaused,
             nowPausedStatus: AgencyInfo.getDataValue("isPaused"),
             agency_id: AgencyInfo.getDataValue("agency_id"),
-            sup_id: options.sup_id
+            sup_id: options.sup_id === 0 ? null : options.sup_id,
+            man_id: options.man_id === 0 ? null : options.man_id
           })
             .then((log) => {
               console.log("SuperVisor Updated the Agency !!!!");
             })
 
             .catch((error) => {
+              
               console.error("Error : SuperVisor Updated the Agency !!!!");
+              console.trace(error)
             });
         }
       },
@@ -136,9 +139,6 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
     /**
      * which field executive have added this agency
      */
-   
-
- 
   };
 
   // /**
@@ -177,6 +177,33 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
   // });
 
   // module.exports = Agency_Info;
+
+  // AgencyLogs_Supervisor.create({
+  //   previousDeleted: AgencyInfo._previousDataValues.deleted,
+  //   nowDeletedStatus: AgencyInfo.getDataValue("deleted"),
+  //   previousPaused: AgencyInfo._previousDataValues.isPaused,
+  //   nowPausedStatus: AgencyInfo.getDataValue("isPaused"),
+  //   agency_id: AgencyInfo.getDataValue("agency_id"),
+  //   sup_id: options.sup_id === 0 ? 0 : options.sup_id,
+  //   man_id: options.man_id === 0 ? 0 : options.man_id
+  // })
+  //   .then((log) => {
+  //     console.log("SuperVisor Updated the Agency !!!!");
+  //   })
+
+  //   .catch((error) => {
+  //     console.error("Error : SuperVisor Updated the Agency !!!!");
+  //   });
+
+
+
+
+
+
+
+
+
+
 
   return Agency_Info;
 };

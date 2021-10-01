@@ -1,3 +1,5 @@
+const Manager = require("./Configuration Files/Sequelize/Sequelize Models/Stakeholders/Manager");
+
 const Sequelize = require("sequelize"),
   express = require("express"),
   app = express(),
@@ -20,6 +22,8 @@ const Sequelize = require("sequelize"),
     Permissions,
     ExecutiveLogins,
     SuperVisorLogin,
+    Managers,
+    ManagerLogin,
     TeamLead_Login
   } = require("./Configuration Files/Sequelize/Database_Synchronization");
 //setting the .env file to read the server port and database ports
@@ -71,7 +75,7 @@ app.use(
 );
 
 // console.log(new Date(Date.now() + 1000 * 60 * 60 * 24 * 7));
-//setInterval(() => console.log("sa"), 1000 * 60 * 24 * 7)
+// setInterval(() => console.log("sa"), 1000 * 60 * 24 * 7)
 
 app.use(bodyparser.json());
 
@@ -118,6 +122,12 @@ app.use(require("./routes/Web_Pages/users").router);
 
 // ---------------------------------------- Start of Role Routes ------------------------------------------
 /**
+ * This one is for Manager
+ */
+
+app.use("/manager", require("./routes/Manager/managerRoutes").router);
+
+/**
  * This one is for SuperVisor
  */
 
@@ -154,6 +164,9 @@ require("./Controller/Field Executive/fieldExecutive_Controls")(app);
 
 // ------------------------------Controller for Supervisor-------------------------------
 app.use(require("./Controller/Supervisor/SupervisorController").router);
+
+// ------------------------------Controller for Manager-------------------------------
+app.use(require("./Controller/Manager/managerController").router);
 /****************************** Connecting to the Database ****************************************/
 /**Sequelize is using here
  * the Connect to DB is the async function
@@ -282,22 +295,42 @@ app.post("/LoginForm", async (req, res) => {
       req.session.profileData =
         profileInfo.userInfo !== null ? profileInfo.userInfo : null;
 
+      if (req.user.userRole.type_name === "Manager") {
+        //creating the login information of the Supervisor
+        ManagerLogin.create({
+          ipAddress: req.ip,
+          man_id: profileInfo.userInfo.dataValues.man_id
+        });
+        if (profileInfo.userInfo.dataValues.man_name !== null || "") {
+          res
+            .status(200)
+            .redirect(
+              `/manager/dashboard/${profileInfo.userInfo.dataValues.man_uuid}`
+            );
+        } else {
+          res
+            .status(200)
+            .redirect(
+              `/manager/completeProfile/${profileInfo.userInfo.dataValues.man_uuid}`
+            );
+        }
+      }
+
       if (req.user.userRole.type_name === "SuperVisor") {
+        //creating the login information of the Supervisor
+        SuperVisorLogin.create({
+          ipAddress: req.ip,
+          sup_id: profileInfo.userInfo.dataValues.sup_id
+        });
         if (profileInfo.userInfo.dataValues.sup_name !== null || "") {
-          SuperVisorLogin.create({
-            ipAddress: req.ip,
-            sup_id: profileInfo.userInfo.dataValues.sup_id
-          });
+
+          console.log("----------------------------------------------");
           res
             .status(200)
             .redirect(
               `/supervisor/dashboard/${profileInfo.userInfo.dataValues.sup_uuid}`
             );
         } else {
-          SuperVisorLogin.create({
-            ipAddress: req.ip,
-            sup_id: profileInfo.userInfo.dataValues.sup_id
-          });
           res
             .status(200)
             .redirect(
@@ -306,21 +339,19 @@ app.post("/LoginForm", async (req, res) => {
         }
       }
       if (req.user.userRole.type_name === "Team Lead" || "") {
+        //creating the login information of the team lead
+        TeamLead_Login.create({
+          ipAddress: req.ip,
+          team_L_id: profileInfo.userInfo.dataValues.team_L_id
+        });
+
         if (profileInfo.userInfo.dataValues.team_L_name !== null) {
-          TeamLead_Login.create({
-            ipAddress: req.ip,
-            team_L_id: profileInfo.userInfo.dataValues.team_L_id
-          });
           res
             .status(200)
             .redirect(
               `/teamlead/dashboard/${profileInfo.userInfo.dataValues.team_L_uuid}`
             );
         } else {
-          TeamLead_Login.create({
-            ipAddress: req.ip,
-            team_L_id: profileInfo.userInfo.dataValues.team_L_id
-          });
           res
             .status(200)
             .redirect(
@@ -333,21 +364,19 @@ app.post("/LoginForm", async (req, res) => {
         req.user.userRole.type_name === "Field Executive" ||
         req.user.userRole.type_name === "Freelance Field Executive"
       ) {
+        //creating the login information of the "Field Executive" || "Freelance Field Executive"
+        ExecutiveLogins.create({
+          ipAddress: req.ip,
+          field_id: profileInfo.userInfo.dataValues.field_id
+        });
+
         if (profileInfo.userInfo.dataValues.field_name !== null) {
-          ExecutiveLogins.create({
-            ipAddress: req.ip,
-            field_id: profileInfo.userInfo.dataValues.field_id
-          });
           res
             .status(200)
             .redirect(
               `/user/dashboard/${profileInfo.userInfo.dataValues.field_uuid}`
             );
         } else {
-          ExecutiveLogins.create({
-            ipAddress: req.ip,
-            field_id: profileInfo.userInfo.dataValues.field_id
-          });
           res
             .status(200)
             .redirect(
@@ -378,6 +407,31 @@ function rememberMe_Cookies(res, uuid) {
 
 async function checkRole_GetData_FromDB(userRole, login_id) {
   // console.log(req);
+  if (userRole.type_name === "Manager") {
+    const menuData = await getMenu(userRole.type_name);
+    const userInfo = await Managers.findOne({
+      attributes: {
+        exclude: [
+          "man_isDeleted",
+          "man_isPaused",
+          "login_id",
+          "updateTimestamp"
+        ]
+      },
+      where: {
+        login_id,
+        man_isDeleted: 0,
+        man_isPaused: 0
+      }
+    }).catch((error) => {
+      if (error) {
+        console.error("Error fetching Manager Data");
+        console.trace(error);
+        return null;
+      }
+    });
+    return { menuData, userInfo };
+  }
   if (userRole.type_name === "SuperVisor") {
     const menuData = await getMenu(userRole.type_name);
     const userInfo = await Supervisor.findOne({

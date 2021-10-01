@@ -62,12 +62,22 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
       },
       sup_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         primaryKey: false,
         autoIncrement: false,
         references: {
           model: "supervisor",
           key: "sup_id"
+        }
+      },
+      man_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        primaryKey: false,
+        autoIncrement: false,
+        references: {
+          model: "managers",
+          key: "man_id"
         }
       }
     },
@@ -95,6 +105,13 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
     AgencyLogs_Supervisor.belongsTo(models.Supervisor, {
       targetKey: "sup_id",
       foreignKey: "sup_id"
+    });
+
+    models.Managers.hasMany(AgencyLogs_Supervisor, { foreignKey: "man_id" });
+
+    AgencyLogs_Supervisor.belongsTo(models.Managers, {
+      targetKey: "man_id",
+      foreignKey: "man_id"
     });
 
     // /**
