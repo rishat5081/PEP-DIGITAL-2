@@ -269,6 +269,11 @@ module.exports = (app) => {
     }
   });
 
+  /**
+   * assigning the area to the field executive 
+   * first find the the city area sector and then find the employees from the database
+   * then update the City_Sector_Assosiate  
+   */
   app.route("/allocateSectorToExecutive").post(async (req, res) => {
     //getting the sector ID from the database
     let sectorID = await Database.City_Sectors.findOne({

@@ -96,7 +96,7 @@ module.exports = (app) => {
       }
     );
 
-    jwtAuthentication_Token = `${process.env.domain}${process.env.server_PORT}/verifyToken/Authorization=Bearer%20/${jwtToken}`;
+    jwtAuthentication_Token = `${req.protocol + "://" + req.get("host")}/verifyToken/Authorization=Bearer%20/${jwtToken}`;
 
     /**
      * Creating the user accouint

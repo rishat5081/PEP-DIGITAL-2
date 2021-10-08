@@ -62,7 +62,9 @@ router.get("/verifyToken/Authorization=Bearer%20/:token", (req, res) => {
           })
           .then((updateResponse) => {
             if (updateResponse) {
-              res.status(200).render("Field Executive/emailVerified");
+              res.status(200).render("Field Executive/emailVerified",{
+                url:req.protocol + "://" + req.get("host")
+              });
             }
           })
           .catch((error) => {

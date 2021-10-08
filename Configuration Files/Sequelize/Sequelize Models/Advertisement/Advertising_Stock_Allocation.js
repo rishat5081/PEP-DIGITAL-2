@@ -5,7 +5,11 @@
 //   Advertisement_Stock = require("./Advertisement_Stock");
 "use strict";
 module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
-  const Advertisement_Stock = require("./Advertisement_Stock");
+  const Advertisement_Stock = require("./Advertisement_Stock")(sequelize, {
+    DataTypes,
+    Model,
+    UUIDV4,
+  });
   class Advertising_Stock_Allocation extends Model {}
 
   Advertising_Stock_Allocation.init(
@@ -14,38 +18,39 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       adver_stock_alloc_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       adver_stock_allocated_Quantity: {
         type: DataTypes.INTEGER,
-        allowNull: true
+        allowNull: true,
       },
       paused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       isConsumed: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       used: {
         type: DataTypes.INTEGER,
         allowNull: true,
         primaryKey: false,
-        autoIncrement: false
+        defaultValue: 0,
+        autoIncrement: false,
       },
       adver_stock_id: {
         type: DataTypes.INTEGER,
@@ -54,8 +59,8 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "advertising_stock",
-          key: "adver_stock_id"
-        }
+          key: "adver_stock_id",
+        },
       },
       sup_id: {
         type: DataTypes.INTEGER,
@@ -64,8 +69,8 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "supervisor",
-          key: "sup_id"
-        }
+          key: "sup_id",
+        },
       },
       man_id: {
         type: DataTypes.INTEGER,
@@ -74,25 +79,25 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "managers",
-          key: "man_id"
-        }
-      }
+          key: "man_id",
+        },
+      },
     },
     {
       hooks: {
         afterCreate: (stock, options) => {
-          Advertisement_Stock.increment(["adver_stock_remaining"], {
+          Advertisement_Stock.increment(["adver_stock_used"], {
             by: stock.dataValues.adver_stock_allocated_Quantity,
             where: {
-              adver_stock_id: stock.dataValues.adver_stock_id
-            }
+              adver_stock_id: stock.dataValues.adver_stock_id,
+            },
           });
-        }
+        },
       },
       sequelize,
       // We need to pass the connection instance
       modelName: "Advertising_Stock_Allocation",
-      tableName: "advertising_stock_allocation"
+      tableName: "advertising_stock_allocation",
     }
   );
 
@@ -101,36 +106,36 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
      * one manervisor got many stock which is allocated to him
      */
     models.Supervisor.hasMany(Advertising_Stock_Allocation, {
-      foreignKey: "sup_id"
+      foreignKey: "sup_id",
     });
 
     Advertising_Stock_Allocation.belongsTo(models.Supervisor, {
       targetKey: "sup_id",
-      foreignKey: "sup_id"
+      foreignKey: "sup_id",
     });
 
     /**
      * one manervisor got many stock which is allocated to him
      */
     models.Managers.hasMany(Advertising_Stock_Allocation, {
-      foreignKey: "man_id"
+      foreignKey: "man_id",
     });
 
     Advertising_Stock_Allocation.belongsTo(models.Managers, {
       targetKey: "man_id",
-      foreignKey: "man_id"
+      foreignKey: "man_id",
     });
 
     /**
      * which stock is allocated to the supervisor is record here
      */
     models.Advertisement_Stock.hasMany(Advertising_Stock_Allocation, {
-      foreignKey: "adver_stock_id"
+      foreignKey: "adver_stock_id",
     });
 
     Advertising_Stock_Allocation.belongsTo(models.Advertisement_Stock, {
       targetKey: "adver_stock_id",
-      foreignKey: "adver_stock_id"
+      foreignKey: "adver_stock_id",
     });
   };
   // /**

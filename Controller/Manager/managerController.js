@@ -376,6 +376,212 @@ router
       res.end();
     }
   });
+
+/**
+ * Allocating the area to the Supervisor
+ */
+/**
+ * allocating the area to the team lead
+ */
+router
+  .route("/allocateAreaToTeamLead/:sup_uuid")
+  .post(isManagerAuthentic, async (req, res) => {
+    //getting the sector ID from the database
+    let sectorID = await Database.City.findOne({
+      attributes: ["city_id"],
+      where: {
+        city_uuid: req.body.selectedArea,
+        deleted: 0,
+        paused: 0
+      }
+    }).catch((error) => {
+      console.error("Error in getting city");
+      console.trace(error);
+      return error ? null : true;
+    });
+
+    //getting the supervisor information from the database
+    let supervisorID = await Database.Supervisor.findAll({
+      attributes: ["sup_id"],
+      where: {
+        sup_uuid: selectedEmployee.map((uuid) => uuid),
+        sup_isDeleted: 0,
+        sup_isPaused: 0
+      }
+    }).catch((error) => {
+      console.error("Error in getting Supervisor");
+      console.trace(error);
+      return error ? null : true;
+    });
+
+    let assignArea = await Database.City_and_Supervisor_associate.bulkCreate(
+      supervisorID.map((supervisor) => {
+        return {
+          sup_id: supervisor.sup_id,
+          city_id: sectorID.city_id
+        };
+      })
+    ).catch((error) => {
+      console.error("Error in creating the Supervisor and City associate");
+      console.trace(error);
+      return error ? null : true;
+    });
+
+    if ((sectorID, supervisorID, assignArea !== null)) {
+      sectorID = executiveID = null;
+      res.status(200).send({ status: "Area Assigned Successfully" });
+      res.end();
+    } else {
+      sectorID = executiveID = null;
+      res.status(500).send({ error: "Please try again" });
+      res.end();
+    }
+    ////console.(req.body);
+  });
+/**
+ * sending the message to the specific team member
+ */
+router
+  .route("/conveyMessageToSpecificSupervisor/:man_uuid")
+  .post(isManagerAuthentic, async (req, res) => {
+    /**
+     * getting the team memebers from the database
+     */
+    let superVisors = await Database.Supervisor.findAll({
+      attributes: ["sup_id"],
+      where: {
+        man_id: req.session.profileData.man_id,
+        sup_isDeleted: 0,
+        sup_isPaused: 0,
+        sup_uuid: JSON.parse(req.body.employeeList).map((employee) => employee)
+      }
+    }).catch((error) => {
+      if (error) {
+        console.error("Error Fetching the Data of Supervisor");
+        console.trace(error);
+        return null;
+      }
+    });
+
+    let notificationID = await Database.NotificationText.findOne({
+      attributes: ["notification_id"],
+      where: {
+        [Op.or]: [
+          {
+            notification_title: {
+              [Op.like]: "%Manager%"
+            }
+          },
+          {
+            notification_title: {
+              [Op.like]: "%Message from your Manager%"
+            }
+          }
+        ]
+      }
+    }).catch((error) => {
+      console.error("Error in finding Notification Text");
+      console.trace(error);
+      return null;
+    });
+
+    let messageConveyed = await Database.SuperVisorNotification.bulkCreate(
+      superVisors.map((member) => {
+        return {
+          sup_id: member.dataValues.sup_id,
+          notification_text: req.body.messageText,
+          notification_id: notificationID.dataValues.notification_id
+        };
+      })
+    ).catch((error) => {
+      console.error("Error in creating ExecutiveNotifications");
+      console.trace(error);
+      return null;
+    });
+
+    if ((superVisors, notificationID, messageConveyed === null)) {
+      res.status(500).send({ error: "Please try again" });
+      superVisors = notificationID = messageConveyed = null;
+      res.end();
+    } else {
+      res.status(200).send({ status: "Successfully, Message has been send" });
+      superVisors = notificationID = messageConveyed = null;
+      res.end();
+    }
+  });
+
+/**
+ * Controller for sending message to all the team member
+ */
+router
+  .route("/conveyMessageToAllSupervisor/:man_uuid")
+  .post(isManagerAuthentic, async (req, res) => {
+    //getting all the supervisorssuperVisors
+    let superVisors = await Database.Supervisor.findAll({
+      attributes: ["sup_id"],
+      where: {
+        man_id: req.session.profileData.man_id,
+        sup_isDeleted: 0,
+        sup_isPaused: 0
+      }
+    }).catch((error) => {
+      if (error) {
+        console.error("Error Fetching the Data of Supervisor");
+        console.trace(error);
+        return null;
+      }
+    });
+
+    let notificationID = await Database.NotificationText.findOne({
+      attributes: ["notification_id"],
+      where: {
+        [Op.or]: [
+          {
+            notification_title: {
+              [Op.like]: "%Manager%"
+            }
+          },
+          {
+            notification_title: {
+              [Op.like]: "%Message from your Manager%"
+            }
+          }
+        ]
+      }
+    }).catch((error) => {
+      console.error("Error in finding Notification Text");
+      console.trace(error);
+      return null;
+    });
+
+    /**
+     * creating the notificaiton text for the supervisor
+     */
+    let messageConveyed = await Database.SuperVisorNotification.bulkCreate(
+      superVisors.map((member) => {
+        return {
+          sup_id: member.dataValues.sup_id,
+          notification_text: req.body.messageText,
+          notification_id: notificationID.dataValues.notification_id
+        };
+      })
+    ).catch((error) => {
+      console.error("Error in creating SuperVisors Notifications");
+      console.trace(error);
+      return null;
+    });
+
+    if ((superVisors, notificationID, messageConveyed === null)) {
+      res.status(500).send({ error: "Please try again" });
+      superVisors = notificationID = messageConveyed = null;
+      res.end();
+    } else {
+      res.status(200).send({ status: "Successfully, Message has been send" });
+      superVisors = messageConveyed = notificationID = null;
+      res.end();
+    }
+  });
+
 /**
  * reading all the notification to isRead to true
  * so it will make the notification is read

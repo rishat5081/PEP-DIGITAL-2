@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon app.js -- --inspect"
+    "start": "nodemon app.js --inspect",
+    "dev": "webpack-dev-server"
   },
   "dependencies": {
     "axios": "^0.21.4",
@@ -24,7 +25,6 @@
     "jwt-decode": "^3.1.2",
     "morgan": "~1.9.1",
     "multer": "^1.4.2",
-    "mysql": "^2.18.1",
     "mysql2": "^2.2.5",
     "nodemailer": "^6.5.0",
     "nodemon": "^2.0.6",
@@ -39,5 +39,13 @@
   "main": "app.js",
   "author": "Saad Sohail",
   "license": "ISC",
-  "description": "This is a office based project of the Zamulk.com"
+  "description": "This is a office based project of the Zamulk.com",
+  "devDependencies": {
+    "ejs-loader": "^0.5.0",
+    "ejs-webpack-plugin": "^1.0.0",
+    "webpack": "^5.56.1",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.3.0",
+    "webpack-node-externals": "^3.0.0"
+  }
 }

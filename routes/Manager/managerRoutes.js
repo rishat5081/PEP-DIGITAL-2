@@ -34,8 +34,8 @@ router.get(
       where: {
         paused: 0,
         deleted: 0,
-        user_role_id: req.session.passport.user.userRole.user_role_id
-      }
+        user_role_id: req.session.passport.user.userRole.user_role_id,
+      },
     });
 
     /**
@@ -51,8 +51,8 @@ router.get(
           attributes: ["d_name"],
           where: {
             paused: 0,
-            d_deleted: 0
-          }
+            d_deleted: 0,
+          },
         },
         {
           model: Database.Zone,
@@ -60,16 +60,16 @@ router.get(
           attributes: ["zone_name"],
           where: {
             paused: 0,
-            deleted: 0
-          }
-        }
+            deleted: 0,
+          },
+        },
       ],
       where: {
         man_id: req.session.profileData.man_id,
         man_uuid: req.session.profileData.man_uuid,
         man_isDeleted: 0,
-        man_isPaused: 0
-      }
+        man_isPaused: 0,
+      },
     })
       .then((data) => {
         if (data) return data;
@@ -93,7 +93,7 @@ router.get(
         createdAt: req.session.profileData.createdAt,
         man_salary: req.session.profileData.man_salary,
         d_name: managerDashboard.dataValues.Department.dataValues.d_name,
-        zone_name: managerDashboard.dataValues.Zone.dataValues.zone_name
+        zone_name: managerDashboard.dataValues.Zone.dataValues.zone_name,
       }
     );
 
@@ -106,7 +106,7 @@ router.get(
       res.status(200).render("Manager/dashboard", {
         info: {
           id: req.session.passport.user.userInfo.login_id,
-          uuid: req.session.profileData.man_uuid
+          uuid: req.session.profileData.man_uuid,
         },
         url: req.protocol + "://" + req.get("host"),
         user_role: req.session.passport.user.userRole,
@@ -114,7 +114,7 @@ router.get(
         webAds,
         unreadNotificationCount:
           unreadNotificationCount[0].dataValues.unreadNotificationCount,
-        permissions: req.session.permissions.permissionObject
+        permissions: req.session.permissions.permissionObject,
       });
 
       unreadNotificationCount = null;
@@ -140,11 +140,11 @@ router.get(
       res.status(200).render(`Manager/completeProfile`, {
         info: {
           id: req.session.passport.user.userInfo.login_id,
-          uuid: req.session.profileData.man_uuid
+          uuid: req.session.profileData.man_uuid,
         },
         message: req.flash("info", "Please Complete your Profile"),
         url: req.protocol + "://" + req.get("host"),
-        profileData: req.session.profileData.man_userProfilePic
+        profileData: req.session.profileData.man_userProfilePic,
       });
     } else {
       res
@@ -175,8 +175,8 @@ router.get(
           "createdAt",
           "updateTimestamp",
           "zone_id",
-          "d_id"
-        ]
+          "d_id",
+        ],
       },
       /**
        * getting the inner join with supervisor
@@ -189,8 +189,8 @@ router.get(
           attributes: ["zone_name"],
           where: {
             paused: 0,
-            deleted: 0
-          }
+            deleted: 0,
+          },
         },
         {
           model: Database.Department,
@@ -198,15 +198,15 @@ router.get(
           attributes: ["d_name"],
           where: {
             paused: 0,
-            d_deleted: 0
-          }
-        }
+            d_deleted: 0,
+          },
+        },
       ],
       where: {
         man_uuid: req.session.profileData.man_uuid,
         man_isDeleted: 0,
-        man_isPaused: 0
-      }
+        man_isPaused: 0,
+      },
     });
 
     // getting the email from the Login Info table
@@ -215,8 +215,8 @@ router.get(
       where: {
         login_id: req.session.passport.user.userInfo.login_id,
         paused: 0,
-        deleted: 0
-      }
+        deleted: 0,
+      },
     });
     // unread notification count
     let unreadNotificationCount = await countofNotificationOfManager(
@@ -227,14 +227,14 @@ router.get(
       url: req.protocol + "://" + req.get("host"),
       info: {
         id: req.session.passport.user.userInfo.login_id,
-        uuid: req.session.profileData.man_uuid
+        uuid: req.session.profileData.man_uuid,
       },
       role: req.session.passport.user.userRole.type_name,
       LoginEmail,
       managerData,
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      permissions: req.session.permissions.permissionObject
+      permissions: req.session.permissions.permissionObject,
     });
 
     LoginEmail = null;
@@ -260,7 +260,7 @@ router.get(
       attributes: ["city_id", "city_uuid", "city_name"],
       where: {
         paused: 0,
-        deleted: 0
+        deleted: 0,
       },
       include: {
         model: Database.Supervisor,
@@ -269,9 +269,9 @@ router.get(
         where: {
           sup_isPaused: 0,
           sup_isDeleted: 0,
-          man_id: req.session.profileData.man_id
-        }
-      }
+          man_id: req.session.profileData.man_id,
+        },
+      },
     });
 
     let getCityArea = await Database.City_and_Supervisor_associate.findAll({
@@ -279,13 +279,13 @@ router.get(
         "city_supp_assos_id",
         "city_id",
         "sup_id",
-        "city_and_sup_asso_uuid"
+        "city_and_sup_asso_uuid",
       ],
       where: {
         paused: 0,
         deleted: 0,
         // sup_id: req.session.profileData.sup_id,
-        city_id: cityNameData.map((city) => city.city_id)
+        city_id: cityNameData.map((city) => city.city_id),
       },
       include: {
         model: Database.City_Areas,
@@ -295,26 +295,26 @@ router.get(
           "city_area_uuid",
           "city_name",
           "city_code",
-          "city_supp_assos_id"
+          "city_supp_assos_id",
         ],
         where: {
           paused: 0,
-          deleted: 0
-        }
-      }
+          deleted: 0,
+        },
+      },
     });
     res.status(200).render("Manager/viewAllAgencies", {
       url: req.protocol + "://" + req.get("host"),
       info: {
         id: req.session.passport.user.userInfo.login_id,
-        uuid: req.session.profileData.man_uuid
+        uuid: req.session.profileData.man_uuid,
       },
       getCityArea,
       cityNameData,
       role: req.session.passport.user.userRole.type_name,
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      permissions: req.session.permissions.permissionObject
+      permissions: req.session.permissions.permissionObject,
     });
   }
 );
@@ -338,24 +338,24 @@ router.get(
     );
 
     let supervisor_and_City = await Database.Supervisor.findAll({
-      attributes: ["sup_id", "sup_uuid", "sup_name",'sup_contact'],
+      attributes: ["sup_id", "sup_uuid", "sup_name", "sup_contact"],
       where: {
         sup_isDeleted: 0,
         sup_isPaused: 0,
-        man_id: req.session.profileData.man_id
+        man_id: req.session.profileData.man_id,
       },
       include: {
         model: Database.City,
         required: true,
         attributes: ["city_name", "city_uuid"],
         through: {
-          attributes: []
+          attributes: [],
         },
         where: {
           paused: 0,
-          deleted: 0
-        }
-      }
+          deleted: 0,
+        },
+      },
     }).catch((error) => {
       console.error("Error in getting Supervisor Details");
       console.trace(error);
@@ -369,8 +369,8 @@ router.get(
       where: {
         sup_isDeleted: 0,
         sup_isPaused: 0,
-        man_id: req.session.profileData.man_id
-      }
+        man_id: req.session.profileData.man_id,
+      },
     })
       .then((supervisor) => {
         return supervisor ? supervisor : null;
@@ -388,8 +388,8 @@ router.get(
       where: {
         paused: 0,
         deleted: 0,
-        zone_id: req.session.profileData.zone_id
-      }
+        zone_id: req.session.profileData.zone_id,
+      },
     })
       .then((city) => {
         return city ? city : null;
@@ -405,7 +405,7 @@ router.get(
         url: req.protocol + "://" + req.get("host"),
         info: {
           id: req.session.passport.user.userInfo.login_id,
-          uuid: req.session.profileData.man_uuid
+          uuid: req.session.profileData.man_uuid,
         },
         supervisor_and_City,
         supervisor,
@@ -413,13 +413,153 @@ router.get(
         user_role: req.session.passport.user.userRole,
         unreadNotificationCount:
           unreadNotificationCount[0].dataValues.unreadNotificationCount,
-        permissions: req.session.permissions.permissionObject
+        permissions: req.session.permissions.permissionObject,
       });
       city = unreadNotificationCount = supervisor_and_City = supervisor = null;
       res.end();
     } else {
       res.redirect(`/manager/dashboard/${req.session.profileData.man_uuid}`);
     }
+  }
+);
+
+/**
+ * convey the message to the supervisor
+ */
+router.get(
+  "/conveyMessage/:man_uuid",
+  isUser_Login,
+  isManagerAuthentic,
+  async (req, res) => {
+    //getting the team lead notifications
+    let unreadNotificationCount = await countofNotificationOfManager(
+      req.session.profileData.man_id
+    );
+
+    //getting the team-lead , member
+    let teamMember = await Database.Supervisor.findAll({
+      attributes: ["sup_id", "sup_uuid", "sup_name", "sup_contact"],
+      where: {
+        man_id: req.session.profileData.man_id,
+        sup_isDeleted: 0,
+        sup_isPaused: 0,
+      },
+    })
+      .then((member) => {
+        // console.warn(member);
+        return member ? member : null;
+      })
+      .catch((error) => {
+        console.error("Error in getting Member");
+        console.trace(error);
+        return error ? null : true;
+      });
+
+    if (teamMember !== null) {
+      res.status(200).render("Manager/conveyMessageToSupervisor", {
+        info: {
+          id: req.session.passport.user.userInfo.login_id,
+          uuid: req.session.profileData.man_uuid,
+        },
+        teamMember,
+        url: req.protocol + "://" + req.get("host"),
+        user_role: req.session.passport.user.userRole,
+        unreadNotificationCount:
+          unreadNotificationCount[0].dataValues.unreadNotificationCount,
+        permissions: req.session.permissions.permissionObject,
+      });
+
+      unreadNotificationCount = null;
+      res.end();
+    } else {
+      res.redirect(`/teamlead/dashboard/${req.session.profileData.team_L_id}`);
+    }
+  }
+);
+
+/**
+ * getting the Manage Incentive route to display all the team lead
+ * from the city where the supervisor is currently working on
+ * and also allow the supervisor to allote the Manage Incentive to the user
+ */
+
+
+router.get(
+  "/manageIncentive/:man_uuid",
+  isUser_Login,
+  isManagerAuthentic,
+  async (req, res) => {
+    // unread notification count
+    let unreadNotificationCount = await countofNotificationOfManager(
+      req.session.profileData.man_id
+    );
+    /**
+     * getting all the Cities from the database
+     */
+    let superVisorsInfo = await Database.Supervisor.findAll({
+      attributes: ["sup_id", "sup_uuid", "sup_name"],
+      include: {
+        model: Database.City,
+        attributes: ["city_id", "city_name", "city_uuid"],
+        required: true,
+        through: {
+          attributes: ["sup_id", "city_id"],
+        },
+        where: {
+          paused: 0,
+          deleted: 0,
+        },
+      },
+      where: {
+        man_id: req.session.profileData.man_id,
+        sup_isDeleted: 0,
+        sup_isPaused: 0,
+      },
+    });
+
+    /**
+     * Getting the advertisment which are allocated to the supervisor
+     */
+
+    let advertisment = await Database.Advertisement_Stock.findAll({
+      attributes: [
+        [
+          sequelize.fn("SUM", sequelize.col("adver_stock_total_Quantity")),
+          "sumofQuantity",
+        ],
+        [
+          sequelize.fn("SUM", sequelize.col("adver_stock_used")),
+          "QuantityUsed",
+        ],
+        "adver_stock_id",
+        "advert_stock_uuid",
+        "adver_stock_name",
+        "adver_stock_descritpion",
+        "adver_stock_image",
+      ],
+
+      where: {
+        man_id: req.session.profileData.man_id,
+        paused: 0,
+        deleted: 0,
+      },
+      group: ["adver_stock_id"],
+    });
+
+    res.status(200).render("Manager/manageIncentive", {
+      url: req.protocol + "://" + req.get("host"),
+      info: {
+        id: req.session.passport.user.userInfo.login_id,
+        uuid: req.session.profileData.man_uuid,
+      },
+      advertisment,
+      superVisorsInfo,
+      user_role: req.session.passport.user.userRole,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      permissions: req.session.permissions.permissionObject,
+    });
+    advertisment = superVisorsInfo = null;
   }
 );
 
@@ -439,7 +579,7 @@ router.get("/notification", isUser_Login, async (req, res) => {
       "manager_notification_uuid",
       "notification_text",
       "isRead",
-      "createdAt"
+      "createdAt",
     ],
     include: {
       model: Database.NotificationText,
@@ -447,15 +587,15 @@ router.get("/notification", isUser_Login, async (req, res) => {
       required: true,
       where: {
         isPaused: false,
-        deleted: false
-      }
+        deleted: false,
+      },
     },
     where: {
       isPaused: false,
       deleted: false,
-      man_id: req.session.profileData.man_id
+      man_id: req.session.profileData.man_id,
     },
-    limit: 50
+    limit: 50,
   }).then((notifications) => {
     if (notifications) return notifications;
   });
@@ -466,9 +606,9 @@ router.get("/notification", isUser_Login, async (req, res) => {
     url: req.protocol + "://" + req.get("host"),
     info: {
       id: req.session.passport.user.userInfo.login_id,
-      uuid: req.session.profileData.man_uuid
+      uuid: req.session.profileData.man_uuid,
     },
-    permissions: req.session.permissions.permissionObject
+    permissions: req.session.permissions.permissionObject,
   });
 });
 
@@ -480,6 +620,13 @@ router.get("/signout", async (req, res) => {
   req.session.destroy();
   res.redirect("/login");
 });
+
+/**
+ * if the user tries to get on the invalid route
+ */
+router.get("*", isUser_Login, async (req, res) => {
+  res.redirect(`/manager/dashboard/${req.session.profileData.man_uuid}`);
+});
 module.exports = { router, isManagerAuthentic };
 
 /**
@@ -490,13 +637,13 @@ const countofNotificationOfManager = async (man_id) => {
     attributes: [
       [
         sequelize.fn("COUNT", sequelize.col("manager_notification_id")),
-        "unreadNotificationCount"
-      ]
+        "unreadNotificationCount",
+      ],
     ],
     where: {
       isRead: false,
-      man_id
-    }
+      man_id,
+    },
   })
     .then((notifications) => {
       if (notifications) return notifications;

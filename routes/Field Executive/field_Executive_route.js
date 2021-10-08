@@ -15,7 +15,7 @@ const {
     Field_Executive,
     WebAds,
     NotificationText,
-    AgencyTypes
+    AgencyTypes,
   } = require("../../Configuration Files/Sequelize/Database_Synchronization"),
   sequelize = require("../../Configuration Files/Sequelize/Sequelize"),
   { Op, QueryTypes } = require("sequelize"),
@@ -56,8 +56,8 @@ router.get(
       where: {
         paused: 0,
         deleted: 0,
-        user_role_id: req.session.passport.user.userRole.user_role_id
-      }
+        user_role_id: req.session.passport.user.userRole.user_role_id,
+      },
     });
     const profileData = Object.assign(
       {},
@@ -65,21 +65,22 @@ router.get(
         field_name: req.session.profileData.field_name,
         field_userProfilePic: req.session.profileData.field_userProfilePic,
         createdAt: req.session.profileData.createdAt,
-        field_DOB: req.session.profileData.field_DOB
+        field_DOB: req.session.profileData.field_DOB,
       }
     );
+    console.log(profileData);
 
     res.status(200).render("Field Executive/dashboard", {
       info: {
         id: req.session.passport.user.userInfo.login_id,
-        uuid: req.session.profileData.field_uuid
+        uuid: req.session.profileData.field_uuid,
       },
       url: req.protocol + "://" + req.get("host"),
       profileData,
       webAds,
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      permissions: req.session.permissions.permissionObject
+      permissions: req.session.permissions.permissionObject,
     });
 
     unreadNotificationCount = null;
@@ -101,7 +102,8 @@ router.get(
   (req, res) => {
     if (req.session.profileData.field_name === null)
       res.status(200).render(`Field Executive/completeProfile`, {
-        message: req.flash("info", "Please Complete your Profile")
+        url: req.protocol + "://" + req.get("host"),
+        message: req.flash("info", "Please Complete your Profile"),
       });
     else {
       res
@@ -129,8 +131,8 @@ router.get(
       attributes: ["instructionText"],
       where: {
         isPaused: false,
-        deleted: false
-      }
+        deleted: false,
+      },
     })
       .then((instrucntions) => {
         return instrucntions;
@@ -146,8 +148,10 @@ router.get(
      */
     let agencyTypes = await AgencyTypes.findAll({
       attributes: ["agencytype_id", "type_name"],
-      isPaused: false,
-      deleted: false
+      where: {
+        isPaused: false,
+        deleted: false,
+      },
     })
       .then((types) => {
         return types;
@@ -177,11 +181,11 @@ router.get(
             forFreelancers:
               req.session.passport.user.userRole !== "Field Executive"
                 ? true
-                : false
+                : false,
           },
-          { forAll: true }
-        ]
-      }
+          { forAll: true },
+        ],
+      },
     })
       .then((compaigns) => {
         if (compaigns) {
@@ -200,7 +204,7 @@ router.get(
     res.status(200).render("Field Executive/activity", {
       info: {
         id: req.session.passport.user.userInfo.login_id,
-        uuid: req.session.profileData.field_uuid
+        uuid: req.session.profileData.field_uuid,
       },
       url: req.protocol + "://" + req.get("host"),
       unreadNotificationCount:
@@ -210,7 +214,7 @@ router.get(
       pakistanCityName,
       instrucntions: activity_Instruc,
       role: req.session.passport.user.userRole,
-      permissions: req.session.permissions.permissionObject
+      permissions: req.session.permissions.permissionObject,
     });
 
     // Notification = null
@@ -236,14 +240,14 @@ router.get(
     ) {
       res.status(200).render("Web Appendage Pages/error", {
         errorStatus: "Invalid Credentials",
-        errorHeading: `The Agency or Activity is not same.`
+        errorHeading: `The Agency or Activity is not same.`,
       });
     } else {
       const subActivities = await List_sub_Activities.findAll({
         attributes: ["list_id"],
         where: {
           list_deleted: 0,
-          list_paused: 0
+          list_paused: 0,
         },
         include: {
           attributes: [
@@ -251,7 +255,7 @@ router.get(
             "list_act_uuid",
             "field_id",
             "comp_id",
-            "agency_id"
+            "agency_id",
           ],
 
           model: Activities,
@@ -260,10 +264,10 @@ router.get(
           where: {
             agency_id: req.session.activityDetails.agencyID,
             paused: 0,
-            deleted: 0
-          }
+            deleted: 0,
+          },
         },
-        raw: true
+        raw: true,
       })
         .then((activities) => activities.map((activity) => activity.list_id))
         .then((activityIds) =>
@@ -273,22 +277,22 @@ router.get(
               "list_name",
               "list_description",
               "isBank",
-              "bankAmount"
+              "bankAmount",
             ],
             where: {
               list_id: {
-                [Op.notIn]: activityIds
+                [Op.notIn]: activityIds,
               },
               list_name: {
-                [Op.notLike]: "%New Agency%"
+                [Op.notLike]: "%New Agency%",
               },
               list_deleted: 0,
               list_paused: 0,
               isRepeat: {
                 [Op.or]: 1,
-                [Op.or]: 0
-              }
-            }
+                [Op.or]: 0,
+              },
+            },
           })
         )
         .then((packages) => {
@@ -307,12 +311,12 @@ router.get(
         subActivities,
         info: {
           id: req.session.passport.user.userInfo.login_id,
-          uuid: req.session.profileData.field_uuid
+          uuid: req.session.profileData.field_uuid,
         },
         url: req.protocol + "://" + req.get("host"),
         unreadNotificationCount:
           unreadNotificationCount[0].dataValues.unreadNotificationCount,
-        permissions: req.session.permissions.permissionObject
+        permissions: req.session.permissions.permissionObject,
       });
       unreadNotificationCount = null;
     }
@@ -332,9 +336,13 @@ router.get(
       attributes: ["agency_name", "agency_address"],
       where: {
         deleted: 0,
-        isPaused: 0
-      }
+        isPaused: 0,
+      },
+    }).catch((error) => {
+      if (error) console.error("Error getting Agencies" + error);
+      return null;
     });
+
     /**
      *
      * getting the compaigns from the DB
@@ -353,11 +361,11 @@ router.get(
             forFreelancers:
               req.session.passport.user.userRole !== "Field Executive"
                 ? true
-                : false
+                : false,
           },
-          { forAll: true }
-        ]
-      }
+          { forAll: true },
+        ],
+      },
     })
       .then((compaigns) => {
         if (compaigns) {
@@ -373,19 +381,22 @@ router.get(
       req.session.profileData.field_id
     );
 
-    res.render("Field Executive/viewAllAgencies", {
-      AgencyData,
-      pakistanCityName,
-      CompaignsList,
-      url: req.protocol + "://" + req.get("host"),
-      unreadNotificationCount:
-        unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      info: {
-        id: req.session.passport.user.userInfo.login_id,
-        uuid: req.session.profileData.field_uuid
-      },
-      permissions: req.session.permissions.permissionObject
-    });
+    if ((unreadNotificationCount, CompaignsList, AgencyData)) {
+      console.log(AgencyData.length);
+      res.render("Field Executive/viewAllAgencies", {
+        AgencyData,
+        pakistanCityName,
+        CompaignsList,
+        url: req.protocol + "://" + req.get("host"),
+        unreadNotificationCount:
+          unreadNotificationCount[0].dataValues.unreadNotificationCount,
+        info: {
+          id: req.session.passport.user.userInfo.login_id,
+          uuid: req.session.profileData.field_uuid,
+        },
+        permissions: req.session.permissions.permissionObject,
+      });
+    }
     unreadNotificationCount = null;
   }
 );
@@ -411,8 +422,8 @@ router.get(
           "login_id",
           "createdAt",
           "updateTimestamp",
-          "team_L_id"
-        ]
+          "team_L_id",
+        ],
       },
       /**
        * getting the inner join with team lead
@@ -423,7 +434,7 @@ router.get(
         required: false,
         where: {
           team_L_isDeleted: 0,
-          team_L_isPaused: 0
+          team_L_isPaused: 0,
         },
         /**
          * getting the inner join with team lead -> City_Areas
@@ -434,15 +445,15 @@ router.get(
           required: false,
           where: {
             paused: 0,
-            deleted: 0
-          }
-        }
+            deleted: 0,
+          },
+        },
       },
       where: {
         field_uuid: req.session.profileData.field_uuid,
         field_isPaused: 0,
-        field_isDeleted: 0
-      }
+        field_isDeleted: 0,
+      },
     });
 
     const LoginEmail = await User_Login_Information.findOne({
@@ -450,8 +461,8 @@ router.get(
       where: {
         login_id: req.session.passport.user.userInfo.login_id,
         paused: 0,
-        deleted: 0
-      }
+        deleted: 0,
+      },
     });
 
     // let Notification = await notificationOfExecutive(req.session.profileData.field_id)
@@ -461,7 +472,7 @@ router.get(
 
     const countOfTargetsActivities = await Activities.findAll({
       attributes: [
-        [sequelize.fn("COUNT", sequelize.col("list_act_id")), "activityTarget"]
+        [sequelize.fn("COUNT", sequelize.col("list_act_id")), "activityTarget"],
       ],
       where: {
         field_id: req.session.profileData.field_id,
@@ -470,8 +481,8 @@ router.get(
         ),
         paused: 0,
         deleted: 0,
-        cancelled: 0
-      }
+        cancelled: 0,
+      },
     });
 
     const field_executive_info = { ...field.dataValues };
@@ -481,7 +492,7 @@ router.get(
     if (field.dataValues.Team_Lead) {
       teamLead_Info = { ...field.dataValues.Team_Lead.dataValues };
       City_Area_Info = {
-        ...field.dataValues.Team_Lead.dataValues.City_Area.dataValues
+        ...field.dataValues.Team_Lead.dataValues.City_Area.dataValues,
       };
     }
 
@@ -496,10 +507,10 @@ router.get(
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
       info: {
         id: req.session.passport.user.userInfo.login_id,
-        uuid: req.session.profileData.field_uuid
+        uuid: req.session.profileData.field_uuid,
       },
       role: req.session.passport.user.userRole,
-      permissions: req.session.permissions.permissionObject
+      permissions: req.session.permissions.permissionObject,
     });
     unreadNotificationCount = null;
     teamLead_Info = null;
@@ -522,12 +533,12 @@ router.get(
         {
           model: Agency_Info,
           attributes: ["agency_name"],
-          required: false
-        }
+          required: false,
+        },
       ],
       where: {
-        field_id: req.session.profileData.field_id
-      }
+        field_id: req.session.profileData.field_id,
+      },
     })
       .then((dbResponse) => {
         if (dbResponse) return dbResponse;
@@ -541,14 +552,14 @@ router.get(
         "list_act_id",
         [
           sequelize.fn("sum", sequelize.col("`List_of_Package`.list_amount")),
-          "SumofValues"
+          "SumofValues",
         ],
         [
           sequelize.literal(
             "SUM(`List_of_Package`.bankAmount/100*`List_of_Package`.commissionAmount)"
           ),
-          "Commission"
-        ]
+          "Commission",
+        ],
       ],
       include: {
         attributes: [],
@@ -556,13 +567,13 @@ router.get(
         required: true,
         where: {
           list_deleted: 0,
-          list_paused: 0
-        }
+          list_paused: 0,
+        },
       },
       group: ["`List_sub_Activities`.list_act_id"],
       where: {
-        list_act_id: dbResponse.map((data) => data.dataValues.list_act_id)
-      }
+        list_act_id: dbResponse.map((data) => data.dataValues.list_act_id),
+      },
     })
       .then((dbResponse) => {
         if (dbResponse) return dbResponse;
@@ -585,9 +596,9 @@ router.get(
       totalActivities: subActivities.length,
       info: {
         id: req.session.passport.user.userInfo.login_id,
-        uuid: req.session.profileData.field_uuid
+        uuid: req.session.profileData.field_uuid,
       },
-      permissions: req.session.permissions.permissionObject
+      permissions: req.session.permissions.permissionObject,
     });
     unreadNotificationCount = null;
   }
@@ -615,8 +626,8 @@ router.get(
           required: false,
           where: {
             deleted: 0,
-            isPaused: 0
-          }
+            isPaused: 0,
+          },
         },
         {
           model: List_sub_Activities,
@@ -624,7 +635,7 @@ router.get(
             "list_sub_act_id",
             "list_id",
             "createdAt",
-            "list_act_id"
+            "list_act_id",
           ],
           required: true,
           include: {
@@ -634,25 +645,25 @@ router.get(
               "list_amount",
               "isBank",
               "bankAmount",
-              "commissionAmount"
+              "commissionAmount",
             ],
             required: true,
             where: {
               list_deleted: 0,
-              list_paused: 0
-            }
+              list_paused: 0,
+            },
           },
           where: {
             list_deleted: 0,
-            list_paused: 0
-          }
-        }
+            list_paused: 0,
+          },
+        },
       ],
       where: {
         list_act_uuid: req.params.activityUUID,
         deleted: 0,
-        paused: 0
-      }
+        paused: 0,
+      },
     })
       .then((dbResponse) => {
         if (dbResponse) return dbResponse;
@@ -677,7 +688,7 @@ router.get(
         {
           list_act_id: activitiesResponse[0].dataValues.list_act_id,
           list_act_uuid: activitiesResponse[0].dataValues.list_act_uuid,
-          createdAt: activitiesResponse[0].dataValues.createdAt
+          createdAt: activitiesResponse[0].dataValues.createdAt,
         }
       );
       const subActivities = [...activitiesResponse[0].List_sub_Activities];
@@ -686,23 +697,23 @@ router.get(
         attributes: [
           [
             sequelize.fn("sum", sequelize.col("`List_of_Package`.list_amount")),
-            "SumofValues"
+            "SumofValues",
           ],
           [
             sequelize.literal(
               "SUM(`List_of_Package`.bankAmount/100*`List_of_Package`.commissionAmount)"
             ),
-            "Commission"
-          ]
+            "Commission",
+          ],
         ],
         include: {
           attributes: [],
           model: List_of_Packages,
           where: {
             list_deleted: 0,
-            list_paused: 0
+            list_paused: 0,
           },
-          required: true
+          required: true,
         },
         group: ["`List_sub_Activities`.list_act_id"],
         where: {
@@ -710,8 +721,8 @@ router.get(
             (data) => data.dataValues.list_act_id
           ),
           list_deleted: 0,
-          list_paused: 0
-        }
+          list_paused: 0,
+        },
       })
         .then((dbResponse) => {
           if (dbResponse) return dbResponse;
@@ -736,9 +747,9 @@ router.get(
           unreadNotificationCount[0].dataValues.unreadNotificationCount,
         info: {
           id: req.session.passport.user.userInfo.login_id,
-          uuid: req.session.profileData.field_uuid
+          uuid: req.session.profileData.field_uuid,
         },
-        permissions: req.session.permissions.permissionObject
+        permissions: req.session.permissions.permissionObject,
       });
       unreadNotificationCount = null;
     } else if (activitiesResponse === null) {
@@ -762,7 +773,7 @@ router.get("/notification", isUser_Login, async (req, res) => {
       "execu_notification_uuid",
       "notification_text",
       "isRead",
-      "createdAt"
+      "createdAt",
     ],
     include: {
       model: NotificationText,
@@ -770,15 +781,15 @@ router.get("/notification", isUser_Login, async (req, res) => {
       required: true,
       where: {
         isPaused: false,
-        deleted: false
-      }
+        deleted: false,
+      },
     },
     where: {
       isPaused: false,
       deleted: false,
-      field_id: req.session.profileData.field_id
+      field_id: req.session.profileData.field_id,
     },
-    limit: 50
+    limit: 50,
   }).then((notifications) => {
     if (notifications) return notifications;
   });
@@ -789,9 +800,9 @@ router.get("/notification", isUser_Login, async (req, res) => {
     url: req.protocol + "://" + req.get("host"),
     info: {
       id: req.session.passport.user.userInfo.login_id,
-      uuid: req.session.profileData.field_uuid
+      uuid: req.session.profileData.field_uuid,
     },
-    permissions: req.session.permissions.permissionObject
+    permissions: req.session.permissions.permissionObject,
   });
 });
 
@@ -814,7 +825,7 @@ router.get(
         "accountant_approve",
         "account_decline",
         "field_exe_earn_uuid",
-        "withdrawed"
+        "withdrawed",
       ],
       include: {
         model: Activities,
@@ -822,7 +833,7 @@ router.get(
         required: true,
         where: {
           paused: 0,
-          deleted: 0
+          deleted: 0,
         },
         include: [
           {
@@ -830,17 +841,17 @@ router.get(
             attributes: ["agency_name"],
             where: {
               isPaused: 0,
-              deleted: 0
+              deleted: 0,
             },
-            required: true
-          }
-        ]
+            required: true,
+          },
+        ],
       },
       where: {
         field_id: req.session.profileData.field_id,
         paused: 0,
-        deleted: 0
-      }
+        deleted: 0,
+      },
     }).then((Activities) => {
       if (Activities) return Activities;
     });
@@ -854,15 +865,15 @@ router.get(
       attributes: [
         [
           sequelize.fn("sum", sequelize.col("`List_of_Package`.list_amount")),
-          "SumofValues"
+          "SumofValues",
         ],
         "list_act_id",
         [
           sequelize.literal(
             "SUM(`List_of_Package`.bankAmount/100*`List_of_Package`.commissionAmount)"
           ),
-          "Commission"
-        ]
+          "Commission",
+        ],
       ],
       include: {
         attributes: [],
@@ -870,15 +881,15 @@ router.get(
         required: true,
         where: {
           list_deleted: 0,
-          list_paused: 0
-        }
+          list_paused: 0,
+        },
       },
       group: ["`List_sub_Activities`.list_act_id"],
       where: {
         list_act_id: PendingClearanceObject.map(
           (data) => data.dataValues.Activity.dataValues.list_act_id
-        )
-      }
+        ),
+      },
     })
       .then((dbResponse) => {
         if (dbResponse) return dbResponse;
@@ -902,9 +913,9 @@ router.get(
         url: req.protocol + "://" + req.get("host"),
         info: {
           id: req.session.passport.user.userInfo.login_id,
-          uuid: req.session.profileData.field_uuid
+          uuid: req.session.profileData.field_uuid,
         },
-        permissions: req.session.permissions.permissionObject
+        permissions: req.session.permissions.permissionObject,
       });
     }
   }
@@ -919,12 +930,12 @@ router.get("/bankDeposit/:activityUUID", isUser_Login, async (req, res) => {
     include: {
       model: Banks_List,
       required: true,
-      attributes: ["bankName"]
+      attributes: ["bankName"],
     },
     where: {
       deleted: false,
-      paused: false
-    }
+      paused: false,
+    },
   });
 
   /**
@@ -934,8 +945,8 @@ router.get("/bankDeposit/:activityUUID", isUser_Login, async (req, res) => {
     attributes: ["Banks_List_uuid", "bankName"],
     where: {
       paused: false,
-      deleted: false
-    }
+      deleted: false,
+    },
   });
 
   /**
@@ -945,8 +956,8 @@ router.get("/bankDeposit/:activityUUID", isUser_Login, async (req, res) => {
   var activitiesResponse = await Activities.findOne({
     attributes: ["list_act_id", "list_act_uuid"],
     where: {
-      list_act_uuid: req.params.activityUUID
-    }
+      list_act_uuid: req.params.activityUUID,
+    },
   })
     .then((dbResponse) => {
       if (dbResponse) return dbResponse;
@@ -967,8 +978,8 @@ router.get("/bankDeposit/:activityUUID", isUser_Login, async (req, res) => {
       attributes: [
         [
           sequelize.fn("sum", sequelize.col("`List_of_Package`.bankAmount")),
-          "SumofValues"
-        ]
+          "SumofValues",
+        ],
       ],
       include: {
         attributes: [],
@@ -976,13 +987,13 @@ router.get("/bankDeposit/:activityUUID", isUser_Login, async (req, res) => {
         required: true,
         where: {
           list_deleted: 0,
-          list_paused: 0
-        }
+          list_paused: 0,
+        },
       },
       group: ["`List_sub_Activities`.list_act_id"],
       where: {
-        list_act_id: activitiesResponse.dataValues.list_act_id
-      }
+        list_act_id: activitiesResponse.dataValues.list_act_id,
+      },
     })
       .then((dbResponse) => {
         if (dbResponse) return dbResponse;
@@ -1007,9 +1018,9 @@ router.get("/bankDeposit/:activityUUID", isUser_Login, async (req, res) => {
         activityDetails: activitiesResponse,
         info: {
           id: req.session.passport.user.userInfo.login_id,
-          uuid: req.session.profileData.field_uuid
+          uuid: req.session.profileData.field_uuid,
         },
-        permissions: req.session.permissions.permissionObject
+        permissions: req.session.permissions.permissionObject,
       });
     } else {
       res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`);
@@ -1038,12 +1049,12 @@ router.get("/depositslip/:field_exe_earn_uuid", async (req, res) => {
       "depositedAmount",
       "bankName",
       "bank_deposited_referenceNumber",
-      "bank_datetime"
+      "bank_datetime",
     ],
     where: {
       field_exe_earn_uuid: req.params.field_exe_earn_uuid,
       paused: 0,
-      deleted: 0
+      deleted: 0,
     },
     include: {
       model: Activities,
@@ -1052,9 +1063,9 @@ router.get("/depositslip/:field_exe_earn_uuid", async (req, res) => {
       include: {
         model: Agency_Info,
         required: true,
-        attributes: ["agency_name"]
-      }
-    }
+        attributes: ["agency_name"],
+      },
+    },
   })
     .then((response) => {
       if (response) {
@@ -1073,7 +1084,7 @@ router.get("/depositslip/:field_exe_earn_uuid", async (req, res) => {
     res.render("Field Executive/bankDepositSlip", {
       url: req.protocol + "://" + req.get("host"),
       uuid: req.session.profileData.field_uuid,
-      bankDetails
+      bankDetails,
     });
   } else {
     res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`);
@@ -1096,15 +1107,15 @@ router.get(
         [sequelize.fn("COUNT", sequelize.col("*")), "activitiesPerMonth"],
         [
           sequelize.fn("COUNT", sequelize.col("cancelled")),
-          "cancelledactivitiesPerMonth"
-        ]
+          "cancelledactivitiesPerMonth",
+        ],
       ],
       group: ["moonth", "Year"],
       where: {
         field_id: req.session.profileData.field_id,
         deleted: false,
-        paused: false
-      }
+        paused: false,
+      },
     })
       .then((dbResponse) => {
         if (dbResponse.length > 0) return dbResponse;
@@ -1129,16 +1140,16 @@ router.get(
         [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
         [
           sequelize.fn("COUNT", sequelize.col("cancelled")),
-          "cancelledactivitiesPerMonth"
-        ]
+          "cancelledactivitiesPerMonth",
+        ],
       ],
       group: ["moonth", "Year"],
       where: {
         field_id: req.session.profileData.field_id,
         deleted: false,
         paused: false,
-        cancelled: true
-      }
+        cancelled: true,
+      },
     })
       .then((dbResponse) => {
         if (dbResponse.length > 0) return dbResponse;
@@ -1160,14 +1171,14 @@ router.get(
       attributes: [
         [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
         [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
-        [sequelize.fn("COUNT", sequelize.col("*")), "agencyCount"]
+        [sequelize.fn("COUNT", sequelize.col("*")), "agencyCount"],
       ],
       group: ["moonth", "Year"],
       where: {
         field_id: req.session.profileData.field_id,
         deleted: false,
-        isPaused: false
-      }
+        isPaused: false,
+      },
     })
       .then((dbResponse) => {
         if (dbResponse.length > 0) return dbResponse;
@@ -1182,26 +1193,26 @@ router.get(
         }
       });
 
-    if (
-      activitiesPerMonth === null ||
-      cancelledactivitiesPerMonth === null ||
-      agencyCount === null
-    ) {
-      res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`);
-    } else {
-      res.render("Field Executive/progressAnalytics", {
-        url: req.protocol + "://" + req.get("host"),
-        activitiesPerMonth,
-        cancelledactivitiesPerMonth,
-        agencyCount,
-        info: {
-          id: req.session.passport.user.userInfo.login_id,
-          uuid: req.session.profileData.field_uuid
-        },
-        permissions: req.session.permissions.permissionObject
-      });
-      res.end();
-    }
+    // if (
+    //   activitiesPerMonth === null ||
+    //   cancelledactivitiesPerMonth === null ||
+    //   agencyCount === null
+    // ) {
+    //   res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`);
+    // } else {
+    res.render("Field Executive/progressAnalytics", {
+      url: req.protocol + "://" + req.get("host"),
+      activitiesPerMonth,
+      cancelledactivitiesPerMonth,
+      agencyCount,
+      info: {
+        id: req.session.passport.user.userInfo.login_id,
+        uuid: req.session.profileData.field_uuid,
+      },
+      permissions: req.session.permissions.permissionObject,
+    });
+    res.end();
+    // }
   }
 );
 
@@ -1212,8 +1223,8 @@ router.get("/contactUs/:activityUUID", async (req, res) => {
       deleted: 0,
       paused: 0,
       list_act_uuid: req.params.activityUUID,
-      field_id: req.session.profileData.field_id
-    }
+      field_id: req.session.profileData.field_id,
+    },
   })
     .then()
     .catch((error) => {
@@ -1233,9 +1244,9 @@ router.get("/contactUs/:activityUUID", async (req, res) => {
       url: req.protocol + "://" + req.get("host"),
       info: {
         id: req.session.passport.user.userInfo.login_id,
-        uuid: req.session.profileData.field_uuid
+        uuid: req.session.profileData.field_uuid,
       },
-      permissions: req.session.permissions.permissionObject
+      permissions: req.session.permissions.permissionObject,
     });
   }
 });
@@ -1258,13 +1269,13 @@ const countofNotificationOfExecutive = async (field_id) => {
     attributes: [
       [
         sequelize.fn("COUNT", sequelize.col("execu_notification_id")),
-        "unreadNotificationCount"
-      ]
+        "unreadNotificationCount",
+      ],
     ],
     where: {
       isRead: false,
-      field_id
-    }
+      field_id,
+    },
   }).then((notifications) => {
     if (notifications) return notifications;
   });
@@ -1275,7 +1286,7 @@ async function aaaa() {
     attributes: ["list_id"],
     where: {
       list_deleted: 0,
-      list_paused: 0
+      list_paused: 0,
     },
     include: {
       attributes: [
@@ -1283,7 +1294,7 @@ async function aaaa() {
         "list_act_uuid",
         "field_id",
         "comp_id",
-        "agency_id"
+        "agency_id",
       ],
 
       model: Activities,
@@ -1292,10 +1303,10 @@ async function aaaa() {
       where: {
         agency_id: 1,
         paused: 0,
-        deleted: 0
-      }
+        deleted: 0,
+      },
     },
-    raw: true
+    raw: true,
   })
     .then((activities) => activities.map((activity) => activity.list_id))
     .then((activityIds) =>
@@ -1305,22 +1316,22 @@ async function aaaa() {
           "list_name",
           "list_description",
           "isBank",
-          "bankAmount"
+          "bankAmount",
         ],
         where: {
           list_id: {
-            [Op.notIn]: activityIds
+            [Op.notIn]: activityIds,
           },
           list_name: {
-            [Op.notLike]: "%New Agency%"
+            [Op.notLike]: "%New Agency%",
           },
           list_deleted: 0,
           list_paused: 0,
           isRepeat: {
             [Op.or]: 1,
-            [Op.or]: 0
-          }
-        }
+            [Op.or]: 0,
+          },
+        },
       })
     )
     .then((packages) => {

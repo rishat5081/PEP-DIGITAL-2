@@ -1,10 +1,10 @@
 const router = require("express").Router(),
   fs = require("fs"),
-  { Op } = require("sequelize"),
+  Sequelize = require("sequelize"),
   Database = require("../../Configuration Files/Sequelize/Database_Synchronization"),
   { sequelize } = require("../../Configuration Files/Sequelize/Sequelize"),
   {
-    multerFile_Upload_Function
+    multerFile_Upload_Function,
   } = require("../../Configuration Files/Multer Js/multer"),
   { isUserAuthentic } = require("../../routes/SuperVisor/superVisor_route");
 
@@ -22,8 +22,8 @@ router
       attributes: ["sup_userProfilePic"],
 
       where: {
-        login_id: req.session.passport.user.userInfo.login_id
-      }
+        login_id: req.session.passport.user.userInfo.login_id,
+      },
     });
     if (userProfileImage.dataValues.sup_userProfilePic !== null) {
       fs.unlink(
@@ -44,24 +44,24 @@ router
 
         Database.Supervisor.update(
           {
-            sup_userProfilePic: filePath[1] + filename
+            sup_userProfilePic: filePath[1] + filename,
           },
           {
             where: {
-              login_id: req.session.passport.user.userInfo.login_id
-            }
+              login_id: req.session.passport.user.userInfo.login_id,
+            },
           }
         ).then((response) => {
           if (response) {
             res.send({
               type: "success",
               messages: "Profile Image Uploaded",
-              ProfilePic: filePath[1] + filename
+              ProfilePic: filePath[1] + filename,
             });
           } else {
             res.send({
               type: "danger",
-              messages: "Error! in Uploading Image! "
+              messages: "Error! in Uploading Image! ",
             });
           }
         });
@@ -81,13 +81,13 @@ router
       include: {
         model: Database.User_Role,
         where: {
-          type_name: req.session.passport.user.userRole.type_name
-        }
+          type_name: req.session.passport.user.userRole.type_name,
+        },
       },
       where: {
         paused: 0,
-        deleted: 0
-      }
+        deleted: 0,
+      },
     })
       .then((response) => {
         return response;
@@ -107,7 +107,7 @@ router
         .status(500)
         .send({
           type: "danger",
-          messages: "Error! Please try Again! "
+          messages: "Error! Please try Again! ",
         })
         .end();
     } else {
@@ -119,12 +119,12 @@ router
           sup_username: req.body.username,
           sup_target: dbResponse.dataValues.target,
           sup_salary: dbResponse.dataValues.salary,
-          sup_commission: dbResponse.dataValues.commission
+          sup_commission: dbResponse.dataValues.commission,
         },
         {
           where: {
-            login_id: req.session.passport.user.userInfo.login_id
-          }
+            login_id: req.session.passport.user.userInfo.login_id,
+          },
         }
       )
         .then((response) => {
@@ -132,7 +132,7 @@ router
             res.status(200).send({
               type: "success",
               messages: "Updated",
-              uuid: req.session.profileData.sup_uuid
+              uuid: req.session.profileData.sup_uuid,
             });
           }
         })
@@ -140,7 +140,7 @@ router
           console.error(error);
           res.status(500).send({
             type: "danger",
-            messages: "Error! Can not update the Profile. Please Try Again! "
+            messages: "Error! Can not update the Profile. Please Try Again! ",
           });
         });
     }
@@ -162,14 +162,14 @@ router
        */
       const emailUpdate = await Database.User_Login_Information.update(
         {
-          login_email: userReqBody.email
+          login_email: userReqBody.email,
         },
         {
           where: {
             login_id: req.session.passport.user.userInfo.login_id,
             paused: 0,
-            deleted: 0
-          }
+            deleted: 0,
+          },
         }
       );
 
@@ -177,12 +177,12 @@ router
         {
           sup_name: userReqBody.fullname,
           sup_contact: userReqBody.contact,
-          sup_username: userReqBody.username
+          sup_username: userReqBody.username,
         },
         {
           where: {
-            sup_uuid: req.session.profileData.sup_uuid
-          }
+            sup_uuid: req.session.profileData.sup_uuid,
+          },
         }
       );
       if (emailUpdate && updateExecutiveInfo) {
@@ -193,7 +193,7 @@ router
         );
         res.status(404).send({
           error: "error",
-          details: "Error! while updating your information."
+          details: "Error! while updating your information.",
         });
       }
     } else
@@ -212,19 +212,19 @@ router
       where: {
         city_area_uuid: req.body.selectedArea,
         deleted: 0,
-        paused: 0
-      }
+        paused: 0,
+      },
     });
     let executiveID = await Database.Team_Lead.update(
       {
-        city_area_id: sectorID.dataValues.city_area_id
+        city_area_id: sectorID.dataValues.city_area_id,
       },
       {
         where: {
           team_L_uuid: req.body.employees,
           team_L_isDeleted: 0,
-          team_L_isPaused: 0
-        }
+          team_L_isPaused: 0,
+        },
       }
     );
 
@@ -253,8 +253,8 @@ router
       where: {
         city_uuid: req.params.cityUUID,
         deleted: 0,
-        paused: 0
-      }
+        paused: 0,
+      },
     })
       //getting the city id which is recieved from the prarmeter
       .then((cityID) => cityID.map((city) => city.city_id))
@@ -265,8 +265,8 @@ router
             city_id: cityAssosiate,
             sup_id: req.session.profileData.sup_id,
             deleted: 0,
-            paused: 0
-          }
+            paused: 0,
+          },
         })
       )
       //making an array from the previous promise city supervisor assosiate id
@@ -281,8 +281,8 @@ router
           where: {
             city_supp_assos_id: cityAssosiate,
             deleted: 0,
-            paused: 0
-          }
+            paused: 0,
+          },
         })
       )
       .then((cityAreas) => cityAreas.map((area) => area.city_area_id))
@@ -292,8 +292,8 @@ router
           where: {
             city_area_id: cityAreas_id,
             team_L_isDeleted: 0,
-            team_L_isPaused: 0
-          }
+            team_L_isPaused: 0,
+          },
         })
       );
 
@@ -307,8 +307,8 @@ router
         where: {
           team_L_id: teamLeadID.map((team) => team.team_L_id),
           field_isDeleted: 0,
-          field_isPaused: 0
-        }
+          field_isPaused: 0,
+        },
       })
       .catch((error) => {
         if (error) {
@@ -323,11 +323,11 @@ router
      */
     let activitiesPerMonth = await Database.Activities.findAll({
       attributes: [
-        [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
-        [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
-        [sequelize.fn("COUNT", sequelize.col("*")), "activitiesPerMonth"]
+        [Sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
+        [Sequelize.fn("YEAR", Sequelize.col("createdAt")), "Year"],
+        [Sequelize.fn("COUNT", Sequelize.col("*")), "activitiesPerMonth"],
         // [
-        //   sequelize.fn("COUNT", sequelize.col("cancelled")),
+        //   Sequelize.fn("COUNT", Sequelize.col("cancelled")),
         //   "cancelledactivitiesPerMonth"
         // ]
       ],
@@ -335,8 +335,8 @@ router
       where: {
         field_id: teamMember.map((member) => member.field_id),
         deleted: false,
-        paused: false
-      }
+        paused: false,
+      },
     })
       .then((dbResponse) => {
         if (dbResponse.length > 0) return dbResponse;
@@ -357,20 +357,20 @@ router
 
     let cancelledactivitiesPerMonth = await Database.Activities.findAll({
       attributes: [
-        [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
-        [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
+        [Sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
+        [Sequelize.fn("YEAR", Sequelize.col("createdAt")), "Year"],
         [
-          sequelize.fn("COUNT", sequelize.col("cancelled")),
-          "cancelledactivitiesPerMonth"
-        ]
+          Sequelize.fn("COUNT", Sequelize.col("cancelled")),
+          "cancelledactivitiesPerMonth",
+        ],
       ],
       group: ["moonth", "Year"],
       where: {
         field_id: teamMember.map((member) => member.field_id),
         deleted: false,
         paused: false,
-        cancelled: true
-      }
+        cancelled: true,
+      },
     })
       .then((dbResponse) => {
         if (dbResponse.length > 0) return dbResponse;
@@ -390,16 +390,16 @@ router
      */
     let agencyCount = await Database.Agency_Info.findAll({
       attributes: [
-        [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
-        [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
-        [sequelize.fn("COUNT", sequelize.col("*")), "agencyCount"]
+        [Sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
+        [Sequelize.fn("YEAR", Sequelize.col("createdAt")), "Year"],
+        [Sequelize.fn("COUNT", Sequelize.col("*")), "agencyCount"],
       ],
       group: ["moonth", "Year"],
       where: {
         field_id: teamMember.map((member) => member.field_id),
         deleted: false,
-        isPaused: false
-      }
+        isPaused: false,
+      },
     })
       .then((dbResponse) => {
         if (dbResponse.length > 0) return dbResponse;
@@ -427,7 +427,7 @@ router
         activitiesPerMonth,
         cancelledactivitiesPerMonth,
         agencyCount,
-        teamLeadID
+        teamLeadID,
       });
       teamLeadID =
         teamMember =
@@ -463,8 +463,8 @@ router
       where: {
         team_L_uuid: req.params.teamLeadUUID,
         team_L_isDeleted: 0,
-        team_L_isPaused: 0
-      }
+        team_L_isPaused: 0,
+      },
     });
 
     /**
@@ -476,8 +476,8 @@ router
       where: {
         team_L_id: teamLeadID.map((team) => team.team_L_id),
         field_isDeleted: 0,
-        field_isPaused: 0
-      }
+        field_isPaused: 0,
+      },
     }).catch((error) => {
       if (error) {
         console.error("Error Fetching the Data of Executive");
@@ -493,11 +493,11 @@ router
     if (teamMember.length > 0) {
       let activitiesPerMonth = await Database.Activities.findAll({
         attributes: [
-          [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
-          [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
-          [sequelize.fn("COUNT", sequelize.col("*")), "activitiesPerMonth"]
+          [Sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
+          [Sequelize.fn("YEAR", Sequelize.col("createdAt")), "Year"],
+          [Sequelize.fn("COUNT", Sequelize.col("*")), "activitiesPerMonth"],
           // [
-          //   sequelize.fn("COUNT", sequelize.col("cancelled")),
+          //   Sequelize.fn("COUNT", Sequelize.col("cancelled")),
           //   "cancelledactivitiesPerMonth"
           // ]
         ],
@@ -505,8 +505,8 @@ router
         where: {
           field_id: teamMember.map((member) => member.field_id),
           deleted: false,
-          paused: false
-        }
+          paused: false,
+        },
       })
         .then((dbResponse) => {
           if (dbResponse.length > 0) return dbResponse;
@@ -527,20 +527,20 @@ router
 
       let cancelledactivitiesPerMonth = await Database.Activities.findAll({
         attributes: [
-          [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
-          [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
+          [Sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
+          [Sequelize.fn("YEAR", Sequelize.col("createdAt")), "Year"],
           [
-            sequelize.fn("COUNT", sequelize.col("cancelled")),
-            "cancelledactivitiesPerMonth"
-          ]
+            Sequelize.fn("COUNT", Sequelize.col("cancelled")),
+            "cancelledactivitiesPerMonth",
+          ],
         ],
         group: ["moonth", "Year"],
         where: {
           field_id: teamMember.map((member) => member.field_id),
           deleted: false,
           paused: false,
-          cancelled: true
-        }
+          cancelled: true,
+        },
       })
         .then((dbResponse) => {
           if (dbResponse.length > 0) return dbResponse;
@@ -560,16 +560,16 @@ router
        */
       let agencyCount = await Database.Agency_Info.findAll({
         attributes: [
-          [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
-          [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
-          [sequelize.fn("COUNT", sequelize.col("*")), "agencyCount"]
+          [Sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
+          [Sequelize.fn("YEAR", Sequelize.col("createdAt")), "Year"],
+          [Sequelize.fn("COUNT", Sequelize.col("*")), "agencyCount"],
         ],
         group: ["moonth", "Year"],
         where: {
           field_id: teamMember.map((member) => member.field_id),
           deleted: false,
-          isPaused: false
-        }
+          isPaused: false,
+        },
       })
         .then((dbResponse) => {
           if (dbResponse.length > 0) return dbResponse;
@@ -595,7 +595,7 @@ router
           status: "Displaying the Data",
           activitiesPerMonth,
           cancelledactivitiesPerMonth,
-          agencyCount
+          agencyCount,
         });
         teamLeadID =
           teamMember =
@@ -629,8 +629,8 @@ router
       where: {
         city_uuid: req.params.cityUUID,
         deleted: 0,
-        paused: 0
-      }
+        paused: 0,
+      },
     })
       //getting the city id which is recieved from the prarmeter
       .then((cityID) => cityID.map((city) => city.city_id))
@@ -642,8 +642,8 @@ router
             city_id: cityAssosiate,
             sup_id: req.session.profileData.sup_id,
             deleted: 0,
-            paused: 0
-          }
+            paused: 0,
+          },
         })
       )
       //making an array from the previous promise city supervisor assosiate id
@@ -659,8 +659,8 @@ router
           where: {
             city_supp_assos_id: cityAssosiate,
             deleted: 0,
-            paused: 0
-          }
+            paused: 0,
+          },
         })
       );
 
@@ -669,15 +669,15 @@ router
       where: {
         city_area_id: teamLeadCityAreas.map((area) => area.city_area_id),
         team_L_isDeleted: 0,
-        team_L_isPaused: 0
-      }
+        team_L_isPaused: 0,
+      },
     });
 
     if ((teamLeadCityAreas, teamLeads)) {
       res.status(200).send({
         status: "Displaying team lead",
         teamLeadCityAreas,
-        teamLeads
+        teamLeads,
       });
       teamLeadCityAreas = teamLeads = null;
       res.end();
@@ -702,8 +702,8 @@ router
       where: {
         city_area_uuid: req.body.cityArea,
         deleted: 0,
-        paused: 0
-      }
+        paused: 0,
+      },
     })
       //getting the city id which is recieved from the prarmeter
       .then((cityID) => cityID.city_area_id)
@@ -716,8 +716,8 @@ router
             city_area_id: cityAssosiate,
             sup_id: req.session.profileData.sup_id,
             team_L_isDeleted: 0,
-            team_L_isPaused: 0
-          }
+            team_L_isPaused: 0,
+          },
         })
       )
       .catch((error) => {
@@ -735,7 +735,7 @@ router
         "adver_stock_act_id",
         "adver_stock_id",
         "adver_stock_allocated_Quantity",
-        "used"
+        "used",
       ],
       include: {
         model: Database.Advertisement_Stock,
@@ -744,15 +744,15 @@ router
         where: {
           advert_stock_uuid: req.body.gift,
           paused: 0,
-          deleted: 0
-        }
+          deleted: 0,
+        },
       },
       where: {
         isConsumed: 0,
         paused: 0,
         deleted: 0,
-        sup_id: req.session.profileData.sup_id
-      }
+        sup_id: req.session.profileData.sup_id,
+      },
     });
 
     /**
@@ -775,7 +775,7 @@ router
             used: +data.used,
             isConsumed:
               data.adver_stock_allocated_Quantity === 0 ? true : false, // : true ? false,
-            adver_stock_act_id: data.adver_stock_act_id
+            adver_stock_act_id: data.adver_stock_act_id,
           });
 
           return true;
@@ -794,7 +794,7 @@ router
                 used: sum,
                 isConsumed:
                   data.adver_stock_allocated_Quantity === 0 ? true : false, // : true ? false,
-                adver_stock_act_id: data.adver_stock_act_id
+                adver_stock_act_id: data.adver_stock_act_id,
               });
             } else {
               sum += -temp;
@@ -807,7 +807,7 @@ router
                 used: +data.used,
                 isConsumed:
                   data.adver_stock_allocated_Quantity === 0 ? true : false, // : true ? false,
-                adver_stock_act_id: data.adver_stock_act_id
+                adver_stock_act_id: data.adver_stock_act_id,
               });
             }
           }
@@ -825,7 +825,7 @@ router
               team_L_id: teamLeadInfo.team_L_id,
               sup_id: req.session.profileData.sup_id,
               adver_stock_act_id: data.adver_stock_act_id,
-              total_Quantity: data.used
+              total_Quantity: data.used,
             };
           })
         );
@@ -839,13 +839,13 @@ router
           {
             adver_stock_allocated_Quantity: data.quantity,
             isConsumed: data.isConsumed,
-            used: data.used
+            used: Sequelize.literal(`used + ${data.used}`),
           },
           {
             where: {
               sup_id: req.session.profileData.sup_id,
-              adver_stock_act_id: data.adver_stock_act_id
-            }
+              adver_stock_act_id: data.adver_stock_act_id,
+            },
           }
         );
       });
@@ -888,8 +888,8 @@ router
         team_L_isPaused: 0,
         team_L_uuid: JSON.parse(req.body.employeeList).map(
           (employee) => employee
-        )
-      }
+        ),
+      },
     }).catch((error) => {
       if (error) {
         console.error("Error Fetching the Data of Team Lead");
@@ -904,16 +904,16 @@ router
         [Op.or]: [
           {
             notification_title: {
-              [Op.like]: "%Supervisor%"
-            }
+              [Op.like]: "%Supervisor%",
+            },
           },
           {
             notification_title: {
-              [Op.like]: "%Message from your Supervisor%"
-            }
-          }
-        ]
-      }
+              [Op.like]: "%Message from your Supervisor%",
+            },
+          },
+        ],
+      },
     }).catch((error) => {
       console.error("Error in finding Notification Text");
       console.trace(error);
@@ -925,7 +925,7 @@ router
         return {
           team_L_id: member.dataValues.team_L_id,
           notification_text: req.body.messageText,
-          notification_id: notificationID.dataValues.notification_id
+          notification_id: notificationID.dataValues.notification_id,
         };
       })
     ).catch((error) => {
@@ -956,8 +956,8 @@ router
       where: {
         sup_id: req.session.profileData.sup_id,
         team_L_isDeleted: 0,
-        team_L_isPaused: 0
-      }
+        team_L_isPaused: 0,
+      },
     }).catch((error) => {
       if (error) {
         console.error("Error Fetching the Data of Team Lead");
@@ -972,16 +972,16 @@ router
         [Op.or]: [
           {
             notification_title: {
-              [Op.like]: "%Supervisor%"
-            }
+              [Op.like]: "%Supervisor%",
+            },
           },
           {
             notification_title: {
-              [Op.like]: "%Message from your Supervisor%"
-            }
-          }
-        ]
-      }
+              [Op.like]: "%Message from your Supervisor%",
+            },
+          },
+        ],
+      },
     }).catch((error) => {
       console.error("Error in finding Notification Text");
       console.trace(error);
@@ -993,7 +993,7 @@ router
         return {
           team_L_id: member.dataValues.team_L_id,
           notification_text: req.body.messageText,
-          notification_id: notificationID.dataValues.notification_id
+          notification_id: notificationID.dataValues.notification_id,
         };
       })
     ).catch((error) => {
@@ -1029,8 +1029,8 @@ router
         where: {
           city_area_uuid: req.body.cityAreaUUID,
           deleted: 0,
-          paused: 0
-        }
+          paused: 0,
+        },
       })
         .then((cityData) =>
           Database.Team_Lead.findAll({
@@ -1039,7 +1039,7 @@ router
               sup_id: req.session.profileData.sup_id,
               team_L_isDeleted: 0,
               team_L_isPaused: 0,
-              city_area_id: cityData.city_area_id
+              city_area_id: cityData.city_area_id,
             },
             include: {
               model: Database.Field_Executive,
@@ -1047,9 +1047,9 @@ router
               attributes: ["field_id"],
               where: {
                 field_isDeleted: 0,
-                field_isPaused: 0
-              }
-            }
+                field_isPaused: 0,
+              },
+            },
           })
         )
         .then((teamLead) => teamLead.map((team) => team.Field_Executives))
@@ -1066,11 +1066,11 @@ router
         .then((fieldExecutive) =>
           Database.Agency_Info.findAll({
             attributes: {
-              exclude: ["updateTimestamp", "field_id"]
+              exclude: ["updateTimestamp", "field_id"],
             },
             where: {
-              field_id: fieldExecutive
-            }
+              field_id: fieldExecutive,
+            },
           })
         )
         .catch((error) => {
@@ -1110,18 +1110,18 @@ router
      */
     let agencies = await Database.Agency_Info.findOne({
       where: {
-        agency_uuid: req.body.agencyUUID
-      }
+        agency_uuid: req.body.agencyUUID,
+      },
     })
       .then((agency) => {
         agency.update(
           {
-            isPaused: agency.dataValues.isPaused === true ? false : true
+            isPaused: agency.dataValues.isPaused === true ? false : true,
           },
           {
             sup_id: req.session.profileData.sup_id,
             man_id: 0,
-            individualHooks: true
+            individualHooks: true,
           }
         );
       })
@@ -1158,18 +1158,18 @@ router
      */
     let agencies = await Database.Agency_Info.findOne({
       where: {
-        agency_uuid: req.body.agencyUUID
-      }
+        agency_uuid: req.body.agencyUUID,
+      },
     })
       .then((agency) => {
         agency.update(
           {
-            deleted: agency.dataValues.deleted === true ? false : true
+            deleted: agency.dataValues.deleted === true ? false : true,
           },
           {
             sup_id: req.session.profileData.sup_id,
             man_id: 0,
-            individualHooks: true
+            individualHooks: true,
           }
         );
       })
@@ -1200,13 +1200,13 @@ router
 router.route("/readAllSupervisorNotifications").post(async (req, res) => {
   const Notifications = await Database.SuperVisorNotification.update(
     {
-      isRead: true
+      isRead: true,
     },
     {
       where: {
         sup_id: req.session.profileData.sup_id,
-        isRead: false
-      }
+        isRead: false,
+      },
     }
   ).then((response) => {
     if (response) return response;
@@ -1291,7 +1291,7 @@ module.exports = { router };
 //      */
 //     const activitiesPerMonth = await Database.Activities.findAll({
 //       attributes: [
-//         [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
+//         [Sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
 //         [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
 //         [sequelize.fn("COUNT", sequelize.col("*")), "activitiesPerMonth"]
 //         // [

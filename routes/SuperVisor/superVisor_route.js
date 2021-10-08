@@ -35,8 +35,8 @@ router.get(
       where: {
         paused: 0,
         deleted: 0,
-        user_role_id: req.session.passport.user.userRole.user_role_id
-      }
+        user_role_id: req.session.passport.user.userRole.user_role_id,
+      },
     });
 
     /**
@@ -52,8 +52,8 @@ router.get(
           attributes: ["man_name"],
           where: {
             man_isDeleted: 0,
-            man_isPaused: 0
-          }
+            man_isPaused: 0,
+          },
         },
         {
           //this is the many to many relation ship
@@ -61,19 +61,19 @@ router.get(
           attributes: ["city_name"],
           required: true,
           through: {
-            attributes: []
+            attributes: [],
           },
           where: {
             paused: 0,
-            deleted: 0
-          }
-        }
+            deleted: 0,
+          },
+        },
       ],
       where: {
         sup_id: req.session.profileData.sup_id,
         sup_isDeleted: 0,
-        sup_isPaused: 0
-      }
+        sup_isPaused: 0,
+      },
     })
       .then((data) => {
         if (data) return data;
@@ -97,7 +97,7 @@ router.get(
         createdAt: req.session.profileData.createdAt,
         sup_salary: req.session.profileData.sup_salary,
         man_name: supervisorDashboard.dataValues.Manager.dataValues.man_name,
-        Cities: supervisorDashboard.dataValues.Cities
+        Cities: supervisorDashboard.dataValues.Cities,
       }
     );
 
@@ -113,7 +113,7 @@ router.get(
       res.status(200).render("Supervisor/dashboard", {
         info: {
           id: req.session.passport.user.userInfo.login_id,
-          uuid: req.session.profileData.sup_uuid
+          uuid: req.session.profileData.sup_uuid,
         },
         url: req.protocol + "://" + req.get("host"),
         user_role: req.session.passport.user.userRole,
@@ -121,7 +121,7 @@ router.get(
         webAds,
         unreadNotificationCount:
           unreadNotificationCount[0].dataValues.unreadNotificationCount,
-        permissions: req.session.permissions.permissionObject
+        permissions: req.session.permissions.permissionObject,
       });
 
       unreadNotificationCount = null;
@@ -150,7 +150,7 @@ router.get(
         profileData: req.session.profileData.sup_userProfilePic,
         info: {
           id: req.session.passport.user.userInfo.login_id,
-          uuid: req.session.profileData.sup_uuid
+          uuid: req.session.profileData.sup_uuid,
         },
       });
     } else {
@@ -181,8 +181,8 @@ router.get(
           "login_id",
           "createdAt",
           "updateTimestamp",
-          "man_id"
-        ]
+          "man_id",
+        ],
       },
       /**
        * getting the inner join with supervisor
@@ -195,8 +195,8 @@ router.get(
           attributes: ["man_name"],
           where: {
             man_isPaused: 0,
-            man_isDeleted: 0
-          }
+            man_isDeleted: 0,
+          },
         },
         {
           //this is the many to many relation ship
@@ -204,19 +204,19 @@ router.get(
           attributes: ["city_name"],
           required: true,
           through: {
-            attributes: []
+            attributes: [],
           },
           where: {
             paused: 0,
-            deleted: 0
-          }
-        }
+            deleted: 0,
+          },
+        },
       ],
       where: {
         sup_uuid: req.session.profileData.sup_uuid,
         sup_isDeleted: 0,
-        sup_isPaused: 0
-      }
+        sup_isPaused: 0,
+      },
     });
 
     // getting the email from the Login Info table
@@ -225,8 +225,8 @@ router.get(
       where: {
         login_id: req.session.passport.user.userInfo.login_id,
         paused: 0,
-        deleted: 0
-      }
+        deleted: 0,
+      },
     });
     // unread notification count
     let unreadNotificationCount = await countofNotificationOfSuperVisor(
@@ -237,14 +237,14 @@ router.get(
       url: req.protocol + "://" + req.get("host"),
       info: {
         id: req.session.passport.user.userInfo.login_id,
-        uuid: req.session.profileData.sup_uuid
+        uuid: req.session.profileData.sup_uuid,
       },
       role: req.session.passport.user.userRole.type_name,
       LoginEmail,
       supervisorData,
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      permissions: req.session.permissions.permissionObject
+      permissions: req.session.permissions.permissionObject,
     });
 
     LoginEmail = null;
@@ -274,32 +274,32 @@ router.get(
         attributes: [],
         required: true,
         through: {
-          attributes: []
+          attributes: [],
         },
 
         where: {
           sup_id: req.session.profileData.sup_id,
           sup_isDeleted: 0,
-          sup_isPaused: 0
-        }
+          sup_isPaused: 0,
+        },
       },
       where: {
         paused: 0,
-        deleted: 0
-      }
+        deleted: 0,
+      },
     });
 
     res.render("Supervisor/progressOfExecutive", {
       url: req.protocol + "://" + req.get("host"),
       info: {
         id: req.session.passport.user.userInfo.login_id,
-        uuid: req.session.profileData.sup_uuid
+        uuid: req.session.profileData.sup_uuid,
       },
       role: req.session.passport.user.userRole.type_name,
       cityNames,
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      permissions: req.session.permissions.permissionObject
+      permissions: req.session.permissions.permissionObject,
     });
   }
 );
@@ -330,13 +330,13 @@ router.get(
         where: {
           paused: 0,
           deleted: 0,
-          sup_id: req.session.profileData.sup_id
-        }
+          sup_id: req.session.profileData.sup_id,
+        },
       },
       where: {
         paused: 0,
-        deleted: 0
-      }
+        deleted: 0,
+      },
     })
       .then((sectors) => {
         return sectors ? sectors : null;
@@ -353,8 +353,8 @@ router.get(
       where: {
         sup_id: req.session.profileData.sup_id,
         team_L_isDeleted: 0,
-        team_L_isPaused: 0
-      }
+        team_L_isPaused: 0,
+      },
     })
       .then((member) => {
         return member ? member : null;
@@ -374,7 +374,7 @@ router.get(
       where: {
         sup_id: req.session.profileData.sup_id,
         team_L_isDeleted: 0,
-        team_L_isPaused: 0
+        team_L_isPaused: 0,
       },
       include: {
         model: Database.City_Areas,
@@ -382,9 +382,9 @@ router.get(
         required: true,
         where: {
           paused: 0,
-          deleted: 0
-        }
-      }
+          deleted: 0,
+        },
+      },
     })
       .then((member) => {
         // console.warn(member);
@@ -403,7 +403,7 @@ router.get(
         url: req.protocol + "://" + req.get("host"),
         info: {
           id: req.session.passport.user.userInfo.login_id,
-          uuid: req.session.profileData.sup_uuid
+          uuid: req.session.profileData.sup_uuid,
         },
         teamMember,
         allTeamLeads,
@@ -411,7 +411,7 @@ router.get(
         user_role: req.session.passport.user.userRole,
         unreadNotificationCount:
           unreadNotificationCount[0].dataValues.unreadNotificationCount,
-        permissions: req.session.permissions.permissionObject
+        permissions: req.session.permissions.permissionObject,
       });
 
       unreadNotificationCount = null;
@@ -448,19 +448,19 @@ router.get(
         attributes: [],
         required: true,
         through: {
-          attributes: []
+          attributes: [],
         },
 
         where: {
           sup_id: req.session.profileData.sup_id,
           sup_isDeleted: 0,
-          sup_isPaused: 0
-        }
+          sup_isPaused: 0,
+        },
       },
       where: {
         paused: 0,
-        deleted: 0
-      }
+        deleted: 0,
+      },
     });
 
     /**
@@ -471,15 +471,15 @@ router.get(
       attributes: [
         [
           sequelize.fn("SUM", sequelize.col("adver_stock_allocated_Quantity")),
-          "sumofQuantity"
+          "sumofQuantity",
         ],
-        "adver_stock_id"
+        "adver_stock_id",
       ],
       where: {
         sup_id: req.session.profileData.sup_id,
         paused: 0,
         deleted: 0,
-        isConsumed: 0
+        isConsumed: 0,
       },
       include: {
         model: Database.Advertisement_Stock,
@@ -489,14 +489,14 @@ router.get(
           "advert_stock_uuid",
           "adver_stock_name",
           "adver_stock_descritpion",
-          "adver_stock_image"
+          "adver_stock_image",
         ],
         where: {
           paused: 0,
-          deleted: 0
-        }
+          deleted: 0,
+        },
       },
-      group: ["Advertisement_Stock.adver_stock_id"]
+      group: ["Advertisement_Stock.adver_stock_id"],
     });
 
     /**
@@ -507,14 +507,14 @@ router.get(
       attributes: ["agencytype_uuid", "type_name"],
       where: {
         isPaused: 0,
-        deleted: 0
-      }
+        deleted: 0,
+      },
     });
     res.status(200).render("Supervisor/manageIncentive", {
       url: req.protocol + "://" + req.get("host"),
       info: {
         id: req.session.passport.user.userInfo.login_id,
-        uuid: req.session.profileData.sup_uuid
+        uuid: req.session.profileData.sup_uuid,
       },
       advertisment,
       cityNames,
@@ -522,7 +522,7 @@ router.get(
       user_role: req.session.passport.user.userRole,
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      permissions: req.session.permissions.permissionObject
+      permissions: req.session.permissions.permissionObject,
     });
   }
 );
@@ -545,7 +545,7 @@ router.get(
       where: {
         sup_id: req.session.profileData.sup_id,
         paused: 0,
-        deleted: 0
+        deleted: 0,
       },
       include: [
         {
@@ -554,15 +554,15 @@ router.get(
           attributes: ["team_L_name"],
           where: {
             team_L_isDeleted: 0,
-            team_L_isPaused: 0
+            team_L_isPaused: 0,
           },
           include: {
             model: Database.City_Areas,
             required: true,
             attributes: ["city_name"],
             paused: 0,
-            deleted: 0
-          }
+            deleted: 0,
+          },
         },
         {
           model: Database.Advertising_Stock_Allocation,
@@ -571,26 +571,26 @@ router.get(
           include: {
             model: Database.Advertisement_Stock,
             required: true,
-            attributes: ["adver_stock_name"]
+            attributes: ["adver_stock_name"],
           },
           where: {
             paused: 0,
-            deleted: 0
-          }
-        }
-      ]
+            deleted: 0,
+          },
+        },
+      ],
     });
     res.status(200).render("Supervisor/viewAllAssignedGifts", {
       url: req.protocol + "://" + req.get("host"),
       info: {
         id: req.session.passport.user.userInfo.login_id,
-        uuid: req.session.profileData.sup_uuid
+        uuid: req.session.profileData.sup_uuid,
       },
       giftAssigned,
       user_role: req.session.passport.user.userRole,
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      permissions: req.session.permissions.permissionObject
+      permissions: req.session.permissions.permissionObject,
     });
   }
 );
@@ -613,7 +613,7 @@ router.get(
       attributes: ["city_id", "city_uuid", "city_name"],
       where: {
         paused: 0,
-        deleted: 0
+        deleted: 0,
       },
       include: {
         model: Database.Supervisor,
@@ -622,9 +622,9 @@ router.get(
         where: {
           sup_isPaused: 0,
           sup_isDeleted: 0,
-          sup_id: req.session.profileData.sup_id
-        }
-      }
+          sup_id: req.session.profileData.sup_id,
+        },
+      },
     });
 
     let getCityArea = await Database.City_and_Supervisor_associate.findAll({
@@ -632,13 +632,13 @@ router.get(
         "city_supp_assos_id",
         "city_id",
         "sup_id",
-        "city_and_sup_asso_uuid"
+        "city_and_sup_asso_uuid",
       ],
       where: {
         paused: 0,
         deleted: 0,
         sup_id: req.session.profileData.sup_id,
-        city_id: cityNameData.map((city) => city.city_id)
+        city_id: cityNameData.map((city) => city.city_id),
       },
       include: {
         model: Database.City_Areas,
@@ -648,26 +648,26 @@ router.get(
           "city_area_uuid",
           "city_name",
           "city_code",
-          "city_supp_assos_id"
+          "city_supp_assos_id",
         ],
         where: {
           paused: 0,
-          deleted: 0
-        }
-      }
+          deleted: 0,
+        },
+      },
     });
     res.status(200).render("Supervisor/viewAllAgencies", {
       url: req.protocol + "://" + req.get("host"),
       info: {
         id: req.session.passport.user.userInfo.login_id,
-        uuid: req.session.profileData.sup_uuid
+        uuid: req.session.profileData.sup_uuid,
       },
       getCityArea,
       cityNameData,
       role: req.session.passport.user.userRole.type_name,
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      permissions: req.session.permissions.permissionObject
+      permissions: req.session.permissions.permissionObject,
     });
   }
 );
@@ -693,8 +693,8 @@ router.get(
       where: {
         sup_id: req.session.profileData.sup_id,
         team_L_isDeleted: 0,
-        team_L_isPaused: 0
-      }
+        team_L_isPaused: 0,
+      },
     })
       .then((member) => {
         // console.warn(member);
@@ -710,14 +710,14 @@ router.get(
       res.status(200).render("Supervisor/conveyMessageToTeamLead", {
         info: {
           id: req.session.passport.user.userInfo.login_id,
-          uuid: req.session.profileData.sup_uuid
+          uuid: req.session.profileData.sup_uuid,
         },
         teamMember,
         url: req.protocol + "://" + req.get("host"),
         user_role: req.session.passport.user.userRole,
         unreadNotificationCount:
           unreadNotificationCount[0].dataValues.unreadNotificationCount,
-        permissions: req.session.permissions.permissionObject
+        permissions: req.session.permissions.permissionObject,
       });
 
       unreadNotificationCount = null;
@@ -739,7 +739,7 @@ router.get(
   async (req, res) => {
     res.send({
       sup_id: req.params.sup_uuid,
-      recommendations: "recommendations recommendations"
+      recommendations: "recommendations recommendations",
     });
   }
 );
@@ -758,7 +758,7 @@ router.get("/notification", isUser_Login, async (req, res) => {
       "supervisor_notification_uuid",
       "notification_text",
       "isRead",
-      "createdAt"
+      "createdAt",
     ],
     include: {
       model: Database.NotificationText,
@@ -766,15 +766,15 @@ router.get("/notification", isUser_Login, async (req, res) => {
       required: true,
       where: {
         isPaused: false,
-        deleted: false
-      }
+        deleted: false,
+      },
     },
     where: {
       isPaused: false,
       deleted: false,
-      sup_id: req.session.profileData.sup_id
+      sup_id: req.session.profileData.sup_id,
     },
-    limit: 50
+    limit: 50,
   }).then((notifications) => {
     if (notifications) return notifications;
   });
@@ -785,9 +785,9 @@ router.get("/notification", isUser_Login, async (req, res) => {
     url: req.protocol + "://" + req.get("host"),
     info: {
       id: req.session.passport.user.userInfo.login_id,
-      uuid: req.session.profileData.sup_uuid
+      uuid: req.session.profileData.sup_uuid,
     },
-    permissions: req.session.permissions.permissionObject
+    permissions: req.session.permissions.permissionObject,
   });
 });
 
@@ -813,13 +813,13 @@ const countofNotificationOfSuperVisor = async (sup_id) => {
     attributes: [
       [
         sequelize.fn("COUNT", sequelize.col("supervisor_notification_id")),
-        "unreadNotificationCount"
-      ]
+        "unreadNotificationCount",
+      ],
     ],
     where: {
       isRead: false,
-      sup_id
-    }
+      sup_id,
+    },
   })
     .then((notifications) => {
       if (notifications) return notifications;
@@ -899,34 +899,41 @@ const countofNotificationOfSuperVisor = async (sup_id) => {
 // })();
 
 // (async function () {
-//   let advertisment = await Database.Advertising_Stock_Allocation.findAll({
-//     attributes: [
-//       "adver_stock_alloc_uuid",
-//       "adver_stock_allocated_Quantity",
-//       "adver_stock_id"
-//     ],
-//     where: {
-//       sup_id: 1,
-//       paused: 0,
-//       deleted: 0
-//     },
-//     include: {
-//       model: Database.Advertisement_Stock,
-//       required: true,
-//       attributes: [
-//         "advert_stock_uuid",
-//         "adver_stock_name",
-//         "adver_stock_descritpion",
-//         "adver_stock_image"
-//       ],
-//       where: {
-//         paused: 0,
-//         deleted: 0
-//       }
-//     },
-//   });
-//   advertisment.forEach((ad) => {
-//     console.log(ad.dataValues);
+//   // let advertisment = await Database.Advertising_Stock_Allocation.findAll({
+//   //   attributes: [
+//   //     "adver_stock_alloc_uuid",
+//   //     "adver_stock_allocated_Quantity",
+//   //     "adver_stock_id"
+//   //   ],
+//   //   where: {
+//   //     sup_id: 1,
+//   //     paused: 0,
+//   //     deleted: 0
+//   //   },
+//   //   include: {
+//   //     model: Database.Advertisement_Stock,
+//   //     required: true,
+//   //     attributes: [
+//   //       "advert_stock_uuid",
+//   //       "adver_stock_name",
+//   //       "adver_stock_descritpion",
+//   //       "adver_stock_image"
+//   //     ],
+//   //     where: {
+//   //       paused: 0,
+//   //       deleted: 0
+//   //     }
+//   //   },
+//   // });
+//   // advertisment.forEach((ad) => {
+//   //   console.log(ad.dataValues);
+//   // });
+
+//   let aa = await Database.Advertising_Stock_Allocation.create({
+//     adver_stock_allocated_Quantity: 1,
+//     sup_id: 1,
+//     man_id: 1,
+//     adver_stock_id: 1,
 //   });
 // })();
 
@@ -1021,4 +1028,54 @@ const countofNotificationOfSuperVisor = async (sup_id) => {
 //       console.log(data);
 //     });
 //   }
+// })();
+
+// (async function () {
+//   let cityNames = await Database.City.findAll({
+//     attributes: ["city_id", "city_name", "city_uuid"],
+//     include: {
+//       model: Database.Supervisor,
+//       attributes: ["sup_id", "sup_uuid", "sup_name"],
+//       required: true,
+//       through: {
+//         attributes: ["sup_id", "city_id"]
+//       },
+//       where: {
+//         man_id: 1,
+//         sup_isDeleted: 0,
+//         sup_isPaused: 0
+//       }
+//     },
+//     where: {
+//       paused: 0,
+//       deleted: 0
+//     }
+//   });
+
+//   /**
+//    * Getting the advertisment which are allocated to the supervisor
+//    */
+
+//   let advertisment = await Database.Advertisement_Stock.findAll({
+//     attributes: [
+//       [
+//         sequelize.fn("SUM", sequelize.col("adver_stock_total_Quantity")),
+//         "sumofQuantity"
+//       ],
+//       "advert_stock_uuid",
+//       "adver_stock_name",
+//       "adver_stock_descritpion",
+//       "adver_stock_image"
+//     ],
+
+//     where: {
+//       man_id: 1,
+//       paused: 0,
+//       deleted: 0
+//     },
+//     group: ["adver_stock_id"]
+//   });
+
+//   console.log(advertisment);
+//   console.log(cityNames);
 // })();
