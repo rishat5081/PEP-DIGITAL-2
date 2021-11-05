@@ -1,6 +1,6 @@
 module.exports = (app) => {
   const {
-      multerFile_Upload_Function
+      multerFile_Upload_Function,
     } = require("../../Configuration Files/Multer Js/multer"),
     {
       Field_Executive,
@@ -15,7 +15,7 @@ module.exports = (app) => {
       Pendance_Clearance_Details,
       ComplainsOfActivities,
       NotificationText,
-      Activities
+      Activities,
     } = require("../../Configuration Files/Sequelize/Database_Synchronization"),
     fs = require("fs"),
     { Op, QueryTypes } = require("sequelize");
@@ -31,8 +31,8 @@ module.exports = (app) => {
       attributes: ["field_userProfilePic"],
 
       where: {
-        login_id: req.session.passport.user.userInfo.login_id
-      }
+        login_id: req.session.passport.user.userInfo.login_id,
+      },
     });
     if (userProfileImage.dataValues.field_userProfilePic !== null) {
       fs.unlink(
@@ -51,26 +51,27 @@ module.exports = (app) => {
         let filename = req.files[0].filename;
         let filePath = req.files[0].destination.split("./public");
 
+        req.session.profileData.field_userProfilePic = filePath[1] + filename;
         Field_Executive.update(
           {
-            field_userProfilePic: filePath[1] + filename
+            field_userProfilePic: filePath[1] + filename,
           },
           {
             where: {
-              login_id: req.session.passport.user.userInfo.login_id
-            }
+              login_id: req.session.passport.user.userInfo.login_id,
+            },
           }
         ).then((response) => {
           if (response) {
             res.send({
               type: "success",
               messages: "Profile Image Uploaded",
-              ProfilePic: filePath[1] + filename
+              ProfilePic: filePath[1] + filename,
             });
           } else {
             res.send({
               type: "danger",
-              messages: "Error! in Uploading Image! "
+              messages: "Error! in Uploading Image! ",
             });
           }
         });
@@ -88,13 +89,13 @@ module.exports = (app) => {
       include: {
         model: User_Role,
         where: {
-          type_name: req.session.passport.user.userRole.type_name
-        }
+          type_name: req.session.passport.user.userRole.type_name,
+        },
       },
       where: {
         paused: 0,
-        deleted: 0
-      }
+        deleted: 0,
+      },
     })
       .then((response) => {
         return response;
@@ -105,7 +106,7 @@ module.exports = (app) => {
         );
         res.send({
           type: "danger",
-          messages: "Error! Internal Error! "
+          messages: "Error! Internal Error! ",
         });
       });
 
@@ -117,12 +118,12 @@ module.exports = (app) => {
         field_username: req.body.username,
         field_target: dbResponse.dataValues.target,
         field_salary: dbResponse.dataValues.salary,
-        field_commission: dbResponse.dataValues.commission
+        field_commission: dbResponse.dataValues.commission,
       },
       {
         where: {
-          login_id: req.session.passport.user.userInfo.login_id
-        }
+          login_id: req.session.passport.user.userInfo.login_id,
+        },
       }
     )
       .then((response) => {
@@ -130,7 +131,7 @@ module.exports = (app) => {
           res.send({
             type: "success",
             messages: "Updated",
-            uuid: req.session.profileData.field_uuid
+            uuid: req.session.profileData.field_uuid,
           });
         }
       })
@@ -138,7 +139,7 @@ module.exports = (app) => {
         console.error(error);
         res.send({
           type: "danger",
-          messages: "Error! Internal Error! "
+          messages: "Error! Internal Error! ",
         });
       });
   });
@@ -166,6 +167,7 @@ module.exports = (app) => {
       }
     });
 
+    console.log(userReqBody);
     if (Object.keys(userReqBody).length !== lengthofUser_Req)
       res.send({ error: "Invalid text" });
     else {
@@ -173,31 +175,33 @@ module.exports = (app) => {
         where: {
           deleted: false,
           isPaused: false,
-          agency_name: {
-            [Op.like]: `${userReqBody.agencyName}%`
+          [Op.or]: {
+            agency_name: {
+              [Op.like]: `${userReqBody.agencyName}%`,
+            },
+            agency_Longitude: {
+              [Op.like]: `${longitude}%`,
+            },
+            agency_Latitude: {
+              [Op.like]: `${latitude}%`,
+            },
+            agency_city: req.body.agencyCityName,
           },
-          agency_Longitude: {
-            [Op.like]: `${longitude}%`
-          },
-          agency_Latitude: {
-            [Op.like]: `${latitude}%`
-          },
-          agency_city: req.body.agencyCityName
-        }
+        },
       })
         .then((response) => {
           return response;
         })
         .catch((error) => {
           res.send({
-            error: "Sorry! The System ran into Error. \n Please try again."
+            error: "Sorry! The System ran into Error. \n Please try again.",
           });
         });
 
       if (dbResponse) {
         res.status(409).send({
           response: "Agency is already registered",
-          help: "Tip: \nYou are working great. \n This Agency is already registered.\n Try Harder"
+          help: "Tip: \nYou are working great. \n This Agency is already registered.\n Try Harder",
         });
       } else {
         next();
@@ -223,7 +227,7 @@ module.exports = (app) => {
       contactedPerson: req.body.contactedPerson,
       contactedPerson_Number: req.body.contactedPerson_Number,
       field_id: req.session.profileData.field_id,
-      agency_city: req.body.agencyCityName
+      agency_city: req.body.agencyCityName,
     })
       .then((response) => {
         if (response) return response;
@@ -231,7 +235,7 @@ module.exports = (app) => {
       .catch((error) => {
         if (error)
           res.send({
-            error: "Sorry! Error in Adding new Agency! \n Please Try Again"
+            error: "Sorry! Error in Adding new Agency! \n Please Try Again",
           });
       });
 
@@ -243,7 +247,7 @@ module.exports = (app) => {
         comp_id: req.body.CompaignID,
         field_id: req.session.profileData.field_id,
 
-        agency_id: dbResponse.dataValues.agency_id
+        agency_id: dbResponse.dataValues.agency_id,
       })
         .then((response) => {
           if (response) return response;
@@ -269,16 +273,16 @@ module.exports = (app) => {
               "list_deleted",
               "list_paused",
               "createdAt",
-              "updateTimestamp"
-            ]
+              "updateTimestamp",
+            ],
           },
           where: {
             list_name: {
-              [Op.like]: [`%New Agency%`]
+              [Op.like]: [`%New Agency%`],
             },
             list_deleted: false,
-            list_paused: false
-          }
+            list_paused: false,
+          },
         });
 
         if (newAgencyDetails) {
@@ -288,7 +292,7 @@ module.exports = (app) => {
            */
           const sub_Activities = List_sub_Activities.create({
             list_id: newAgencyDetails.dataValues.list_id,
-            list_act_id: compapignActivity.dataValues.list_act_id
+            list_act_id: compapignActivity.dataValues.list_act_id,
           })
             .then((response) => {
               if (response) return response;
@@ -308,17 +312,17 @@ module.exports = (app) => {
           if (sub_Activities) {
             req.session.activityDetails = {
               activity: compapignActivity.list_act_uuid,
-              agencyID: dbResponse.dataValues.agency_id
+              agencyID: dbResponse.dataValues.agency_id,
             };
             res.send({
               success: "Activity Started Successfully ",
               activity: compapignActivity.list_act_uuid,
-              agencyID: dbResponse.dataValues.agency_id
+              agencyID: dbResponse.dataValues.agency_id,
             });
           }
         } else {
           res.send({
-            error: "There is error to start Sub Activity "
+            error: "There is error to start Sub Activity ",
           });
         }
       }
@@ -337,12 +341,12 @@ module.exports = (app) => {
 
     const AgencyUpdate = await Agency_Info.update(
       {
-        firstVisit: true
+        firstVisit: true,
       },
       {
         where: {
-          agency_id: req.session.activityDetails.agencyID
-        }
+          agency_id: req.session.activityDetails.agencyID,
+        },
       }
     )
       .then()
@@ -362,17 +366,17 @@ module.exports = (app) => {
           "list_act_uuid",
           "field_id",
           "comp_id",
-          "agency_id"
+          "agency_id",
         ],
 
         model: Activities,
         // don't use required: false to only return results where List_sub_Activities.Activities is not null
         // required: false,
         where: {
-          agency_id: req.session.activityDetails.agencyID
-        }
+          agency_id: req.session.activityDetails.agencyID,
+        },
       },
-      raw: true
+      raw: true,
     })
       .then((activities) => activities.map((activity) => activity.list_id))
       .then((activityIds) =>
@@ -380,12 +384,12 @@ module.exports = (app) => {
           attributes: ["list_uuid"],
           where: {
             list_id: {
-              [Op.notIn]: activityIds
+              [Op.notIn]: activityIds,
             },
             list_name: {
-              [Op.notLike]: "%New Agency%"
-            }
-          }
+              [Op.notLike]: "%New Agency%",
+            },
+          },
         })
       )
       .then((packages) => {
@@ -425,8 +429,8 @@ module.exports = (app) => {
     const ActivityID = await Activities.findOne({
       attributes: ["list_act_id", "list_act_uuid"],
       where: {
-        list_act_uuid: req.session.activityDetails.activity
-      }
+        list_act_uuid: req.session.activityDetails.activity,
+      },
     })
       .then((activityID) => {
         return activityID;
@@ -443,8 +447,8 @@ module.exports = (app) => {
     const listOfPackage = await List_of_Packages.findAll({
       attributes: ["list_id", "isBank"],
       where: {
-        list_uuid: userSelectedActivities
-      }
+        list_uuid: userSelectedActivities,
+      },
     })
       .then((listofPackages) => {
         return listofPackages;
@@ -459,7 +463,7 @@ module.exports = (app) => {
     listOfPackage.map((list) => {
       List_sub_Activities.create({
         list_act_id: ActivityID.dataValues.list_act_id,
-        list_id: list.list_id
+        list_id: list.list_id,
       })
         .then((response) => {
           if (response) {
@@ -480,8 +484,8 @@ module.exports = (app) => {
       attributes: ["pending_days"],
       where: {
         paused: false,
-        deleted: false
-      }
+        deleted: false,
+      },
     });
 
     /**
@@ -500,7 +504,7 @@ module.exports = (app) => {
       ),
       field_id: req.session.profileData.field_id,
       list_act_id: ActivityID.dataValues.list_act_id,
-      bank_sale: isBankSale === undefined ? false : true
+      bank_sale: isBankSale === undefined ? false : true,
     }).catch((error) => {
       console.error(
         `\x1b[41m------- Error in Creating Pending Earning ---------\x1b[0m` +
@@ -510,7 +514,7 @@ module.exports = (app) => {
 
     res.status(200).send({
       response: "Created All",
-      list_act_uuid: ActivityID.dataValues.list_act_uuid
+      list_act_uuid: ActivityID.dataValues.list_act_uuid,
     });
 
     isBankSale = null;
@@ -519,19 +523,19 @@ module.exports = (app) => {
   app.route("/cancelActivity").post(async (req, res) => {
     const activityStatus = await Activities.update(
       {
-        cancelled: true
+        cancelled: true,
       },
       {
         where: {
           list_act_uuid: req.session.activityDetails.activity,
-          field_id: req.session.profileData.field_id
-        }
+          field_id: req.session.profileData.field_id,
+        },
       }
     );
     if (activityStatus) {
       res.status(200).send({
         response: "Cancelled Activity",
-        uuid: req.session.profileData.field_uuid
+        uuid: req.session.profileData.field_uuid,
       });
     } else {
       res.status(404).send({ error: "Try Again" });
@@ -555,26 +559,26 @@ module.exports = (app) => {
             "firstVisit",
             "deleted",
             "isPaused",
-            "updateTimestamp"
-          ]
+            "updateTimestamp",
+          ],
         },
         where: {
           agency_name: {
-            [Op.like]: `%${userReqBody.agencyName}`
+            [Op.like]: `%${userReqBody.agencyName}`,
           },
           agency_city: {
-            [Op.like]: `%${userReqBody.agencyCity}`
+            [Op.like]: `%${userReqBody.agencyCity}`,
           },
           agency_address: {
-            [Op.like]: `%${userReqBody.selectedAgencyAddress}`
+            [Op.like]: `%${userReqBody.selectedAgencyAddress}`,
           },
           deleted: false,
-          isPaused: false
+          isPaused: false,
         },
         include: {
           attributes: ["field_name", "field_userProfilePic", "field_contact"],
-          model: Field_Executive
-        }
+          model: Field_Executive,
+        },
       });
 
       let status = AgencyDetails === null ? false : true;
@@ -601,8 +605,8 @@ module.exports = (app) => {
         agency_id: req.body.agencyID,
         isPaused: false,
         deleted: false,
-        firstVisit: true
-      }
+        firstVisit: true,
+      },
     });
     if (AgencyDetails) {
       /**
@@ -612,7 +616,7 @@ module.exports = (app) => {
         comp_id: req.body.CompaignID,
         field_id: req.session.profileData.field_id,
 
-        agency_id: AgencyDetails.dataValues.agency_id
+        agency_id: AgencyDetails.dataValues.agency_id,
       })
         .then((response) => {
           if (response) return response;
@@ -635,34 +639,34 @@ module.exports = (app) => {
             isPaused: false,
             deleted: false,
             notification_title: {
-              [Op.like]: "%Start%"
+              [Op.like]: "%Start%",
             },
             [Op.or]: [
               {
                 notification_title: {
-                  [Op.like]: "%Existing%"
-                }
+                  [Op.like]: "%Existing%",
+                },
               },
               {
                 notification_title: {
-                  [Op.like]: "%Existing Agnecy%"
-                }
-              }
-            ]
-          }
+                  [Op.like]: "%Existing Agnecy%",
+                },
+              },
+            ],
+          },
         });
         await ExecutiveNotifications.create({
           field_id: req.session.profileData.field_id,
           notification_text: `You have started working on the Already Registered Agency ${AgencyDetails.dataValues.agency_name}...!!!`,
-          notification_id: notificationText.dataValues.notification_id
+          notification_id: notificationText.dataValues.notification_id,
         });
         req.session.activityDetails = {
           activity: compapignActivity.dataValues.list_act_uuid,
-          agencyID: req.body.agencyID
+          agencyID: req.body.agencyID,
         };
         res.status(200).send({
           agencyID: req.body.agencyID,
-          uuid: `${compapignActivity.dataValues.list_act_uuid}`
+          uuid: `${compapignActivity.dataValues.list_act_uuid}`,
         });
       }
     }
@@ -683,12 +687,12 @@ module.exports = (app) => {
        */
       const emailUpdate = await User_Login_Information.update(
         {
-          login_email: userReqBody.email
+          login_email: userReqBody.email,
         },
         {
           where: {
-            login_id: req.session.passport.user.userInfo.login_id
-          }
+            login_id: req.session.passport.user.userInfo.login_id,
+          },
         }
       );
 
@@ -697,12 +701,12 @@ module.exports = (app) => {
           field_name: userReqBody.fullname,
           field_contact: userReqBody.contact,
           field_DOB: userReqBody.dob,
-          field_username: userReqBody.username
+          field_username: userReqBody.username,
         },
         {
           where: {
-            field_uuid: req.session.profileData.field_uuid
-          }
+            field_uuid: req.session.profileData.field_uuid,
+          },
         }
       );
       if (emailUpdate && updateExecutiveInfo) {
@@ -713,7 +717,7 @@ module.exports = (app) => {
         );
         res.status(404).send({
           error: "error",
-          details: "Error! while updating your information."
+          details: "Error! while updating your information.",
         });
       }
     } else
@@ -723,13 +727,13 @@ module.exports = (app) => {
   app.route("/unreadAllNotifications").post(async (req, res) => {
     const Notifications = await ExecutiveNotifications.update(
       {
-        isRead: true
+        isRead: true,
       },
       {
         where: {
           field_id: req.session.profileData.field_id,
-          isRead: false
-        }
+          isRead: false,
+        },
       }
     ).then((response) => {
       if (response) return response;
@@ -750,8 +754,8 @@ module.exports = (app) => {
           deleted: 0,
           withdrawed: 0,
           bank_sale: 1,
-          field_id: req.session.profileData.field_id
-        }
+          field_id: req.session.profileData.field_id,
+        },
       })
         .then((pendingEarning) => {
           if (pendingEarning) {
@@ -768,7 +772,7 @@ module.exports = (app) => {
                   totalAmount: req.body.totalAmount,
                   bank_deposited: 1,
                   bank_deposited_referenceNumber: req.body.transactionid,
-                  bank_datetime: req.body.tranaction_date
+                  bank_datetime: req.body.tranaction_date,
                 })
                 .then((updateStatus) => {
                   if (updateStatus) {
@@ -776,7 +780,7 @@ module.exports = (app) => {
                     return;
                   } else {
                     res.status(503).send({
-                      error: "There is an Issue in Updating. Please Try Again."
+                      error: "There is an Issue in Updating. Please Try Again.",
                     });
                     return;
                   }
@@ -785,7 +789,7 @@ module.exports = (app) => {
           } else {
             res.status(503).send({
               error:
-                "There is an Issue in Getting Information. Please Try Again."
+                "There is an Issue in Getting Information. Please Try Again.",
             });
             return;
           }
@@ -793,7 +797,7 @@ module.exports = (app) => {
         .catch((error) => {
           console.error(error);
           res.status(503).send({
-            error: "There is an Issue in Submitting. Please Try Again."
+            error: "There is an Issue in Submitting. Please Try Again.",
           });
         });
     }
@@ -806,8 +810,8 @@ module.exports = (app) => {
         where: {
           deleted: 0,
           paused: 0,
-          list_act_uuid: req.body.UUID
-        }
+          list_act_uuid: req.body.UUID,
+        },
       })
         .then()
         .catch((error) => {
@@ -825,7 +829,7 @@ module.exports = (app) => {
           subject: req.body.subject,
           message: req.body.complainMessage,
           list_act_id: activity.dataValues.list_act_id,
-          field_id: 4 //req.session.profileData.field_id,
+          field_id: 4, //req.session.profileData.field_id,
         })
           .then()
           .catch((error) => {

@@ -232,18 +232,18 @@
             url: `${window.location.origin}/startActivityOnExsitingActivity`,
             data: {
               agencyID,
-              CompaignID: $("#Compaign").find(":selected").val()
+              CompaignID: $("#Compaign").find(":selected").val(),
             },
             dataType: "JSON",
             success: (response) => {
               window.location.href = `${window.location.origin}/user/activities/${response.agencyID}/${response.uuid}`;
-            }
+            },
           });
         }
       });
 
       $(".js-tilt").tilt({
-        scale: 1.1
+        scale: 1.1,
       });
 
       var menu = document.getElementById("menu");
@@ -263,20 +263,23 @@
       (function () {
         AgencyData = JSON.parse(`<%-JSON.stringify(AgencyData)%>`);
 
-        agencyNames = AgencyData.map((data) => {
-          return data.agency_name;
-        });
-        agencyAddress = AgencyData.map((data) => {
-          return data.agency_address;
-        });
+        agencyNames = AgencyData.map((data) =>
+          data.agency_name === null ? "No Name" : data.agency_name
+        );
+        agencyAddress = AgencyData.map((data) =>
+          data.agency_address === null ? "No Address" : data.agency_address
+        );
+
+  
       })();
+
       $("#agencyName").autocomplete({
         source: agencyNames,
         minLength: 1,
         autoFill: true,
         select: function (event, ui) {
           agencyName = ui.item.value;
-        }
+        },
       });
       $("#agencyAddress").autocomplete({
         source: agencyAddress,
@@ -284,7 +287,7 @@
         autoFill: true,
         select: function (event, ui) {
           selectedAgencyAddress = ui.item.value;
-        }
+        },
       });
 
       var cityName = JSON.parse(`<%-JSON.stringify(pakistanCityName)%>`).map(
@@ -299,7 +302,7 @@
         autoFill: true,
         select: function (event, ui) {
           agencyCity = ui.item.value;
-        }
+        },
       });
 
       validateInputs = (agencyName, agencyCity, selectedAgencyAddress) => {
@@ -363,7 +366,7 @@
                 response.AgencyDetails.Field_Executive.field_contact
               );
               toastr.success(response.details);
-            }
+            },
           });
         }
       });

@@ -301,22 +301,20 @@ router
      * getting the members from the database
      */
 
-    let teamMember = await Database.Field_Executive()
-      .findAll({
-        attributes: ["field_id", "field_uuid", "field_name"],
-        where: {
-          team_L_id: teamLeadID.map((team) => team.team_L_id),
-          field_isDeleted: 0,
-          field_isPaused: 0,
-        },
-      })
-      .catch((error) => {
-        if (error) {
-          console.error("Error Fetching the Data of Executive");
-          console.trace(error);
-          return null;
-        }
-      });
+    let teamMember = await Database.Field_Executive.findAll({
+      attributes: ["field_id", "field_uuid", "field_name"],
+      where: {
+        team_L_id: teamLeadID.map((team) => team.team_L_id),
+        field_isDeleted: 0,
+        field_isPaused: 0,
+      },
+    }).catch((error) => {
+      if (error) {
+        console.error("Error Fetching the Data of Executive");
+        console.trace(error);
+        return null;
+      }
+    });
 
     /**
      * getting the activities per month from the db

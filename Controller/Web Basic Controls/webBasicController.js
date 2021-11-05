@@ -2,15 +2,15 @@ module.exports = (app) => {
   const {
       User_Login_Information,
       User_Role,
-      Field_Executive
+      Field_Executive,
     } = require("../../Configuration Files/Sequelize/Database_Synchronization"),
     bcrypt = require("bcrypt"),
     json_WebToken = require("jsonwebtoken"),
     ejs = require("ejs"),
     {
-      sendEmail_to_ConfirmEmail
+      sendEmail_to_ConfirmEmail,
     } = require("../../Configuration Files/Nodemailer/Nodemailer"),
-    salt_ForBcrypt = 10;
+    { saltOfBcrypt } = require("../../additional");
   require("dotenv").config();
   /**
    * Setting the controller for the new user
@@ -21,8 +21,8 @@ module.exports = (app) => {
   app.post("/userSignUp", (req, res, next) => {
     const dbResponse = User_Login_Information.findOne({
       where: {
-        login_email: req.body.registering_email
-      }
+        login_email: req.body.registering_email,
+      },
     })
       .then((response) => {
         return response;
@@ -33,7 +33,7 @@ module.exports = (app) => {
         );
         req.session.SignUp_Error = {
           type: "Danger",
-          message: "Sorry! The system ran into problem" + error
+          message: "Sorry! The system ran into problem" + error,
         };
         res.status(500).redirect("/signup");
       });
@@ -46,7 +46,7 @@ module.exports = (app) => {
         if (response) {
           req.session.SignUp_Error = {
             type: "Danger",
-            message: "Email Already Exists"
+            message: "Email Already Exists",
           };
           res.status(302).redirect("/signup");
         } else {
@@ -60,7 +60,7 @@ module.exports = (app) => {
         );
         req.session.SignUp_Error = {
           type: "Danger",
-          message: "Sorry! The system ran into problem"
+          message: "Sorry! The system ran into problem",
         };
         res.status(500).redirect("/signup");
       });
@@ -72,6 +72,9 @@ module.exports = (app) => {
    * for confirmation
    */
   app.post("/userSignUp", async (req, res) => {
+
+
+    console.log(req.body);
     // hasing the passowrd uisng bcrypt
     var hashPassword = "",
       jwtToken = "",
@@ -79,7 +82,7 @@ module.exports = (app) => {
 
     hashPassword = bcrypt.hashSync(
       req.body.registering_password,
-      salt_ForBcrypt
+      saltOfBcrypt
     );
 
     /**
@@ -87,16 +90,18 @@ module.exports = (app) => {
      */
     jwtToken = json_WebToken.sign(
       {
-        data: req.body.registering_email
+        data: req.body.registering_email,
       },
       process.env.bcryptSecret,
       {
         algorithm: "HS384",
-        expiresIn: 60 * 60 * 24 * 7
+        expiresIn: 60 * 60 * 24 * 7,
       }
     );
 
-    jwtAuthentication_Token = `${req.protocol + "://" + req.get("host")}/verifyToken/Authorization=Bearer%20/${jwtToken}`;
+    jwtAuthentication_Token = `${
+      req.protocol + "://" + req.get("host")
+    }/verifyToken/Authorization=Bearer%20/${jwtToken}`;
 
     /**
      * Creating the user accouint
@@ -106,7 +111,7 @@ module.exports = (app) => {
       login_email: req.body.registering_email,
       login_password: hashPassword,
       user_role_id: 6,
-      jwt: jwtToken
+      jwt: jwtToken,
     })
       .then((response) => {
         return response;
@@ -115,7 +120,7 @@ module.exports = (app) => {
         console.log("Error in inserting data into DB");
         req.session.SignUp_Error = {
           type: "Danger",
-          message: "Sorry! The system ran into problem"
+          message: "Sorry! The system ran into problem",
         };
         res.status(500).redirect("/signup");
       });
@@ -128,7 +133,7 @@ module.exports = (app) => {
        */
 
       Field_Executive.create({
-        login_id: dbResponse.dataValues.login_id
+        login_id: dbResponse.dataValues.login_id,
       })
         .then((executive) => console.info("Created"))
         .catch((err) => console.trace("Error" + err));
@@ -144,14 +149,14 @@ module.exports = (app) => {
           logo: process.env.logoURL,
           emailSubject: "Confirm your Email",
           userEmail: req.body.registering_email,
-          jsonWebToken: jwtAuthentication_Token
+          jsonWebToken: jwtAuthentication_Token,
         },
         {},
         (err, emailHTMLFILE) => {
           if (err) {
             req.session.SignUp_Error = {
               type: "Danger",
-              message: "Sorry! The system ran into problem"
+              message: "Sorry! The system ran into problem",
             };
             res.status(500).redirect("/signup");
           } else {
@@ -164,7 +169,7 @@ module.exports = (app) => {
               .then((status) => {
                 if (status) {
                   res.status(200).render("Web Appendage Pages/confirmEmail", {
-                    uuid: dbResponse.dataValues.login_uuid
+                    uuid: dbResponse.dataValues.login_uuid,
                   });
                 }
               })
@@ -176,7 +181,7 @@ module.exports = (app) => {
                       "danger",
                       "System ran into problem. We will send you email in few minutes."
                     ),
-                    uuid: null
+                    uuid: null,
                   });
                 }
               });
@@ -204,8 +209,8 @@ module.exports = (app) => {
       const dbResponse = User_Login_Information.findOne({
         attributes: ["login_email", "jwt"],
         where: {
-          login_uuid: req.body.UUID
-        }
+          login_uuid: req.body.UUID,
+        },
       })
         .then((response) => {
           return response;
@@ -229,12 +234,12 @@ module.exports = (app) => {
              */
             jwtToken = json_WebToken.sign(
               {
-                data: response.dataValues.login_email
+                data: response.dataValues.login_email,
               },
               process.env.bcryptSecret,
               {
                 algorithm: "HS384",
-                expiresIn: 60 * 60 * 24 * 7
+                expiresIn: 60 * 60 * 24 * 7,
               }
             );
 
@@ -247,14 +252,14 @@ module.exports = (app) => {
                 logo: process.env.logoURL,
                 emailSubject: "Confirm your Email",
                 userEmail: response.dataValues.login_email,
-                jsonWebToken: jwtAuthentication_Token
+                jsonWebToken: jwtAuthentication_Token,
               },
               {},
               (err, emailHTMLFILE) => {
                 if (err) {
                   req.session.SignUp_Error = {
                     type: "Danger",
-                    message: "Sorry! The system ran into problem"
+                    message: "Sorry! The system ran into problem",
                   };
                   res.status(500).redirect("/signup");
                 } else {
@@ -271,12 +276,12 @@ module.exports = (app) => {
                          */
                         User_Login_Information.update(
                           {
-                            jwt: jwtToken
+                            jwt: jwtToken,
                           },
                           {
                             where: {
-                              login_uuid: req.body.UUID
-                            }
+                              login_uuid: req.body.UUID,
+                            },
                           }
                         )
                           .then((res) =>
@@ -292,14 +297,14 @@ module.exports = (app) => {
                           );
                         res.status(200).send({
                           successMessage: "Email is Send.",
-                          UUID: req.body.UUID
+                          UUID: req.body.UUID,
                         });
                       }
                     })
                     .catch((error) => {
                       if (error) {
                         res.status(404).send({
-                          message: "Sorry, The System is Busy. Please Wait "
+                          message: "Sorry, The System is Busy. Please Wait ",
                         });
                       }
                     });

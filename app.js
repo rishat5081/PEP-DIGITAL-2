@@ -10,6 +10,7 @@ const Sequelize = require("sequelize"),
   passport = require("passport"),
   flash = require("connect-flash"),
   bodyparser = require("body-parser"),
+  cors = require("cors"),
   server = require("http").createServer(app),
   io = require("socket.io")(server),
   passportJs_File = require("./Configuration Files/Passport Js/passport"),
@@ -25,7 +26,8 @@ const Sequelize = require("sequelize"),
     Managers,
     ManagerLogin,
     TeamLead_Login,
-  } = require("./Configuration Files/Sequelize/Database_Synchronization");
+  } = require("./Configuration Files/Sequelize/Database_Synchronization"),
+  { corsOptionsDelegate } = require("./additional");
 //setting the .env file to read the server port and database ports
 require("dotenv").config();
 /**
@@ -49,6 +51,18 @@ app.set("view engine", "ejs");
  */
 app.use(express.static(__dirname + "/public"));
 
+//setting the cors to use the server for the API
+// app.use(
+//   cors({
+//     origin: function (origin, callback) {
+//       if (corsOrigins.indexOf(origin) !== -1) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error("Access Denied"));
+//       }
+//     },
+//   })
+// );
 /**
  * https://github.com/expressjs/session#user-content-cookiesecure:~:text=For%20using%20secure%20cookies%20in%20production%2C,setup%20based%20on%20NODE_ENV%20in%20express%3A
  * set the process.env.NODE_ENV to production when all the code is complete and read this 
@@ -561,65 +575,6 @@ const getMenu = async (roleName) => {
   });
 };
 
-/**
- * Password of saad: $2b$10$WfgW1aVsxJOZ1tD.yMRSBuHFPl9NtHyiJJJSGRUt4EgbC5hEp1P1G
- */
-
-// const password = "saad";
-// const bcrypt = require("bcrypt");
-// bcrypt.hash("saad", 10, (err, rse) => console.log(rse));
-// const tru = bcrypt.compareSync(password, '$2b$10$IhwmSCZDgheT3pCvaTd4YezxKSXPgXnS84r6HKXI.56uXawidQ8Ee')
-// console.log(tru)
-
-/**
- * Practice work below---------------------------------
- */
-
-// ;(async () => {
-//   // await open('unicorn.png', { wait: true })
-//   console.log('Setting Up Database \n')
-//   if (databaseName) {
-//     console.log('Connecting the Database')
-//   } else {
-//     console.log('No Database is selected')
-//     await open('http://localhost:7854/setDatabase_For_SuperAdmin_Only_xx_xx_1')
-//   }
-//   // await open('http://localhost:7854/abccc')
-//   // // Opens the url in the default browser
-//   // await open('https://sindresorhus.com')
-
-//   // // Specify the app to open in
-//   // await open('https://sindresorhus.com', { app: 'firefox' })
-
-//   // // Specify app arguments
-//   // await open('https://sindresorhus.com', {
-//   //   app: ['google chrome', '--incognito']
-//   // })
-// })()
-
-//require('./Configuration Files/Sequelize/Sequelize')
-
-// if (databaseName === '') {
-//   let readline = require('readline'),
-//     dbName = '',
-//     rl = readline.createInterface({
-//       input: process.stdin,
-//       output: process.stdout
-//     })
-//   let condition = true
-
-//   rl.question('Enter Your Database Name:  ', function (DBname) {
-//     dbName = DBname
-//     getDatabases(dbName)
-//     //rl.close()
-//   })
-
-//   rl.on('close', function () {
-//     console.log('\nWait Please')
-//     process.exit(0)
-//   })
-// }
-
 server.listen(process.env.server_PORT, () => {
   console.log(`\x1b[42m--------------------------------------\x1b[0m`);
   console.log(
@@ -633,72 +588,20 @@ server.listen(process.env.server_PORT, () => {
 //   console.log("Hello")
 // }, 1000)
 
-// const getAllCustomerEarnings = async () => {
-//   return await Activities.findAll({
-//     attributes: [
-//       // 'list_act_id',
-//       [sequelize.fn('YEAR', sequelize.col('createdAt')), 'Year'],
-//       [sequelize.fn('MONTH', sequelize.col('createdAt')), 'Month'],
-//     ],
-//     group: ['Year', 'Month']
-//   })
-//     .then(d => {
-//       console.log(d);
-//     })
-// }
+// ------------------------------------ API's -----------------------------------
 
-// console.log(getAllCustomerEarnings());
-
-// const request = require('request');
-
-// const options = {
-//   method: 'POST',
-//   url: 'https://api.eu-de.apiconnect.appdomain.cloud/tariqqaisertelenorbankpk-tmbdev/dev-catalog/utilities/GetBanks',
-//   headers: {
-//     'X-IBM-Client-Id': '6e93a157-7a78-4514-8819-53ca430632fa',
-//     'X-IBM-Client-Secret': 'yN4mY4lK1fG1rS6eL8cW1aH5uT0tG6yM0pP7vO0vP4bB2iF6jH',
-//     'X-Channel': 'subgateway',
-//     accept: 'application/json'
-//   }
-// };
-
-// request(options, function (error, response, body) {
-//   if (error) throw new Error(error);
-
-//   console.log(body);
-// });
-
+app.use("/api", cors(corsOptionsDelegate), require("./API/Web/webAPI").router);
+app.use(
+  "/api/field",
+  cors(corsOptionsDelegate),
+  require("./API/Field Executive/field_API").router
+);
 // ------------------------------------ Redirecting if route does not found -----------------------------------
+app.get("/asddasdsadasd", (req, res) => {
+  console.log(req.query);
+  res.send({ status: "Okay", query: req.query });
+});
+
 app.get("*", (req, res) => {
   res.redirect("/");
 });
-
-// index.js
-// run with node --experimental-worker index.js on Node.js 10.x
-// const { Worker } = require("worker_threads");
-
-// function runService(workerData) {
-//   return new Promise((resolve, reject) => {
-//     const worker = new Worker("./script.js", { workerData });
-//     worker.on("message", resolve);
-//     worker.on("error", reject);
-//     worker.on("exit", (code) => {
-//       if (code !== 0)
-//         reject(new Error(`Worker stopped with exit code ${code}`));
-//     });
-//   });
-// }
-
-// async function run() {
-//   const result = await runService("world");
-//   console.log(result);
-// }
-
-// run().catch((err) => console.error(err));
-
-// Script.js
-// const { workerData, parentPort } = require("worker_threads");
-
-// // You can do any heavy stuff here, in a synchronous way
-// // without blocking the "main thread"
-// parentPort.postMessage({ hello: workerData });

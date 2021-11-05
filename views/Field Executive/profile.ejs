@@ -78,7 +78,7 @@
         <!--  Navigation-->
         <div class="limiter">
             <div class="container-profile100">
-                <div class="header">
+                <div class="header" >
                     <div class="cover-image100">
                         <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
                         <a href="#">
@@ -109,8 +109,16 @@
                     </div>
                     <!-- Profile -->
                     <div class="piccontainer">
-                        <img class="profilepicture" id="profileImage"
-                            src="<%=url%>/<%=field_executive_info.field_userProfilePic%>">
+                        <% if (field_executive_info.field_userProfilePic) { %>
+                            <img
+                              class="font-size-sm"
+                              src="<%=url%>/<%=field_executive_info.field_userProfilePic%>" 
+                 
+                            />
+                            <% }else{ %>
+                            <img class="font-size-sm" src="<%=url%>/img/no image.png"
+                            style="height: 181px !important;"  />
+                            <% } %>
                         <button type="button" class="editbtn" data-toggle="modal" data-target="#uploadImageModal">Upload
                             Pic
                         </button>

@@ -469,6 +469,7 @@
             +$("#giftInput").val()
           )
         ) {
+          loader.style.display = "block";
           $.ajax({
             type: "PUT",
             url: `${window.location.origin}/assignGiftToSupervisor/<%=info.uuid%>`,
@@ -481,11 +482,13 @@
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             dataType: "JSON",
             error: (error) => {
-              console.error(error);
+              toastr.error(error.status);
             },
             success: (response) => {
               if (response) {
+          
                 toastr.success(response.status);
+                loader.style.display = "none";
                 $("#giveSelectiveBTN").fadeOut();
               }
             },

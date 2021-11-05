@@ -269,7 +269,7 @@
         );
       }
       $(".js-tilt").tilt({
-        scale: 1.1
+        scale: 1.1,
       });
 
       var menu = document.getElementById("menu");
@@ -295,7 +295,6 @@
         submitButton = document.getElementById("submit-button"),
         agencyForm = document.querySelector(".agencyForm");
       var Location;
-
       /**
        * Fetching the current position location
        */
@@ -312,7 +311,6 @@
        */
       function showPosition(position) {
         Location = position;
-
         console.log(position.coords.latitude);
         console.log(position.coords.longitude);
         agencyForm.style.display = "block";
@@ -439,7 +437,7 @@
               longitude: Location.coords.longitude,
               agencyType: $("#agencyType").find(":selected").val(),
               CompaignID: $("#Compaign").find(":selected").val(),
-              agencyCityName: $("#agencyCityName").find(":selected").val()
+              agencyCityName: $("#agencyCityName").find(":selected").val(),
             },
             dataType: "JSON",
             error: (error) => {
@@ -456,7 +454,7 @@
                 toastr.success(response.success);
                 window.location = `${window.location.origin}/user/activities/${response.agencyID}/${response.activity}`;
               }
-            }
+            },
           });
       });
 

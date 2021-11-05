@@ -66,7 +66,6 @@ router.get(
       ],
       where: {
         man_id: req.session.profileData.man_id,
-        man_uuid: req.session.profileData.man_uuid,
         man_isDeleted: 0,
         man_isPaused: 0,
       },
@@ -483,9 +482,8 @@ router.get(
  * and also allow the supervisor to allote the Manage Incentive to the user
  */
 
-
 router.get(
-  "/manageIncentive/:man_uuid",
+  "/assignGiveaway/:man_uuid",
   isUser_Login,
   isManagerAuthentic,
   async (req, res) => {
@@ -560,6 +558,147 @@ router.get(
       permissions: req.session.permissions.permissionObject,
     });
     advertisment = superVisorsInfo = null;
+  }
+);
+
+router.get(
+  "/manageIncentive/:man_uuid",
+  isUser_Login,
+  isManagerAuthentic,
+  async (req, res) => {
+    // unread notification count
+    let unreadNotificationCount = await countofNotificationOfManager(
+      req.session.profileData.man_id
+    );
+
+    res.json({ data: "manageIncentive" });
+    // /**
+    //  * getting all the Cities from the database
+    //  */
+    // let superVisorsInfo = await Database.Supervisor.findAll({
+    //   attributes: ["sup_id", "sup_uuid", "sup_name"],
+    //   include: {
+    //     model: Database.City,
+    //     attributes: ["city_id", "city_name", "city_uuid"],
+    //     required: true,
+    //     through: {
+    //       attributes: ["sup_id", "city_id"],
+    //     },
+    //     where: {
+    //       paused: 0,
+    //       deleted: 0,
+    //     },
+    //   },
+    //   where: {
+    //     man_id: req.session.profileData.man_id,
+    //     sup_isDeleted: 0,
+    //     sup_isPaused: 0,
+    //   },
+    // });
+
+    // /**
+    //  * Getting the advertisment which are allocated to the supervisor
+    //  */
+
+    // let advertisment = await Database.Advertisement_Stock.findAll({
+    //   attributes: [
+    //     [
+    //       sequelize.fn("SUM", sequelize.col("adver_stock_total_Quantity")),
+    //       "sumofQuantity",
+    //     ],
+    //     [
+    //       sequelize.fn("SUM", sequelize.col("adver_stock_used")),
+    //       "QuantityUsed",
+    //     ],
+    //     "adver_stock_id",
+    //     "advert_stock_uuid",
+    //     "adver_stock_name",
+    //     "adver_stock_descritpion",
+    //     "adver_stock_image",
+    //   ],
+
+    //   where: {
+    //     man_id: req.session.profileData.man_id,
+    //     paused: 0,
+    //     deleted: 0,
+    //   },
+    //   group: ["adver_stock_id"],
+    // });
+
+    // res.status(200).render("Manager/manageIncentive", {
+    //   url: req.protocol + "://" + req.get("host"),
+    //   info: {
+    //     id: req.session.passport.user.userInfo.login_id,
+    //     uuid: req.session.profileData.man_uuid,
+    //   },
+    //   advertisment,
+    //   superVisorsInfo,
+    //   user_role: req.session.passport.user.userRole,
+    //   unreadNotificationCount:
+    //     unreadNotificationCount[0].dataValues.unreadNotificationCount,
+    //   permissions: req.session.permissions.permissionObject,
+    // });
+    // advertisment = superVisorsInfo = null;
+  }
+);
+/**
+ * view all assigned gifts
+ */
+/***
+ * view all assigned gifts route
+ */
+router.get(
+  "/viewAllAssginedGifts/:man_uuid",
+  isUser_Login,
+  isManagerAuthentic,
+  async (req, res) => {
+    // unread notification count
+    let unreadNotificationCount = await countofNotificationOfManager(
+      req.session.profileData.man_id
+    );
+
+    let giftAssigned = await Database.Advertising_Stock_Allocation.findAll({
+      attributes: ["adver_stock_allocated_Quantity", "createdAt"],
+      where: {
+        man_id: req.session.profileData.man_id,
+        paused: 0,
+        deleted: 0,
+      },
+      include: [
+        {
+          model: Database.Supervisor,
+          required: true,
+          attributes: ["sup_name"],
+          where: {
+            sup_isPaused: 0,
+            sup_isDeleted: 0,
+            man_id: req.session.profileData.man_id,
+          },
+        },
+        {
+          model: Database.Advertisement_Stock,
+          required: true,
+          attributes: ["adver_stock_name"],
+          where: {
+            paused: 0,
+            deleted: 0,
+            man_id: req.session.profileData.man_id,
+          },
+        },
+      ],
+    });
+    res.status(200).render("Manager/viewAllAssignedGifts", {
+      url: req.protocol + "://" + req.get("host"),
+      info: {
+        id: req.session.passport.user.userInfo.login_id,
+        uuid: req.session.profileData.man_uuid,
+      },
+      giftAssigned,
+      user_role: req.session.passport.user.userRole,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      permissions: req.session.permissions.permissionObject,
+    });
   }
 );
 

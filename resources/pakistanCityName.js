@@ -8,7 +8,7 @@ const cityName = [
     admin_name: "Sindh",
     capital: "admin",
     population: "14835000",
-    population_proper: "14835000"
+    population_proper: "14835000",
   },
   {
     city: "Lahore",
@@ -19,7 +19,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "admin",
     population: "11021000",
-    population_proper: "11021000"
+    population_proper: "11021000",
   },
   {
     city: "Sialkot City",
@@ -30,7 +30,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "3893672",
-    population_proper: "3893672"
+    population_proper: "3893672",
   },
   {
     city: "Faisalabad",
@@ -41,7 +41,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "3203846",
-    population_proper: "3203846"
+    population_proper: "3203846",
   },
   {
     city: "Rawalpindi",
@@ -52,7 +52,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "2098231",
-    population_proper: "2098231"
+    population_proper: "2098231",
   },
   {
     city: "Peshawar",
@@ -63,7 +63,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "admin",
     population: "1970042",
-    population_proper: "1970042"
+    population_proper: "1970042",
   },
   {
     city: "Saidu Sharif",
@@ -74,7 +74,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "minor",
     population: "1860310",
-    population_proper: "1860310"
+    population_proper: "1860310",
   },
   {
     city: "Multan",
@@ -85,7 +85,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "1606481",
-    population_proper: "1606481"
+    population_proper: "1606481",
   },
   {
     city: "Gujranwala",
@@ -96,7 +96,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "1569090",
-    population_proper: "1569090"
+    population_proper: "1569090",
   },
   {
     city: "Islamabad",
@@ -107,7 +107,7 @@ const cityName = [
     admin_name: "Isl\u0101m\u0101b\u0101d",
     capital: "primary",
     population: "1365000",
-    population_proper: "1365000"
+    population_proper: "1365000",
   },
   {
     city: "Quetta",
@@ -118,7 +118,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "admin",
     population: "1140000",
-    population_proper: "1140000"
+    population_proper: "1140000",
   },
   {
     city: "Bahawalpur",
@@ -129,7 +129,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "681696",
-    population_proper: "681696"
+    population_proper: "681696",
   },
   {
     city: "Sargodha",
@@ -140,7 +140,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "602631",
-    population_proper: "602631"
+    population_proper: "602631",
   },
   {
     city: "New Mirpur",
@@ -151,7 +151,7 @@ const cityName = [
     admin_name: "Azad Kashmir",
     capital: "minor",
     population: "523500",
-    population_proper: "523500"
+    population_proper: "523500",
   },
   {
     city: "Chiniot",
@@ -162,7 +162,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "477781",
-    population_proper: "477781"
+    population_proper: "477781",
   },
   {
     city: "Sukkur",
@@ -173,7 +173,7 @@ const cityName = [
     admin_name: "Sindh",
     capital: "minor",
     population: "476776",
-    population_proper: "476776"
+    population_proper: "476776",
   },
   {
     city: "Larkana",
@@ -184,7 +184,7 @@ const cityName = [
     admin_name: "Sindh",
     capital: "minor",
     population: "435817",
-    population_proper: "435817"
+    population_proper: "435817",
   },
   {
     city: "Shekhupura",
@@ -195,7 +195,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "411834",
-    population_proper: "411834"
+    population_proper: "411834",
   },
   {
     city: "Jhang City",
@@ -206,7 +206,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "365198",
-    population_proper: "365198"
+    population_proper: "365198",
   },
   {
     city: "Rahimyar Khan",
@@ -217,7 +217,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "",
     population: "353203",
-    population_proper: "353203"
+    population_proper: "353203",
   },
   {
     city: "Gujrat",
@@ -228,7 +228,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "328512",
-    population_proper: "328512"
+    population_proper: "328512",
   },
   {
     city: "Kasur",
@@ -239,7 +239,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "314617",
-    population_proper: "314617"
+    population_proper: "314617",
   },
   {
     city: "Mardan",
@@ -250,7 +250,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "minor",
     population: "300424",
-    population_proper: "300424"
+    population_proper: "300424",
   },
   {
     city: "Mingaora",
@@ -261,7 +261,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "",
     population: "279914",
-    population_proper: "279914"
+    population_proper: "279914",
   },
   {
     city: "Dera Ghazi Khan",
@@ -272,7 +272,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "264742",
-    population_proper: "264742"
+    population_proper: "264742",
   },
   {
     city: "Nawabshah",
@@ -283,7 +283,7 @@ const cityName = [
     admin_name: "Sindh",
     capital: "minor",
     population: "263102",
-    population_proper: "263102"
+    population_proper: "263102",
   },
   {
     city: "Sahiwal",
@@ -294,7 +294,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "247706",
-    population_proper: "247706"
+    population_proper: "247706",
   },
   {
     city: "Mirpur Khas",
@@ -305,7 +305,7 @@ const cityName = [
     admin_name: "Sindh",
     capital: "minor",
     population: "236961",
-    population_proper: "236961"
+    population_proper: "236961",
   },
   {
     city: "Okara",
@@ -316,7 +316,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "232386",
-    population_proper: "232386"
+    population_proper: "232386",
   },
   {
     city: "Mandi Burewala",
@@ -327,7 +327,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "",
     population: "203454",
-    population_proper: "203454"
+    population_proper: "203454",
   },
   {
     city: "Jacobabad",
@@ -338,7 +338,7 @@ const cityName = [
     admin_name: "Sindh",
     capital: "minor",
     population: "200815",
-    population_proper: "200815"
+    population_proper: "200815",
   },
   {
     city: "Saddiqabad",
@@ -349,7 +349,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "",
     population: "189876",
-    population_proper: "189876"
+    population_proper: "189876",
   },
   {
     city: "Kohat",
@@ -360,7 +360,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "minor",
     population: "170800",
-    population_proper: "170800"
+    population_proper: "170800",
   },
   {
     city: "Muridke",
@@ -371,7 +371,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "",
     population: "163268",
-    population_proper: "163268"
+    population_proper: "163268",
   },
   {
     city: "Muzaffargarh",
@@ -382,7 +382,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "163268",
-    population_proper: "163268"
+    population_proper: "163268",
   },
   {
     city: "Khanpur",
@@ -393,7 +393,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "",
     population: "160308",
-    population_proper: "160308"
+    population_proper: "160308",
   },
   {
     city: "Gojra",
@@ -404,7 +404,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "",
     population: "157863",
-    population_proper: "157863"
+    population_proper: "157863",
   },
   {
     city: "Mandi Bahauddin",
@@ -415,7 +415,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "157352",
-    population_proper: "157352"
+    population_proper: "157352",
   },
   {
     city: "Abbottabad",
@@ -426,7 +426,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "minor",
     population: "148587",
-    population_proper: "148587"
+    population_proper: "148587",
   },
   {
     city: "Dadu",
@@ -437,7 +437,7 @@ const cityName = [
     admin_name: "Sindh",
     capital: "minor",
     population: "146179",
-    population_proper: "146179"
+    population_proper: "146179",
   },
   {
     city: "Khuzdar",
@@ -448,7 +448,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "",
     population: "141395",
-    population_proper: "141395"
+    population_proper: "141395",
   },
   {
     city: "Pakpattan",
@@ -459,7 +459,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "139525",
-    population_proper: "139525"
+    population_proper: "139525",
   },
   {
     city: "Tando Allahyar",
@@ -470,7 +470,7 @@ const cityName = [
     admin_name: "Sindh",
     capital: "minor",
     population: "133487",
-    population_proper: "133487"
+    population_proper: "133487",
   },
   {
     city: "Vihari",
@@ -481,7 +481,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "128034",
-    population_proper: "128034"
+    population_proper: "128034",
   },
   {
     city: "Jaranwala",
@@ -492,7 +492,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "",
     population: "127973",
-    population_proper: "127973"
+    population_proper: "127973",
   },
   {
     city: "Kamalia",
@@ -503,7 +503,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "",
     population: "121401",
-    population_proper: "121401"
+    population_proper: "121401",
   },
   {
     city: "Kot Addu",
@@ -514,7 +514,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "",
     population: "120479",
-    population_proper: "120479"
+    population_proper: "120479",
   },
   {
     city: "Nowshera",
@@ -525,7 +525,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "minor",
     population: "118594",
-    population_proper: "118594"
+    population_proper: "118594",
   },
   {
     city: "Swabi",
@@ -536,7 +536,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "minor",
     population: "115018",
-    population_proper: "115018"
+    population_proper: "115018",
   },
   {
     city: "Dera Ismail Khan",
@@ -547,7 +547,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "minor",
     population: "109686",
-    population_proper: "109686"
+    population_proper: "109686",
   },
   {
     city: "Chaman",
@@ -558,7 +558,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "",
     population: "107660",
-    population_proper: "107660"
+    population_proper: "107660",
   },
   {
     city: "Charsadda",
@@ -569,7 +569,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "minor",
     population: "105414",
-    population_proper: "105414"
+    population_proper: "105414",
   },
   {
     city: "Kandhkot",
@@ -580,7 +580,7 @@ const cityName = [
     admin_name: "Sindh",
     capital: "",
     population: "105011",
-    population_proper: "105011"
+    population_proper: "105011",
   },
   {
     city: "Hasilpur",
@@ -591,7 +591,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "",
     population: "99171",
-    population_proper: "99171"
+    population_proper: "99171",
   },
   {
     city: "Muzaffarabad",
@@ -602,7 +602,7 @@ const cityName = [
     admin_name: "Azad Kashmir",
     capital: "",
     population: "96000",
-    population_proper: "96000"
+    population_proper: "96000",
   },
   {
     city: "Mianwali",
@@ -613,7 +613,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "95007",
-    population_proper: "95007"
+    population_proper: "95007",
   },
   {
     city: "Jalalpur Jattan",
@@ -624,7 +624,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "",
     population: "90130",
-    population_proper: "90130"
+    population_proper: "90130",
   },
   {
     city: "Bhakkar",
@@ -635,7 +635,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "88472",
-    population_proper: "88472"
+    population_proper: "88472",
   },
   {
     city: "Zhob",
@@ -646,7 +646,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "minor",
     population: "88356",
-    population_proper: "50537"
+    population_proper: "50537",
   },
   {
     city: "Kharian",
@@ -657,7 +657,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "",
     population: "85765",
-    population_proper: "85765"
+    population_proper: "85765",
   },
   {
     city: "Mian Channun",
@@ -668,7 +668,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "",
     population: "82586",
-    population_proper: "82586"
+    population_proper: "82586",
   },
   {
     city: "Jamshoro",
@@ -679,7 +679,7 @@ const cityName = [
     admin_name: "Sindh",
     capital: "minor",
     population: "80000",
-    population_proper: "80000"
+    population_proper: "80000",
   },
   {
     city: "Pattoki",
@@ -690,7 +690,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "",
     population: "77210",
-    population_proper: "77210"
+    population_proper: "77210",
   },
   {
     city: "Harunabad",
@@ -701,7 +701,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "",
     population: "77206",
-    population_proper: "77206"
+    population_proper: "77206",
   },
   {
     city: "Toba Tek Singh",
@@ -712,7 +712,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "75943",
-    population_proper: "75943"
+    population_proper: "75943",
   },
   {
     city: "Shakargarh",
@@ -723,7 +723,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "",
     population: "73160",
-    population_proper: "73160"
+    population_proper: "73160",
   },
   {
     city: "Hujra Shah Muqim",
@@ -734,7 +734,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "",
     population: "70204",
-    population_proper: "70204"
+    population_proper: "70204",
   },
   {
     city: "Kabirwala",
@@ -745,7 +745,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "",
     population: "70123",
-    population_proper: "70123"
+    population_proper: "70123",
   },
   {
     city: "Mansehra",
@@ -756,7 +756,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "minor",
     population: "69085",
-    population_proper: "69085"
+    population_proper: "69085",
   },
   {
     city: "Lala Musa",
@@ -767,7 +767,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "",
     population: "67283",
-    population_proper: "67283"
+    population_proper: "67283",
   },
   {
     city: "Nankana Sahib",
@@ -778,7 +778,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "",
     population: "63073",
-    population_proper: "63073"
+    population_proper: "63073",
   },
   {
     city: "Bannu",
@@ -789,7 +789,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "minor",
     population: "62191",
-    population_proper: "62191"
+    population_proper: "62191",
   },
   {
     city: "Timargara",
@@ -800,7 +800,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "minor",
     population: "58050",
-    population_proper: "58050"
+    population_proper: "58050",
   },
   {
     city: "Parachinar",
@@ -811,7 +811,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "",
     population: "55685",
-    population_proper: "55685"
+    population_proper: "55685",
   },
   {
     city: "Gwadar",
@@ -822,7 +822,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "minor",
     population: "51901",
-    population_proper: "23364"
+    population_proper: "23364",
   },
   {
     city: "Abdul Hakim",
@@ -833,7 +833,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "",
     population: "51494",
-    population_proper: "51494"
+    population_proper: "51494",
   },
   {
     city: "Hassan Abdal",
@@ -844,7 +844,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "",
     population: "50044",
-    population_proper: "50044"
+    population_proper: "50044",
   },
   {
     city: "Tank",
@@ -855,7 +855,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "minor",
     population: "44996",
-    population_proper: "44996"
+    population_proper: "44996",
   },
   {
     city: "Hangu",
@@ -866,7 +866,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "minor",
     population: "39766",
-    population_proper: "39766"
+    population_proper: "39766",
   },
   {
     city: "Risalpur Cantonment",
@@ -877,7 +877,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "",
     population: "36653",
-    population_proper: "36653"
+    population_proper: "36653",
   },
   {
     city: "Karak",
@@ -888,7 +888,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "minor",
     population: "35844",
-    population_proper: "35844"
+    population_proper: "35844",
   },
   {
     city: "Kundian",
@@ -899,7 +899,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "",
     population: "35406",
-    population_proper: "35406"
+    population_proper: "35406",
   },
   {
     city: "Umarkot",
@@ -910,7 +910,7 @@ const cityName = [
     admin_name: "Sindh",
     capital: "minor",
     population: "35059",
-    population_proper: "35059"
+    population_proper: "35059",
   },
   {
     city: "Chitral",
@@ -921,7 +921,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "minor",
     population: "31100",
-    population_proper: "31100"
+    population_proper: "31100",
   },
   {
     city: "Dainyor",
@@ -932,7 +932,7 @@ const cityName = [
     admin_name: "Gilgit-Baltistan",
     capital: "",
     population: "25000",
-    population_proper: "25000"
+    population_proper: "25000",
   },
   {
     city: "Kulachi",
@@ -943,7 +943,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "",
     population: "24738",
-    population_proper: "24738"
+    population_proper: "24738",
   },
   {
     city: "Kotli",
@@ -954,7 +954,7 @@ const cityName = [
     admin_name: "Azad Kashmir",
     capital: "minor",
     population: "21462",
-    population_proper: "21462"
+    population_proper: "21462",
   },
   {
     city: "Gilgit",
@@ -965,7 +965,7 @@ const cityName = [
     admin_name: "Gilgit-Baltistan",
     capital: "minor",
     population: "8851",
-    population_proper: "8851"
+    population_proper: "8851",
   },
   {
     city: "Hyderabad City",
@@ -976,7 +976,7 @@ const cityName = [
     admin_name: "Sindh",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Narowal",
@@ -987,7 +987,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Khairpur Mir\u2019s",
@@ -998,7 +998,7 @@ const cityName = [
     admin_name: "Sindh",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Khanewal",
@@ -1009,7 +1009,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Jhelum",
@@ -1020,7 +1020,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Haripur",
@@ -1031,7 +1031,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Shikarpur",
@@ -1042,7 +1042,7 @@ const cityName = [
     admin_name: "Sindh",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Rawala Kot",
@@ -1053,7 +1053,7 @@ const cityName = [
     admin_name: "Azad Kashmir",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Hafizabad",
@@ -1064,7 +1064,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Lodhran",
@@ -1075,7 +1075,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Malakand",
@@ -1086,7 +1086,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Attock City",
@@ -1097,7 +1097,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Batgram",
@@ -1108,7 +1108,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Matiari",
@@ -1119,7 +1119,7 @@ const cityName = [
     admin_name: "Sindh",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Ghotki",
@@ -1130,7 +1130,7 @@ const cityName = [
     admin_name: "Sindh",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Naushahro Firoz",
@@ -1141,7 +1141,7 @@ const cityName = [
     admin_name: "Sindh",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Alpurai",
@@ -1152,7 +1152,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Bagh",
@@ -1163,7 +1163,7 @@ const cityName = [
     admin_name: "Azad Kashmir",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Daggar",
@@ -1174,7 +1174,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Bahawalnagar",
@@ -1185,7 +1185,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Leiah",
@@ -1196,7 +1196,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Tando Muhammad Khan",
@@ -1207,7 +1207,7 @@ const cityName = [
     admin_name: "Sindh",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Chakwal",
@@ -1218,7 +1218,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Khushab",
@@ -1229,7 +1229,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Badin",
@@ -1240,7 +1240,7 @@ const cityName = [
     admin_name: "Sindh",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Lakki",
@@ -1251,7 +1251,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Rajanpur",
@@ -1262,7 +1262,7 @@ const cityName = [
     admin_name: "Punjab",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Dera Allahyar",
@@ -1273,7 +1273,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Shahdad Kot",
@@ -1284,7 +1284,7 @@ const cityName = [
     admin_name: "Sindh",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Pishin",
@@ -1295,7 +1295,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Sanghar",
@@ -1306,7 +1306,7 @@ const cityName = [
     admin_name: "Sindh",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Upper Dir",
@@ -1317,7 +1317,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Thatta",
@@ -1328,7 +1328,7 @@ const cityName = [
     admin_name: "Sindh",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Dera Murad Jamali",
@@ -1339,7 +1339,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Kohlu",
@@ -1350,7 +1350,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Mastung",
@@ -1361,7 +1361,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Dasu",
@@ -1372,7 +1372,7 @@ const cityName = [
     admin_name: "Khyber Pakhtunkhwa",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Athmuqam",
@@ -1383,7 +1383,7 @@ const cityName = [
     admin_name: "Azad Kashmir",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Loralai",
@@ -1394,7 +1394,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Barkhan",
@@ -1405,7 +1405,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Musa Khel Bazar",
@@ -1416,7 +1416,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Ziarat",
@@ -1427,7 +1427,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Gandava",
@@ -1438,7 +1438,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Sibi",
@@ -1449,7 +1449,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Dera Bugti",
@@ -1460,7 +1460,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Eidgah",
@@ -1471,7 +1471,7 @@ const cityName = [
     admin_name: "Gilgit-Baltistan",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Turbat",
@@ -1482,7 +1482,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Uthal",
@@ -1493,7 +1493,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Khuzdar",
@@ -1504,7 +1504,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Chilas",
@@ -1515,7 +1515,7 @@ const cityName = [
     admin_name: "Gilgit-Baltistan",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Kalat",
@@ -1526,7 +1526,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Panjgur",
@@ -1537,7 +1537,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Gakuch",
@@ -1548,7 +1548,7 @@ const cityName = [
     admin_name: "Gilgit-Baltistan",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Qila Saifullah",
@@ -1559,7 +1559,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Kharan",
@@ -1570,7 +1570,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Aliabad",
@@ -1581,7 +1581,7 @@ const cityName = [
     admin_name: "Gilgit-Baltistan",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Awaran",
@@ -1592,7 +1592,7 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "minor",
     population: "",
-    population_proper: ""
+    population_proper: "",
   },
   {
     city: "Dalbandin",
@@ -1603,15 +1603,15 @@ const cityName = [
     admin_name: "Balochist\u0101n",
     capital: "minor",
     population: "",
-    population_proper: ""
-  }
+    population_proper: "",
+  },
 ];
 
 var newData = [];
 cityName.map((data) => {
   const city = {
     city: data.city,
-    admin_name: data.admin_name
+    admin_name: data.admin_name,
   };
   newData.push(city);
 });

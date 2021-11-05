@@ -1,51 +1,55 @@
 "use strict";
-var nodemailer = require("nodemailer")
-
-
+var nodemailer = require("nodemailer");
+const { nodeMailerObject } = require("../../additional");
+require("dotenv").config();
 
 async function sendEmail_to_ConfirmEmail(userEmail, htmlFile, subject) {
-    // create reusable transporter object using the default SMTP transport
-    let transporter = nodemailer.createTransport({
-        host: process.env.host,
-        port: process.env.port,
-        secure: process.env.secure,
-        auth: {
-            user: process.env.user,
-            pass: process.env.pass
-        }
-    })
+  // create reusable transporter object using the default SMTP transport
+  let transporter = nodemailer.createTransport({
+    host: nodeMailerObject.host,
+    port: nodeMailerObject.port,
+    secure: nodeMailerObject.secure,
+    auth: {
+      user: nodeMailerObject.user,
+      pass: nodeMailerObject.pass,
+    },
+  });
 
+  //   let transporter = nodemailer.createTransport({
+  //     host: process.env.host,
+  //     port: process.env.port,
+  //     secure: process.env.secure,
+  //     auth: {
+  //       user: process.env.user,
+  //       pass: process.env.pass,
+  //     },
+  //   });
 
-    // send mail with defined transport object
-    let info = await transporter.sendMail({
-        from: `"${process.env.web_Title}" ${process.env.web_Email}`, // sender address
-        to: `${userEmail}`, // list of receivers
-        subject: `${subject}`, // Subject line
-        text: "Hello world?", // plain text body
-        html: `${htmlFile}`, // html body
-    });
+  // send mail with defined transport object
+  let info = await transporter.sendMail({
+    from: `"${process.env.web_Title}" ${process.env.web_Email}`, // sender address
+    to: `${userEmail}`, // list of receivers
+    subject: `${subject}`, // Subject line
+    text: "Hello world?", // plain text body
+    html: `${htmlFile}`, // html body
+  });
 
-    console.log(info)
-    if (info) return true
-    else return false
+  console.log(info);
+  if (info) return true;
+  else return false;
 
-    console.log("Message sent: %s", info.messageId);
-    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+  console.log("Message sent: %s", info.messageId);
+  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 
-    // Preview only available when sending through an Ethereal account
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-    // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+  // Preview only available when sending through an Ethereal account
+  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+  // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 }
 
-
-module.exports = { sendEmail_to_ConfirmEmail }
-
+module.exports = { sendEmail_to_ConfirmEmail };
 
 // // sadasd('sdadasd','asdasdas','asdasdas')
 // // main().catch(console.error);
-
-
-
 
 // "use strict";
 // const nodemailers = require("nodemailer");

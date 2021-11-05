@@ -4,7 +4,7 @@ const router = require("express").Router(),
   Database = require("../../Configuration Files/Sequelize/Database_Synchronization"),
   { sequelize } = require("../../Configuration Files/Sequelize/Sequelize"),
   {
-    multerFile_Upload_Function
+    multerFile_Upload_Function,
   } = require("../../Configuration Files/Multer Js/multer"),
   { isManagerAuthentic } = require("../../routes/Manager/managerRoutes");
 
@@ -19,8 +19,8 @@ router
       attributes: ["man_userProfilePic"],
       where: {
         man_uuid: req.session.profileData.man_uuid,
-        login_id: req.session.passport.user.userInfo.login_id
-      }
+        login_id: req.session.passport.user.userInfo.login_id,
+      },
     });
     if (userProfileImage.dataValues.man_userProfilePic !== null) {
       fs.unlink(
@@ -41,13 +41,13 @@ router
 
         Database.Managers.update(
           {
-            man_userProfilePic: filePath[1] + filename
+            man_userProfilePic: filePath[1] + filename,
           },
           {
             where: {
               man_uuid: req.session.profileData.man_uuid,
-              login_id: req.session.passport.user.userInfo.login_id
-            }
+              login_id: req.session.passport.user.userInfo.login_id,
+            },
           }
         ).then((response) => {
           if (response) {
@@ -55,12 +55,12 @@ router
             res.send({
               type: "success",
               messages: "Profile Image Uploaded",
-              ProfilePic: filePath[1] + filename
+              ProfilePic: filePath[1] + filename,
             });
           } else {
             res.send({
               type: "danger",
-              messages: "Error! in Uploading Image! "
+              messages: "Error! in Uploading Image! ",
             });
           }
         });
@@ -80,13 +80,13 @@ router
       include: {
         model: Database.User_Role,
         where: {
-          type_name: req.session.passport.user.userRole.type_name
-        }
+          type_name: req.session.passport.user.userRole.type_name,
+        },
       },
       where: {
         paused: 0,
-        deleted: 0
-      }
+        deleted: 0,
+      },
     })
       .then((response) => {
         return response;
@@ -104,7 +104,7 @@ router
         .status(500)
         .send({
           type: "danger",
-          messages: "Error! Please try Again! "
+          messages: "Error! Please try Again! ",
         })
         .end();
     } else {
@@ -116,12 +116,12 @@ router
           man_username: req.body.username,
           man_target: dbResponse.dataValues.target,
           man_salary: dbResponse.dataValues.salary,
-          man_commission: dbResponse.dataValues.commission
+          man_commission: dbResponse.dataValues.commission,
         },
         {
           where: {
-            login_id: req.session.passport.user.userInfo.login_id
-          }
+            login_id: req.session.passport.user.userInfo.login_id,
+          },
         }
       )
         .then((response) => {
@@ -129,7 +129,7 @@ router
             res.status(200).send({
               type: "success",
               messages: "Updated",
-              uuid: req.session.profileData.man_uuid
+              uuid: req.session.profileData.man_uuid,
             });
           }
         })
@@ -137,7 +137,7 @@ router
           console.error(error);
           res.status(500).send({
             type: "danger",
-            messages: "Error! Can not update the Profile. Please Try Again! "
+            messages: "Error! Can not update the Profile. Please Try Again! ",
           });
         });
     }
@@ -159,14 +159,14 @@ router
        */
       const emailUpdate = await Database.User_Login_Information.update(
         {
-          login_email: userReqBody.email
+          login_email: userReqBody.email,
         },
         {
           where: {
             login_id: req.session.passport.user.userInfo.login_id,
             paused: 0,
-            deleted: 0
-          }
+            deleted: 0,
+          },
         }
       );
 
@@ -174,12 +174,12 @@ router
         {
           man_name: userReqBody.fullname,
           man_contact: userReqBody.contact,
-          man_username: userReqBody.username
+          man_username: userReqBody.username,
         },
         {
           where: {
-            man_uuid: req.session.profileData.man_uuid
-          }
+            man_uuid: req.session.profileData.man_uuid,
+          },
         }
       );
       if (emailUpdate && updateExecutiveInfo) {
@@ -190,7 +190,7 @@ router
         );
         res.status(404).send({
           error: "error",
-          details: "Error! while updating your information."
+          details: "Error! while updating your information.",
         });
       }
     } else
@@ -213,8 +213,8 @@ router
         where: {
           city_area_uuid: req.body.cityAreaUUID,
           deleted: 0,
-          paused: 0
-        }
+          paused: 0,
+        },
       })
         .then((cityData) =>
           Database.Team_Lead.findAll({
@@ -222,7 +222,7 @@ router
             where: {
               team_L_isDeleted: 0,
               team_L_isPaused: 0,
-              city_area_id: cityData.city_area_id
+              city_area_id: cityData.city_area_id,
             },
             include: {
               model: Database.Field_Executive,
@@ -230,9 +230,9 @@ router
               attributes: ["field_id"],
               where: {
                 field_isDeleted: 0,
-                field_isPaused: 0
-              }
-            }
+                field_isPaused: 0,
+              },
+            },
           })
         )
         .then((teamLead) => teamLead.map((team) => team.Field_Executives))
@@ -249,11 +249,11 @@ router
         .then((fieldExecutive) =>
           Database.Agency_Info.findAll({
             attributes: {
-              exclude: ["updateTimestamp", "field_id"]
+              exclude: ["updateTimestamp", "field_id"],
             },
             where: {
-              field_id: fieldExecutive
-            }
+              field_id: fieldExecutive,
+            },
           })
         )
         .catch((error) => {
@@ -293,18 +293,18 @@ router
      */
     let agencies = await Database.Agency_Info.findOne({
       where: {
-        agency_uuid: req.body.agencyUUID
-      }
+        agency_uuid: req.body.agencyUUID,
+      },
     })
       .then((agency) => {
         agency.update(
           {
-            isPaused: agency.dataValues.isPaused === true ? false : true
+            isPaused: agency.dataValues.isPaused === true ? false : true,
           },
           {
             sup_id: 0,
             man_id: req.session.profileData.man_id,
-            individualHooks: true
+            individualHooks: true,
           }
         );
       })
@@ -341,18 +341,18 @@ router
      */
     let agencies = await Database.Agency_Info.findOne({
       where: {
-        agency_uuid: req.body.agencyUUID
-      }
+        agency_uuid: req.body.agencyUUID,
+      },
     })
       .then((agency) => {
         agency.update(
           {
-            deleted: agency.dataValues.deleted === true ? false : true
+            deleted: agency.dataValues.deleted === true ? false : true,
           },
           {
             sup_id: 0,
             man_id: req.session.profileData.man_id,
-            individualHooks: true
+            individualHooks: true,
           }
         );
       })
@@ -392,8 +392,8 @@ router
       where: {
         city_uuid: req.body.selectedArea,
         deleted: 0,
-        paused: 0
-      }
+        paused: 0,
+      },
     }).catch((error) => {
       console.error("Error in getting city");
       console.trace(error);
@@ -406,8 +406,8 @@ router
       where: {
         sup_uuid: selectedEmployee.map((uuid) => uuid),
         sup_isDeleted: 0,
-        sup_isPaused: 0
-      }
+        sup_isPaused: 0,
+      },
     }).catch((error) => {
       console.error("Error in getting Supervisor");
       console.trace(error);
@@ -418,7 +418,7 @@ router
       supervisorID.map((supervisor) => {
         return {
           sup_id: supervisor.sup_id,
-          city_id: sectorID.city_id
+          city_id: sectorID.city_id,
         };
       })
     ).catch((error) => {
@@ -453,8 +453,8 @@ router
         man_id: req.session.profileData.man_id,
         sup_isDeleted: 0,
         sup_isPaused: 0,
-        sup_uuid: JSON.parse(req.body.employeeList).map((employee) => employee)
-      }
+        sup_uuid: JSON.parse(req.body.employeeList).map((employee) => employee),
+      },
     }).catch((error) => {
       if (error) {
         console.error("Error Fetching the Data of Supervisor");
@@ -469,16 +469,16 @@ router
         [Op.or]: [
           {
             notification_title: {
-              [Op.like]: "%Manager%"
-            }
+              [Op.like]: "%Manager%",
+            },
           },
           {
             notification_title: {
-              [Op.like]: "%Message from your Manager%"
-            }
-          }
-        ]
-      }
+              [Op.like]: "%Message from your Manager%",
+            },
+          },
+        ],
+      },
     }).catch((error) => {
       console.error("Error in finding Notification Text");
       console.trace(error);
@@ -490,7 +490,7 @@ router
         return {
           sup_id: member.dataValues.sup_id,
           notification_text: req.body.messageText,
-          notification_id: notificationID.dataValues.notification_id
+          notification_id: notificationID.dataValues.notification_id,
         };
       })
     ).catch((error) => {
@@ -522,8 +522,8 @@ router
       where: {
         man_id: req.session.profileData.man_id,
         sup_isDeleted: 0,
-        sup_isPaused: 0
-      }
+        sup_isPaused: 0,
+      },
     }).catch((error) => {
       if (error) {
         console.error("Error Fetching the Data of Supervisor");
@@ -538,16 +538,16 @@ router
         [Op.or]: [
           {
             notification_title: {
-              [Op.like]: "%Manager%"
-            }
+              [Op.like]: "%Manager%",
+            },
           },
           {
             notification_title: {
-              [Op.like]: "%Message from your Manager%"
-            }
-          }
-        ]
-      }
+              [Op.like]: "%Message from your Manager%",
+            },
+          },
+        ],
+      },
     }).catch((error) => {
       console.error("Error in finding Notification Text");
       console.trace(error);
@@ -562,7 +562,7 @@ router
         return {
           sup_id: member.dataValues.sup_id,
           notification_text: req.body.messageText,
-          notification_id: notificationID.dataValues.notification_id
+          notification_id: notificationID.dataValues.notification_id,
         };
       })
     ).catch((error) => {
@@ -583,19 +583,212 @@ router
   });
 
 /**
+ * assigning the gifts to the supervisor
+ */
+router
+  .route("/assignGiftToSupervisor/:man_uuid")
+  .put(isManagerAuthentic, async (req, res) => {
+    //getting the teams from the req.param teamLeadUUID
+
+    console.log(req.body);
+
+    let supervisorInfo = await Database.Supervisor.findOne({
+      where: {
+        man_id: req.session.profileData.man_id,
+        sup_isDeleted: 0,
+        sup_isPaused: 0,
+      },
+    }).catch((error) => {
+      if (error) {
+        console.error(
+          "Error Fetching the Data of Supervisor for Assigning Gift"
+        );
+        console.trace(error);
+        return null;
+      }
+    });
+
+    let getGiftData = await Database.Advertisement_Stock.findOne({
+      attributes: ["adver_stock_id", "adver_stock_total_Quantity"],
+      where: {
+        advert_stock_uuid: req.body.gift,
+        paused: 0,
+        deleted: 0,
+        man_id: req.session.profileData.man_id,
+      },
+    }).catch((error) => {
+      if (error) {
+        console.error(
+          "Error Fetching the Data of Advertisement Stock for Assigning Gift"
+        );
+        console.trace(error);
+        return null;
+      }
+    });
+
+    // /**
+    //  * here is the critical code for the assigning the gift..
+    //  * here if the user ask to allocate the gift
+    //  * the  total sum of the gift is taken care of
+    //  * first if the user enter the
+    //  */
+
+    if (
+      getGiftData.dataValues.adver_stock_total_Quantity > +req.body.giftAssigned
+    ) {
+      let creatingGifts = await Database.Advertising_Stock_Allocation.create({
+        adver_stock_allocated_Quantity: +req.body.giftAssigned,
+        adver_stock_id: getGiftData.dataValues.adver_stock_id,
+        sup_id: supervisorInfo.dataValues.sup_id,
+        man_id: req.session.profileData.man_id,
+      }).catch((error) => {
+        if (error) {
+          console.error(
+            "Error Creating the stock of Advertisement Allocation Stock from Manager to  Supervisor"
+          );
+          console.trace(error);
+          return null;
+        }
+      });
+
+      if (creatingGifts) {
+        res.status(200).send({
+          status: "Successfully Gift Assgined",
+        });
+        res.end();
+        creatingGifts = supervisorInfo = getGiftData = null;
+      }
+    } else {
+      res.status(500).send({
+        status: "Sorry !!! Please Try Again",
+      });
+      res.end();
+      creatingGifts = supervisorInfo = getGiftData = null;
+    }
+
+    // if (getGiftData.length > 0) {
+    //   let sum = 0,
+    //     temp = 0;
+    //   getGiftData.some((data) => {
+    //     if (data.adver_stock_allocated_Quantity > +req.body.giftAssigned) {
+    //       temp = data.adver_stock_allocated_Quantity - req.body.giftAssigned;
+    //       data.adver_stock_allocated_Quantity = temp;
+    //       data.used = req.body.giftAssigned;
+    //       newObject.push({
+    //         quantity: data.adver_stock_allocated_Quantity,
+    //         used: +data.used,
+    //         isConsumed:
+    //           data.adver_stock_allocated_Quantity === 0 ? true : false, // : true ? false,
+    //         adver_stock_act_id: data.adver_stock_act_id,
+    //       });
+
+    //       return true;
+    //     } else {
+    //       if (sum !== +req.body.giftAssigned) {
+    //         if (temp === 0) {
+    //           temp =
+    //             data.adver_stock_allocated_Quantity - req.body.giftAssigned;
+    //           sum += data.adver_stock_allocated_Quantity;
+
+    //           data.adver_stock_allocated_Quantity -= sum;
+    //           data.used = data.adver_stock_allocated_Quantity;
+
+    //           newObject.push({
+    //             quantity: data.adver_stock_allocated_Quantity,
+    //             used: sum,
+    //             isConsumed:
+    //               data.adver_stock_allocated_Quantity === 0 ? true : false, // : true ? false,
+    //             adver_stock_act_id: data.adver_stock_act_id,
+    //           });
+    //         } else {
+    //           sum += -temp;
+    //           data.used = -temp;
+    //           temp = data.adver_stock_allocated_Quantity - -temp;
+    //           data.adver_stock_allocated_Quantity = temp;
+
+    //           newObject.push({
+    //             quantity: data.adver_stock_allocated_Quantity,
+    //             used: +data.used,
+    //             isConsumed:
+    //               data.adver_stock_allocated_Quantity === 0 ? true : false, // : true ? false,
+    //             adver_stock_act_id: data.adver_stock_act_id,
+    //           });
+    //         }
+    //       }
+    //     }
+    //   });
+
+    //   /**
+    //    * now updating and allocating the record to the team lead
+    //    */
+
+    //   let allocateGift_ToTeamLead =
+    //     await Database.Team_Lead_Adver_Stock.bulkCreate(
+    //       newObject.map((data) => {
+    //         return {
+    //           team_L_id: teamLeadInfo.team_L_id,
+    //           sup_id: req.session.profileData.sup_id,
+    //           adver_stock_act_id: data.adver_stock_act_id,
+    //           total_Quantity: data.used,
+    //         };
+    //       })
+    //     );
+
+    //   /**
+    //    * and now updating the advertisment record
+    //    */
+
+    //   newObject.forEach(async (data) => {
+    //     await Database.Advertising_Stock_Allocation.update(
+    //       {
+    //         adver_stock_allocated_Quantity: data.quantity,
+    //         isConsumed: data.isConsumed,
+    //         used: Sequelize.literal(`used + ${data.used}`),
+    //       },
+    //       {
+    //         where: {
+    //           sup_id: req.session.profileData.sup_id,
+    //           adver_stock_act_id: data.adver_stock_act_id,
+    //         },
+    //       }
+    //     );
+    //   });
+
+    //   if (allocateGift_ToTeamLead) {
+    //     res
+    //       .status(200)
+    //       .send({ status: "Successfully Gift Allocated to Team Lead" });
+    //     sum =
+    //       temp =
+    //       newObject =
+    //       teamLeadInfo =
+    //       getGiftData =
+    //       allocateGift_ToTeamLead =
+    //         0;
+    //     res.end();
+    //   }
+    // } else {
+    //   res
+    //     .status(400)
+    //     .send({ error: "There is error getting Advertising Stock" });
+    //   res.end();
+    // }
+  });
+
+/**
  * reading all the notification to isRead to true
  * so it will make the notification is read
  */
 router.route("/readAllManagerNotifications").post(async (req, res) => {
   const Notifications = await Database.ManagerNotifications.update(
     {
-      isRead: true
+      isRead: true,
     },
     {
       where: {
         man_id: req.session.profileData.man_id,
-        isRead: false
-      }
+        isRead: false,
+      },
     }
   ).then((response) => {
     if (response) return response;

@@ -234,10 +234,7 @@ router.get(
   "/activities/:agencyID/:activityUUID",
   isUser_Login,
   async (req, res) => {
-    if (
-      req.params.agencyID != req.session.activityDetails.agencyID ||
-      req.params.activityUUID != req.session.activityDetails.activity
-    ) {
+    if (!req.params) {
       res.status(200).render("Web Appendage Pages/error", {
         errorStatus: "Invalid Credentials",
         errorHeading: `The Agency or Activity is not same.`,
@@ -288,10 +285,10 @@ router.get(
               },
               list_deleted: 0,
               list_paused: 0,
-              isRepeat: {
-                [Op.or]: 1,
-                [Op.or]: 0,
-              },
+              // isRepeat: {
+              //   [Op.or]: 1,
+              //   [Op.or]: 0,
+              // },
             },
           })
         )
@@ -1281,67 +1278,67 @@ const countofNotificationOfExecutive = async (field_id) => {
   });
 };
 
-async function aaaa() {
-  const subActivities = await List_sub_Activities.findAll({
-    attributes: ["list_id"],
-    where: {
-      list_deleted: 0,
-      list_paused: 0,
-    },
-    include: {
-      attributes: [
-        "list_act_id",
-        "list_act_uuid",
-        "field_id",
-        "comp_id",
-        "agency_id",
-      ],
+// async function aaaa() {
+//   const subActivities = await List_sub_Activities.findAll({
+//     attributes: ["list_id"],
+//     where: {
+//       list_deleted: 0,
+//       list_paused: 0,
+//     },
+//     include: {
+//       attributes: [
+//         "list_act_id",
+//         "list_act_uuid",
+//         "field_id",
+//         "comp_id",
+//         "agency_id",
+//       ],
 
-      model: Activities,
-      // don't use required: false to only return results where List_sub_Activities.Activities is not null
-      // required: false,
-      where: {
-        agency_id: 1,
-        paused: 0,
-        deleted: 0,
-      },
-    },
-    raw: true,
-  })
-    .then((activities) => activities.map((activity) => activity.list_id))
-    .then((activityIds) =>
-      List_of_Packages.findAll({
-        attributes: [
-          "list_uuid",
-          "list_name",
-          "list_description",
-          "isBank",
-          "bankAmount",
-        ],
-        where: {
-          list_id: {
-            [Op.notIn]: activityIds,
-          },
-          list_name: {
-            [Op.notLike]: "%New Agency%",
-          },
-          list_deleted: 0,
-          list_paused: 0,
-          isRepeat: {
-            [Op.or]: 1,
-            [Op.or]: 0,
-          },
-        },
-      })
-    )
-    .then((packages) => {
-      if (packages) {
-        return packages;
-      }
-    });
+//       model: Activities,
+//       // don't use required: false to only return results where List_sub_Activities.Activities is not null
+//       // required: false,
+//       where: {
+//         agency_id: 1,
+//         paused: 0,
+//         deleted: 0,
+//       },
+//     },
+//     raw: true,
+//   })
+//     .then((activities) => activities.map((activity) => activity.list_id))
+//     .then((activityIds) =>
+//       List_of_Packages.findAll({
+//         attributes: [
+//           "list_uuid",
+//           "list_name",
+//           "list_description",
+//           "isBank",
+//           "bankAmount",
+//         ],
+//         where: {
+//           list_id: {
+//             [Op.notIn]: activityIds,
+//           },
+//           list_name: {
+//             [Op.notLike]: "%New Agency%",
+//           },
+//           list_deleted: 0,
+//           list_paused: 0,
+//           isRepeat: {
+//             [Op.or]: 1,
+//             [Op.or]: 0,
+//           },
+//         },
+//       })
+//     )
+//     .then((packages) => {
+//       if (packages) {
+//         return packages;
+//       }
+//     });
 
-  console.log(subActivities);
-}
+//   console.log(subActivities);
+// }
 
 // aaaa();
 
