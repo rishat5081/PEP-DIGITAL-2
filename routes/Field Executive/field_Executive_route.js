@@ -678,7 +678,7 @@ router.get(
      * and make a new array of th esubactivities to get the sum of the packages from the list table
      */
 
-    if (activitiesResponse) {
+    if (activitiesResponse.length > 0) {
       const agencyInfo = activitiesResponse[0]; //!== null ? { ...activitiesResponse[0].Agency_Info.dataValues } : null
       const Activity_Info = Object.assign(
         {},
@@ -1213,7 +1213,7 @@ router.get(
   }
 );
 
-router.get("/contactUs/:activityUUID", async (req, res) => {
+router.get("/contactUs/:activityUUID", isUser_Login, async (req, res) => {
   const activity = await Activities.findOne({
     attributes: ["list_act_id"],
     where: {

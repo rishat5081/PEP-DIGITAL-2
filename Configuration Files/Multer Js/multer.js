@@ -10,17 +10,27 @@ let multer = require("multer"),
           req.session.passport.user.userInfo.login_uuid + "." + fileBreakdown[1]
         );
       } else cb(null, false, { message: req.flash("Wrong File type") });
-    }
+    },
+  }),
+  multerStorageAPI = multer.diskStorage({
+    destination: "./public/userprofileImage/",
+    filename: (req, file, cb) => {
+      const fileBreakdown = file.mimetype.split("/");
+
+      if (fileBreakdown[0] === "image") {
+        cb(null, "API" + Date.now() + "." + fileBreakdown[1]);
+      } else cb(null, false, { message: req.flash("Wrong File type") });
+    },
   });
 
 const multerFile_Upload_Function = multer({
   storage: multerStorage,
   limits: {
-    fileSize: 3000000
+    fileSize: 3000000,
   },
   fileFilter: (req, file, cb) => {
     checkFileType(file, cb);
-  }
+  },
 }).any();
 
 function checkFileType(file, cb) {
@@ -33,6 +43,16 @@ function checkFileType(file, cb) {
   else cb("Wrong File Type");
 }
 
-module.exports = { multerFile_Upload_Function };
+const multerFile_Upload_ForAPI = multer({
+  storage: multerStorageAPI,
+  limits: {
+    fileSize: 3000000,
+  },
+  fileFilter: (req, file, cb) => {
+    checkFileType(file, cb);
+  },
+}).any();
+
+module.exports = { multerFile_Upload_Function, multerFile_Upload_ForAPI };
 
 multer = null;

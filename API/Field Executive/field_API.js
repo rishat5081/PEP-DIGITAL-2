@@ -1,8 +1,13 @@
+const {
+  multerFile_Upload_ForAPI,
+} = require("../../Configuration Files/Multer Js/multer");
+
 const router = require("express").Router(),
   Database = require("../../Configuration Files/Sequelize/Database_Synchronization"),
   { validateToken } = require("../Web/webAPI"),
   sequelize = require("../../Configuration Files/Sequelize/Sequelize"),
   { Op } = require("sequelize"),
+  fs = require("fs"),
   pakistanCityName = require("../../resources/pakistanCityName");
 
 /**
@@ -37,18 +42,20 @@ router.get(
       },
     });
 
-    res.status(200).send({
-      url: req.protocol + "://" + req.get("host"),
-      profileData,
-      webAds,
-      unreadNotificationCount:
-        unreadNotificationCount[0].dataValues.unreadNotificationCount,
-    });
+    res.status(200).send([
+      {
+        url: req.protocol + "://" + req.get("host"),
+        profileData,
+        webAds,
+        unreadNotificationCount:
+          unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      },
+    ]);
     unreadNotificationCount = null;
   }
 );
 
-//profile
+//route profile
 router.get(
   "/Profile",
   // validateToken,
@@ -139,33 +146,734 @@ router.get(
         };
       }
 
-      res.status(200).send({
-        status: "Found",
-        field_executive_info,
-        teamLead_Info,
-        City_Area_Info,
-        LoginEmail,
-        url: req.protocol + "://" + req.get("host"),
-        countOfTargetsActivities,
-        unreadNotificationCount:
-          unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      });
+      res.status(200).send([
+        {
+          status: "Found",
+          field_executive_info,
+          teamLead_Info,
+          City_Area_Info,
+          LoginEmail,
+          url: req.protocol + "://" + req.get("host"),
+          countOfTargetsActivities,
+          unreadNotificationCount:
+            unreadNotificationCount[0].dataValues.unreadNotificationCount,
+        },
+      ]);
     } else {
-      res
-        .status(200)
-        .send({
-          status: "Invalid",
-          message: "The system is unable to find the user. \nPlease try again",
-        });
+      res.status(200).send({
+        status: "Invalid",
+        message: "The system is unable to find the user. \nPlease try again",
+      });
     }
     unreadNotificationCount = null;
     teamLead_Info = null;
   }
 );
 
+//controller for upload picture
+router.route("/updateProfile").post(async (req, res) => {
+  let emaiUpdate = await Database.User_Login_Information.update(
+    {
+      login_email: req.body.email,
+    },
+    {
+      where: {
+        login_id: req.body.login_id,
+      },
+    }
+  )
+    .then((response) => {
+      if (response) return response;
+      else return null;
+    })
+    .catch((error) => {
+      if (error) return error;
+      else return null;
+    });
 
+  if (emaiUpdate) {
+    Database.Field_Executive.update(
+      {
+        field_name: req.body.name,
+        field_DOB: req.body.dob,
+        field_contact: req.body.contact,
+        field_username: req.body.username,
+      },
+      {
+        where: {
+          login_id: req.body.login_id,
+        },
+      }
+    )
+      .then((response) => {
+        if (response) {
+          res.send([
+            {
+              status: "success",
+              messages: "Updated",
+            },
+          ]);
+          res.end();
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        res.send({
+          status: "failed",
+          messages: "Please Try Again",
+        });
+        res.end();
+      });
+  } else {
+    res.send({
+      status: "failed",
+      messages: "Please Try Again",
+    });
+    res.end();
+  }
+});
 
+//controller for upload picture
+router.route("/uploadImage").post(async (req, res) => {
+  const fileUploadStatus = new Promise((resolve, reject) => {
+    multerFile_Upload_ForAPI(req, res, (err) => {
+      if (err) reject(err);
+      else resolve(req.files);
+    });
+  });
 
+  const fileDetails = await fileUploadStatus.catch((err) => {
+    if (err) {
+      console.log(err);
+      return null;
+    }
+  });
+
+  if (fileDetails === null) {
+    res.send("Wrong");
+    res.end();
+  } else {
+    const userProfileImage = await Database.Field_Executive.findOne({
+      attributes: ["field_userProfilePic"],
+      where: {
+        login_id: req.body.login_id,
+      },
+    });
+    if (userProfileImage.dataValues.field_userProfilePic !== null) {
+      fs.unlink(
+        `./public/${userProfileImage.dataValues.field_userProfilePic}`,
+        (err) => {
+          if (err) console.error("There is no such file");
+          else console.error("Successfully Deleted Pic");
+        }
+      );
+    }
+    //updating the
+    if ((fileDetails, userProfileImage)) {
+      let filename = fileDetails[0].filename;
+      let filePath = fileDetails[0].destination.split("./public");
+
+      //req.session.profileData.field_userProfilePic = filePath[1] + filename;
+      Database.Field_Executive.update(
+        {
+          field_userProfilePic: filePath[1] + filename,
+        },
+        {
+          where: {
+            login_id: req.body.login_id,
+          },
+        }
+      ).then((response) => {
+        if (response) {
+          res.send([
+            {
+              status: "success",
+              messages: "Profile Image Uploaded",
+              url: req.protocol + "://" + req.get("host"),
+              ProfilePic: filePath[1] + filename,
+            },
+          ]);
+        } else {
+          res.send({
+            type: "danger",
+            messages: "Error! in Uploading Image! ",
+          });
+        }
+      });
+    }
+  }
+});
+
+//controller for
+// /updating the profile information on new login
+router.route("/updateProfileInfo").post(async (req, res) => {
+  const dbResponse = await Database.Role_ExtraInfo.findOne({
+    attributes: ["target", "commission", "salary"],
+    include: {
+      model: Database.User_Role,
+      where: {
+        type_name: req.body.type_name,
+      },
+    },
+    where: {
+      paused: 0,
+      deleted: 0,
+    },
+  })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      console.log(error);
+      console.error(
+        "Error! Can not Fetch Commissions and Target from DB" + error
+      );
+      return null;
+    });
+
+  if (dbResponse) {
+    Database.Field_Executive.update(
+      {
+        field_name: req.body.name,
+        field_DOB: req.body.dob,
+        field_contact: req.body.contact,
+        field_username: req.body.username,
+        field_target: dbResponse.dataValues.target,
+        field_salary: dbResponse.dataValues.salary,
+        field_commission: dbResponse.dataValues.commission,
+      },
+      {
+        where: {
+          login_id: req.body.login_id,
+        },
+      }
+    )
+      .then((response) => {
+        if (response) {
+          res.send([
+            {
+              status: "success",
+              messages: "Updated",
+            },
+          ]);
+          res.end();
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        res.send({
+          status: "failed",
+          messages: "Please Try Again",
+        });
+        res.end();
+      });
+  } else {
+    res.send({
+      status: "failed",
+      messages: "Please Try Again",
+    });
+    res.end();
+  }
+});
+
+//view all sales
+router.get(
+  "/viewSales",
+  //  validateToken,
+  async (req, res) => {
+    let unreadNotificationCount = await countofNotificationOfExecutive(
+      req.query.field_id
+    );
+    const dbResponse = await Database.Activities.findAll({
+      attributes: ["list_act_id", "list_act_uuid"],
+      include: [
+        {
+          model: Database.Agency_Info,
+          attributes: ["agency_name"],
+          required: false,
+        },
+      ],
+      where: {
+        field_id: req.query.field_id,
+      },
+    })
+      .then((dbResponse) => {
+        if (dbResponse) return dbResponse;
+      })
+      .catch((error) => {
+        if (error) console.error("Error Fetching Activities : " + error);
+      });
+
+    const subActivities = await Database.List_sub_Activities.findAll({
+      attributes: [
+        "list_act_id",
+        [
+          sequelize.fn("sum", sequelize.col("`List_of_Package`.list_amount")),
+          "SumofValues",
+        ],
+        [
+          sequelize.literal(
+            "SUM(`List_of_Package`.bankAmount/100*`List_of_Package`.commissionAmount)"
+          ),
+          "Commission",
+        ],
+      ],
+      include: {
+        attributes: [],
+        model: Database.List_of_Packages,
+        required: true,
+        where: {
+          list_deleted: 0,
+          list_paused: 0,
+        },
+      },
+      group: ["`List_sub_Activities`.list_act_id"],
+      where: {
+        list_act_id: dbResponse.map((data) => data.dataValues.list_act_id),
+      },
+    })
+      .then((dbResponse) => {
+        if (dbResponse) return dbResponse;
+      })
+      .catch((error) => {
+        if (error) console.error("Error Fetching Activities : " + error);
+      });
+
+    res.status(200).send([
+      {
+        dbResponse,
+        subActivities,
+        url: req.protocol + "://" + req.get("host"),
+        unreadNotificationCount:
+          unreadNotificationCount[0].dataValues.unreadNotificationCount,
+        totalActivities: subActivities.length,
+      },
+    ]);
+    unreadNotificationCount = null;
+  }
+);
+
+//view the activity completition details
+router.get(
+  "/viewCompletedActivity",
+  //  validateToken,
+  async (req, res) => {
+    let unreadNotificationCount = await countofNotificationOfExecutive(
+      req.query.field_id
+    );
+    //view the complete activity details
+    const activitiesResponse = await Database.Activities.findAll({
+      attributes: ["list_act_id", "list_act_uuid", "createdAt"],
+      include: [
+        {
+          model: Database.Agency_Info,
+          attributes: ["agency_name"],
+          required: false,
+          where: {
+            deleted: 0,
+            isPaused: 0,
+          },
+        },
+        {
+          model: Database.List_sub_Activities,
+          attributes: [
+            "list_sub_act_id",
+            "list_id",
+            "createdAt",
+            "list_act_id",
+          ],
+          required: true,
+          include: {
+            model: Database.List_of_Packages,
+            attributes: [
+              "list_name",
+              "list_amount",
+              "isBank",
+              "bankAmount",
+              "commissionAmount",
+            ],
+            required: true,
+            where: {
+              list_deleted: 0,
+              list_paused: 0,
+            },
+          },
+          where: {
+            list_deleted: 0,
+            list_paused: 0,
+          },
+        },
+      ],
+      where: {
+        list_act_uuid: req.query.activityUUID,
+        deleted: 0,
+        paused: 0,
+      },
+    })
+      .then((dbResponse) => {
+        if (dbResponse) return dbResponse;
+        else return null;
+      })
+      .catch((error) => {
+        if (error) {
+          console.error("Error Fetching Activities : " + error);
+          return null;
+        }
+      });
+
+    /**
+     * if the record is fetched the it will ge the activity detials and extract the actvitiy info
+     * and make a new array of th esubactivities to get the sum of the packages from the list table
+     */
+
+    if (activitiesResponse) {
+      const agencyInfo = activitiesResponse[0]; //!== null ? { ...activitiesResponse[0].Agency_Info.dataValues } : null
+      const Activity_Info = Object.assign(
+        {},
+        {
+          list_act_id: activitiesResponse[0].dataValues.list_act_id,
+          list_act_uuid: activitiesResponse[0].dataValues.list_act_uuid,
+          createdAt: activitiesResponse[0].dataValues.createdAt,
+        }
+      );
+      const subActivities = [...activitiesResponse[0].List_sub_Activities];
+
+      const sumOf_Activities = await Database.List_sub_Activities.findAll({
+        attributes: [
+          [
+            sequelize.fn("sum", sequelize.col("`List_of_Package`.list_amount")),
+            "SumofValues",
+          ],
+          [
+            sequelize.literal(
+              "SUM(`List_of_Package`.bankAmount/100*`List_of_Package`.commissionAmount)"
+            ),
+            "Commission",
+          ],
+        ],
+        include: {
+          attributes: [],
+          model: Database.List_of_Packages,
+          where: {
+            list_deleted: 0,
+            list_paused: 0,
+          },
+          required: true,
+        },
+        group: ["`List_sub_Activities`.list_act_id"],
+        where: {
+          list_act_id: activitiesResponse.map(
+            (data) => data.dataValues.list_act_id
+          ),
+          list_deleted: 0,
+          list_paused: 0,
+        },
+      })
+        .then((dbResponse) => {
+          if (dbResponse) return dbResponse;
+          else return null;
+        })
+        .catch((error) => {
+          if (error)
+            console.error("Error Fetching Sum of Activities : " + error);
+        });
+
+      res.status(200).send([
+        {
+          sumOf_Activities: sumOf_Activities[0].dataValues,
+          agencyInfo,
+          Activity_Info,
+          subActivities,
+          url: req.protocol + "://" + req.get("host"),
+          unreadNotificationCount:
+            unreadNotificationCount[0].dataValues.unreadNotificationCount,
+        },
+      ]);
+      unreadNotificationCount = null;
+    } else if (activitiesResponse === null) {
+      res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`);
+    }
+  }
+);
+
+//get route for the bank deposit transaction details
+router.get("/bankDeposit", async (req, res) => {
+  /**
+   * Getting the pep bank account details from the database
+   */
+  const companyDetails = await Database.PEP_Banks_Details.findAll({
+    attributes: ["bankAccount", "bankIBAN", "bankBranchCode", "bankAddress"],
+    include: {
+      model: Database.Banks_List,
+      required: true,
+      attributes: ["bankName"],
+    },
+    where: {
+      deleted: false,
+      paused: false,
+    },
+  });
+
+  /**
+   * Getting all the banks name from the DB
+   */
+  const bankList = await Database.Banks_List.findAll({
+    attributes: ["bankName"],
+    where: {
+      paused: false,
+      deleted: false,
+    },
+  });
+
+  /**
+   * getting the activities id and also uuid
+   */
+
+  var activitiesResponse = await Database.Activities.findOne({
+    attributes: ["list_act_id", "list_act_uuid"],
+    where: {
+      list_act_uuid: req.query.activityUUID,
+    },
+  })
+    .then((dbResponse) => {
+      if (dbResponse) return dbResponse;
+      else return null;
+    })
+    .catch((error) => {
+      if (error) {
+        console.error("Error Fetching Activities : " + error);
+        return null;
+      }
+    });
+
+  /**
+   * if the activities are found then go with the Sum of the packages
+   */
+  if (activitiesResponse) {
+    const sumOf_Activities = await Database.List_sub_Activities.findOne({
+      attributes: [
+        [
+          sequelize.fn("sum", sequelize.col("`List_of_Package`.bankAmount")),
+          "SumofValues",
+        ],
+      ],
+      include: {
+        attributes: [],
+        model: Database.List_of_Packages,
+        required: true,
+        where: {
+          list_deleted: 0,
+          list_paused: 0,
+        },
+      },
+      group: ["`List_sub_Activities`.list_act_id"],
+      where: {
+        list_act_id: activitiesResponse.dataValues.list_act_id,
+      },
+    })
+      .then((dbResponse) => {
+        if (dbResponse) return dbResponse;
+        else return null;
+      })
+      .catch((error) => {
+        if (error) {
+          console.error("Error Fetching Sum of Activities : " + error);
+          return null;
+        }
+      });
+    /**
+     * check if the sum is valid then render the page other wise redirect to dashboard
+     */
+
+    if (sumOf_Activities) {
+      res.send([
+        {
+          bankList,
+          companyDetails,
+          sumOf_Activities,
+          url: req.protocol + "://" + req.get("host"),
+          activityDetails: activitiesResponse,
+        },
+      ]);
+    } else {
+      res.status(200).send([
+        {
+          status: "error",
+          message: "No Information Found with this Activity ID",
+        },
+      ]);
+    }
+  } else {
+    res.status(200).send([
+      {
+        status: "error",
+        message: "No Information Found with this Activity ID",
+      },
+    ]);
+  }
+});
+
+//controller for adding the bank deposit
+router.route("/addBankDepositSlipDetails").post(async (req, res) => {
+  /**
+   * Checking for the req.body is null or not
+   */
+  if (Object.keys(req.body).length > 0) {
+    await Database.Executive_Pending_Earning.findOne({
+      where: {
+        list_act_id: +req.body.list_act_id,
+        paused: 0,
+        deleted: 0,
+        withdrawed: 0,
+        bank_sale: 1,
+        field_id: +req.body.field_id,
+      },
+    })
+      .then((pendingEarning) => {
+        if (pendingEarning) {
+          if (pendingEarning.dataValues.bank_deposited) {
+            res.status(200).send({
+              status: "Deposited",
+              message: "This Activity is already Deposited",
+            });
+            res.end();
+            return;
+          } else {
+            pendingEarning
+              .update({
+                bankName: req.body.bankName,
+                depositedAmount: req.body.depositedAmount,
+                totalAmount: req.body.totalAmount,
+                bank_deposited: 1,
+                bank_deposited_referenceNumber: req.body.transactionid,
+                bank_datetime: req.body.tranaction_date,
+              })
+              .then((updateStatus) => {
+                if (updateStatus) {
+                  res.status(200).send({
+                    status: "Added",
+                    message: "Information added successfully",
+                  });
+                  return;
+                } else {
+                  res.status(200).send({
+                    updateStatus,
+                    error: "There is an Issue in Updating. Please Try Again.",
+                  });
+                  return;
+                }
+              });
+          }
+        } else {
+          res.status(200).send({
+            status: "Error",
+            message: "There is no details with this activity.",
+            pendingEarning,
+          });
+          return;
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send({
+          error: "There is an Issue in Submitting. Please Try Again.",
+        });
+      });
+  }
+});
+
+//get
+//route for contact form about complain
+router.get("/contactAboutActivity", async (req, res) => {
+  const activity = await Database.Activities.findOne({
+    attributes: ["list_act_id"],
+    where: {
+      deleted: 0,
+      paused: 0,
+      list_act_uuid: req.query.activityUUID,
+      field_id: req.query.field_id,
+    },
+  })
+    .then()
+    .catch((error) => {
+      if (error) {
+        console.error("Error fetching Activity Details");
+        console.trace(error);
+        return null;
+      }
+    });
+
+  if (activity === null) {
+    res.send([{ status: "Error", message: "No Activity Found" }]);
+    res.end();
+    return;
+  } else {
+    res.send([
+      {
+        status: "success",
+        message: "Activity Found",
+        activityUUID: req.query.activityUUID,
+        url: req.protocol + "://" + req.get("host"),
+      },
+    ]);
+    res.end();
+  }
+});
+
+//post
+// controller for the adding the complain about the activity
+router.route("/addComplain").post(async (req, res) => {
+  const activity = await Database.Activities.findOne({
+    attributes: ["list_act_id"],
+    where: {
+      deleted: 0,
+      paused: 0,
+      list_act_uuid: req.body.activityUUID,
+      field_id: req.body.field_id,
+    },
+  })
+    .then()
+    .catch((error) => {
+      if (error) {
+        console.error("Error fetching Activity Details");
+        return null;
+      }
+    });
+
+  if (activity === null) {
+    res
+      .status(200)
+      .send({ status: "Error", message: "No Activity Found with this ID" });
+    res.end();
+  } else {
+    const complain = await Database.ComplainsOfActivities.create({
+      subject: req.body.subject,
+      message: req.body.complainMessage,
+      list_act_id: activity.dataValues.list_act_id,
+      field_id: req.body.field_id,
+    })
+      .then()
+      .catch((error) => {
+        if (error) {
+          console.error("Error at creating Complain");
+          console.trace(error);
+          return null;
+        }
+      });
+
+    if (complain === null) {
+      res.status(500).send({
+        status: "Not Created",
+        message: "Service Unavailable .Please try again later.",
+      });
+    } else
+      res
+        .status(200)
+        .send({ status: "Created", message: "Complain Added Successfully" });
+  }
+});
+
+//GET
 //start of the activity
 router.get(
   "/startActivity",
@@ -454,98 +1162,336 @@ router.route("/initiateActvity").post(async (req, res) => {
 
 //route for the activities displayed on the screen
 router.get("/activities", async (req, res) => {
-  if (!req.params) {
-    res.status(200).send({
-      errorStatus: "Invalid Credentials",
-      errorHeading: `The Agency or Activity is not same.`,
-    });
-  } else {
-    let unreadNotificationCount = await countofNotificationOfExecutive(
-      req.query.field_id
-    );
-    let subActivities = await Database.List_sub_Activities.findAll({
-      attributes: ["list_id"],
+  let unreadNotificationCount = await countofNotificationOfExecutive(
+    req.query.field_id
+  );
+  let subActivities = await Database.List_sub_Activities.findAll({
+    attributes: ["list_id"],
+    where: {
+      list_deleted: 0,
+      list_paused: 0,
+    },
+    include: {
+      attributes: [
+        "list_act_id",
+        "list_act_uuid",
+        "field_id",
+        "comp_id",
+        "agency_id",
+      ],
+
+      model: Database.Activities,
+      // don't use required: false to only return results where List_sub_Activities.Activities is not null
+      // required: false,
       where: {
+        agency_id: +req.query.agencyID,
+        paused: 0,
+        deleted: 0,
+      },
+    },
+    raw: true,
+  })
+    .then((activities) => activities.map((activity) => activity.list_id))
+    .then((activitiesList) => {
+      if (activitiesList) return activitiesList;
+      else return null;
+    })
+    .catch((err) => {
+      if (err) {
+        console.log("Error in Fetching Packages");
+        console.trace(err);
+        return null;
+      }
+    });
+
+  if (subActivities === null) {
+    res.send({
+      status: "No Agency Found",
+      url: req.protocol + "://" + req.get("host"),
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+    });
+    res.end();
+    return;
+  } else if (subActivities.length > 0) {
+    let packagesList = await Database.List_of_Packages.findAll({
+      attributes: [
+        "list_uuid",
+        "list_name",
+        "list_description",
+        "isBank",
+        "bankAmount",
+      ],
+      where: {
+        list_id: {
+          [Op.notIn]: subActivities,
+        },
+        list_name: {
+          [Op.notLike]: "%New Agency%",
+        },
         list_deleted: 0,
         list_paused: 0,
       },
-      include: {
-        attributes: [
-          "list_act_id",
-          "list_act_uuid",
-          "field_id",
-          "comp_id",
-          "agency_id",
-        ],
+    });
 
-        model: Database.Activities,
-        // don't use required: false to only return results where List_sub_Activities.Activities is not null
-        // required: false,
-        where: {
-          agency_id: +req.query.agencyID,
-          paused: 0,
-          deleted: 0,
-        },
+    res.send({
+      status: "Agency Found",
+      packagesList,
+      url: req.protocol + "://" + req.get("host"),
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+    });
+    res.end();
+    return;
+  } else {
+    res.send({
+      status: "No Agency Found",
+      url: req.protocol + "://" + req.get("host"),
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+    });
+    res.end();
+    return;
+  }
+});
+
+/**
+ * Completing the activities
+ * again all the packages which the packages are not describes to the agency
+ * to validate the and to prevent any kind of error or some one try to pass through it
+ */
+router.route("/completeListActivites").post(async (req, res, next) => {
+  /**
+   * Updating the agency first visit
+   */
+  const AgencyUpdate = await Database.Agency_Info.update(
+    {
+      firstVisit: true,
+    },
+    {
+      where: {
+        agency_id: +req.body.agencyID,
+        field_id: +req.body.field_id,
       },
-      raw: true,
-    })
-      .then((activities) => activities.map((activity) => activity.list_id))
-      .then((activitiesList) => {
-        if (activitiesList) return activitiesList;
-        else return null;
-      })
-      .catch((err) => {
-        if (err) {
-          console.log("Error in Fetching Packages");
-          console.trace(err);
-          return null;
-        }
-      });
+    }
+  )
+    .then()
+    .catch((error) => {
+      console.error("Error with updating Agency First Visit Status" + error);
+    });
 
-    if (subActivities === null) {
-      res.send({
-        status: "No Agency Found",
-        url: req.protocol + "://" + req.get("host"),
-        unreadNotificationCount:
-          unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      });
-    } else if (subActivities.length > 0) {
-      let packagesList = await Database.List_of_Packages.findAll({
-        attributes: [
-          "list_uuid",
-          "list_name",
-          "list_description",
-          "isBank",
-          "bankAmount",
-        ],
+  if (AgencyUpdate) console.log("Agency Status Updated :: " + AgencyUpdate);
+  /**
+   * Again validating which packages are still the user have to describe to the agency
+   */
+  const subActivities = await Database.List_sub_Activities.findAll({
+    attributes: ["list_id"],
+    include: {
+      attributes: [
+        "list_act_id",
+        "list_act_uuid",
+        "field_id",
+        "comp_id",
+        "agency_id",
+      ],
+
+      model: Database.Activities,
+      // don't use required: false to only return results where List_sub_Activities.Activities is not null
+      // required: false,
+      where: {
+        agency_id: +req.body.agencyID,
+        field_id: +req.body.field_id,
+      },
+    },
+    raw: true,
+  })
+    .then((activities) => activities.map((activity) => activity.list_id))
+    .then((activityIds) =>
+      Database.List_of_Packages.findAll({
+        attributes: ["list_uuid"],
         where: {
           list_id: {
-            [Op.notIn]: subActivities,
+            [Op.notIn]: activityIds,
           },
           list_name: {
             [Op.notLike]: "%New Agency%",
           },
-          list_deleted: 0,
-          list_paused: 0,
         },
-      });
+      })
+    )
+    .then((packages) => {
+      if (packages) return packages;
+    });
 
-      res.send({
-        status: "Agency Found",
-        packagesList,
-        url: req.protocol + "://" + req.get("host"),
-        unreadNotificationCount:
-          unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      });
-    } else {
-      res.send({
-        status: "No Agency Found",
-        url: req.protocol + "://" + req.get("host"),
-        unreadNotificationCount:
-          unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      });
+  //here id has ActivityName which is  list_uuid
+  const userSelectedActivities = JSON.parse(req.body.listUUID).map(
+    (id) => id.list_uuid
+  );
+
+  var count = 0;
+  subActivities.forEach((package) => {
+    userSelectedActivities.forEach((selectedPackages) => {
+      if (package.dataValues.list_uuid === selectedPackages) {
+        count++;
+        return;
+      }
+    });
+  });
+
+  if (count === userSelectedActivities.length) next();
+  else {
+    res
+      .status(200)
+      .send({ status: "Error", message: "Invalid Package Selected" });
+    res.end();
+  }
+});
+
+//post
+// complete activity controller
+router.route("/completeListActivites").post(async (req, res) => {
+  const userSelectedActivities = JSON.parse(req.body.listUUID).map(
+    (id) => id.list_uuid
+  );
+
+  /**
+   * Now getting the Main activity id from the database to make the relationship with the
+   * subactivities and to ensure that the user have start an activities and against
+   * the same the user make sub activities
+   */
+  const ActivityID = await Database.Activities.findOne({
+    attributes: ["list_act_id", "list_act_uuid"],
+    where: {
+      list_act_uuid: req.body.activityUUID,
+    },
+  })
+    .then((activityID) => {
+      if (activityID) return activityID;
+      else return null;
+    })
+    .catch((error) => {
+      if (error) {
+        console.error(`\x1b[41m--------------------------------------\x1b[0m`);
+        console.trace(error);
+        return null;
+      }
+    });
+  /**
+   * Getting the list of packages id against which are selected by the user
+   * and then adding in to the sub activities table
+   * selecting here is just to prevent any kind of misleading info
+   */
+
+  const listOfPackage = await Database.List_of_Packages.findAll({
+    attributes: ["list_id", "isBank"],
+    where: {
+      list_uuid: userSelectedActivities,
+    },
+  })
+    .then((listofPackages) => {
+      if (listofPackages) return listofPackages;
+      else return null;
+    })
+    .catch((error) => {
+      if (error) {
+        console.error(`\x1b[41m--------------------------------------\x1b[0m`);
+        console.trace(error);
+        return null;
+      }
+    });
+
+  if (listOfPackage.length > 0) {
+    listOfPackage.forEach((list) => {
+      Database.List_sub_Activities.create({
+        list_act_id: ActivityID.dataValues.list_act_id,
+        list_id: list.list_id,
+      })
+        .then((response) => {
+          if (response) return response;
+          else return null;
+        })
+        .catch((error) => {
+          if (error) {
+            console.error(
+              `\x1b[41m--------------------------------------\x1b[0m`
+            );
+            console.trace(error);
+            return null;
+          }
+        });
+    });
+
+    const pendingDays = await Database.Pendance_Clearance_Details.findOne({
+      attributes: ["pending_days"],
+      where: {
+        paused: false,
+        deleted: false,
+      },
+    }).catch((error) => {
+      if (error) {
+        console.error(`\x1b[41m--------------------------------------\x1b[0m`);
+        console.trace(error);
+        return null;
+      }
+    });
+
+    /**
+     * looking for the package that
+     * it contains the bank sale or not...
+     */
+    let isBankSale = false;
+    isBankSale = listOfPackage.find((bank) => bank.dataValues.isBank === true);
+
+    /**
+     * Adding the details of the activity to the pending clearance table
+     */
+    await Database.Executive_Pending_Earning.create({
+      clearanceDateTime: new Date(
+        Date.now() + 1000 * 60 * 60 * 24 * pendingDays.dataValues.pending_days
+      ),
+      field_id: req.body.field_id,
+      list_act_id: ActivityID.dataValues.list_act_id,
+      bank_sale: isBankSale === undefined ? false : true,
+    }).catch((error) => {
+      if (error) {
+        console.error(`\x1b[41m--------------------------------------\x1b[0m`);
+        console.trace(error);
+        return null;
+      }
+    });
+
+    res.status(200).send({
+      status: "Success",
+      message: "Activity Complete Successfully",
+      list_act_uuid: ActivityID.dataValues.list_act_uuid,
+    });
+    res.end();
+
+    isBankSale = null;
+  }
+});
+
+//post
+// cancel activity controller
+router.route("/cancelActivity").post(async (req, res) => {
+  const activityStatus = await Database.Activities.update(
+    {
+      cancelled: true,
+    },
+    {
+      where: {
+        list_act_uuid: req.session.activityDetails.activity,
+        field_id: req.session.profileData.field_id,
+      },
     }
-    unreadNotificationCount = null;
+  );
+  if (activityStatus) {
+    res.status(200).send({
+      response: "Cancelled Activity",
+      uuid: req.session.profileData.field_uuid,
+    });
+  } else {
+    res.status(404).send({ error: "Try Again" });
   }
 });
 

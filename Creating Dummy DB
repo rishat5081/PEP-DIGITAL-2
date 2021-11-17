@@ -49,6 +49,17 @@ GM_Company.create({
 
 
 
+Database.AdvertismentGift.create({
+  adver_gift_name: "Testing 2 ",
+  adver_gift_descritpion: "Description Testing 2",
+})
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((err) => {});
+
+
+
 /**
 Creating Departments
 **/

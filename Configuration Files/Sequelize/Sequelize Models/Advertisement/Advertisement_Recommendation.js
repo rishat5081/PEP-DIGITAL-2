@@ -129,6 +129,16 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
           key: "man_id"
         }
       },
+      adver_gift_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: false,
+        autoIncrement: false,
+        references: {
+          model: "advertismentgift",
+          key: "adver_gift_id"
+        }
+      },
       team_lead_date_time: {
         type: DataTypes.DATE,
         defaultValue: null //Date(Date.now().toString())

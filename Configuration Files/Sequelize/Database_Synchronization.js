@@ -11,6 +11,11 @@ let sequelize = require("./Sequelize"),
         sequelize,
         Sequelize
       ),
+      AdvertismentGift:
+      require("./Sequelize Models/Advertisement/AdvertismentGift")(
+        sequelize,
+        Sequelize
+      ),
     Advertising_Stock_Allocation:
       require("./Sequelize Models/Advertisement/Advertising_Stock_Allocation")(
         sequelize,

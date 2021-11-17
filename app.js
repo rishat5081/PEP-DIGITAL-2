@@ -121,6 +121,7 @@ app.use("*", (req, res, next) => {
   next();
 });
 
+// rishat.5081@gmail.com
 // app.enable('trust proxy')
 // app.use((req, res, next) => {
 //   req.secure ? next() : res.redirect('http://' + req.headers.host + req.url)
@@ -383,6 +384,7 @@ app.post("/LoginForm", async (req, res) => {
         req.user.userRole.type_name === "Freelance Field Executive"
       ) {
         //creating the login information of the "Field Executive" || "Freelance Field Executive"
+
         ExecutiveLogins.create({
           ipAddress: req.ip,
           field_id: profileInfo.userInfo.dataValues.field_id,
@@ -404,6 +406,7 @@ app.post("/LoginForm", async (req, res) => {
       }
     })
     .catch((error) => {
+      console.log(error);
       res.status(200).render("Web Appendage Pages/error", {
         errorStatus: "Sorry ! Your Profile is suspended. ",
         errorHeading: `Please Contact the Customer Support.`,
