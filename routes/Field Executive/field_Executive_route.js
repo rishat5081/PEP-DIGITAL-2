@@ -16,6 +16,8 @@ const {
     WebAds,
     NotificationText,
     AgencyTypes,
+    AdvertismentGift,
+    Advertisement_Recommendation_test
   } = require("../../Configuration Files/Sequelize/Database_Synchronization"),
   sequelize = require("../../Configuration Files/Sequelize/Sequelize"),
   { Op, QueryTypes } = require("sequelize"),
@@ -36,6 +38,8 @@ const isUserAuthentic = (req, res, next) => {
   if (req.params.fieldExeUUID === req.session.profileData.field_uuid) next();
   else res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`);
 };
+
+
 
 /**
  * Here in the param it is the field uuiid
@@ -1247,6 +1251,148 @@ router.get("/contactUs/:activityUUID", isUser_Login, async (req, res) => {
     });
   }
 });
+
+//get route
+// route for viewing the company Deposits
+router.get(
+  "/companyDeposits/:fieldExeUUID",
+  isUser_Login,
+  isUserAuthentic,
+  async (req, res) => {
+    const bankDeposits = await Executive_Pending_Earning.findAll({
+      attributes: [
+        "bankName",
+        "depositedAmount",
+        "totalAmount",
+        "bank_deposited_referenceNumber",
+        "bank_datetime",
+        "updateTimestamp",
+      ],
+      include: {
+        model: Activities,
+        required: true,
+        attributes: ["list_act_uuid", "createdAt"],
+        include: {
+          model: Agency_Info,
+          required: true,
+          attributes: ["agency_name"],
+        },
+      },
+      where: {
+        field_id: req.session.profileData.field_id,
+        paused: 0,
+        deleted: 0,
+        bank_sale: 1,
+        bankName: { [Op.ne]: null },
+        depositedAmount: { [Op.ne]: null },
+      },
+    })
+      .then((result) => {
+        if (result) return result;
+        else return null;
+      })
+      .catch((err) => {
+        if (err) {
+          console.log("Error Getting the Executive Deposit Slips");
+          console.trace(err);
+          return numm;
+        }
+      });
+
+    let unreadNotificationCount = await countofNotificationOfExecutive(
+      req.session.profileData.field_id
+    );
+    if (bankDeposits.length > 0) {
+      // res.send(bankDeposits)
+      res.render("Field Executive/viewAllDepositSlips", {
+        url: req.protocol + "://" + req.get("host"),
+        bankDeposits,
+        info: {
+          id: req.session.passport.user.userInfo.login_id,
+          uuid: req.session.profileData.field_uuid,
+        },
+        unreadNotificationCount:
+          unreadNotificationCount[0].dataValues.unreadNotificationCount,
+        permissions: req.session.permissions.permissionObject,
+      });
+      res.end();
+    } else {
+      res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`);
+    }
+  }
+);
+
+//GET
+
+// route for recommendations for the agency
+router
+  .route("/recommendations/:fieldExeUUID")
+  .get(isUser_Login, isUserAuthentic, async (req, res) => {
+    //getting all the agencies which the relevant user have registered
+    let allAgencies = await Agency_Info.findAll({
+      attributes: ["agency_uuid", "agency_name"],
+      where: {
+        isPaused: 0,
+        deleted: 0,
+        field_id: 4//req.session.profileData.field_id,
+      },
+    })
+      .then((result) => {
+        if (result) return result;
+        else return null;
+      })
+      .catch((err) => {
+        if (err) {
+          console.log("Error Getting all the agencies");
+          console.trace(err);
+          return null;
+        }
+      });
+
+    //getting the gifts which are available for offer
+
+    let allGifts = await AdvertismentGift.findAll({
+      attributes: [
+        "advert_gift_uuid",
+        "adver_gift_name",
+      ],
+      where: {
+        paused: 0,
+        deleted: 0,
+      },
+    })
+      .then((result) => {
+        if (result) return result;
+        else return null;
+      })
+      .catch((err) => {
+        if (err) {
+          console.log(
+            "Error Getting all the Gifts which are available for Agency"
+          );
+          console.trace(err);
+          return null;
+        }
+      });
+
+    let unreadNotificationCount = await countofNotificationOfExecutive(
+      req.session.profileData.field_id
+    );
+
+    res.render("Field Executive/recommendation_forAgencies", {
+      url: req.protocol + "://" + req.get("host"),
+      info: {
+        id: req.session.passport.user.userInfo.login_id,
+        uuid: req.session.profileData.field_uuid,
+      },
+      allAgencies,
+      allGifts,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      permissions: req.session.permissions.permissionObject,
+    });
+    res.end();
+  });
 
 router.get("/signout", (req, res) => {
   req.session.destroy();

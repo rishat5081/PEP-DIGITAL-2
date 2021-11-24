@@ -281,7 +281,15 @@ Advertisement_Stock.create({
 Adding persmissions and assosiating it with the user role 
 
 
+Database.Advertisement_Recommendation.sync({force:true})
 
+.then((result) => {
+  
+  console.log(result);
+}).catch((err) => {
+  
+  console.log(err);
+});
 
 
 

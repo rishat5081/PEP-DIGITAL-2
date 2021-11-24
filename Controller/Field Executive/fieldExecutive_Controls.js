@@ -16,7 +16,9 @@ module.exports = (app) => {
       ComplainsOfActivities,
       NotificationText,
       Activities,
+      AdvertismentGift,
     } = require("../../Configuration Files/Sequelize/Database_Synchronization"),
+    Database = require("../../Configuration Files/Sequelize/Database_Synchronization"),
     fs = require("fs"),
     { Op, QueryTypes } = require("sequelize");
   /**
@@ -167,7 +169,6 @@ module.exports = (app) => {
       }
     });
 
-    console.log(userReqBody);
     if (Object.keys(userReqBody).length !== lengthofUser_Req)
       res.send({ error: "Invalid text" });
     else {
@@ -177,15 +178,15 @@ module.exports = (app) => {
           isPaused: false,
           [Op.or]: {
             agency_name: {
-              [Op.like]: `${userReqBody.agencyName}%`,
+              [Op.eq]: `${userReqBody.agencyName}`,
             },
             agency_Longitude: {
-              [Op.like]: `${longitude}%`,
+              [Op.eq]: `${longitude}%`,
             },
             agency_Latitude: {
-              [Op.like]: `${latitude}%`,
+              [Op.eq]: `${latitude}%`,
             },
-            agency_city: req.body.agencyCityName,
+            //agency_city: req.body.agencyCityName,
           },
         },
       })
@@ -852,7 +853,168 @@ module.exports = (app) => {
       res.end();
     }
   });
+
+  app.route("/addRecommendationofAgency").post(async (req, res) => {
+    console.log(JSON.parse(req.body.agencyList));
+    console.log(JSON.parse(req.body.giftList));
+
+    // const agenciesID = await Agency_Info.findAll({
+    //   attributes: ["agency_id"],
+    //   where: {
+    //     deleted: 0,
+    //     isPaused: 0,
+    //     agency_uuid: JSON.parse(req.body.agencyList),
+    //   },
+    // })
+    //   .then((result) => {
+    //     if (result) return result;
+    //     else return null;
+    //   })
+    //   .catch((error) => {
+    //     if (error) {
+    //       console.error("Error fetching Agency Details");
+    //       return null;
+    //     }
+    //   });
+
+    // const agenciesID = await AdvertismentGift.findAll({
+    //   attributes: ["adver_gift_id"],
+    //   where: {
+    //     deleted: 0,
+    //     paused: 0,
+    //     advert_gift_uuid: JSON.parse(req.body.giftList),
+    //   },
+    // })
+    //   .then((result) => {
+    //     if (result) return result;
+    //     else return null;
+    //   })
+    //   .catch((error) => {
+    //     if (error) {
+    //       console.error("Error fetching Agency Details");
+    //       return null;
+    //     }
+    //   });
+
+    const info = await Promise.all([
+      Agency_Info.findAll({
+        attributes: ["agency_id"],
+        where: {
+          deleted: 0,
+          isPaused: 0,
+          agency_uuid: JSON.parse(req.body.agencyList),
+        },
+      }),
+      AdvertismentGift.findAll({
+        attributes: ["adver_gift_id"],
+        where: {
+          deleted: 0,
+          paused: 0,
+          advert_gift_uuid: JSON.parse(req.body.giftList),
+        },
+      }),
+    ])
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // if (activity === null) {
+    //   res.status(400).send({ error: "Invalid Information" });
+    //   res.end();
+    // } else {
+    //   const complain = await ComplainsOfActivities.create({
+    //     subject: req.body.subject,
+    //     message: req.body.complainMessage,
+    //     list_act_id: activity.dataValues.list_act_id,
+    //     field_id: 4, //req.session.profileData.field_id,
+    //   })
+    //     .then()
+    //     .catch((error) => {
+    //       if (error) {
+    //         console.error("Error at creating Complain");
+    //         console.trace(error);
+    //         return null;
+    //       }
+    //     });
+
+    //   if (complain === null) {
+    //     res
+    //       .status(503)
+    //       .send({ error: "Service Unavailable .Please try again later." });
+    //   } else res.status(200).send({ status: "Created" });
+    // }
+
+    res.status(200).send(info);
+  });
+  AdvertismentGift.findOne({
+    attributes: ["adver_gift_id"],
+    where: {
+      deleted: 0,
+      paused: 0,
+      advert_gift_uuid: "97534225-e455-409b-9ebb-7b1e54e551b3",
+    },
+  })
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+
+
+
+
+
+    (async function () {
+      const info = await Promise.all([
+        Agency_Info.findAll({
+          attributes: ["agency_id"],
+          where: {
+            deleted: 0,
+            isPaused: 0,
+            //agency_uuid: JSON.parse(req.body.agencyList),
+          },
+        }),
+        AdvertismentGift.findOne({
+          attributes: ["adver_gift_id"],
+          where: {
+            deleted: 0,
+            paused: 0,
+            advert_gift_uuid: "97534225-e455-409b-9ebb-7b1e54e551b3",
+          },
+        }),
+      ])
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    
+    
+    
+    })();
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 };
+
 
 getAuthenticateJSON = (userReqBody) => {
   Object.keys(userReqBody).forEach((key) => {
@@ -866,6 +1028,7 @@ getAuthenticateJSON = (userReqBody) => {
   });
   return Object.keys(userReqBody).length;
 };
+
 // for (const iterator in List_sub_Activities.rawAttributes) {
 //   //console.(`\x1b[36m${iterator}\x1b[0m`);
 // }

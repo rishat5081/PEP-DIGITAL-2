@@ -144,7 +144,7 @@
         );
       }
       $(".js-tilt").tilt({
-        scale: 1.1
+        scale: 1.1,
       });
 
       // console.log(JSON.parse(`%-JSON.stringify(advertisment)%>`));
@@ -303,6 +303,7 @@
               },
               success: (response) => {
                 if (response) {
+                  console.log(response);
                   toastr.success(response.status);
                   agencyData = [];
                   agencyData = response.agencies;
@@ -310,7 +311,7 @@
                   addAgenciesToTable(response.agencies);
                   pagination();
                 }
-              }
+              },
             });
           } else {
             $("#agencyDetailsTable tr").remove();
@@ -346,7 +347,7 @@
               .css("display", "table-row")
               .animate(
                 {
-                  opacity: 1
+                  opacity: 1,
                 },
                 300
               );
@@ -388,7 +389,7 @@
             },
             error: (error) => {
               console.error(error);
-            }
+            },
           });
         }
       };
@@ -420,7 +421,7 @@
             },
             error: (error) => {
               console.error(error);
-            }
+            },
           });
         }
       };

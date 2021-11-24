@@ -6,12 +6,18 @@ let sequelize = require("./Sequelize"),
         sequelize,
         Sequelize
       ),
+    Advertisement_Recommendation_test:
+      require("./Sequelize Models/Advertisement/Advertisement_Recommendation_test")(
+        sequelize,
+        Sequelize
+      ),
     Advertisement_Stock:
       require("./Sequelize Models/Advertisement/Advertisement_Stock")(
         sequelize,
         Sequelize
       ),
-      AdvertismentGift:
+
+    AdvertismentGift:
       require("./Sequelize Models/Advertisement/AdvertismentGift")(
         sequelize,
         Sequelize
@@ -349,7 +355,7 @@ let sequelize = require("./Sequelize"),
         Sequelize
       ),
     Department: require("./Sequelize Models/Department")(sequelize, Sequelize),
-    Zone: require("./Sequelize Models/Zone")(sequelize, Sequelize)
+    Zone: require("./Sequelize Models/Zone")(sequelize, Sequelize),
   };
 /**Get all the models here
  * now Synchronizing it one by one into a function
@@ -406,13 +412,6 @@ let Synchronizing = async () => {
 };
 //  Synchronizing();
 
-
-
-
-
-
-
-
 // Dropping all the Tables from the database
 let DropDatabaseTables = async () => {
   console.log("*************************************************************");
@@ -467,8 +466,20 @@ let WipeOutTableRecord = async () => {
     .then((response) => console.log("-----> Done...."));
 };
 
-
-
+Models.AdvertismentGift.findOne({
+  attributes: ["adver_gift_id"],
+  where: {
+    deleted: 0,
+    paused: 0,
+    advert_gift_uuid: "97534225-e455-409b-9ebb-7b1e54e551b3",
+  },
+})
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 module.exports = Models;
 

@@ -1,3 +1,4 @@
+const Permission_Role_Assosiate = require("./Configuration Files/Sequelize/Sequelize Models/Permission/Permission_Role_Assosiate");
 const Manager = require("./Configuration Files/Sequelize/Sequelize Models/Stakeholders/Manager");
 
 const Sequelize = require("sequelize"),
@@ -444,13 +445,18 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
         man_isDeleted: 0,
         man_isPaused: 0,
       },
-    }).catch((error) => {
-      if (error) {
-        console.error("Error fetching Manager Data");
-        console.trace(error);
-        return null;
-      }
-    });
+    })
+      .then((response) => {
+        if (response) return response;
+        else return null;
+      })
+      .catch((error) => {
+        if (error) {
+          console.error("Error fetching Manager Data");
+          console.trace(error);
+          return null;
+        }
+      });
     return { menuData, userInfo };
   }
   if (userRole.type_name === "SuperVisor") {
@@ -469,13 +475,18 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
         sup_isPaused: 0,
         sup_isDeleted: 0,
       },
-    }).catch((error) => {
-      if (error) {
-        console.error("Error fetching SuperVisor Data");
-        console.trace(error);
-        return null;
-      }
-    });
+    })
+      .then((response) => {
+        if (response) return response;
+        else return null;
+      })
+      .catch((error) => {
+        if (error) {
+          console.error("Error fetching SuperVisor Data");
+          console.trace(error);
+          return null;
+        }
+      });
     return { menuData, userInfo };
   }
   if (userRole.type_name === "Team Lead") {
@@ -489,13 +500,18 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
         team_L_isDeleted: 0,
         team_L_isPaused: 0,
       },
-    }).catch((error) => {
-      if (error) {
-        console.error("Error fetching Team Lead Data");
-        console.trace(error);
-        return null;
-      }
-    });
+    })
+      .then((response) => {
+        if (response) return response;
+        else return null;
+      })
+      .catch((error) => {
+        if (error) {
+          console.error("Error fetching Team Lead Data");
+          console.trace(error);
+          return null;
+        }
+      });
     return { menuData, userInfo };
   }
   if (userRole.type_name === "Freelance Field Executive") {
@@ -515,13 +531,18 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
         field_isDeleted: 0,
         field_isPaused: 0,
       },
-    }).catch((error) => {
-      if (error) {
-        console.error("Error fetching Freelance Field Executive Data");
-        console.trace(error);
-        return null;
-      }
-    });
+    })
+      .then((response) => {
+        if (response) return response;
+        else return null;
+      })
+      .catch((error) => {
+        if (error) {
+          console.error("Error fetching Freelance Field Executive Data");
+          console.trace(error);
+          return null;
+        }
+      });
     return { menuData, userInfo };
   }
   if (userRole.type_name === "Field Executive") {
@@ -541,13 +562,18 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
         field_isDeleted: 0,
         field_isPaused: 0,
       },
-    }).catch((error) => {
-      if (error) {
-        console.error("Error fetching Field Executive Data");
-        console.trace(error);
-        return null;
-      }
-    });
+    })
+      .then((response) => {
+        if (response) return response;
+        else return null;
+      })
+      .catch((error) => {
+        if (error) {
+          console.error("Error fetching Field Executive Data");
+          console.trace(error);
+          return null;
+        }
+      });
     return { menuData, userInfo };
   }
 }

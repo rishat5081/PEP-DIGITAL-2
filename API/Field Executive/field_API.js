@@ -822,7 +822,7 @@ router.get("/contactAboutActivity", async (req, res) => {
 
 //post
 // controller for the adding the complain about the activity
-router.route("/addComplain").post(async (req, res) => {
+router.route("/addComplaint").post(async (req, res) => {
   const activity = await Database.Activities.findOne({
     attributes: ["list_act_id"],
     where: {
@@ -953,15 +953,17 @@ router.get(
         return null;
       });
 
-    res.status(200).send({
-      url: req.protocol + "://" + req.get("host"),
-      unreadNotificationCount:
-        unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      agencyTypes,
-      CompaignsList,
-      pakistanCityName,
-      instrucntions: activity_Instruc,
-    });
+    res.status(200).send([
+      {
+        url: req.protocol + "://" + req.get("host"),
+        unreadNotificationCount:
+          unreadNotificationCount[0].dataValues.unreadNotificationCount,
+        agencyTypes,
+        CompaignsList,
+        pakistanCityName,
+        instrucntions: activity_Instruc,
+      },
+    ]);
 
     // Notification = null
     unreadNotificationCount = null;
@@ -1474,25 +1476,105 @@ router.route("/completeListActivites").post(async (req, res) => {
 //post
 // cancel activity controller
 router.route("/cancelActivity").post(async (req, res) => {
-  const activityStatus = await Database.Activities.update(
-    {
-      cancelled: true,
+  const activityStatus = await Database.Activities.findOne({
+    where: {
+      cancelled: 0,
+      list_act_uuid: req.body.list_act_uuid,
+      field_id: +req.body.field_id,
     },
-    {
-      where: {
-        list_act_uuid: req.session.activityDetails.activity,
-        field_id: req.session.profileData.field_id,
-      },
-    }
-  );
-  if (activityStatus) {
+  })
+    .then((result) => {
+      if (result) {
+        result
+          .update({
+            cancelled: 1,
+          })
+          .then((response) => (response ? response : null));
+      } else {
+        return null;
+      }
+    })
+    .catch((err) => {
+      if (err) {
+        console.error(`\x1b[41m--------------------------------------\x1b[0m`);
+        console.trace(err);
+        return null;
+      }
+    });
+  if (activityStatus === null) {
     res.status(200).send({
-      response: "Cancelled Activity",
-      uuid: req.session.profileData.field_uuid,
+      status: "error",
+      message: "Invalid Activity ID or Activity is already Cancelled",
     });
   } else {
-    res.status(404).send({ error: "Try Again" });
+    res.status(200).send({
+      status: "success",
+      message: "Activity is Cancelled",
+    });
   }
+});
+
+//get
+//view all deposit slips
+
+router.route("/companyDeposits").get(async (req, res) => {
+  const bankDeposits = await Database.Executive_Pending_Earning.findAll({
+    attributes: [
+      "bankName",
+      "depositedAmount",
+      "totalAmount",
+      "bank_deposited_referenceNumber",
+      "bank_datetime",
+      "updateTimestamp",
+    ],
+    include: {
+      model: Database.Activities,
+      required: true,
+      attributes: ["list_act_uuid", "createdAt"],
+      include: {
+        model: Database.Agency_Info,
+        required: true,
+        attributes: ["agency_name"],
+      },
+    },
+    where: {
+      field_id: req.query.field_id,
+      paused: 0,
+      deleted: 0,
+      bank_sale: 1,
+      bankName: { [Op.ne]: null },
+      depositedAmount: { [Op.ne]: null },
+    },
+  })
+    .then((result) => {
+      if (result) return result;
+      else return null;
+    })
+    .catch((err) => {
+      if (err) {
+        console.log("Error Getting the Executive Deposit Slips");
+        console.trace(err);
+        return numm;
+      }
+    });
+
+  let unreadNotificationCount = await countofNotificationOfExecutive(
+    req.query.field_id
+  );
+  if (bankDeposits.length > 0) {
+    // res.send(bankDeposits)
+    res.status(200).send([
+      {
+        url: req.protocol + "://" + req.get("host"),
+        unreadNotificationCount:
+          unreadNotificationCount[0].dataValues.unreadNotificationCount,
+        bankDeposits,
+      },
+    ]);
+    res.end();
+  } else
+    res.status(200).send([{ status: "Error", message: "Invalid Request" }]);
+  res.end();
 });
 
 module.exports = { router };
@@ -1513,3 +1595,55 @@ const countofNotificationOfExecutive = async (field_id) => {
     if (notifications) return notifications;
   });
 };
+
+
+
+
+
+// async function addPermissioins() {
+//   const Perm = await Database. Permissions.findOne({
+//     where: {
+//       permmission_id: 22,
+//     },
+//     // include: {
+//     //   model: User_Role,
+//     //   where: {
+//     //     type_name: 'Freelance Field Executive',
+//     //   },
+//     // },
+//   })
+//   const user =  await Database.User_Role.findOne({
+//     where:{
+//       type_name:'Field Executive'
+//     }
+//   })
+//   await user.addPermissions(Perm)
+//   console.log(Perm)
+// }
+// addPermissioins()
+
+
+
+
+
+// async function addPermissioins() {
+//   const Perm = await Database. Permissions.findOne({
+//     where: {
+//       permmission_id: 10,
+//     },
+//     // include: {
+//     //   model: User_Role,
+//     //   where: {
+//     //     type_name: 'Freelance Field Executive',
+//     //   },
+//     // },
+//   })
+//   const user =  await  Database. User_Role.findOne({
+//     where:{
+//       type_name:'Freelance Field Executive'
+//     }
+//   })
+//   await user.addPermissions(Perm)
+//   console.log(Perm)
+// }
+// addPermissioins()

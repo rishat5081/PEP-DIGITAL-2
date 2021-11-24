@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Recommendation for Agency</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--===============================================================================================-->
+    <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/toastr/toastr.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+    <!--===============================================================================================-->
+  </head>
+
+  <body>
+    <div class="limiter">
+      <div class="container-profile100">
+        <div class="header">
+          <div class="cover-image100">
+            <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
+            <a href="#">
+              <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+            </a>
+            <a href="<%=url%>/user/notification">
+              <span class="fa fa-bell menu-button">
+                <span class="button__badge" style="display: none"></span>
+              </span>
+            </a>
+            <nav id="menu">
+              <ul>
+                <% permissions.forEach(element=> { %>
+                <li>
+                  <a
+                    href="<%=url%>/user<%= element.controller %>/<%=info.uuid%>"
+                  >
+                    <span class="<%= element.icon%>"></span>
+                    <%= element.permission_name %>
+                  </a>
+                </li>
+                <% }); %>
+                <li>
+                  <a href="<%=url%>/user/signout">
+                    <span class="fa fa-sign-out"> </span> Log Out</a
+                  >
+                </li>
+              </ul>
+              <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+            </nav>
+          </div>
+          <div class="container saleup">
+            <div class="container">
+              <div class="gifts_box p-5">
+                <h3 class="areaheading text-center">
+                  Promotional Gifts to Agencies.
+                </h3>
+
+                <div class="d-flex flex-row-reverse bd-highlight">
+                  <div class="p-2 bd-highlight">
+                    <a href="http://google.com">View All Promotional Gift</a>
+                  </div>
+                </div>
+                <div
+                  class="alert alert-info mt-2 mb-2 p-2 mx-5"
+                  role=" alert "
+                  id="RecordAdded"
+                >
+                  <div class="row mb-4">
+                    <div class="col-sm-3 font-weight-bold text-left mt-1 ml-1">
+                      Select Agency
+                    </div>
+
+                    <div class="col-sm-6 text-left" style="color: black">
+                      <select
+                        class="w-100"
+                        id="agency_name"
+                        multiple
+                        placeholder="Select Agency"
+                      >
+                        <% allAgencies.forEach(element => { %>
+                        <option value="<%=element.agency_uuid%>">
+                          <%= element.agency_name %>
+                        </option>
+                        <% }) %>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row mb-2">
+                    <div class="col-sm-3 mt-2 font-weight-bold text-left ml-1">
+                      Select Gift
+                    </div>
+                    <div class="col-sm-6 text-left" style="color: black">
+                      <select
+                        id="gift_name"
+                        class="area w-100 p-1 p-lg-2 p-md-2"
+                        multiple
+                        placeholder="Select Gift"
+                      >
+                        <% allGifts.forEach(element => { %>
+                        <option value="<%=element.advert_gift_uuid%>">
+                          <%= element.adver_gift_name %>
+                        </option>
+                        <% }) %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 text-center mt-5 p-0">
+                  <button
+                    class="
+                      btn_width
+                      text-capitalize
+                      font-weight-bold
+                      btn btn-primary
+                      text-white
+                    "
+                    id="AddtoTable"
+                  >
+                    Add to List
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="<%=url%>/js/jquery.min.js"></script>
+    <script src="<%=url%>/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Toastr -->
+    <!--===============================================================================================-->
+    <script src="<%=url%>/vendor/jquery/tilt.jquery.min.js"></script>
+    <script src="<%=url%>/toastr/toastr.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        var multipleCancelButton = new Choices("#agency_name", {
+          removeItemButton: true,
+        });
+        var multipleCancelButton = new Choices("#gift_name", {
+          removeItemButton: true,
+        });
+      });
+
+      var allAgencies = JSON.parse(`<%-JSON.stringify(allAgencies)%>`),
+        allGifts = JSON.parse(`<%-JSON.stringify(allGifts)%>`);
+
+      // console.log(allAgencies);
+      // console.log(allGifts);
+
+      const validateAgency = (selectedAgencies) => {
+        const foundResults = [];
+        selectedAgencies.forEach((element) => {
+          foundResults.push(
+            allAgencies.find((agency_id) => agency_id.agency_uuid === element)
+          );
+        });
+        return foundResults;
+      };
+
+      const validateGift = (giftID) => {
+        const foundResults = [];
+        giftID.forEach((element) => {
+          foundResults.push(
+            allGifts.find((gift_id) => gift_id.advert_gift_uuid === element)
+          );
+        });
+        return foundResults;
+      };
+
+      var alertt = document.getElementById("RecordAdded");
+
+      $("#AddtoTable").click(function () {
+        console.log("clicked ");
+        var agencyName = [];
+        var giftName = [];
+
+        $("#agency_name option ").each(function () {
+          var thisOptionValue = $(this).val();
+          agencyName.push(thisOptionValue);
+        });
+        $("#gift_name option ").each(function () {
+          var thisOptionValue = $(this).val();
+          giftName.push(thisOptionValue);
+        });
+
+        const foundResults = validateAgency(agencyName);
+        const foundGifts = validateGift(giftName);
+
+        if (
+          foundResults.length === agencyName.length &&
+          foundGifts.length === giftName.length
+        ) {
+          toastr.success("Adding...!");
+          $.ajax({
+            type: "POST",
+            url: "/addRecommendationofAgency",
+            data: { agencyList:JSON.stringify(agencyName), giftList:   JSON.stringify(giftName) },
+            dataType: "json",
+            error: (error) => {
+              console.log(error);
+            },
+            success: (response) => {
+              
+              console.log(response);
+            },
+          });
+        } else toastr.error("Gift Error");
+      });
+
+      function fadeout() {
+        $("#RecordAdded").fadeOut(2000);
+      }
+    </script>
+  </body>
+</html>
