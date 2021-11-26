@@ -7,9 +7,9 @@ const router = require("express").Router(),
  * checking the user id or the UUID is the one who is into the session
  */
 const isManagerAuthentic = (req, res, next) => {
-  //   if (req.params.man_uuid === req.session.profileData.man_uuid) next();
-  //   else res.redirect(`/manager/dashboard/${req.session.profileData.man_uuid}`);
-  console.log("He");
+  if (req.params.man_uuid === req.session.profileData.man_uuid) next();
+  else res.redirect(`/manager/dashboard/${req.session.profileData.man_uuid}`);
+
   next();
 };
 

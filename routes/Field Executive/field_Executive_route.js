@@ -17,7 +17,7 @@ const {
     NotificationText,
     AgencyTypes,
     AdvertismentGift,
-    Advertisement_Recommendation_test
+    Advertisement_Recommendation,
   } = require("../../Configuration Files/Sequelize/Database_Synchronization"),
   sequelize = require("../../Configuration Files/Sequelize/Sequelize"),
   { Op, QueryTypes } = require("sequelize"),
@@ -38,8 +38,6 @@ const isUserAuthentic = (req, res, next) => {
   if (req.params.fieldExeUUID === req.session.profileData.field_uuid) next();
   else res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`);
 };
-
-
 
 /**
  * Here in the param it is the field uuiid
@@ -1334,7 +1332,7 @@ router
       where: {
         isPaused: 0,
         deleted: 0,
-        field_id: 4//req.session.profileData.field_id,
+        field_id: req.session.profileData.field_id,
       },
     })
       .then((result) => {
@@ -1352,10 +1350,7 @@ router
     //getting the gifts which are available for offer
 
     let allGifts = await AdvertismentGift.findAll({
-      attributes: [
-        "advert_gift_uuid",
-        "adver_gift_name",
-      ],
+      attributes: ["advert_gift_uuid", "adver_gift_name"],
       where: {
         paused: 0,
         deleted: 0,
@@ -1387,6 +1382,68 @@ router
       },
       allAgencies,
       allGifts,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      permissions: req.session.permissions.permissionObject,
+    });
+    res.end();
+  });
+
+// route for recommendations for the agency
+router
+  .route("/viewAllRecommendations/:fieldExeUUID")
+  .get(isUser_Login, isUserAuthentic, async (req, res) => {
+    //getting all the agencies which the relevant user have registered
+    let allRecommendations = await Advertisement_Recommendation.findAll({
+      attributes: ["team_lead_forward_status", "status", "createdAt"],
+      include: [
+        {
+          model: Agency_Info,
+          required: true,
+          attributes: ["agency_name", "agency_city"],
+          where: {
+            deleted: 0,
+            isPaused: 0,
+          },
+        },
+        {
+          model: AdvertismentGift,
+          required: true,
+          attributes: ["adver_gift_name"],
+          where: {
+            deleted: 0,
+            paused: 0,
+          },
+        },
+      ],
+      where: {
+        deleted: 0,
+        field_id: req.session.profileData.field_id,
+      },
+    })
+      .then((result) => {
+        if (result) return result;
+        else return null;
+      })
+      .catch((err) => {
+        if (err) {
+          console.log("Error Getting all the agencies");
+          console.trace(err);
+          return null;
+        }
+      });
+
+    let unreadNotificationCount = await countofNotificationOfExecutive(
+      req.session.profileData.field_id
+    );
+
+    res.render("Field Executive/viewAllRecommendations", {
+      url: req.protocol + "://" + req.get("host"),
+      info: {
+        id: req.session.passport.user.userInfo.login_id,
+        uuid: req.session.profileData.field_uuid,
+      },
+      allRecommendations,
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
       permissions: req.session.permissions.permissionObject,

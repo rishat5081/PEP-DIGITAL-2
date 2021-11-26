@@ -184,7 +184,7 @@
         );
       }
       $(".js-tilt").tilt({
-        scale: 1.1
+        scale: 1.1,
       });
 
       var menu = document.getElementById("menu"),
@@ -201,10 +201,9 @@
       }
       $(document).ready(function () {
         var multipleCancelButton = new Choices("#employees", {
-          removeItemButton: true
+          removeItemButton: true,
         });
       });
-
 
       //   //function to check if the user is already have the same area then prevent it
 
@@ -225,49 +224,52 @@
         return status;
       };
 
-        $("#allotarea").click(() => {
-          var selectedArea = document.getElementById("area").value,
-            employees = [];
+      $("#allotarea").click(() => {
+        var selectedArea = document.getElementById("area").value,
+          employees = [];
 
-          $("#employees option ").each(function () {
-            var thisOptionValue = $(this).val();
-            employees.push(thisOptionValue);
-          });
-
-          let checkUserExists = false;
-          if (employees.length > 0)
-            checkUserExists = checkUserArea(supervisor_and_City, selectedArea, employees);
-          else {
-            toastr.error("Please select employee");
-            return;
-          }
-          if (checkUserExists) {
-            toastr.error("Sector is already allot to the user.");
-            return;
-          } else {
-            console.log(selectedArea, employees);
-            // $.ajax({
-            //   type: "POST",
-            //   url: `${window.location.origin}/allocateSectorToExecutive`,
-            //   data: { selectedArea, employees: JSON.stringify(employees) },
-            //   dataType: "json",
-            //   error: (error) => {
-            //     if (error) {
-            //       console.error(error);
-            //       toastr.error("There is an error while Allocating Area");
-            //     }
-            //   },
-            //   success: (response) => {
-            //     if (response) {
-            //       console.log(response);
-            //       toastr.success("Area Allocated to the Employees ");
-            //       location.reload(true);
-            //     }
-            //   }
-            // });
-          }
+        $("#employees option ").each(function () {
+          var thisOptionValue = $(this).val();
+          employees.push(thisOptionValue);
         });
-      
+
+        let checkUserExists = false;
+        if (employees.length > 0)
+          checkUserExists = checkUserArea(
+            supervisor_and_City,
+            selectedArea,
+            employees
+          );
+        else {
+          toastr.error("Please select employee");
+          return;
+        }
+        if (checkUserExists) {
+          toastr.error("Sector is already allot to the user.");
+          return;
+        } else {
+          console.log(selectedArea, employees);
+          $.ajax({
+            type: "POST",
+            url: `${window.location.origin}/allocateSectorToExecutive`,
+            data: { selectedArea, employees: JSON.stringify(employees) },
+            dataType: "json",
+            error: (error) => {
+              if (error) {
+                console.error(error);
+                toastr.error("There is an error while Allocating Area");
+              }
+            },
+            success: (response) => {
+              if (response) {
+                console.log(response);
+                toastr.success("Area Allocated to the Employees ");
+                location.reload(true);
+              }
+            },
+          });
+        }
+      });
     </script>
   </body>
 </html>

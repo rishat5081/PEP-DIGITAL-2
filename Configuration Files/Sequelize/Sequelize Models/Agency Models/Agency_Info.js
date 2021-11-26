@@ -6,7 +6,13 @@
 
 "use strict";
 module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
-  const  AgencyLogs_Supervisor  = require("./AgencyLogs_Supervisor")(sequelize, { DataTypes, Model, UUIDV4 });
+  const AgencyLogs_Supervisor = require("./AgencyLogs_Supervisor")(sequelize, {
+      DataTypes,
+      Model,
+      UUIDV4,
+    }),
+    moment = require("moment");
+
   class Agency_Info extends Model {}
 
   Agency_Info.init(
@@ -15,68 +21,68 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       agency_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       agency_name: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       agency_type: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       agency_Contact: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       agency_city: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       agency_address: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       agency_Longitude: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       agency_Latitude: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       firstVisit: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false
+        defaultValue: false,
       },
       agency_owner_Name: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       contactedPerson: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       contactedPerson_Number: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false
+        defaultValue: false,
       },
       isPaused: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false
+        defaultValue: false,
       },
       field_id: {
         type: DataTypes.INTEGER,
@@ -86,9 +92,9 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
 
         references: {
           model: "field_executive",
-          key: "field_id"
-        }
-      }
+          key: "field_id",
+        },
+      },
     },
     {
       hooks: {
@@ -100,23 +106,22 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
             nowPausedStatus: AgencyInfo.getDataValue("isPaused"),
             agency_id: AgencyInfo.getDataValue("agency_id"),
             sup_id: options.sup_id === 0 ? null : options.sup_id,
-            man_id: options.man_id === 0 ? null : options.man_id
+            man_id: options.man_id === 0 ? null : options.man_id,
           })
             .then((log) => {
               console.log("SuperVisor Updated the Agency !!!!");
             })
 
             .catch((error) => {
-              
               console.error("Error : SuperVisor Updated the Agency !!!!");
-              console.trace(error)
+              console.trace(error);
             });
-        }
+        },
       },
       sequelize,
       // We need to pass the connection instance
       modelName: "Agency_Info",
-      tableName: "agency_info"
+      tableName: "agency_info",
     }
   );
 
@@ -128,7 +133,7 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
 
     Agency_Info.belongsTo(models.Field_Executive, {
       targetKey: "field_id",
-      foreignKey: "field_id"
+      foreignKey: "field_id",
     });
 
     /*
@@ -194,16 +199,6 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
   //   .catch((error) => {
   //     console.error("Error : SuperVisor Updated the Agency !!!!");
   //   });
-
-
-
-
-
-
-
-
-
-
 
   return Agency_Info;
 };

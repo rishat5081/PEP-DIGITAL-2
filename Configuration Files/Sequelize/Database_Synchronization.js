@@ -466,20 +466,7 @@ let WipeOutTableRecord = async () => {
     .then((response) => console.log("-----> Done...."));
 };
 
-Models.AdvertismentGift.findOne({
-  attributes: ["adver_gift_id"],
-  where: {
-    deleted: 0,
-    paused: 0,
-    advert_gift_uuid: "97534225-e455-409b-9ebb-7b1e54e551b3",
-  },
-})
-  .then((result) => {
-    console.log(result);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+
 
 module.exports = Models;
 

@@ -41,8 +41,8 @@ router.get(
       where: {
         paused: 0,
         deleted: 0,
-        user_role_id: req.session.passport.user.userRole.user_role_id
-      }
+        user_role_id: req.session.passport.user.userRole.user_role_id,
+      },
     });
 
     /**
@@ -58,8 +58,8 @@ router.get(
           attributes: ["sup_name"],
           where: {
             sup_isPaused: 0,
-            sup_isDeleted: 0
-          }
+            sup_isDeleted: 0,
+          },
         },
         {
           model: Database.City_Areas,
@@ -67,15 +67,15 @@ router.get(
           attributes: ["city_name"],
           where: {
             deleted: 0,
-            paused: 0
-          }
-        }
+            paused: 0,
+          },
+        },
       ],
       where: {
         team_L_id: req.session.profileData.team_L_id,
         team_L_isDeleted: 0,
-        team_L_isPaused: 0
-      }
+        team_L_isPaused: 0,
+      },
     })
       .then((data) => {
         if (data) return data;
@@ -99,7 +99,7 @@ router.get(
         createdAt: req.session.profileData.createdAt,
         team_L_salary: req.session.profileData.team_L_salary,
         sup_name: teamLeadDashboard.dataValues.Supervisor.dataValues.sup_name,
-        city_name: teamLeadDashboard.dataValues.City_Area.dataValues.city_name
+        city_name: teamLeadDashboard.dataValues.City_Area.dataValues.city_name,
       }
     );
 
@@ -112,7 +112,7 @@ router.get(
       res.status(200).render("Team Lead/teamDashboard", {
         info: {
           id: req.session.passport.user.userInfo.login_id,
-          uuid: req.session.profileData.team_L_uuid
+          uuid: req.session.profileData.team_L_uuid,
         },
         url: req.protocol + "://" + req.get("host"),
         user_role: req.session.passport.user.userRole,
@@ -120,7 +120,7 @@ router.get(
         webAds,
         unreadNotificationCount:
           unreadNotificationCount[0].dataValues.unreadNotificationCount,
-        permissions: req.session.permissions.permissionObject
+        permissions: req.session.permissions.permissionObject,
       });
 
       unreadNotificationCount = null;
@@ -140,7 +140,7 @@ router.get("/completeProfile/:teamLeadUUID", isUser_Login, (req, res) => {
   if (req.session.profileData.team_L_name === null)
     res.status(200).render(`Team Lead/completeProfile`, {
       message: req.flash("info", "Please Complete your Profile"),
-      profileData: req.session.profileData.team_L_userProfilePic
+      profileData: req.session.profileData.team_L_userProfilePic,
     });
   else {
     res
@@ -169,8 +169,8 @@ router.get(
           "createdAt",
           "updateTimestamp",
           "sup_id",
-          "city_area_id"
-        ]
+          "city_area_id",
+        ],
       },
       /**
        * getting the inner join with team lead
@@ -183,7 +183,7 @@ router.get(
           attributes: ["sup_name"],
           where: {
             sup_isPaused: 0,
-            sup_isDeleted: 0
+            sup_isDeleted: 0,
           },
           include: {
             //this is the many to many relation ship
@@ -191,13 +191,13 @@ router.get(
             attributes: ["city_name"],
             required: true,
             through: {
-              attributes: []
+              attributes: [],
             },
             where: {
               paused: 0,
-              deleted: 0
-            }
-          }
+              deleted: 0,
+            },
+          },
         },
         {
           model: Database.City_Areas,
@@ -205,15 +205,15 @@ router.get(
           attributes: ["city_name"],
           where: {
             paused: 0,
-            deleted: 0
-          }
-        }
+            deleted: 0,
+          },
+        },
       ],
       where: {
         team_L_uuid: req.session.profileData.team_L_uuid,
         team_L_isDeleted: 0,
-        team_L_isPaused: 0
-      }
+        team_L_isPaused: 0,
+      },
     });
 
     // getting the email from the Login Info table
@@ -222,8 +222,8 @@ router.get(
       where: {
         login_id: req.session.passport.user.userInfo.login_id,
         paused: 0,
-        deleted: 0
-      }
+        deleted: 0,
+      },
     });
     // unread notification count
     let unreadNotificationCount = await countofNotificationOfExecutive(
@@ -234,14 +234,14 @@ router.get(
       url: req.protocol + "://" + req.get("host"),
       info: {
         id: req.session.passport.user.userInfo.login_id,
-        uuid: req.session.profileData.team_L_uuid
+        uuid: req.session.profileData.team_L_uuid,
       },
       role: req.session.passport.user.userRole.type_name,
       LoginEmail,
       teamLead,
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      permissions: req.session.permissions.permissionObject
+      permissions: req.session.permissions.permissionObject,
     });
 
     LoginEmail = null;
@@ -269,8 +269,8 @@ router.get(
       where: {
         paused: 0,
         deleted: 0,
-        city_area_id: req.session.profileData.city_area_id
-      }
+        city_area_id: req.session.profileData.city_area_id,
+      },
     })
       .then((sectors) => {
         return sectors ? sectors : null;
@@ -287,8 +287,8 @@ router.get(
       where: {
         team_L_id: req.session.profileData.team_L_id,
         field_isDeleted: 0,
-        field_isPaused: 0
-      }
+        field_isPaused: 0,
+      },
     })
       .then((member) => {
         return member ? member : null;
@@ -307,20 +307,20 @@ router.get(
       where: {
         team_L_id: req.session.profileData.team_L_id,
         field_isDeleted: 0,
-        field_isPaused: 0
+        field_isPaused: 0,
       },
       include: {
         model: Database.City_Sectors,
         attributes: ["sector_name", "city_sector_uuid"],
         required: true,
         through: {
-          attributes: []
+          attributes: [],
         },
         where: {
           paused: 0,
-          deleted: 0
-        }
-      }
+          deleted: 0,
+        },
+      },
     })
       .then((member) => {
         // console.warn(member);
@@ -339,7 +339,7 @@ router.get(
         url: req.protocol + "://" + req.get("host"),
         info: {
           id: req.session.passport.user.userInfo.login_id,
-          uuid: req.session.profileData.team_L_uuid
+          uuid: req.session.profileData.team_L_uuid,
         },
         areaSectors,
         teamMember,
@@ -347,7 +347,7 @@ router.get(
         user_role: req.session.passport.user.userRole,
         unreadNotificationCount:
           unreadNotificationCount[0].dataValues.unreadNotificationCount,
-        permissions: req.session.permissions.permissionObject
+        permissions: req.session.permissions.permissionObject,
       });
 
       unreadNotificationCount = null;
@@ -378,14 +378,14 @@ router.get(
         attributes: ["login_email", "createdAt"],
         where: {
           paused: 0,
-          deleted: 0
-        }
+          deleted: 0,
+        },
       },
       where: {
         field_isDeleted: 0,
         field_isPaused: 0,
-        team_L_id: null
-      }
+        team_L_id: null,
+      },
     })
       .then((member) => {
         return member ? member : null;
@@ -399,14 +399,14 @@ router.get(
     res.status(200).render("Team Lead/addFreelancertoTeam", {
       info: {
         id: req.session.passport.user.userInfo.login_id,
-        uuid: req.session.profileData.team_L_uuid
+        uuid: req.session.profileData.team_L_uuid,
       },
       teamMember,
       url: req.protocol + "://" + req.get("host"),
       user_role: req.session.passport.user.userRole,
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      permissions: req.session.permissions.permissionObject
+      permissions: req.session.permissions.permissionObject,
     });
 
     unreadNotificationCount = null;
@@ -433,8 +433,8 @@ router.get(
       where: {
         team_L_id: req.session.profileData.team_L_id,
         field_isDeleted: 0,
-        field_isPaused: 0
-      }
+        field_isPaused: 0,
+      },
     })
       .then((member) => {
         // console.warn(member);
@@ -450,14 +450,14 @@ router.get(
       res.status(200).render("Team Lead/conveyMessageToTeam", {
         info: {
           id: req.session.passport.user.userInfo.login_id,
-          uuid: req.session.profileData.team_L_uuid
+          uuid: req.session.profileData.team_L_uuid,
         },
         teamMember,
         url: req.protocol + "://" + req.get("host"),
         user_role: req.session.passport.user.userRole,
         unreadNotificationCount:
           unreadNotificationCount[0].dataValues.unreadNotificationCount,
-        permissions: req.session.permissions.permissionObject
+        permissions: req.session.permissions.permissionObject,
       });
 
       unreadNotificationCount = null;
@@ -492,8 +492,8 @@ router.get(
       where: {
         team_L_id: req.session.profileData.team_L_id,
         field_isDeleted: 0,
-        field_isPaused: 0
-      }
+        field_isPaused: 0,
+      },
     }).catch((error) => {
       if (error) {
         console.error("Error Fetching the Data of Executive");
@@ -510,7 +510,7 @@ router.get(
         "field_id",
         [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
         [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
-        [sequelize.fn("COUNT", sequelize.col("*")), "activitiesPerMonth"]
+        [sequelize.fn("COUNT", sequelize.col("*")), "activitiesPerMonth"],
         // [
         //   sequelize.fn("COUNT", sequelize.col("cancelled")),
         //   "cancelledactivitiesPerMonth"
@@ -520,8 +520,8 @@ router.get(
       where: {
         field_id: teamMember.map((member) => member.field_id),
         deleted: false,
-        paused: false
-      }
+        paused: false,
+      },
     })
       .then((dbResponse) => {
         if (dbResponse.length > 0) return dbResponse;
@@ -547,16 +547,16 @@ router.get(
         [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
         [
           sequelize.fn("COUNT", sequelize.col("cancelled")),
-          "cancelledactivitiesPerMonth"
-        ]
+          "cancelledactivitiesPerMonth",
+        ],
       ],
       group: ["moonth", "Year", "field_id"],
       where: {
         field_id: teamMember.map((member) => member.field_id),
         deleted: false,
         paused: false,
-        cancelled: true
-      }
+        cancelled: true,
+      },
     })
       .then((dbResponse) => {
         if (dbResponse.length > 0) return dbResponse;
@@ -579,14 +579,14 @@ router.get(
         "field_id",
         [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
         [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
-        [sequelize.fn("COUNT", sequelize.col("*")), "agencyCount"]
+        [sequelize.fn("COUNT", sequelize.col("*")), "agencyCount"],
       ],
       group: ["moonth", "Year", "field_id"],
       where: {
         field_id: teamMember.map((member) => member.field_id),
         deleted: false,
-        isPaused: false
-      }
+        isPaused: false,
+      },
     })
       .then((dbResponse) => {
         if (dbResponse.length > 0) return dbResponse;
@@ -606,7 +606,7 @@ router.get(
       url: req.protocol + "://" + req.get("host"),
       info: {
         id: req.session.passport.user.userInfo.login_id,
-        uuid: req.session.profileData.team_L_uuid
+        uuid: req.session.profileData.team_L_uuid,
       },
       agencyCount,
       teamMember,
@@ -615,7 +615,7 @@ router.get(
       user_role: req.session.passport.user.userRole,
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      permissions: req.session.permissions.permissionObject
+      permissions: req.session.permissions.permissionObject,
     });
 
     unreadNotificationCount = null;
@@ -638,8 +638,8 @@ router.get(
       attributes: ["exec_recomm_uuid", "Recommendation"],
       where: {
         deleted: false,
-        paused: false
-      }
+        paused: false,
+      },
     }).catch((error) => {
       if (error) {
         console.error("Error Fetching the Data of Executive Recommendation");
@@ -656,8 +656,8 @@ router.get(
       where: {
         team_L_id: req.session.profileData.team_L_id,
         field_isDeleted: 0,
-        field_isPaused: 0
-      }
+        field_isPaused: 0,
+      },
     }).catch((error) => {
       if (error) {
         console.error("Error Fetching the Data of Executive");
@@ -670,14 +670,96 @@ router.get(
       url: req.protocol + "://" + req.get("host"),
       info: {
         id: req.session.passport.user.userInfo.login_id,
-        uuid: req.session.profileData.team_L_uuid
+        uuid: req.session.profileData.team_L_uuid,
       },
       recommendation,
       teamMembers,
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      permissions: req.session.permissions.permissionObject
+      permissions: req.session.permissions.permissionObject,
     });
+  }
+);
+
+router.get(
+  "/recommendations/:teamLeadUUID",
+  isUser_Login,
+  isUserAuthentic,
+  async (req, res) => {
+    let unreadNotificationCount = await countofNotificationOfExecutive(
+      req.session.profileData.team_L_uuid
+    );
+
+    //getting the recommendation list from the data
+
+    let allRecommendations =
+      await Database.Advertisement_Recommendation.findAll({
+        attributes: [
+          "team_lead_forward_status",
+          "status",
+          "createdAt",
+          "advert_recom_uuid",
+        ],
+        include: [
+          {
+            model: Database.Agency_Info,
+            required: true,
+            attributes: ["agency_name", "agency_city"],
+            where: {
+              deleted: 0,
+              isPaused: 0,
+            },
+          },
+          {
+            model: Database.AdvertismentGift,
+            required: true,
+            attributes: ["adver_gift_name"],
+            where: {
+              deleted: 0,
+              paused: 0,
+            },
+          },
+          {
+            model: Database.Field_Executive,
+            required: true,
+            attributes: ["field_name"],
+            where: {
+              field_isDeleted: 0,
+              field_isPaused: 0,
+              team_L_id: req.session.profileData.team_L_id,
+            },
+          },
+        ],
+        where: {
+          paused: 0,
+          status: 0,
+          deleted: 0,
+        },
+      })
+        .then((result) => {
+          if (result) return result;
+          else return null;
+        })
+        .catch((err) => {
+          if (err) {
+            console.log("Error Getting all the recommendation");
+            console.trace(err);
+            return null;
+          }
+        });
+
+    res.status(200).render("Team Lead/viewAllRecommendations", {
+      url: req.protocol + "://" + req.get("host"),
+      info: {
+        id: req.session.passport.user.userInfo.login_id,
+        uuid: req.session.profileData.team_L_uuid,
+      },
+      allRecommendations,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      permissions: req.session.permissions.permissionObject,
+    });
+    res.end();
   }
 );
 
@@ -693,7 +775,7 @@ router.get("/notification", isUser_Login, async (req, res) => {
       "teamLead_notification_uuid",
       "notification_text",
       "isRead",
-      "createdAt"
+      "createdAt",
     ],
     include: {
       model: Database.NotificationText,
@@ -701,15 +783,15 @@ router.get("/notification", isUser_Login, async (req, res) => {
       required: true,
       where: {
         isPaused: false,
-        deleted: false
-      }
+        deleted: false,
+      },
     },
     where: {
       isPaused: false,
       deleted: false,
-      team_L_id: req.session.profileData.team_L_id
+      team_L_id: req.session.profileData.team_L_id,
     },
-    limit: 50
+    limit: 50,
   }).then((notifications) => {
     if (notifications) return notifications;
   });
@@ -720,9 +802,9 @@ router.get("/notification", isUser_Login, async (req, res) => {
     url: req.protocol + "://" + req.get("host"),
     info: {
       id: req.session.passport.user.userInfo.login_id,
-      uuid: req.session.profileData.team_L_uuid
+      uuid: req.session.profileData.team_L_uuid,
     },
-    permissions: req.session.permissions.permissionObject
+    permissions: req.session.permissions.permissionObject,
   });
 });
 
@@ -736,13 +818,13 @@ const countofNotificationOfExecutive = async (team_L_id) => {
     attributes: [
       [
         sequelize.fn("COUNT", sequelize.col("teamLead_notification_id")),
-        "unreadNotificationCount"
-      ]
+        "unreadNotificationCount",
+      ],
     ],
     where: {
       isRead: false,
-      team_L_id
-    }
+      team_L_id,
+    },
   })
     .then((notifications) => {
       if (notifications) return notifications;

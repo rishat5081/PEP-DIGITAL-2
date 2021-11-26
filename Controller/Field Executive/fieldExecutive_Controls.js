@@ -17,6 +17,7 @@ module.exports = (app) => {
       NotificationText,
       Activities,
       AdvertismentGift,
+      Advertisement_Recommendation,
     } = require("../../Configuration Files/Sequelize/Database_Synchronization"),
     Database = require("../../Configuration Files/Sequelize/Database_Synchronization"),
     fs = require("fs"),
@@ -855,166 +856,161 @@ module.exports = (app) => {
   });
 
   app.route("/addRecommendationofAgency").post(async (req, res) => {
-    console.log(JSON.parse(req.body.agencyList));
-    console.log(JSON.parse(req.body.giftList));
-
-    // const agenciesID = await Agency_Info.findAll({
-    //   attributes: ["agency_id"],
-    //   where: {
-    //     deleted: 0,
-    //     isPaused: 0,
-    //     agency_uuid: JSON.parse(req.body.agencyList),
-    //   },
-    // })
-    //   .then((result) => {
-    //     if (result) return result;
-    //     else return null;
-    //   })
-    //   .catch((error) => {
-    //     if (error) {
-    //       console.error("Error fetching Agency Details");
-    //       return null;
-    //     }
-    //   });
-
-    // const agenciesID = await AdvertismentGift.findAll({
-    //   attributes: ["adver_gift_id"],
-    //   where: {
-    //     deleted: 0,
-    //     paused: 0,
-    //     advert_gift_uuid: JSON.parse(req.body.giftList),
-    //   },
-    // })
-    //   .then((result) => {
-    //     if (result) return result;
-    //     else return null;
-    //   })
-    //   .catch((error) => {
-    //     if (error) {
-    //       console.error("Error fetching Agency Details");
-    //       return null;
-    //     }
-    //   });
-
-    const info = await Promise.all([
-      Agency_Info.findAll({
-        attributes: ["agency_id"],
-        where: {
-          deleted: 0,
-          isPaused: 0,
-          agency_uuid: JSON.parse(req.body.agencyList),
-        },
-      }),
-      AdvertismentGift.findAll({
-        attributes: ["adver_gift_id"],
-        where: {
-          deleted: 0,
-          paused: 0,
-          advert_gift_uuid: JSON.parse(req.body.giftList),
-        },
-      }),
-    ])
+    const agenciesID = await Agency_Info.findAll({
+      attributes: ["agency_id"],
+      where: {
+        deleted: 0,
+        isPaused: 0,
+        agency_uuid: JSON.parse(req.body.agencyList),
+      },
+    })
       .then((result) => {
-        console.log(result);
+        if (result) return result;
+        else return null;
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        if (error) {
+          console.error("Error fetching Agency Details");
+          return null;
+        }
       });
 
-    // if (activity === null) {
-    //   res.status(400).send({ error: "Invalid Information" });
-    //   res.end();
-    // } else {
-    //   const complain = await ComplainsOfActivities.create({
-    //     subject: req.body.subject,
-    //     message: req.body.complainMessage,
-    //     list_act_id: activity.dataValues.list_act_id,
-    //     field_id: 4, //req.session.profileData.field_id,
-    //   })
-    //     .then()
-    //     .catch((error) => {
-    //       if (error) {
-    //         console.error("Error at creating Complain");
-    //         console.trace(error);
-    //         return null;
-    //       }
-    //     });
-
-    //   if (complain === null) {
-    //     res
-    //       .status(503)
-    //       .send({ error: "Service Unavailable .Please try again later." });
-    //   } else res.status(200).send({ status: "Created" });
-    // }
-
-    res.status(200).send(info);
-  });
-  AdvertismentGift.findOne({
-    attributes: ["adver_gift_id"],
-    where: {
-      deleted: 0,
-      paused: 0,
-      advert_gift_uuid: "97534225-e455-409b-9ebb-7b1e54e551b3",
-    },
-  })
-    .then((result) => {
-      console.log(result);
+    const agenciesGiftID = await AdvertismentGift.findAll({
+      attributes: ["adver_gift_id"],
+      where: {
+        deleted: 0,
+        paused: 0,
+        advert_gift_uuid: JSON.parse(req.body.giftList),
+      },
     })
-    .catch((err) => {
-      console.log(err);
-    });
+      .then((result) => {
+        if (result) return result;
+        else return null;
+      })
+      .catch((error) => {
+        if (error) {
+          console.error("Error fetching Agency Recommendation Gift Details");
+          return null;
+        }
+      });
 
+    if ((agenciesID, agenciesGiftID)) {
+      var recommendationAndAgencies = [];
+      agenciesID.forEach((agency) => {
+        agenciesGiftID.forEach((gift) =>
+          recommendationAndAgencies.push({
+            agency_id: agency.agency_id,
+            adver_gift_id: gift.adver_gift_id,
+            field_id: req.session.profileData.field_id,
+          })
+        );
+      });
 
-
-
-
-
-    (async function () {
-      const info = await Promise.all([
-        Agency_Info.findAll({
-          attributes: ["agency_id"],
-          where: {
-            deleted: 0,
-            isPaused: 0,
-            //agency_uuid: JSON.parse(req.body.agencyList),
-          },
-        }),
-        AdvertismentGift.findOne({
-          attributes: ["adver_gift_id"],
-          where: {
-            deleted: 0,
-            paused: 0,
-            advert_gift_uuid: "97534225-e455-409b-9ebb-7b1e54e551b3",
-          },
-        }),
-      ])
+      const pendingRecommendation = await Advertisement_Recommendation.findAll({
+        where: {
+          agency_id: recommendationAndAgencies.map(
+            (recommendation) => recommendation.agency_id
+          ),
+          adver_gift_id: recommendationAndAgencies.map(
+            (recommendation) => recommendation.adver_gift_id
+          ),
+          field_id: req.session.profileData.field_id,
+          status: false,
+        },
+      })
         .then((result) => {
-          console.log(result);
+          if (result) return result;
+          else return null;
         })
-        .catch((err) => {
-          console.log(err);
+        .catch((error) => {
+          if (error) {
+            console.error("Error fetching Agency Recommendation Gift Details");
+            console.trace(error);
+            return null;
+          }
         });
-    
-    
-    
-    })();
-    
 
+      if (pendingRecommendation.length > 0) {
+        res.status(200).send({
+          status: "Pending",
+          message: "The Recommendation is in Pending, You can not add now",
+        });
+        res.end();
+      } else {
+        const createRecommendation =
+          await Advertisement_Recommendation.bulkCreate(
+            recommendationAndAgencies
+          )
+            .then((result) => {
+              if (result) return result;
+              else return null;
+            })
+            .catch((error) => {
+              if (error) {
+                console.error(
+                  "Error fetching Agency Recommendation Gift Details"
+                );
+                console.trace(error);
+                return null;
+              }
+            });
 
+        if (createRecommendation) {
+          res
+            .status(200)
+            .send({ status: "Success", message: "Rec", createRecommendation });
+          res.end();
+        } else {
+          res.status(500).send({
+            error: "Can not create recommendations.Please try again later.",
+          });
+        }
+      }
+    } else {
+      res
+        .status(503)
+        .send({ error: "Service Unavailable .Please try again later." });
+    }
+  });
 
+  // Advertisement_Recommendation.sync({ force: true });
 
+  // var agency = [
+  //   "2b1408ec-3e1b-4e86-a91e-1907c4757705",
+  //   "73fdc416-2d33-45a7-b882-50bd911020a9",
+  //   "fff5be2d-e979-499d-95c6-219811519d5b",
+  // ];
+  // var gift = ["97534225-e455-409b-9ebb-7b1e54e551b3"];
+  // (async function () {
+  //   const agency_giftInfo = await Promise.all([
+  //     Agency_Info.findAll({
+  //       attributes: ["agency_id"],
+  //       where: {
+  //         deleted: 0,
+  //         isPaused: 0,
+  //         agency_uuid: agency,
+  //       },
+  //     }),
+  //     AdvertismentGift.findAll({
+  //       attributes: ["adver_gift_id"],
+  //       where: {
+  //         deleted: 0,
+  //         paused: 0,
+  //         advert_gift_uuid: gift,
+  //       },
+  //     }),
+  //   ]);
 
-
-
-
-
-
-
-
-
-
+  //   if (agency_giftInfo) {
+  //     const createRecommendation =
+  //       await Advertisement_Recommendation.bulkCreate(
+  //         agency_giftInfo.map((information) => ({
+  //           agency_id
+  //         }))
+  //       );
+  //   }
+  // })();
 };
-
 
 getAuthenticateJSON = (userReqBody) => {
   Object.keys(userReqBody).forEach((key) => {

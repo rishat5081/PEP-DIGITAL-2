@@ -19,12 +19,13 @@ module.exports = new Sequelize(
     benchmark: true,
     omitNull: true,
     protocol: false,
+
     pool: {
       max: 10,
       min: 3,
       idle: 10000, //The maximum time, in milliseconds, that a connection can be idle before being released.
       acquire: 5000000, //The maximum time, in milliseconds, that pool will try to get connection before throwing error
-      evict: 100000 // The time interval, in milliseconds, after which sequelize-pool will remove idle connections.
+      evict: 100000, // The time interval, in milliseconds, after which sequelize-pool will remove idle connections.
     },
     define: {
       underscored: false,
@@ -37,9 +38,9 @@ module.exports = new Sequelize(
       updatedAt: "updateTimestamp",
       charset: "utf8",
       dialectOptions: {
-        collate: "utf8_general_ci"
-      }
-    }
+        collate: "utf8_general_ci",
+      },
+    },
 
     // retry: {
     //   match: [

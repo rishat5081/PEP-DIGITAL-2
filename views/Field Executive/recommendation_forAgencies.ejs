@@ -79,7 +79,9 @@
 
                 <div class="d-flex flex-row-reverse bd-highlight">
                   <div class="p-2 bd-highlight">
-                    <a href="http://google.com">View All Promotional Gift</a>
+                    <a href="<%=url%>/user/viewAllRecommendations/<%=info.uuid%>"
+                      >View All Promotional Gift</a
+                    >
                   </div>
                 </div>
                 <div
@@ -154,6 +156,14 @@
     <script src="<%=url%>/vendor/jquery/tilt.jquery.min.js"></script>
     <script src="<%=url%>/toastr/toastr.min.js"></script>
     <script>
+      var menu = document.getElementById("menu");
+      function openMenu() {
+        menu.style.top = "0";
+      }
+      function closeMenu() {
+        menu.style.top = "-100vh";
+      }
+
       $(document).ready(function () {
         var multipleCancelButton = new Choices("#agency_name", {
           removeItemButton: true,
@@ -192,7 +202,6 @@
       var alertt = document.getElementById("RecordAdded");
 
       $("#AddtoTable").click(function () {
-        console.log("clicked ");
         var agencyName = [];
         var giftName = [];
 
@@ -216,14 +225,19 @@
           $.ajax({
             type: "POST",
             url: "/addRecommendationofAgency",
-            data: { agencyList:JSON.stringify(agencyName), giftList:   JSON.stringify(giftName) },
+            data: {
+              agencyList: JSON.stringify(agencyName),
+              giftList: JSON.stringify(giftName),
+            },
             dataType: "json",
             error: (error) => {
               console.log(error);
             },
             success: (response) => {
-              
-              console.log(response);
+              if (response.status === "Success")
+                toastr.success(response.message);
+              if (response.status === "Pending")
+                toastr.warning(response.message);
             },
           });
         } else toastr.error("Gift Error");

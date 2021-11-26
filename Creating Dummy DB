@@ -296,11 +296,10 @@ Database.Advertisement_Recommendation.sync({force:true})
 
 
 
-
-function addPermissioins() {
-  const Perm = await Permissions.findOne({
+async function addPermissioins() {
+  const Perm = await Database. Permissions.findOne({
     where: {
-      permmission_id: 3,
+      permmission_id: 22,
     },
     // include: {
     //   model: User_Role,
@@ -311,7 +310,7 @@ function addPermissioins() {
   })
 
 
-  const user =  await User_Role.findOne({
+  const user =  await  Database. User_Role.findOne({
     where:{
       type_name:'Team Lead'
     }
@@ -321,6 +320,8 @@ function addPermissioins() {
 
   console.log(Perm)
 }
+
+addPermissioins()
 
 addPermissioins()
 

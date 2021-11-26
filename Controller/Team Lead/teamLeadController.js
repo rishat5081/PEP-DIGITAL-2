@@ -3,7 +3,7 @@ module.exports = (app) => {
     fs = require("fs"),
     Database = require("../../Configuration Files/Sequelize/Database_Synchronization"),
     {
-      multerFile_Upload_Function
+      multerFile_Upload_Function,
     } = require("../../Configuration Files/Multer Js/multer");
   /**
    * Upload image of the user at the starting of the new user login
@@ -19,24 +19,24 @@ module.exports = (app) => {
 
         Database.Team_Lead.update(
           {
-            team_L_userProfilePic: filePath[1] + filename
+            team_L_userProfilePic: filePath[1] + filename,
           },
           {
             where: {
-              login_id: req.session.passport.user.userInfo.login_id
-            }
+              login_id: req.session.passport.user.userInfo.login_id,
+            },
           }
         ).then((response) => {
           if (response) {
             res.send({
               type: "success",
               messages: "Profile Image Uploaded",
-              profileImage: filePath[1] + filename
+              profileImage: filePath[1] + filename,
             });
           } else {
             res.send({
               type: "danger",
-              messages: "Error! in Uploading Image! "
+              messages: "Error! in Uploading Image! ",
             });
           }
         });
@@ -52,15 +52,15 @@ module.exports = (app) => {
         where: {
           type_name: {
             [Op.like]: "%Team Lead%",
-            [Op.like]: "%Team%"
-          }
-        }
+            [Op.like]: "%Team%",
+          },
+        },
       },
       attributes: ["target", "commission", "salary"],
       where: {
         paused: 0,
-        deleted: 0
-      }
+        deleted: 0,
+      },
     })
       .then((response) => {
         if (response) return response;
@@ -82,12 +82,12 @@ module.exports = (app) => {
           team_L_username: req.body.username,
           team_L_target: dbResponse.dataValues.target,
           team_L_salary: dbResponse.dataValues.salary,
-          team_L_commission: dbResponse.dataValues.commission
+          team_L_commission: dbResponse.dataValues.commission,
         },
         {
           where: {
-            login_id: req.session.passport.user.userInfo.login_id
-          }
+            login_id: req.session.passport.user.userInfo.login_id,
+          },
         }
       )
         .then((response) => {
@@ -110,20 +110,20 @@ module.exports = (app) => {
         res.status(200).send({
           type: "success",
           messages: "Updated",
-          uuid: req.session.passport.user.userInfo.login_uuid
+          uuid: req.session.passport.user.userInfo.login_uuid,
         });
         res.end();
       } else {
         res.status(503).send({
           type: "danger",
-          messages: "Error! Internal Error! "
+          messages: "Error! Internal Error! ",
         });
         res.end();
       }
     } else {
       res.status(503).send({
         type: "danger",
-        messages: "Error! Internal Error! "
+        messages: "Error! Internal Error! ",
       });
     }
   });
@@ -142,14 +142,14 @@ module.exports = (app) => {
        */
       const emailUpdate = await Database.User_Login_Information.update(
         {
-          login_email: userReqBody.email
+          login_email: userReqBody.email,
         },
         {
           where: {
             login_id: req.session.passport.user.userInfo.login_id,
             paused: 0,
-            deleted: 0
-          }
+            deleted: 0,
+          },
         }
       );
 
@@ -157,12 +157,12 @@ module.exports = (app) => {
         {
           team_L_name: userReqBody.fullname,
           team_L_contact: userReqBody.contact,
-          team_L_username: userReqBody.username
+          team_L_username: userReqBody.username,
         },
         {
           where: {
-            team_L_uuid: req.session.profileData.team_L_uuid
-          }
+            team_L_uuid: req.session.profileData.team_L_uuid,
+          },
         }
       );
       if (emailUpdate && updateExecutiveInfo) {
@@ -173,7 +173,7 @@ module.exports = (app) => {
         );
         res.status(404).send({
           error: "error",
-          details: "Error! while updating your information."
+          details: "Error! while updating your information.",
         });
       }
     } else
@@ -196,13 +196,13 @@ module.exports = (app) => {
           //using the UUID from the front end
           field_uuid: req.body.id,
           field_isDeleted: false,
-          field_isPaused: false
-        }
+          field_isPaused: false,
+        },
       },
       where: {
         deleted: false,
-        paused: false
-      }
+        paused: false,
+      },
     });
 
     //getting the role id of the field executive  from the database so i may not be static
@@ -215,37 +215,37 @@ module.exports = (app) => {
         paused: false,
         type_name: {
           [Op.like]: [`Field Executive`],
-          [Op.like]: [`%Field Executive%`]
-        }
-      }
+          [Op.like]: [`%Field Executive%`],
+        },
+      },
     });
 
     //update the role of the user to Field Executive
 
     const updateRole = await Database.User_Login_Information.update(
       {
-        user_role_id: userRole.dataValues.user_role_id
+        user_role_id: userRole.dataValues.user_role_id,
       },
       {
         where: {
           login_id: fieldExecutive.dataValues.login_id,
           deleted: false,
-          paused: false
-        }
+          paused: false,
+        },
       }
     );
     //and adding the Field Executive to the Team lead
 
     const updateExecutiveToTeam = await Database.Field_Executive.update(
       {
-        team_L_id: req.session.profileData.team_L_id
+        team_L_id: req.session.profileData.team_L_id,
       },
       {
         where: {
           field_uuid: req.body.id,
           field_id:
-            fieldExecutive.dataValues.Field_Executive.dataValues.field_id
-        }
+            fieldExecutive.dataValues.Field_Executive.dataValues.field_id,
+        },
       }
     );
 
@@ -254,25 +254,25 @@ module.exports = (app) => {
       previousRole: fieldExecutive.dataValues.user_role_id,
       newRole: userRole.dataValues.user_role_id,
       field_id: fieldExecutive.dataValues.Field_Executive.dataValues.field_id,
-      team_L_id: 1
+      team_L_id: 1,
     });
 
     //sending the response to the user
     if ((fieldExecutive, userRole, updateExecutiveToTeam, roleChanged)) {
       res.status(200).send({
-        status: "Done"
+        status: "Done",
       });
     } else {
       res.status(400).send({
-        error: "error"
+        error: "error",
       });
     }
   });
 
   /**
-   * assigning the area to the field executive 
+   * assigning the area to the field executive
    * first find the the city area sector and then find the employees from the database
-   * then update the City_Sector_Assosiate  
+   * then update the City_Sector_Assosiate
    */
   app.route("/allocateSectorToExecutive").post(async (req, res) => {
     //getting the sector ID from the database
@@ -281,8 +281,8 @@ module.exports = (app) => {
       where: {
         city_sector_uuid: req.body.selectedArea,
         deleted: 0,
-        paused: 0
-      }
+        paused: 0,
+      },
     });
     let selectedEmployee = JSON.parse(req.body.employees);
 
@@ -291,8 +291,8 @@ module.exports = (app) => {
       where: {
         field_uuid: selectedEmployee.map((uuid) => uuid),
         field_isDeleted: 0,
-        field_isPaused: 0
-      }
+        field_isPaused: 0,
+      },
     });
 
     //console.(sectorID);
@@ -303,7 +303,7 @@ module.exports = (app) => {
       executiveID.map((employee) => {
         return {
           field_id: employee.field_id,
-          city_sector_id: sectorID.city_sector_id
+          city_sector_id: sectorID.city_sector_id,
         };
       })
     );
@@ -335,8 +335,8 @@ module.exports = (app) => {
         field_isPaused: 0,
         field_uuid: JSON.parse(req.body.employeeList).map(
           (employee) => employee
-        )
-      }
+        ),
+      },
     }).catch((error) => {
       if (error) {
         console.error("Error Fetching the Data of Executive");
@@ -351,16 +351,16 @@ module.exports = (app) => {
         [Op.or]: [
           {
             notification_title: {
-              [Op.like]: "%Team%"
-            }
+              [Op.like]: "%Team%",
+            },
           },
           {
             notification_title: {
-              [Op.like]: "%Team Member%"
-            }
-          }
-        ]
-      }
+              [Op.like]: "%Team Member%",
+            },
+          },
+        ],
+      },
     }).catch((error) => {
       console.error("Error in creating ExecutiveNotifications");
       console.trace(error);
@@ -372,7 +372,7 @@ module.exports = (app) => {
         return {
           field_id: member.dataValues.field_id,
           notification_text: req.body.messageText,
-          notification_id: notificationID.dataValues.notification_id
+          notification_id: notificationID.dataValues.notification_id,
         };
       })
     ).catch((error) => {
@@ -398,8 +398,8 @@ module.exports = (app) => {
       where: {
         team_L_id: req.session.profileData.team_L_id,
         field_isDeleted: 0,
-        field_isPaused: 0
-      }
+        field_isPaused: 0,
+      },
     }).catch((error) => {
       if (error) {
         console.error("Error Fetching the Data of Executive");
@@ -414,16 +414,16 @@ module.exports = (app) => {
         [Op.or]: [
           {
             notification_title: {
-              [Op.like]: "%Team%"
-            }
+              [Op.like]: "%Team%",
+            },
           },
           {
             notification_title: {
-              [Op.like]: "%Team Member%"
-            }
-          }
-        ]
-      }
+              [Op.like]: "%Team Member%",
+            },
+          },
+        ],
+      },
     }).catch((error) => {
       console.error("Error in creating ExecutiveNotifications");
       console.trace(error);
@@ -435,7 +435,7 @@ module.exports = (app) => {
         return {
           field_id: member.dataValues.field_id,
           notification_text: req.body.messageText,
-          notification_id: notificationID.dataValues.notification_id
+          notification_id: notificationID.dataValues.notification_id,
         };
       })
     ).catch((error) => {
@@ -460,13 +460,13 @@ module.exports = (app) => {
   app.route("/unreadTeamAllNotifications").post(async (req, res) => {
     const Notifications = await Database.TeamLead_Notifications.update(
       {
-        isRead: true
+        isRead: true,
       },
       {
         where: {
           team_L_id: req.session.profileData.team_L_id,
-          isRead: false
-        }
+          isRead: false,
+        },
       }
     ).then((response) => {
       if (response) return response;
@@ -483,8 +483,8 @@ module.exports = (app) => {
       where: {
         exec_recomm_uuid: req.body.selectedRecommendation,
         deleted: 0,
-        paused: 0
-      }
+        paused: 0,
+      },
     });
     let selectedEmployee = JSON.parse(req.body.employeeList);
 
@@ -493,8 +493,8 @@ module.exports = (app) => {
       where: {
         field_uuid: selectedEmployee.map((uuid) => uuid),
         field_isDeleted: 0,
-        field_isPaused: 0
-      }
+        field_isPaused: 0,
+      },
     });
 
     let addRecommendation =
@@ -505,7 +505,7 @@ module.exports = (app) => {
             team_L_id: req.session.profileData.team_L_id,
             exec_recomm_id: recommendationID.exec_recomm_id,
             recommendationDetails: req.body.recommendationText,
-            recommendationTitle: req.body.title
+            recommendationTitle: req.body.title,
           };
         })
       );
@@ -530,6 +530,108 @@ module.exports = (app) => {
         addRecommendation =
           null;
       res.status(500).send({ error: "Please try again" });
+      res.end();
+    }
+    ////console.(req.body);
+  });
+
+  //pause the field executive  recommendation to
+  app.route("/teamlead/declineRecommendation").put(async (req, res) => {
+    //getting the recommendation ID from the database
+    let recommendationID = await Database.Advertisement_Recommendation.findOne({
+      where: {
+        advert_recom_uuid: req.body.uuid,
+        deleted: false,
+        paused: false,
+        status: false,
+        team_L_id: null,
+        team_lead_dateTime: null,
+      },
+    })
+      .then((result) => {
+        if (result) {
+          result.update({
+            team_L_id: req.session.profileData.team_L_id,
+            team_lead_dateTime: new Date().toUTCString(),
+            status: true,
+            team_lead_decline_status: true,
+          });
+        } else {
+          return null;
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          console.log("Error Getting all the recommendation");
+          console.trace(err);
+          return null;
+        }
+      });
+
+    if (recommendationID !== null) {
+      recommendationID = null;
+      res.status(200).send({
+        status: "Updated",
+        message: "Recommendation Marked Successfully",
+      });
+      res.end();
+    } else {
+      res.status(500).send({
+        status: "Already Updated",
+        message: "Recommendation is already marked. Try Again",
+        recommendationID,
+      });
+      res.end();
+    }
+    ////console.(req.body);
+  });
+
+  //pause the field executive  recommendation to
+  app.route("/teamlead/approveRecommendation").put(async (req, res) => {
+    //getting the recommendation ID from the database
+    let recommendationID = await Database.Advertisement_Recommendation.findOne({
+      where: {
+        advert_recom_uuid: req.body.uuid,
+        deleted: false,
+        paused: false,
+        status: false,
+        team_L_id: null,
+        team_lead_dateTime: null,
+      },
+    })
+      .then((result) => {
+        if (result) {
+          result.update({
+            team_L_id: req.session.profileData.team_L_id,
+            team_lead_dateTime: new Date().toUTCString(),
+            status: true,
+            team_lead_forward_status: true,
+          });
+        } else {
+          return null;
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          console.log("Error Getting all the recommendation");
+          console.trace(err);
+          return null;
+        }
+      });
+
+    if (recommendationID !== null) {
+      recommendationID = null;
+      res.status(200).send({
+        status: "Updated",
+        message: "Recommendation Marked Successfully",
+      });
+      res.end();
+    } else {
+      res.status(500).send({
+        status: "Already Updated",
+        message: "Recommendation is already marked. Try Again",
+        recommendationID,
+      });
       res.end();
     }
     ////console.(req.body);
