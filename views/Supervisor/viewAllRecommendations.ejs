@@ -85,7 +85,7 @@
             <a href="#">
               <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
             </a>
-            <a href="<%=url%>/teamlead/notification">
+            <a href="<%=url%>/supervisor/notification">
               <span class="fa fa-bell menu-button">
                 <span class="button__badge" style="display: none"></span>
               </span>
@@ -95,7 +95,7 @@
                 <% permissions.forEach(element=> { %>
                 <li>
                   <a
-                    href="<%=url%>/teamlead<%= element.controller%>/<%=info.uuid%>"
+                    href="<%=url%>/supervisor<%= element.controller%>/<%=info.uuid%>"
                   >
                     <span class="<%= element.icon%>"></span>
                     <%= element.permission_name %>
@@ -103,7 +103,7 @@
                 </li>
                 <% }); %>
                 <li>
-                  <a href="<%=url%>/teamlead/signout">
+                  <a href="<%=url%>/supervisor/signout">
                     <span class="fa fa-sign-out"> </span> Log Out</a
                   >
                 </li>
@@ -121,7 +121,7 @@
             <div class="d-flex flex-row-reverse bd-highlight">
               <div class="p-2 bd-highlight">
                 <a
-                  href="<%=url%>/teamlead/viewRecommendationsHistory/<%=info.uuid %> "
+                  href="<%=url%>/supervisor/viewRecommendationsHistory/<%=info.uuid %> "
                   >View Recommendation History</a
                 >
               </div>
@@ -132,12 +132,11 @@
                 <thead class="table-primary">
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Executive Name</th>
+                    <th scope="col">Team Lead Name</th>
                     <th scope="col">Agency Name</th>
                     <th scope="col">Agency City</th>
                     <th scope="col">Gift Name</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Team Lead Approval</th>
                     <th scope="col">Create At</th>
                     <th scope="col">Action</th>
                   </tr>
@@ -146,21 +145,18 @@
                   <% allRecommendations.forEach((element,index) => { %>
                   <tr>
                     <th scope="row"><%=++index %></th>
-                    <td><%= element.Field_Executive.field_name %></td>
+                    <td><%= element.Team_Lead.team_L_name %></td>
                     <td><%= element.Agency_Info.agency_name %></td>
                     <td><%= element.Agency_Info.agency_city %></td>
                     <td><%= element.AdvertismentGift.adver_gift_name %></td>
 
-                    <% if (element.status) { %>
+                    <% if (element.team_lead_forward_status) { %>
                     <td style="color: green">Approved</td>
                     <% } else{%>
-                    <td style="color: rgb(250, 79, 0)">Pending</td>
-                    <% } %> <% if (element.team_lead_forward_status) { %>
-                    <td style="color: green">Approved</td>
-                    <% } else{%>
-                    <td style="color: rgb(250, 79, 0)">Pending</td>
+                    <td style="color: rgb(250, 79, 0)">Decline</td>
                     <% } %>
-                    <td><%= element.createdAt %></td>
+
+                    <td><%= element.team_lead_dateTime %></td>
 
                     <td>
                       <button
@@ -246,6 +242,9 @@
           },
         });
       };
+
+      //pagination for the table to display the information
+      //if the table is more than 10 there will be paginations
       function pagination() {
         //   $('#data').after('<div id="nav" class="text-center"></div>');
         var rowsShown = 10;

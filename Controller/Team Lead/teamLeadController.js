@@ -540,7 +540,7 @@ module.exports = (app) => {
     //getting the recommendation ID from the database
     let recommendationID = await Database.Advertisement_Recommendation.findOne({
       where: {
-        advert_recom_uuid: req.body.uuid,
+        advert_recom_uuid: req.body.declineRecommendationUUID,
         deleted: false,
         paused: false,
         status: false,
@@ -555,6 +555,7 @@ module.exports = (app) => {
             team_lead_dateTime: new Date().toUTCString(),
             status: true,
             team_lead_decline_status: true,
+            team_lead_decline_descr: req.body.reason,
           });
         } else {
           return null;
@@ -583,7 +584,6 @@ module.exports = (app) => {
       });
       res.end();
     }
-    ////console.(req.body);
   });
 
   //pause the field executive  recommendation to

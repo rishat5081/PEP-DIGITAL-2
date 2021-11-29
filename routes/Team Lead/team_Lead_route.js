@@ -681,6 +681,7 @@ router.get(
   }
 );
 
+//displaying the pending recommendations
 router.get(
   "/recommendations/:teamLeadUUID",
   isUser_Login,
@@ -749,6 +750,90 @@ router.get(
         });
 
     res.status(200).render("Team Lead/viewAllRecommendations", {
+      url: req.protocol + "://" + req.get("host"),
+      info: {
+        id: req.session.passport.user.userInfo.login_id,
+        uuid: req.session.profileData.team_L_uuid,
+      },
+      allRecommendations,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      permissions: req.session.permissions.permissionObject,
+    });
+    res.end();
+  }
+);
+
+//route to display all the approved and delcine recommendations
+router.get(
+  "/viewRecommendationsHistory/:teamLeadUUID",
+  isUser_Login,
+  isUserAuthentic,
+  async (req, res) => {
+    let unreadNotificationCount = await countofNotificationOfExecutive(
+      req.session.profileData.team_L_uuid
+    );
+
+    //getting the recommendation list from the data
+
+    let allRecommendations =
+      await Database.Advertisement_Recommendation.findAll({
+        attributes: [
+          "team_lead_forward_status",
+          "team_lead_decline_status",
+          "team_lead_decline_descr",
+          "team_lead_dateTime",
+          "advert_recom_uuid",
+        ],
+        include: [
+          {
+            model: Database.Agency_Info,
+            required: true,
+            attributes: ["agency_name", "agency_city"],
+            where: {
+              deleted: 0,
+              isPaused: 0,
+            },
+          },
+          {
+            model: Database.AdvertismentGift,
+            required: true,
+            attributes: ["adver_gift_name"],
+            where: {
+              deleted: 0,
+              paused: 0,
+            },
+          },
+          {
+            model: Database.Field_Executive,
+            required: true,
+            attributes: ["field_name"],
+            where: {
+              field_isDeleted: 0,
+              field_isPaused: 0,
+              team_L_id: req.session.profileData.team_L_id,
+            },
+          },
+        ],
+        where: {
+          paused: 0,
+          status: 1,
+          deleted: 0,
+        },
+      })
+        .then((result) => {
+          if (result) return result;
+          else return null;
+        })
+        .catch((err) => {
+          if (err) {
+            console.log("Error Getting all the recommendation");
+            console.trace(err);
+            return null;
+          }
+        });
+
+    res.status(200).render("Team Lead/viewRecommendationsHistory", {
       url: req.protocol + "://" + req.get("host"),
       info: {
         id: req.session.passport.user.userInfo.login_id,

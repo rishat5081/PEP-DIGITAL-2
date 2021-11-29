@@ -737,10 +737,81 @@ router.get(
   isUser_Login,
   isUserAuthentic,
   async (req, res) => {
-    res.send({
-      sup_id: req.params.sup_uuid,
-      recommendations: "recommendations recommendations",
+    let unreadNotificationCount = await countofNotificationOfSuperVisor(
+      req.session.profileData.sup_id
+    );
+
+    //getting the recommendation list from the data
+
+    let allRecommendations =
+      await Database.Advertisement_Recommendation.findAll({
+        attributes: [
+          "team_lead_forward_status",
+
+          "team_lead_dateTime",
+          "advert_recom_uuid",
+        ],
+        include: [
+          {
+            model: Database.Agency_Info,
+            required: true,
+            attributes: ["agency_name", "agency_city"],
+            where: {
+              deleted: 0,
+              isPaused: 0,
+            },
+          },
+          {
+            model: Database.AdvertismentGift,
+            required: true,
+            attributes: ["adver_gift_name"],
+            where: {
+              deleted: 0,
+              paused: 0,
+            },
+          },
+          {
+            model: Database.Team_Lead,
+            required: true,
+            attributes: ["team_L_name"],
+            where: {
+              team_L_isDeleted: 0,
+              team_L_isPaused: 0,
+              sup_id: req.session.profileData.sup_id,
+            },
+          },
+        ],
+        where: {
+          paused: 0,
+          status: 1,
+          team_lead_forward_status: 1,
+          deleted: 0,
+        },
+      })
+        .then((result) => {
+          if (result) return result;
+          else return null;
+        })
+        .catch((err) => {
+          if (err) {
+            console.log("Error Getting all the recommendation");
+            console.trace(err);
+            return null;
+          }
+        });
+
+    res.status(200).render("Supervisor/viewAllRecommendations", {
+      url: req.protocol + "://" + req.get("host"),
+      info: {
+        id: req.session.passport.user.userInfo.login_id,
+        uuid: req.session.profileData.sup_uuid,
+      },
+      allRecommendations,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      permissions: req.session.permissions.permissionObject,
     });
+    res.end();
   }
 );
 /**

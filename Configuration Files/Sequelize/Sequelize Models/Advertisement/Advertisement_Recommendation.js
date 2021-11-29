@@ -104,6 +104,13 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         type: DataTypes.DATE,
         allowNull: true,
         defaultValue: null,
+        get: function () {
+          // 'this' allows you to access attributes of the instance
+          return this.getDataValue("team_lead_dateTime")
+            .toISOString()
+            .slice(0, 19)
+            .split("T");
+        },
       },
       sup_id: {
         type: DataTypes.INTEGER,
@@ -152,6 +159,13 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
       team_lead_date_time: {
         type: DataTypes.DATE,
         defaultValue: null, //Date(Date.now().toString())
+        get: function () {
+          // 'this' allows you to access attributes of the instance
+          return this.getDataValue("team_lead_date_time")
+            .toISOString()
+            .slice(0, 19)
+            .split("T");
+        },
       },
       sup_dateTime: {
         type: DataTypes.DATE,
