@@ -322,19 +322,18 @@ app.post("/LoginForm", async (req, res) => {
           ipAddress: req.ip,
           man_id: profileInfo.userInfo.dataValues.man_id,
         });
-        if (profileInfo.userInfo.dataValues.man_name !== null || "") {
+        if (profileInfo.userInfo.dataValues.man_name !== null || "")
           res
             .status(200)
             .redirect(
               `/manager/dashboard/${profileInfo.userInfo.dataValues.man_uuid}`
             );
-        } else {
+        else
           res
             .status(200)
             .redirect(
               `/manager/completeProfile/${profileInfo.userInfo.dataValues.man_uuid}`
             );
-        }
       }
 
       if (req.user.userRole.type_name === "SuperVisor") {

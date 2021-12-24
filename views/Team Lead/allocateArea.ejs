@@ -130,7 +130,7 @@
             </div>
             <% }else{ %>
 
-            <table class="table">
+            <table class="table" id="areaTable">
               <thead class="thead-light">
                 <tr>
                   <th scope="col">#</th>
@@ -149,14 +149,28 @@
                   <td scope="col">
                     <% teamMember.forEach(member => { %>
                     <%if(element.field_uuid=== member.field_uuid ){%>
-
-                    <select name="" id="" class="form-group p-2 w-75">
+                    <ul class="list-group">
                       <%member.City_Sectors.forEach(area => {%>
-                      <option value="<%=area.city_sector_uuid %>">
+
+                      <li
+                        class="
+                          list-group-item
+                          d-flex
+                          justify-content-between
+                          align-items-center
+                        "
+                      >
                         <%=area.sector_name %>
-                      </option>
+                        <span
+                          class="badge badge-danger badge-pill"
+                          onclick="deleteArea('<%=area.city_sector_uuid%>','<%=member.field_uuid%>')"
+                        >
+                          <i class="fa fa-times" aria-hidden="true"></i
+                        ></span>
+                      </li>
+
                       <% }) %>
-                    </select>
+                    </ul>
 
                     <%} })%>
                   </td>
@@ -188,9 +202,69 @@
           JSON.parse("<%-JSON.stringify(unreadNotificationCount)%>")
         );
       }
+
+      function pagination() {
+        //   $('#data').after('<div id="nav" class="text-center"></div>');
+        var rowsShown = 10;
+        var rowsTotal = $("#areaTable tbody tr").length;
+        if (rowsShown < rowsTotal) {
+          $("#areaTable").after(
+            '<div id="nav" class="text-center" ></div>'
+          );
+          var numPages = rowsTotal / rowsShown;
+          for (i = 0; i < numPages; i++) {
+            var pageNum = i + 1;
+            $("#nav").append(
+              '<a href="#" rel="' + i + '">' + pageNum + "</a> "
+            );
+          }
+          $("#areaTable tbody tr").hide();
+          $("#areaTable tbody tr").slice(0, rowsShown).show();
+          $("#nav a").bind("click", function () {
+            var currPage = $(this).attr("rel");
+            var startItem = currPage * rowsShown;
+            var endItem = startItem + rowsShown;
+            $("#areaTable tbody tr")
+              .css("opacity", "0.0")
+              .hide()
+              .slice(startItem, endItem)
+              .css("display", "table-row")
+              .animate(
+                {
+                  opacity: 1,
+                },
+                300
+              );
+          });
+        }
+      }
+
+      window.onload = () => {
+        pagination();
+      };
+
       $(".js-tilt").tilt({
-        scale: 1.1
+        scale: 1.1,
       });
+
+      const deleteArea = (selectedArea, executiveUUID) => {
+        console.log(selectedArea);
+        console.log(executiveUUID);
+        $.ajax({
+          type: "PUT",
+          url: `${window.location.origin}/teamlead/removeSectorToExecutive`,
+          data: { selectedArea, executiveUUID },
+          dataType: "json",
+          error: (error) => {
+            console.error(error);
+            toastr.error(error.error);
+          },
+          success: (response) => {
+            if (response.executiveID[0]) toastr.success(response.message);
+            else toastr.warning("Sector is already marked deleted");
+          },
+        });
+      };
 
       var menu = document.getElementById("menu"),
         teamMember = JSON.parse(`<%-JSON.stringify(teamMember)%>`),
@@ -203,7 +277,7 @@
       }
       $(document).ready(function () {
         var multipleCancelButton = new Choices("#employees", {
-          removeItemButton: true
+          removeItemButton: true,
         });
       });
 
@@ -264,7 +338,7 @@
                 toastr.success("Area Allocated to the Employees ");
                 location.reload(true);
               }
-            }
+            },
           });
         }
       });

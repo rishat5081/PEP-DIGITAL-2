@@ -207,7 +207,7 @@
         if ($("#reason").val().length > 0) {
           $.ajax({
             type: "PUT",
-            url: `${window.location.origin}/teamlead/declineRecommendation`,
+            url: `${window.location.origin}/supervisor/declineRecommendation/<%=info.uuid%>`,
             data: { declineRecommendationUUID, reason: $("#reason").val() },
             dataType: "json",
             error: (error) => {
@@ -229,7 +229,7 @@
       const approveRecommendation = (uuid) => {
         $.ajax({
           type: "PUT",
-          url: `${window.location.origin}/teamlead/approveRecommendation`,
+          url: `${window.location.origin}/supervisor/approveRecommendation/<%=info.uuid%>`,
           data: { uuid },
           dataType: "json",
           error: (error) => {

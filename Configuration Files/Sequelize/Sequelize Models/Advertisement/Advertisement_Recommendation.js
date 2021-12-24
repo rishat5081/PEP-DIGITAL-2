@@ -170,10 +170,24 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
       sup_dateTime: {
         type: DataTypes.DATE,
         defaultValue: null, //Date(Date.now().toString())
+        get: function () {
+          // 'this' allows you to access attributes of the instance
+          return this.getDataValue("sup_dateTime")
+            .toISOString()
+            .slice(0, 19)
+            .split("T");
+        },
       },
       mana_dateTime: {
         type: DataTypes.DATE,
         defaultValue: null, //Date(Date.now().toString())
+        get: function () {
+          // 'this' allows you to access attributes of the instance
+          return this.getDataValue("mana_dateTime")
+            .toISOString()
+            .slice(0, 19)
+            .split("T");
+        },
       },
       mana_approval: {
         type: DataTypes.BOOLEAN,

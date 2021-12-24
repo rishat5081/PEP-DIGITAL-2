@@ -6,11 +6,6 @@ let sequelize = require("./Sequelize"),
         sequelize,
         Sequelize
       ),
-    Advertisement_Recommendation_test:
-      require("./Sequelize Models/Advertisement/Advertisement_Recommendation_test")(
-        sequelize,
-        Sequelize
-      ),
     Advertisement_Stock:
       require("./Sequelize Models/Advertisement/Advertisement_Stock")(
         sequelize,
@@ -319,6 +314,10 @@ let sequelize = require("./Sequelize"),
       sequelize,
       Sequelize
     ),
+    ChangeTeamLeadRoleLogs: require("./Sequelize Models/Users Login/changeTeamLeadRoleLogs")(
+      sequelize,
+      Sequelize
+    ),
     Role_ExtraInfo: require("./Sequelize Models/Users Login/Role_ExtraInfo")(
       sequelize,
       Sequelize
@@ -465,8 +464,6 @@ let WipeOutTableRecord = async () => {
     .query("SET FOREIGN_KEY_CHECKS = 1", null, { raw: true })
     .then((response) => console.log("-----> Done...."));
 };
-
-
 
 module.exports = Models;
 

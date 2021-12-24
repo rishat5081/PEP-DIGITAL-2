@@ -254,7 +254,7 @@ module.exports = (app) => {
       previousRole: fieldExecutive.dataValues.user_role_id,
       newRole: userRole.dataValues.user_role_id,
       field_id: fieldExecutive.dataValues.Field_Executive.dataValues.field_id,
-      team_L_id: 1,
+      team_L_id: req.session.profileData.team_L_id,
     });
 
     //sending the response to the user
@@ -318,6 +318,91 @@ module.exports = (app) => {
       res.end();
     }
     ////console.(req.body);
+  });
+
+  /**
+   * here is the removing the area from the executive
+   */
+
+  app.route("/teamlead/removeSectorToExecutive").put(async (req, res) => {
+    //getting the sector ID from the database
+    let sectorID = await Database.City_Sectors.findOne({
+      include: {
+        model: Database.Field_Executive,
+        required: true,
+        through: {
+          attributes: ["city_sector_assos_uuid"],
+        },
+        where: {
+          field_uuid: req.body.executiveUUID,
+          field_isDeleted: 0,
+          field_isPaused: 0,
+          team_L_id: req.session.profileData.team_L_id,
+        },
+      },
+      where: {
+        city_sector_uuid: req.body.selectedArea,
+        deleted: 0,
+        paused: 0,
+      },
+    })
+      .then((result) => {
+        if (result) {
+          return result.dataValues.Field_Executives[0].City_Sector_Assosiate
+            .dataValues;
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          console.error("Error Fetching Remove Sector Information");
+          console.trace(err);
+          return null;
+        }
+      });
+
+    if (sectorID) {
+      let executiveID = await Database.City_Sector_Assosiate.update(
+        {
+          paused: 1,
+        },
+        {
+          where: {
+            city_sector_assos_uuid: sectorID.city_sector_assos_uuid,
+            deleted: 0,
+            paused: 0,
+          },
+        }
+      )
+        .then((result) => {
+          return result;
+        })
+        .catch((err) => {
+          if (err) {
+            console.error("Error Fetching Remove Sector Information");
+            console.trace(err);
+            return null;
+          }
+        });
+
+      if (executiveID) {
+        res.status(200).send({
+          status: "success",
+          message: "Area Removed Successfully",
+          executiveID,
+        });
+        sectorID = executiveID = null;
+        res.end();
+      } else {
+        sectorID = executiveID = null;
+        res.status(500).send({ error: "Please try again" });
+        res.end();
+      }
+    } else {
+      res
+        .status(200)
+        .send({ status: "Marked Already", message: "Area is Already Deleted" });
+      res.end();
+    }
   });
 
   /**
@@ -635,6 +720,130 @@ module.exports = (app) => {
       res.end();
     }
     ////console.(req.body);
+  });
+
+  /**
+   * remove a member to the team
+   */
+
+  app.route("/removeMembertoTeam").put(async (req, res) => {
+    // checking the user inofrmation from the database and also getting the role and field id
+    const fieldExecutive = await Database.User_Login_Information.findOne({
+      attributes: ["login_id", "user_role_id"],
+      include: {
+        model: Database.Field_Executive,
+        required: true,
+        attributes: ["field_id"],
+        where: {
+          //using the UUID from the front end
+          field_uuid: req.body.id,
+          field_isDeleted: false,
+          field_isPaused: false,
+        },
+      },
+      where: {
+        deleted: false,
+        paused: false,
+      },
+    })
+      .then((result) => {
+        return result;
+      })
+      .catch((err) => {
+        if (err) {
+          console.log("Error Getting the Field Executive Info");
+          console.trace(err);
+          return null;
+        }
+      });
+
+    //getting the role id of the field executive  from the database so i may not be static
+    //it should be dynamic but the type must mathces Field Executive
+
+    const userRole = await Database.User_Role.findOne({
+      attributes: ["user_role_id"],
+      where: {
+        deleted: false,
+        paused: false,
+        type_name: {
+          [Op.like]: [`Freelance Field Executive`],
+          [Op.like]: [`%Freelance%`],
+        },
+      },
+    }).catch((err) => {
+      if (err) {
+        console.log("Error Getting the User Role Info");
+        console.trace(err);
+        return null;
+      }
+    });
+    //  and adding the Field Executive to the NULL
+    const updateExecutiveToTeam = await sequelize
+      .query(
+        `UPDATE field_executive SET team_L_id = NULL WHERE field_uuid = '${req.body.id}';`,
+        null,
+        { raw: true }
+      )
+      .then((response) => {
+        console.log("Creating Database.... Please Wait");
+        console.log(response);
+      })
+
+      .catch((err) => {
+        if (err) {
+          console.log("Error Updating the Team Lead Info");
+          console.trace(err);
+          return null;
+        }
+      });
+
+    //update the role of the user to Field Executive
+
+    const updateRole = await Database.User_Login_Information.update(
+      {
+        user_role_id: userRole.dataValues.user_role_id,
+      },
+      {
+        where: {
+          login_id: fieldExecutive.dataValues.login_id,
+          deleted: false,
+          paused: false,
+        },
+      }
+    ).catch((err) => {
+      if (err) {
+        console.log("Error Updating the User Role Info");
+        console.trace(err);
+        return null;
+      }
+    });
+
+    // adding the role information into the roleChanged table
+    const roleChanged = await Database.changeRoleLogs
+      .create({
+        previousRole: fieldExecutive.dataValues.user_role_id,
+        newRole: userRole.dataValues.user_role_id,
+        field_id: fieldExecutive.dataValues.Field_Executive.dataValues.field_id,
+        team_L_id: req.session.profileData.team_L_id,
+      })
+      .catch((err) => {
+        if (err) {
+          console.log("Error Creating the User Role Change Info");
+          console.trace(err);
+          return null;
+        }
+      });
+
+    //sending the response to the user
+    if ((fieldExecutive, userRole, updateExecutiveToTeam, roleChanged)) {
+      res.status(200).send({
+        status: "Done",
+      });
+    } else {
+      res.status(400).send({
+        error: "error",
+      });
+    }
   });
 };
 

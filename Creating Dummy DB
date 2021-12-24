@@ -323,7 +323,6 @@ async function addPermissioins() {
 
 addPermissioins()
 
-addPermissioins()
 
 
 City_Sectors.bulkCreate([

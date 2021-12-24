@@ -315,6 +315,10 @@ router.get(
         required: true,
         through: {
           attributes: [],
+          where: {
+            paused: 0,
+            deleted: 0,
+          },
         },
         where: {
           paused: 0,
@@ -397,6 +401,61 @@ router.get(
       });
 
     res.status(200).render("Team Lead/addFreelancertoTeam", {
+      info: {
+        id: req.session.passport.user.userInfo.login_id,
+        uuid: req.session.profileData.team_L_uuid,
+      },
+      teamMember,
+      url: req.protocol + "://" + req.get("host"),
+      user_role: req.session.passport.user.userRole,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      permissions: req.session.permissions.permissionObject,
+    });
+
+    unreadNotificationCount = null;
+    res.end();
+  }
+);
+//route to manage team
+router.get(
+  "/manageTeam/:teamLeadUUID",
+  isUser_Login,
+  isUserAuthentic,
+  async (req, res) => {
+    //getting the notificaton of the user
+    let unreadNotificationCount = await countofNotificationOfExecutive(
+      req.session.profileData.team_L_uuid
+    );
+
+    // getting the all executive which are no in any team they are working as freelance
+    let teamMember = await Database.Field_Executive.findAll({
+      attributes: ["field_uuid", "field_name", "field_contact"],
+      include: {
+        model: Database.User_Login_Information,
+        required: true,
+        attributes: ["login_email", "createdAt"],
+        where: {
+          paused: 0,
+          deleted: 0,
+        },
+      },
+      where: {
+        field_isDeleted: 0,
+        field_isPaused: 0,
+        team_L_id: req.session.profileData.team_L_id,
+      },
+    })
+      .then((member) => {
+        return member ? member : null;
+      })
+      .catch((error) => {
+        console.error("Error in getting Member");
+        console.trace(error);
+        return error ? null : true;
+      });
+
+    res.status(200).render("Team Lead/manageTeam", {
       info: {
         id: req.session.passport.user.userInfo.login_id,
         uuid: req.session.profileData.team_L_uuid,

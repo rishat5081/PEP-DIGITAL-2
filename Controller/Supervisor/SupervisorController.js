@@ -1213,6 +1213,185 @@ router.route("/readAllSupervisorNotifications").post(async (req, res) => {
   if (Notifications) res.send({ status: "Updated" });
 });
 
+//pause the field executive  recommendation to
+router
+  .route("/supervisor/declineRecommendation/:sup_uuid")
+  .put(isUserAuthentic, async (req, res) => {
+    //getting the recommendation ID from the database
+    let recommendationID = await Database.Advertisement_Recommendation.findOne({
+      where: {
+        advert_recom_uuid: req.body.uuid,
+        deleted: false,
+        paused: false,
+        status: true,
+        team_lead_forward_status: true,
+      },
+    })
+      .then((result) => {
+        if (result) {
+          result.update({
+            sup_id: req.session.profileData.sup_id,
+            sup_dateTime: new Date().toUTCString(),
+            sup_decline_status: true,
+            sup_decline_descr: req.body.reason,
+          });
+        } else {
+          return null;
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          console.log("Error Getting all the recommendation");
+          console.trace(err);
+          return null;
+        }
+      });
+
+    if (recommendationID !== null) {
+      recommendationID = null;
+      res.status(200).send({
+        status: "Updated",
+        message: "Recommendation Marked Successfully",
+      });
+      res.end();
+    } else {
+      res.status(500).send({
+        status: "Already Updated",
+        message: "Recommendation is already marked. Try Again",
+        recommendationID,
+      });
+      res.end();
+    }
+  });
+
+//pause the field executive  recommendation to
+router
+  .route("/supervisor/approveRecommendation/:sup_uuid")
+  .put(isUserAuthentic, async (req, res) => {
+    //getting the recommendation ID from the database
+    let recommendationID = await Database.Advertisement_Recommendation.findOne({
+      where: {
+        advert_recom_uuid: req.body.uuid,
+        deleted: false,
+        paused: false,
+        status: true,
+        team_lead_forward_status: true,
+      },
+    })
+      .then((result) => {
+        if (result) {
+          result.update({
+            sup_id: req.session.profileData.sup_id,
+            sup_dateTime: new Date().toUTCString(),
+            sup_forward_status: true,
+          });
+        } else {
+          return null;
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          console.log("Error Getting all the recommendation");
+          console.trace(err);
+          return null;
+        }
+      });
+
+    if (recommendationID !== null) {
+      recommendationID = null;
+      res.status(200).send({
+        status: "Updated",
+        message: "Recommendation Marked Successfully",
+      });
+      res.end();
+    } else {
+      res.status(500).send({
+        status: "Already Updated",
+        message: "Recommendation is already marked. Try Again",
+        recommendationID,
+      });
+      res.end();
+    }
+  });
+
+router.route("/removeTeamLeadfromteamm").put(async (req, res) => {
+  // checking the user inofrmation from the database and also getting the role and field id
+  const teamleadInfo = await Database.User_Login_Information.findOne({
+    attributes: ["login_id", "user_role_id"],
+    include: {
+      model: Database.Team_Lead,
+      required: true,
+      attributes: ["team_L_id"],
+      where: {
+        //using the UUID from the front end
+        team_L_uuid: req.body.id,
+        team_L_isDeleted: false,
+        team_L_isPaused: false,
+      },
+    },
+    where: {
+      deleted: false,
+      paused: false,
+    },
+  })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      if (err) {
+        console.log("Error Getting the Field Executive Info");
+        console.trace(err);
+        return null;
+      }
+    });
+
+  //  and adding the Field Executive to the NULL
+  const updateExecutiveToTeam = await sequelize
+    .query(
+      `UPDATE team_lead SET sup_id = NULL WHERE team_L_uuid = '${req.body.id}';`,
+      null,
+      { raw: true }
+    )
+    .then((response) => {
+      return response;
+    })
+
+    .catch((err) => {
+      if (err) {
+        console.log("Error Updating the Supervisor Info");
+        console.trace(err);
+        return null;
+      }
+    });
+
+  //update the role of the user to Field Executive
+
+  // adding the role information into the roleChanged table
+  const roleChanged = await Database.ChangeTeamLeadRoleLogs.create({
+    previousRole: teamleadInfo.dataValues.user_role_id,
+    newRole: 0,
+    team_L_id: teamleadInfo.dataValues.Team_Lead.dataValues.team_L_id,
+    sup_id: req.session.profileData.sup_id,
+  }).catch((err) => {
+    if (err) {
+      console.log("Error Creating the User Role Change Info");
+      console.trace(err);
+      return null;
+    }
+  });
+
+  //sending the response to the user
+  if ((teamleadInfo, updateExecutiveToTeam, roleChanged)) {
+    res.status(200).send({
+      status: "Done",
+    });
+  } else {
+    res.status(400).send({
+      error: "error",
+    });
+  }
+});
+
 module.exports = { router };
 
 // Database.Role_ExtraInfo()()()().create({

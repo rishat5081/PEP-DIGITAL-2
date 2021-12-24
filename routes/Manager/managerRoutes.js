@@ -1,7 +1,8 @@
 const router = require("express").Router(),
   Database = require("../../Configuration Files/Sequelize/Database_Synchronization"),
   { isUser_Login } = require("../Web_Pages/index"),
-  sequelize = require("../../Configuration Files/Sequelize/Sequelize");
+  { Op } = require("sequelize");
+sequelize = require("../../Configuration Files/Sequelize/Sequelize");
 
 /**
  * checking the user id or the UUID is the one who is into the session
@@ -9,8 +10,6 @@ const router = require("express").Router(),
 const isManagerAuthentic = (req, res, next) => {
   if (req.params.man_uuid === req.session.profileData.man_uuid) next();
   else res.redirect(`/manager/dashboard/${req.session.profileData.man_uuid}`);
-
-  next();
 };
 
 /**
@@ -96,31 +95,29 @@ router.get(
       }
     );
 
-    if (
-      (webAds, unreadNotificationCount, profileData, managerDashboard === null)
-    ) {
-      res.status(500).redirect("/manager/signout");
-      res.end();
-    } else {
-      res.status(200).render("Manager/dashboard", {
-        info: {
-          id: req.session.passport.user.userInfo.login_id,
-          uuid: req.session.profileData.man_uuid,
-        },
-        url: req.protocol + "://" + req.get("host"),
-        user_role: req.session.passport.user.userRole,
-        profileData,
-        webAds,
-        unreadNotificationCount:
-          unreadNotificationCount[0].dataValues.unreadNotificationCount,
-        permissions: req.session.permissions.permissionObject,
-      });
+    // if (!(webAds, unreadNotificationCount, profileData, managerDashboard)) {
+    //   res.status(500).redirect("/manager/signout");
+    //   res.end();
+    // } else {
+    res.status(200).render("Manager/dashboard", {
+      info: {
+        id: req.session.passport.user.userInfo.login_id,
+        uuid: req.session.profileData.man_uuid,
+      },
+      url: req.protocol + "://" + req.get("host"),
+      user_role: req.session.passport.user.userRole,
+      profileData,
+      webAds,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      permissions: req.session.permissions.permissionObject,
+    });
 
-      unreadNotificationCount = null;
-      profileData = null;
-      webAds = null;
-      res.end();
-    }
+    unreadNotificationCount = null;
+    profileData = null;
+    webAds = null;
+    res.end();
+    // }
     //   res.send({ js: "sjdbnk" });
   }
 );
@@ -327,7 +324,7 @@ router.get(
  * making the route for the team lead to assign the area to their team member
  */
 router.get(
-  "/assignArea/:teamLeadUUID",
+  "/assignArea/:man_uuid",
   isUser_Login,
   isManagerAuthentic,
   async (req, res) => {
@@ -337,7 +334,7 @@ router.get(
     );
 
     let supervisor_and_City = await Database.Supervisor.findAll({
-      attributes: ["sup_id", "sup_uuid", "sup_name", "sup_contact"],
+      attributes: ["sup_id", "man_id", "sup_name", "sup_contact"],
       where: {
         sup_isDeleted: 0,
         sup_isPaused: 0,
@@ -702,6 +699,170 @@ router.get(
   }
 );
 
+//getting recommendations
+router.get(
+  "/recommendations/:man_uuid",
+  isUser_Login,
+  isManagerAuthentic,
+  async (req, res) => {
+    let unreadNotificationCount = await countofNotificationOfManager(
+      req.session.profileData.man_id
+    );
+
+    //getting the recommendation list from the data
+
+    let allRecommendations =
+      await Database.Advertisement_Recommendation.findAll({
+        attributes: ["sup_forward_status", "sup_dateTime", "advert_recom_uuid"],
+        include: [
+          {
+            model: Database.Agency_Info,
+            required: true,
+            attributes: ["agency_name", "agency_city"],
+            where: {
+              deleted: 0,
+              isPaused: 0,
+            },
+          },
+          {
+            model: Database.AdvertismentGift,
+            required: true,
+            attributes: ["adver_gift_name"],
+            where: {
+              deleted: 0,
+              paused: 0,
+            },
+          },
+          {
+            model: Database.Supervisor,
+            required: true,
+            attributes: ["sup_name"],
+            where: {
+              sup_isDeleted: 0,
+              sup_isPaused: 0,
+              man_id: req.session.profileData.man_id,
+            },
+          },
+        ],
+        where: {
+          paused: 0,
+          sup_forward_status: true,
+          mana_dateTime: null,
+          deleted: 0,
+        },
+      })
+        .then((result) => {
+          if (result) return result;
+          else return null;
+        })
+        .catch((err) => {
+          if (err) {
+            console.log("Error Getting all the recommendation");
+            console.trace(err);
+            return null;
+          }
+        });
+
+    res.status(200).render("Manager/viewAllRecommendations", {
+      url: req.protocol + "://" + req.get("host"),
+      info: {
+        id: req.session.passport.user.userInfo.login_id,
+        uuid: req.session.profileData.man_uuid,
+      },
+      allRecommendations,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      permissions: req.session.permissions.permissionObject,
+    });
+    res.end();
+  }
+);
+
+//route to display all the approved and delcine recommendations
+router.get(
+  "/viewRecommendationsHistory/:man_uuid",
+  isUser_Login,
+  isManagerAuthentic,
+  async (req, res) => {
+    let unreadNotificationCount = await countofNotificationOfManager(
+      req.session.profileData.man_id
+    );
+
+    //getting the recommendation list from the data
+
+    let allRecommendations =
+      await Database.Advertisement_Recommendation.findAll({
+        attributes: ["mana_approval", "mana_dateTime", "advert_recom_uuid"],
+        include: [
+          {
+            model: Database.Agency_Info,
+            required: true,
+            attributes: ["agency_name", "agency_city"],
+            where: {
+              deleted: 0,
+              isPaused: 0,
+            },
+          },
+          {
+            model: Database.AdvertismentGift,
+            required: true,
+            attributes: ["adver_gift_name"],
+            where: {
+              deleted: 0,
+              paused: 0,
+            },
+          },
+          {
+            model: Database.Supervisor,
+            required: true,
+            attributes: ["sup_name"],
+            where: {
+              sup_isDeleted: 0,
+              sup_isPaused: 0,
+              man_id: req.session.profileData.man_id,
+            },
+          },
+        ],
+        where: {
+          paused: 0,
+          [Op.or]: [
+            {
+              mana_approval: true,
+            },
+            {
+              mana_approval: false,
+            },
+          ],
+          mana_dateTime: { [Op.ne]: null },
+          deleted: 0,
+        },
+      })
+        .then((result) => {
+          if (result) return result;
+          else return null;
+        })
+        .catch((err) => {
+          if (err) {
+            console.log("Error Getting all the recommendation");
+            console.trace(err);
+            return null;
+          }
+        });
+
+    res.status(200).render("Manager/viewRecommendationsHistory", {
+      url: req.protocol + "://" + req.get("host"),
+      info: {
+        id: req.session.passport.user.userInfo.login_id,
+        uuid: req.session.profileData.man_id,
+      },
+      allRecommendations,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      permissions: req.session.permissions.permissionObject,
+    });
+    res.end();
+  }
+);
 /**
  * displaying the all the notifications
  *  Getting all the notificaitons
@@ -796,3 +957,65 @@ const countofNotificationOfManager = async (man_id) => {
       }
     });
 };
+
+// (async function () {
+//   let allRecommendations = await Database.Advertisement_Recommendation.findAll({
+//     // attributes: [
+//     //   "team_lead_forward_status",
+//     //   "team_lead_dateTime",
+//     //   "advert_recom_uuid",
+//     // ],
+
+//     attributes: ["mana_approval", "mana_dateTime", "advert_recom_uuid"],
+
+//     include: [
+//       {
+//         model: Database.Agency_Info,
+//         required: true,
+//         attributes: ["agency_name", "agency_city"],
+//         where: {
+//           deleted: 0,
+//           isPaused: 0,
+//         },
+//       },
+//       {
+//         model: Database.AdvertismentGift,
+//         required: true,
+//         attributes: ["adver_gift_name"],
+//         where: {
+//           deleted: 0,
+//           paused: 0,
+//         },
+//       },
+//       {
+//         model: Database.Supervisor,
+//         required: true,
+//         attributes: ["sup_name"],
+//         where: {
+//           sup_isDeleted: 0,
+//           sup_isPaused: 0,
+//           man_id: 1,
+//         },
+//       },
+//     ],
+//     where: {
+//       paused: 0,
+//       // team_lead_forward_status: true,
+//       // sup_dateTime: null,
+//       deleted: 0,
+//     },
+//   })
+//     .then((result) => {
+//       if (result) return result;
+//       else return null;
+//     })
+//     .catch((err) => {
+//       if (err) {
+//         console.log("Error Getting all the recommendation");
+//         console.trace(err);
+//         return null;
+//       }
+//     });
+
+//   console.log(allRecommendations);
+// })();

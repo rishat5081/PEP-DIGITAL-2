@@ -747,7 +747,6 @@ router.get(
       await Database.Advertisement_Recommendation.findAll({
         attributes: [
           "team_lead_forward_status",
-
           "team_lead_dateTime",
           "advert_recom_uuid",
         ],
@@ -783,8 +782,8 @@ router.get(
         ],
         where: {
           paused: 0,
-          status: 1,
-          team_lead_forward_status: 1,
+          team_lead_forward_status: true,
+          sup_dateTime: null,
           deleted: 0,
         },
       })
@@ -814,6 +813,154 @@ router.get(
     res.end();
   }
 );
+
+//route to display all the approved and delcine recommendations
+router.get(
+  "/viewRecommendationsHistory/:sup_uuid",
+  isUser_Login,
+  isUserAuthentic,
+  async (req, res) => {
+    let unreadNotificationCount = await countofNotificationOfSuperVisor(
+      req.session.profileData.sup_id
+    );
+
+    //getting the recommendation list from the data
+
+    let allRecommendations =
+      await Database.Advertisement_Recommendation.findAll({
+        attributes: [
+          "sup_forward_status",
+          "sup_decline_status",
+          "sup_decline_descr",
+          "sup_dateTime",
+          "advert_recom_uuid",
+        ],
+        include: [
+          {
+            model: Database.Agency_Info,
+            required: true,
+            attributes: ["agency_name", "agency_city"],
+            where: {
+              deleted: 0,
+              isPaused: 0,
+            },
+          },
+          {
+            model: Database.AdvertismentGift,
+            required: true,
+            attributes: ["adver_gift_name"],
+            where: {
+              deleted: 0,
+              paused: 0,
+            },
+          },
+          {
+            model: Database.Team_Lead,
+            required: true,
+            attributes: ["team_L_name"],
+            where: {
+              team_L_isDeleted: 0,
+              team_L_isPaused: 0,
+              sup_id: req.session.profileData.sup_id,
+            },
+          },
+        ],
+        where: {
+          paused: 0,
+          [Op.or]: [
+            {
+              sup_forward_status: true,
+            },
+            {
+              sup_decline_status: true,
+            },
+          ],
+          deleted: 0,
+        },
+      })
+        .then((result) => {
+          if (result) return result;
+          else return null;
+        })
+        .catch((err) => {
+          if (err) {
+            console.log("Error Getting all the recommendation");
+            console.trace(err);
+            return null;
+          }
+        });
+
+    res.status(200).render("Supervisor/viewRecommendationsHistory", {
+      url: req.protocol + "://" + req.get("host"),
+      info: {
+        id: req.session.passport.user.userInfo.login_id,
+        uuid: req.session.profileData.sup_id,
+      },
+      allRecommendations,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      permissions: req.session.permissions.permissionObject,
+    });
+    res.end();
+  }
+);
+
+//route to manage team
+router.get(
+  "/manageTeam/:sup_uuid",
+  isUser_Login,
+  isUserAuthentic,
+  async (req, res) => {
+    //getting the notificaton of the user
+    let unreadNotificationCount = await countofNotificationOfSuperVisor(
+      req.session.profileData.sup_id
+    );
+
+    // getting the all executive which are no in any team they are working as freelance
+    let teamMember = await Database.Team_Lead.findAll({
+      attributes: ["team_L_uuid", "team_L_name", "team_L_contact"],
+      include: {
+        model: Database.User_Login_Information,
+        required: true,
+        attributes: ["login_email", "createdAt"],
+        where: {
+          paused: 0,
+          deleted: 0,
+        },
+      },
+      where: {
+        team_L_isDeleted: 0,
+        team_L_isPaused: 0,
+        sup_id: req.session.profileData.sup_id,
+      },
+    })
+      .then((member) => {
+        return member ? member : null;
+      })
+      .catch((error) => {
+        console.error("Error in getting Member");
+        console.trace(error);
+        return error ? null : true;
+      });
+
+    res.status(200).render("Supervisor/manageTeam", {
+      info: {
+        id: req.session.passport.user.userInfo.login_id,
+        uuid: req.session.profileData.sup_uuid,
+      },
+      teamMember,
+      url: req.protocol + "://" + req.get("host"),
+      user_role: req.session.passport.user.userRole,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      permissions: req.session.permissions.permissionObject,
+    });
+
+    unreadNotificationCount = null;
+    res.end();
+  }
+);
+
 /**
  * displaying the all the notifications
  */
@@ -904,6 +1051,8 @@ const countofNotificationOfSuperVisor = async (sup_id) => {
       }
     });
 };
+
+
 
 // (async function () {
 // let cityNameData = await Database.City.findAll({

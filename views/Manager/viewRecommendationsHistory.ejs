@@ -39,7 +39,7 @@
             <a href="#">
               <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
             </a>
-            <a href="<%=url%>/supervisor/notification">
+            <a href="<%=url%>/manager/notification">
               <span class="fa fa-bell menu-button">
                 <span class="button__badge" style="display: none"></span>
               </span>
@@ -49,7 +49,7 @@
                 <% permissions.forEach(element=> { %>
                 <li>
                   <a
-                    href="<%=url%>/supervisor<%= element.controller%>/<%=info.uuid%>"
+                    href="<%=url%>/manager<%= element.controller%>/<%=info.uuid%>"
                   >
                     <span class="<%= element.icon%>"></span>
                     <%= element.permission_name %>
@@ -57,7 +57,7 @@
                 </li>
                 <% }); %>
                 <li>
-                  <a href="<%=url%>/supervisor/signout">
+                  <a href="<%=url%>/manager/signout">
                     <span class="fa fa-sign-out"> </span> Log Out</a
                   >
                 </li>
@@ -70,20 +70,27 @@
         cityNames, -->
           <!-- --------------------------- -->
           <div class="container saleup">
-            <br />
-            <h3 class="areaheading">All Assigned Gifts</h3>
-
+            <h3 class="areaheading text-center">All Assigned Gifts</h3>
             <div class="table-responsive-lg mt-4 mb-5">
+              <input
+                type="text"
+                id="myInput"
+                onkeyup="myFunction()"
+                placeholder="Search for Recommendation.."
+                title="Find the Recommendation"
+                class="p-2 border border-dark w-25"
+              />
+
               <table class="table" id="depositedSlipTable" name="table">
                 <thead class="table-primary">
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Team Lead Name</th>
+                    <th scope="col">Supervisor Name</th>
                     <th scope="col">Agency Name</th>
                     <th scope="col">Agency City</th>
                     <th scope="col">Gift Name</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Reason</th>
+
                     <th scope="col">Date</th>
                   </tr>
                 </thead>
@@ -91,20 +98,16 @@
                   <% allRecommendations.forEach((element,index) => { %>
                   <tr>
                     <th scope="row"><%=++index %></th>
-                    <td><%= element.Team_Lead.team_L_name %></td>
+                    <td><%= element.Supervisor.sup_name %></td>
                     <td><%= element.Agency_Info.agency_name %></td>
                     <td><%= element.Agency_Info.agency_city %></td>
                     <td><%= element.AdvertismentGift.adver_gift_name %></td>
-
-                    <% if (element.sup_forward_status) { %>
+                    <% if (element.mana_approval) { %>
                     <td style="color: green">Approved</td>
                     <% } else{%>
                     <td style="color: rgb(250, 79, 0)">Declined</td>
                     <% } %>
-                    <td style="color: rgb(214, 42, 19)">
-                      <%= element.sup_decline_descr %>
-                    </td>
-                    <td><%= element.sup_dateTime %></td>
+                    <td><%= element.mana_dateTime %></td>
                   </tr>
                   <% }) %>
                 </tbody>
@@ -114,7 +117,6 @@
         </div>
       </div>
     </div>
-
     <script src="<%=url%>/vendor/jquery/jquery-3.2.1.min.js"></script>
     <!--===============================================================================================-->
     <script src="<%=url%>/vendor/bootstrap/js/popper.min.js"></script>
@@ -172,6 +174,7 @@
           JSON.parse("<%-JSON.stringify(unreadNotificationCount)%>")
         );
       }
+
       $(".js-tilt").tilt({
         scale: 1.1,
       });
@@ -185,6 +188,26 @@
       function closeMenu() {
         menu.style.top = "-100vh";
       }
+
+      const myFunction = () => {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("depositedSlipTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[0];
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            console.log(txtValue);
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          }
+        }
+      };
     </script>
   </body>
 </html>

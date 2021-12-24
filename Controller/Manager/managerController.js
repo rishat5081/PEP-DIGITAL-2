@@ -589,9 +589,6 @@ router
   .route("/assignGiftToSupervisor/:man_uuid")
   .put(isManagerAuthentic, async (req, res) => {
     //getting the teams from the req.param teamLeadUUID
-
-    console.log(req.body);
-
     let supervisorInfo = await Database.Supervisor.findOne({
       where: {
         man_id: req.session.profileData.man_id,
@@ -665,114 +662,108 @@ router
       res.end();
       creatingGifts = supervisorInfo = getGiftData = null;
     }
+  });
 
-    // if (getGiftData.length > 0) {
-    //   let sum = 0,
-    //     temp = 0;
-    //   getGiftData.some((data) => {
-    //     if (data.adver_stock_allocated_Quantity > +req.body.giftAssigned) {
-    //       temp = data.adver_stock_allocated_Quantity - req.body.giftAssigned;
-    //       data.adver_stock_allocated_Quantity = temp;
-    //       data.used = req.body.giftAssigned;
-    //       newObject.push({
-    //         quantity: data.adver_stock_allocated_Quantity,
-    //         used: +data.used,
-    //         isConsumed:
-    //           data.adver_stock_allocated_Quantity === 0 ? true : false, // : true ? false,
-    //         adver_stock_act_id: data.adver_stock_act_id,
-    //       });
+//pause the field executive  recommendation to
+router
+  .route("/manager/declineRecommendation/:man_uuid")
+  .put(isManagerAuthentic, async (req, res) => {
+    //getting the recommendation ID from the database
+    let recommendationID = await Database.Advertisement_Recommendation.findOne({
+      where: {
+        advert_recom_uuid: req.body.uuid,
+        deleted: false,
+        paused: false,
+        status: true,
+        team_lead_forward_status: true,
+        sup_forward_status: true,
+      },
+    })
+      .then((result) => {
+        if (result) {
+          result.update({
+            man_id: req.session.profileData.man_id,
+            mana_dateTime: new Date().toUTCString(),
+            mana_approval: false,
+          });
+        } else {
+          return null;
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          console.log("Error Getting all the recommendation");
+          console.trace(err);
+          return null;
+        }
+      });
 
-    //       return true;
-    //     } else {
-    //       if (sum !== +req.body.giftAssigned) {
-    //         if (temp === 0) {
-    //           temp =
-    //             data.adver_stock_allocated_Quantity - req.body.giftAssigned;
-    //           sum += data.adver_stock_allocated_Quantity;
+    if (recommendationID !== null) {
+      recommendationID = null;
+      res.status(200).send({
+        status: "Updated",
+        message: "Recommendation Marked Successfully",
+      });
+      res.end();
+    } else {
+      res.status(500).send({
+        status: "Already Updated",
+        message: "Recommendation is already marked. Try Again",
+        recommendationID,
+      });
+      res.end();
+    }
+  });
 
-    //           data.adver_stock_allocated_Quantity -= sum;
-    //           data.used = data.adver_stock_allocated_Quantity;
+//pause the field executive  recommendation to
+router
+  .route("/manager/approveRecommendation/:man_uuid")
+  .put(isManagerAuthentic, async (req, res) => {
+    //getting the recommendation ID from the database
+    let recommendationID = await Database.Advertisement_Recommendation.findOne({
+      where: {
+        advert_recom_uuid: req.body.uuid,
+        deleted: false,
+        paused: false,
+        status: true,
+        team_lead_forward_status: true,
+        sup_forward_status: true,
+      },
+    })
+      .then((result) => {
+        if (result) {
+          result.update({
+            man_id: req.session.profileData.man_id,
+            mana_dateTime: new Date().toUTCString(),
+            mana_approval: true,
+          });
+        } else {
+          return null;
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          console.log("Error Getting all the recommendation");
+          console.trace(err);
+          return null;
+        }
+      });
 
-    //           newObject.push({
-    //             quantity: data.adver_stock_allocated_Quantity,
-    //             used: sum,
-    //             isConsumed:
-    //               data.adver_stock_allocated_Quantity === 0 ? true : false, // : true ? false,
-    //             adver_stock_act_id: data.adver_stock_act_id,
-    //           });
-    //         } else {
-    //           sum += -temp;
-    //           data.used = -temp;
-    //           temp = data.adver_stock_allocated_Quantity - -temp;
-    //           data.adver_stock_allocated_Quantity = temp;
-
-    //           newObject.push({
-    //             quantity: data.adver_stock_allocated_Quantity,
-    //             used: +data.used,
-    //             isConsumed:
-    //               data.adver_stock_allocated_Quantity === 0 ? true : false, // : true ? false,
-    //             adver_stock_act_id: data.adver_stock_act_id,
-    //           });
-    //         }
-    //       }
-    //     }
-    //   });
-
-    //   /**
-    //    * now updating and allocating the record to the team lead
-    //    */
-
-    //   let allocateGift_ToTeamLead =
-    //     await Database.Team_Lead_Adver_Stock.bulkCreate(
-    //       newObject.map((data) => {
-    //         return {
-    //           team_L_id: teamLeadInfo.team_L_id,
-    //           sup_id: req.session.profileData.sup_id,
-    //           adver_stock_act_id: data.adver_stock_act_id,
-    //           total_Quantity: data.used,
-    //         };
-    //       })
-    //     );
-
-    //   /**
-    //    * and now updating the advertisment record
-    //    */
-
-    //   newObject.forEach(async (data) => {
-    //     await Database.Advertising_Stock_Allocation.update(
-    //       {
-    //         adver_stock_allocated_Quantity: data.quantity,
-    //         isConsumed: data.isConsumed,
-    //         used: Sequelize.literal(`used + ${data.used}`),
-    //       },
-    //       {
-    //         where: {
-    //           sup_id: req.session.profileData.sup_id,
-    //           adver_stock_act_id: data.adver_stock_act_id,
-    //         },
-    //       }
-    //     );
-    //   });
-
-    //   if (allocateGift_ToTeamLead) {
-    //     res
-    //       .status(200)
-    //       .send({ status: "Successfully Gift Allocated to Team Lead" });
-    //     sum =
-    //       temp =
-    //       newObject =
-    //       teamLeadInfo =
-    //       getGiftData =
-    //       allocateGift_ToTeamLead =
-    //         0;
-    //     res.end();
-    //   }
-    // } else {
-    //   res
-    //     .status(400)
-    //     .send({ error: "There is error getting Advertising Stock" });
-    //   res.end();
-    // }
+    if (recommendationID !== null) {
+      recommendationID = null;
+      res.status(200).send({
+        status: "Updated",
+        message: "Recommendation Marked Successfully",
+      });
+      res.end();
+    } else {
+      res.status(500).send({
+        status: "Already Updated",
+        message: "Recommendation is already marked. Try Again",
+        recommendationID,
+      });
+      res.end();
+    }
   });
 
 /**
@@ -798,3 +789,4 @@ router.route("/readAllManagerNotifications").post(async (req, res) => {
 });
 
 module.exports = { router };
+
