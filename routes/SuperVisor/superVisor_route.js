@@ -1052,8 +1052,6 @@ const countofNotificationOfSuperVisor = async (sup_id) => {
     });
 };
 
-
-
 // (async function () {
 // let cityNameData = await Database.City.findAll({
 //   attributes: ["city_id", "city_uuid", "city_name"],

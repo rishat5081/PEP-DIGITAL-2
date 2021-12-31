@@ -151,7 +151,6 @@
                     <%if(element.field_uuid=== member.field_uuid ){%>
                     <ul class="list-group">
                       <%member.City_Sectors.forEach(area => {%>
-
                       <li
                         class="
                           list-group-item
@@ -163,6 +162,7 @@
                         <%=area.sector_name %>
                         <span
                           class="badge badge-danger badge-pill"
+                          style="cursor: pointer"
                           onclick="deleteArea('<%=area.city_sector_uuid%>','<%=member.field_uuid%>')"
                         >
                           <i class="fa fa-times" aria-hidden="true"></i
@@ -208,9 +208,7 @@
         var rowsShown = 10;
         var rowsTotal = $("#areaTable tbody tr").length;
         if (rowsShown < rowsTotal) {
-          $("#areaTable").after(
-            '<div id="nav" class="text-center" ></div>'
-          );
+          $("#areaTable").after('<div id="nav" class="text-center" ></div>');
           var numPages = rowsTotal / rowsShown;
           for (i = 0; i < numPages; i++) {
             var pageNum = i + 1;
@@ -248,8 +246,6 @@
       });
 
       const deleteArea = (selectedArea, executiveUUID) => {
-        console.log(selectedArea);
-        console.log(executiveUUID);
         $.ajax({
           type: "PUT",
           url: `${window.location.origin}/teamlead/removeSectorToExecutive`,

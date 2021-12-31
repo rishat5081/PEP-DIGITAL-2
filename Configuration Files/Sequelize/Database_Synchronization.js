@@ -314,10 +314,16 @@ let sequelize = require("./Sequelize"),
       sequelize,
       Sequelize
     ),
-    ChangeTeamLeadRoleLogs: require("./Sequelize Models/Users Login/changeTeamLeadRoleLogs")(
-      sequelize,
-      Sequelize
-    ),
+    ChangeTeamLeadRoleLogs:
+      require("./Sequelize Models/Users Login/changeTeamLeadRoleLogs")(
+        sequelize,
+        Sequelize
+      ),
+    ChangeSupervisorRoleLogs:
+      require("./Sequelize Models/Users Login/changeSupervisorRoleLogs")(
+        sequelize,
+        Sequelize
+      ),
     Role_ExtraInfo: require("./Sequelize Models/Users Login/Role_ExtraInfo")(
       sequelize,
       Sequelize

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 03, 2021 at 09:31 AM
+-- Generation Time: Dec 30, 2021 at 08:02 AM
 -- Server version: 8.0.20
 -- PHP Version: 7.2.19
 
@@ -27,19 +27,19 @@ SET time_zone = "+00:00";
 -- Table structure for table `activities`
 --
 
--- CREATE TABLE `activities` (
---   `list_act_id` int NOT NULL,
---   `list_act_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `field_id` int NOT NULL,
---   `comp_id` int NOT NULL,
---   `agency_id` int NOT NULL,
---   `withdrawn` tinyint(1) DEFAULT '0',
---   `paused` tinyint(1) DEFAULT '0',
---   `deleted` tinyint(1) DEFAULT '0',
---   `cancelled` tinyint(1) DEFAULT '0',
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `activities` (
+  `list_act_id` int NOT NULL,
+  `list_act_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `field_id` int NOT NULL,
+  `comp_id` int NOT NULL,
+  `agency_id` int NOT NULL,
+  `withdrawn` tinyint(1) DEFAULT '0',
+  `paused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `cancelled` tinyint(1) DEFAULT '0',
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `activities`
@@ -120,7 +120,7 @@ INSERT INTO `activities` (`list_act_id`, `list_act_uuid`, `field_id`, `comp_id`,
 (87, 'e3455010-e614-4ebc-b97a-1dd0158af305', 4, 1, 1, 0, 0, 0, 1, '2021-08-09 16:52:28', '2021-08-09 16:53:31'),
 (88, '4489aac2-1484-4989-8154-6bc3a410af16', 4, 1, 50, 0, 0, 0, 1, '2021-09-07 17:30:11', '2021-09-07 17:30:32'),
 (89, '816f4ca4-ac4f-4834-a24a-c04f31b7f0d6', 4, 1, 51, 0, 0, 0, 0, '2021-09-15 16:09:30', '2021-09-15 16:09:30'),
-(90, 'e7290c7f-3450-41c9-8bb4-d55fb4071cdd', 13, 1, 47, 0, 0, 0, 1, '2021-10-07 16:58:02', '2021-10-07 16:58:09'),
+(90, 'e7290c7f-3450-41c9-8bb4-d55fb4071cdd', 12, 1, 47, 0, 0, 0, 1, '2021-10-07 16:58:02', '2021-10-07 16:58:09'),
 (91, '039cab99-b780-428a-ac04-35017dde366b', 14, 1, 47, 0, 0, 0, 0, '2021-10-07 17:48:01', '2021-10-07 17:48:01'),
 (92, '75b10ede-d253-47f8-8683-b283cf96a26f', 4, 1, 54, 0, 0, 0, 0, '2021-10-12 15:56:23', '2021-10-12 15:56:23'),
 (93, '9f53b200-a294-4351-bdbc-68ff05308aa5', 4, 1, 55, 0, 0, 0, 0, '2021-10-12 16:00:28', '2021-10-12 16:00:28'),
@@ -138,15 +138,15 @@ INSERT INTO `activities` (`list_act_id`, `list_act_uuid`, `field_id`, `comp_id`,
 -- Table structure for table `activity_instruction`
 --
 
--- CREATE TABLE `activity_instruction` (
---   `act_instruc_id` int NOT NULL,
---   `act_instruc_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `isPaused` tinyint(1) DEFAULT '0',
---   `deleted` tinyint(1) DEFAULT '0',
---   `instructionText` text,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `activity_instruction` (
+  `act_instruc_id` int NOT NULL,
+  `act_instruc_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `isPaused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `instructionText` text,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `activity_instruction`
@@ -163,33 +163,36 @@ INSERT INTO `activity_instruction` (`act_instruc_id`, `act_instruc_uuid`, `isPau
 -- Table structure for table `advertisement_recommendation`
 --
 
--- CREATE TABLE `advertisement_recommendation` (
---   `adver_recom_id` int NOT NULL,
---   `advert_recom_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `agency_id` int NOT NULL,
---   `descrip` text,
---   `field_id` int NOT NULL,
---   `approval_status` tinyint(1) DEFAULT '0',
---   `status` tinyint(1) DEFAULT '0',
---   `decline` tinyint(1) DEFAULT '0',
---   `deleted` tinyint(1) DEFAULT '0',
---   `decline_descrip` text,
---   `team_L_id` int NOT NULL,
---   `team_lead_forward_status` tinyint(1) DEFAULT '0',
---   `team_lead_decline_status` tinyint(1) DEFAULT '0',
---   `team_lead_decline_descr` text,
---   `sup_id` int NOT NULL,
---   `sup_forward_status` tinyint(1) DEFAULT '0',
---   `sup_decline_status` tinyint(1) DEFAULT '0',
---   `sup_decline_descr` text,
---   `man_id` int NOT NULL,
---   `team_lead_date_time` datetime DEFAULT NULL,
---   `sup_dateTime` datetime DEFAULT NULL,
---   `mana_dateTime` datetime DEFAULT NULL,
---   `mana_approval` tinyint(1) DEFAULT '0',
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `advertisement_recommendation` (
+  `adver_recom_id` int NOT NULL,
+  `advert_recom_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `agency_id` int NOT NULL,
+  `descrip` text,
+  `field_id` int NOT NULL,
+  `approval_status` tinyint(1) DEFAULT '0',
+  `status` tinyint(1) DEFAULT '0',
+  `decline` tinyint(1) DEFAULT '0',
+  `paused` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `decline_descrip` text,
+  `team_L_id` int DEFAULT NULL,
+  `team_lead_dateTime` datetime DEFAULT NULL,
+  `team_lead_forward_status` tinyint(1) DEFAULT '0',
+  `team_lead_decline_status` tinyint(1) DEFAULT '0',
+  `team_lead_decline_descr` text,
+  `sup_id` int DEFAULT NULL,
+  `sup_forward_status` tinyint(1) DEFAULT '0',
+  `sup_decline_status` tinyint(1) DEFAULT '0',
+  `sup_decline_descr` text,
+  `man_id` int DEFAULT NULL,
+  `adver_gift_id` int NOT NULL,
+  `team_lead_date_time` datetime DEFAULT NULL,
+  `sup_dateTime` datetime DEFAULT NULL,
+  `mana_dateTime` datetime DEFAULT NULL,
+  `mana_approval` tinyint(1) DEFAULT '0',
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -197,23 +200,23 @@ INSERT INTO `activity_instruction` (`act_instruc_id`, `act_instruc_uuid`, `isPau
 -- Table structure for table `advertising_stock`
 --
 
--- CREATE TABLE `advertising_stock` (
---   `adver_stock_id` int NOT NULL,
---   `advert_stock_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `adver_stock_name` text,
---   `adver_stock_descritpion` text,
---   `adver_stock_image` text NOT NULL,
---   `adver_stock_total_Quantity` int NOT NULL,
---   `adver_stock_used` int NOT NULL,
---   `adver_stock_total_Price` float DEFAULT NULL,
---   `adver_stock_Price_per_piece` float DEFAULT NULL,
---   `paused` tinyint(1) NOT NULL DEFAULT '0',
---   `deleted` tinyint(1) NOT NULL DEFAULT '0',
---   `req_adver` int DEFAULT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL,
---   `man_id` int NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `advertising_stock` (
+  `adver_stock_id` int NOT NULL,
+  `advert_stock_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `adver_stock_name` text,
+  `adver_stock_descritpion` text,
+  `adver_stock_image` text NOT NULL,
+  `adver_stock_total_Quantity` int NOT NULL,
+  `adver_stock_used` int NOT NULL,
+  `adver_stock_total_Price` float DEFAULT NULL,
+  `adver_stock_Price_per_piece` float DEFAULT NULL,
+  `paused` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `req_adver` int DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL,
+  `man_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `advertising_stock`
@@ -229,20 +232,20 @@ INSERT INTO `advertising_stock` (`adver_stock_id`, `advert_stock_uuid`, `adver_s
 -- Table structure for table `advertising_stock_allocation`
 --
 
--- CREATE TABLE `advertising_stock_allocation` (
---   `adver_stock_act_id` int NOT NULL,
---   `adver_stock_alloc_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `adver_stock_allocated_Quantity` int DEFAULT NULL,
---   `isConsumed` tinyint(1) NOT NULL,
---   `used` int NOT NULL,
---   `paused` int NOT NULL DEFAULT '0',
---   `deleted` int NOT NULL DEFAULT '0',
---   `adver_stock_id` int NOT NULL,
---   `sup_id` int NOT NULL,
---   `man_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `advertising_stock_allocation` (
+  `adver_stock_act_id` int NOT NULL,
+  `adver_stock_alloc_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `adver_stock_allocated_Quantity` int DEFAULT NULL,
+  `isConsumed` tinyint(1) NOT NULL,
+  `used` int NOT NULL,
+  `paused` int NOT NULL DEFAULT '0',
+  `deleted` int NOT NULL DEFAULT '0',
+  `adver_stock_id` int NOT NULL,
+  `sup_id` int NOT NULL,
+  `man_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `advertising_stock_allocation`
@@ -265,24 +268,49 @@ INSERT INTO `advertising_stock_allocation` (`adver_stock_act_id`, `adver_stock_a
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `advertismentgift`
+--
+
+CREATE TABLE `advertismentgift` (
+  `adver_gift_id` int NOT NULL,
+  `advert_gift_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `adver_gift_name` text,
+  `adver_gift_descritpion` text,
+  `paused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `advertismentgift`
+--
+
+INSERT INTO `advertismentgift` (`adver_gift_id`, `advert_gift_uuid`, `adver_gift_name`, `adver_gift_descritpion`, `paused`, `deleted`, `createdAt`, `updateTimestamp`) VALUES
+(1, '97534225-e455-409b-9ebb-7b1e54e551b3', 'Testing', 'Description Testing', 0, 0, '2021-11-10 13:23:28', '2021-11-10 13:23:28'),
+(2, '170659ec-eded-4c0b-a28f-38d5bd2ade0c', 'Testing 2', 'Description Testing 2', 0, 0, '2021-11-10 13:23:38', '2021-11-10 13:23:38');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `agencylogs_supervisor`
 --
 
--- CREATE TABLE `agencylogs_supervisor` (
---   `AgencyLogs_Sup_id` int NOT NULL,
---   `AgencyLogs_Sup_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `previousDeleted` tinyint(1) NOT NULL DEFAULT '0',
---   `nowDeletedStatus` tinyint(1) NOT NULL DEFAULT '0',
---   `previousPaused` tinyint(1) NOT NULL DEFAULT '0',
---   `nowPausedStatus` tinyint(1) NOT NULL DEFAULT '0',
---   `deleted` tinyint(1) NOT NULL DEFAULT '0',
---   `paused` tinyint(1) NOT NULL DEFAULT '0',
---   `agency_id` int NOT NULL,
---   `man_id` int DEFAULT NULL,
---   `sup_id` int DEFAULT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `agencylogs_supervisor` (
+  `AgencyLogs_Sup_id` int NOT NULL,
+  `AgencyLogs_Sup_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `previousDeleted` tinyint(1) NOT NULL DEFAULT '0',
+  `nowDeletedStatus` tinyint(1) NOT NULL DEFAULT '0',
+  `previousPaused` tinyint(1) NOT NULL DEFAULT '0',
+  `nowPausedStatus` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `paused` tinyint(1) NOT NULL DEFAULT '0',
+  `agency_id` int NOT NULL,
+  `man_id` int DEFAULT NULL,
+  `sup_id` int DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `agencylogs_supervisor`
@@ -317,15 +345,15 @@ INSERT INTO `agencylogs_supervisor` (`AgencyLogs_Sup_id`, `AgencyLogs_Sup_uuid`,
 -- Table structure for table `agencytypes`
 --
 
--- CREATE TABLE `agencytypes` (
---   `agencytype_id` int NOT NULL,
---   `agencytype_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `type_name` text,
---   `deleted` tinyint(1) NOT NULL DEFAULT '0',
---   `isPaused` tinyint(1) NOT NULL DEFAULT '0',
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `agencytypes` (
+  `agencytype_id` int NOT NULL,
+  `agencytype_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `type_name` text,
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `isPaused` tinyint(1) NOT NULL DEFAULT '0',
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `agencytypes`
@@ -342,26 +370,26 @@ INSERT INTO `agencytypes` (`agencytype_id`, `agencytype_uuid`, `type_name`, `del
 -- Table structure for table `agency_info`
 --
 
--- CREATE TABLE `agency_info` (
---   `agency_id` int NOT NULL,
---   `agency_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `agency_name` text,
---   `agency_type` text,
---   `agency_Contact` text,
---   `agency_city` text,
---   `agency_address` text,
---   `agency_Longitude` text,
---   `agency_Latitude` text,
---   `firstVisit` tinyint(1) NOT NULL DEFAULT '0',
---   `agency_owner_Name` text,
---   `contactedPerson` text,
---   `contactedPerson_Number` text,
---   `deleted` tinyint(1) NOT NULL DEFAULT '0',
---   `isPaused` tinyint(1) NOT NULL DEFAULT '0',
---   `field_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `agency_info` (
+  `agency_id` int NOT NULL,
+  `agency_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `agency_name` text,
+  `agency_type` text,
+  `agency_Contact` text,
+  `agency_city` text,
+  `agency_address` text,
+  `agency_Longitude` text,
+  `agency_Latitude` text,
+  `firstVisit` tinyint(1) NOT NULL DEFAULT '0',
+  `agency_owner_Name` text,
+  `contactedPerson` text,
+  `contactedPerson_Number` text,
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `isPaused` tinyint(1) NOT NULL DEFAULT '0',
+  `field_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `agency_info`
@@ -437,16 +465,16 @@ INSERT INTO `agency_info` (`agency_id`, `agency_uuid`, `agency_name`, `agency_ty
 -- Table structure for table `banks_list`
 --
 
--- CREATE TABLE `banks_list` (
---   `Banks_List_id` int NOT NULL,
---   `Banks_List_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `paused` tinyint(1) DEFAULT '0',
---   `deleted` tinyint(1) DEFAULT '0',
---   `bankName` text,
---   `sa_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `banks_list` (
+  `Banks_List_id` int NOT NULL,
+  `Banks_List_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `bankName` text,
+  `sa_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `banks_list`
@@ -484,17 +512,17 @@ INSERT INTO `banks_list` (`Banks_List_id`, `Banks_List_uuid`, `paused`, `deleted
 -- Table structure for table `carriers`
 --
 
--- CREATE TABLE `carriers` (
---   `carrier_id` int NOT NULL,
---   `carrier_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `carrier_name` text,
---   `carrier_type` text,
---   `carrier_status` tinyint(1) DEFAULT '0',
---   `sa_id` int NOT NULL,
---   `comp_access_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `carriers` (
+  `carrier_id` int NOT NULL,
+  `carrier_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `carrier_name` text,
+  `carrier_type` text,
+  `carrier_status` tinyint(1) DEFAULT '0',
+  `sa_id` int NOT NULL,
+  `comp_access_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -502,103 +530,142 @@ INSERT INTO `banks_list` (`Banks_List_id`, `Banks_List_uuid`, `paused`, `deleted
 -- Table structure for table `carriers_logs`
 --
 
--- CREATE TABLE `carriers_logs` (
---   `carrier_logs_id` int NOT NULL,
---   `update_date_time` datetime DEFAULT NULL,
---   `c_name` text,
---   `c_type` text,
---   `c_Status` tinyint(1) DEFAULT '0',
---   `c_added_DateTime` datetime DEFAULT NULL,
---   `updated_by` int DEFAULT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `carriers_logs` (
+  `carrier_logs_id` int NOT NULL,
+  `update_date_time` datetime DEFAULT NULL,
+  `c_name` text,
+  `c_type` text,
+  `c_Status` tinyint(1) DEFAULT '0',
+  `c_added_DateTime` datetime DEFAULT NULL,
+  `updated_by` int DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `carriers_paid_payment`
--- --
+--
+-- Table structure for table `carriers_paid_payment`
+--
 
--- CREATE TABLE `carriers_paid_payment` (
---   `c_paid_id` int NOT NULL,
---   `carrier_paid_pay_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `c_amount` double DEFAULT NULL,
---   `sa_id` int NOT NULL,
---   `c_s_payment_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `carriers_paid_payment` (
+  `c_paid_id` int NOT NULL,
+  `carrier_paid_pay_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `c_amount` double DEFAULT NULL,
+  `sa_id` int NOT NULL,
+  `c_s_payment_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `carriers_services`
--- --
+--
+-- Table structure for table `carriers_services`
+--
 
--- CREATE TABLE `carriers_services` (
---   `c_service_id` int NOT NULL,
---   `carrier_service_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `c_service_name` text,
---   `c_service_type` text,
---   `c_service_added_Date_Time` datetime DEFAULT NULL,
---   `c_service_status` tinyint(1) DEFAULT '0',
---   `c_service_addedBy` text,
---   `c_service_total_service` double DEFAULT NULL,
---   `carrier_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `carriers_services` (
+  `c_service_id` int NOT NULL,
+  `carrier_service_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `c_service_name` text,
+  `c_service_type` text,
+  `c_service_added_Date_Time` datetime DEFAULT NULL,
+  `c_service_status` tinyint(1) DEFAULT '0',
+  `c_service_addedBy` text,
+  `c_service_total_service` double DEFAULT NULL,
+  `carrier_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table ` carriers_services_payment`
--- --
+--
+-- Table structure for table ` carriers_services_payment`
+--
 
--- CREATE TABLE ` carriers_services_payment` (
---   `c_s_payment_id` int NOT NULL,
---   `payment_c_ser_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `c_s_payment_totalAmount` double DEFAULT NULL,
---   `c_s_payment_pending` double DEFAULT NULL,
---   `c_service_status` tinyint(1) DEFAULT '0',
---   `c_s_payment_paid` double DEFAULT NULL,
---   `carrier_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE ` carriers_services_payment` (
+  `c_s_payment_id` int NOT NULL,
+  `payment_c_ser_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `c_s_payment_totalAmount` double DEFAULT NULL,
+  `c_s_payment_pending` double DEFAULT NULL,
+  `c_service_status` tinyint(1) DEFAULT '0',
+  `c_s_payment_paid` double DEFAULT NULL,
+  `carrier_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `changerolelogs`
--- --
+--
+-- Table structure for table `changerolelogs`
+--
 
--- CREATE TABLE `changerolelogs` (
---   `changeRole_id` int NOT NULL,
---   `changeRole_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `paused` tinyint(1) DEFAULT '0',
---   `deleted` tinyint(1) DEFAULT '0',
---   `previousRole` int NOT NULL,
---   `newRole` int NOT NULL,
---   `field_id` int NOT NULL,
---   `team_L_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `changerolelogs` (
+  `changeRole_id` int NOT NULL,
+  `changeRole_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `previousRole` int NOT NULL,
+  `newRole` int NOT NULL,
+  `field_id` int NOT NULL,
+  `team_L_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `changerolelogs`
 --
 
 INSERT INTO `changerolelogs` (`changeRole_id`, `changeRole_uuid`, `paused`, `deleted`, `previousRole`, `newRole`, `field_id`, `team_L_id`, `createdAt`, `updateTimestamp`) VALUES
-(1, '4152b805-9fea-4804-81d3-fd847cf8adbd', 0, 0, 5, 4, 4, 1, '2021-07-30 14:21:25', '2021-07-30 14:21:25'),
-(2, '7e3b05e3-5c64-4497-b712-172fd6e7f963', 0, 0, 5, 5, 1, 1, '2021-07-30 15:12:57', '2021-07-30 15:12:57'),
-(3, 'f26a88ed-efdd-4326-bc66-a1ef8c82d991', 0, 0, 5, 5, 1, 1, '2021-07-30 15:14:48', '2021-07-30 15:14:48'),
-(4, '1a62d300-0294-4553-9b13-8eae14d46302', 0, 0, 6, 5, 2, 1, '2021-07-30 15:56:55', '2021-07-30 15:56:55'),
-(5, 'f40ec412-5707-472a-925c-5cd4f00d23fb', 0, 0, 6, 5, 9, 1, '2021-08-09 13:59:29', '2021-08-09 13:59:29'),
-(6, '27bf659b-fdb0-48b1-8b6b-eb85841e3dfa', 0, 0, 6, 5, 11, 1, '2021-10-20 13:04:52', '2021-10-20 13:04:52'),
-(7, 'dc304aff-eecd-4642-ad95-5664b16fd619', 0, 0, 6, 5, 13, 1, '2021-10-20 13:05:17', '2021-10-20 13:05:17');
+(1, '4152b805-9fea-4804-81d3-fd847cf8adbd', 0, 0, 5, 4, 4, 1, '2021-07-30 14:21:25', '2021-07-30 14:21:25');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `changesupervisorrolelogs`
+--
+
+CREATE TABLE `changesupervisorrolelogs` (
+  `changeRole_id` int NOT NULL,
+  `changeRole_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `previousRole` int NOT NULL,
+  `newRole` int NOT NULL,
+  `sup_id` int NOT NULL,
+  `man_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `changesupervisorrolelogs`
+--
+
+INSERT INTO `changesupervisorrolelogs` (`changeRole_id`, `changeRole_uuid`, `paused`, `deleted`, `previousRole`, `newRole`, `sup_id`, `man_id`, `createdAt`, `updateTimestamp`) VALUES
+(2, '30a5286c-d896-4e3c-9c91-74044c187a34', 0, 0, 3, 0, 1, 1, '2021-12-29 14:31:10', '2021-12-29 14:31:10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `changeteamleadrolelogs`
+--
+
+CREATE TABLE `changeteamleadrolelogs` (
+  `changeRole_id` int NOT NULL,
+  `changeRole_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `previousRole` int NOT NULL,
+  `newRole` int NOT NULL,
+  `sup_id` int NOT NULL,
+  `team_L_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -606,17 +673,17 @@ INSERT INTO `changerolelogs` (`changeRole_id`, `changeRole_uuid`, `paused`, `del
 -- Table structure for table `city`
 --
 
--- CREATE TABLE `city` (
---   `city_id` int NOT NULL,
---   `city_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `city_name` text,
---   `paused` tinyint(1) DEFAULT '0',
---   `deleted` tinyint(1) DEFAULT '0',
---   `city_code` text,
---   `zone_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `city` (
+  `city_id` int NOT NULL,
+  `city_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `city_name` text,
+  `paused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `city_code` text,
+  `zone_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `city`
@@ -632,24 +699,25 @@ INSERT INTO `city` (`city_id`, `city_uuid`, `city_name`, `paused`, `deleted`, `c
 -- Table structure for table `city_area`
 --
 
--- CREATE TABLE `city_area` (
---   `city_area_id` int NOT NULL,
---   `city_area_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `city_name` text,
---   `city_code` text,
---   `deleted` tinyint(1) DEFAULT '0',
---   `paused` tinyint(1) DEFAULT '0',
---   `city_supp_assos_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `city_area` (
+  `city_area_id` int NOT NULL,
+  `city_area_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `city_name` text,
+  `city_code` text,
+  `deleted` tinyint(1) DEFAULT '0',
+  `paused` tinyint(1) DEFAULT '0',
+  `city_supp_assos_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `city_area`
 --
 
 INSERT INTO `city_area` (`city_area_id`, `city_area_uuid`, `city_name`, `city_code`, `deleted`, `paused`, `city_supp_assos_id`, `createdAt`, `updateTimestamp`) VALUES
-(1, '8c27807b-a7ac-40b5-a58f-24b9eb3bfa93', 'Rawal Road', '101', 0, 0, 3, '2021-03-24 12:35:23', '2021-03-24 12:35:23');
+(1, '27d35c2e-f544-4a17-9fe1-eb0e5ddcf3a2', 'Rawal Road', '101', 0, 0, 4, '2021-12-30 11:44:29', '2021-12-30 11:44:29'),
+(4, '78d35c2e-f544-4a17-9fe1-eb0e5ddcf3a2', 'Chandani Chowk', '100', 0, 0, 4, '2021-12-30 11:44:29', '2021-12-30 11:44:29');
 
 -- --------------------------------------------------------
 
@@ -657,26 +725,26 @@ INSERT INTO `city_area` (`city_area_id`, `city_area_uuid`, `city_name`, `city_co
 -- Table structure for table `city_sectors`
 --
 
--- CREATE TABLE `city_sectors` (
---   `city_sector_id` int NOT NULL,
---   `city_sector_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `sector_name` text,
---   `sector_code` text,
---   `deleted` tinyint(1) DEFAULT '0',
---   `paused` tinyint(1) DEFAULT '0',
---   `city_area_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `city_sectors` (
+  `city_sector_id` int NOT NULL,
+  `city_sector_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `sector_name` text,
+  `sector_code` text,
+  `deleted` tinyint(1) DEFAULT '0',
+  `paused` tinyint(1) DEFAULT '0',
+  `city_area_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `city_sectors`
 --
 
 INSERT INTO `city_sectors` (`city_sector_id`, `city_sector_uuid`, `sector_name`, `sector_code`, `deleted`, `paused`, `city_area_id`, `createdAt`, `updateTimestamp`) VALUES
-(1, '43773df3-57c6-4032-9f4d-35927d4bbd3a', 'Benazir Hospital', '245', 0, 0, 1, '2021-07-29 12:13:27', '2021-07-29 12:13:27'),
-(2, '0533502b-a4d4-4462-9312-c0c39f5df39c', 'PAF Chowk', '244', 0, 0, 1, '2021-07-29 12:13:27', '2021-07-29 12:13:27'),
-(3, '801da1e9-5bde-440b-8ca0-64bdd569054d', 'Rawal Chowk', '243', 0, 0, 1, '2021-07-29 12:13:27', '2021-07-29 12:13:27');
+(1, 'e9342582-ce21-4d63-82a8-b2dd8ec768a3', 'Benazir Hospital', '245', 0, 0, 1, '2021-12-30 11:45:21', '2021-12-30 11:45:21'),
+(2, '6ce6b09a-b92b-4ea6-9a73-1290ca2b14c5', 'PAF Chowk', '244', 0, 0, 1, '2021-12-30 11:45:21', '2021-12-30 11:45:21'),
+(3, '820cf013-c5d2-4614-ad78-412113074630', 'Rawal Chowk', '243', 0, 0, 1, '2021-12-30 11:45:21', '2021-12-30 11:45:21');
 
 -- --------------------------------------------------------
 
@@ -684,30 +752,24 @@ INSERT INTO `city_sectors` (`city_sector_id`, `city_sector_uuid`, `sector_name`,
 -- Table structure for table `city_sector_assosiate`
 --
 
--- CREATE TABLE `city_sector_assosiate` (
---   `city_sector_assos_id` int NOT NULL,
---   `city_sector_assos_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `deleted` tinyint(1) DEFAULT '0',
---   `paused` tinyint(1) DEFAULT '0',
---   `city_sector_id` int NOT NULL,
---   `field_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `city_sector_assosiate` (
+  `city_sector_assos_id` int NOT NULL,
+  `city_sector_assos_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `paused` tinyint(1) DEFAULT '0',
+  `city_sector_id` int NOT NULL,
+  `field_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `city_sector_assosiate`
 --
 
 INSERT INTO `city_sector_assosiate` (`city_sector_assos_id`, `city_sector_assos_uuid`, `deleted`, `paused`, `city_sector_id`, `field_id`, `createdAt`, `updateTimestamp`) VALUES
-(1, '501e7565-0eec-4da5-b706-5beb9257cd46', 0, 0, 1, 1, '2021-08-02 15:02:02', '2021-08-02 15:02:02'),
-(2, '63164f05-3372-4531-be22-65a5a9d25e48', 1, 1, 1, 2, '2021-08-02 17:28:33', '2021-08-02 17:28:33'),
-(3, '16974641-3ceb-4396-9604-aaff8d3aa643', 0, 0, 2, 1, '2021-08-02 17:29:33', '2021-08-02 17:29:33'),
-(4, '43f91255-8f41-474c-937e-0b545dce4e13', 0, 0, 3, 2, '2021-08-09 13:41:59', '2021-08-09 13:41:59'),
-(5, 'b5b0a9bc-99a3-439d-9bc0-235c4ed977aa', 0, 0, 3, 4, '2021-08-09 13:41:59', '2021-08-09 13:41:59'),
-(6, '1f1fd50c-0b32-459f-9372-b9cd1c9e120e', 0, 0, 2, 2, '2021-08-09 13:57:29', '2021-08-09 13:57:29'),
-(7, '8158c629-e6e7-4769-aa64-be11991a368d', 0, 0, 3, 1, '2021-08-11 17:14:11', '2021-08-11 17:14:11'),
-(8, 'becc57d5-3579-4605-8081-478665729e85', 0, 0, 2, 9, '2021-10-20 13:01:29', '2021-10-20 13:01:29');
+(8, 'becc57d5-3579-4605-8081-478665729e85', 0, 0, 2, 4, '2021-10-20 13:01:29', '2021-10-20 13:01:29'),
+(9, '501e7565-0eec-4da5-b706-5beb9257cd46', 0, 0, 1, 4, '2021-08-02 15:02:02', '2021-08-02 15:02:02');
 
 -- --------------------------------------------------------
 
@@ -715,24 +777,23 @@ INSERT INTO `city_sector_assosiate` (`city_sector_assos_id`, `city_sector_assos_
 -- Table structure for table `city_sup_assos`
 --
 
--- CREATE TABLE `city_sup_assos` (
---   `city_supp_assos_id` int NOT NULL,
---   `city_and_sup_asso_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `deleted` tinyint(1) DEFAULT '0',
---   `paused` tinyint(1) DEFAULT '0',
---   `city_id` int NOT NULL,
---   `sup_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `city_sup_assos` (
+  `city_supp_assos_id` int NOT NULL,
+  `city_and_sup_asso_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `paused` tinyint(1) DEFAULT '0',
+  `city_id` int NOT NULL,
+  `sup_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `city_sup_assos`
 --
 
 INSERT INTO `city_sup_assos` (`city_supp_assos_id`, `city_and_sup_asso_uuid`, `deleted`, `paused`, `city_id`, `sup_id`, `createdAt`, `updateTimestamp`) VALUES
-(3, '959afad9-06ab-4c5a-bca4-d16441f3d469', 0, 0, 1, 1, '2021-03-24 12:34:52', '2021-03-24 12:34:52'),
-(4, '959afad9-06ab-4c5a-bca4-d16441f3d111', 0, 0, 1, 2, '2021-03-24 12:34:52', '2021-03-24 12:34:52');
+(4, '959afad9-06ab-4c5a-bca4-d16441f3d111', 0, 0, 1, 1, '2021-03-24 12:34:52', '2021-03-24 12:34:52');
 
 -- --------------------------------------------------------
 
@@ -740,40 +801,40 @@ INSERT INTO `city_sup_assos` (`city_supp_assos_id`, `city_and_sup_asso_uuid`, `d
 -- Table structure for table `comapny_access_logs`
 --
 
--- CREATE TABLE `comapny_access_logs` (
---   `comp_acc_logs_id` int NOT NULL,
---   `update_date_time` datetime DEFAULT NULL,
---   `comp_name` text,
---   `comp_address` text,
---   `comp_contact` text,
---   `access_Status` tinyint(1) DEFAULT NULL,
---   `access_date_time` datetime DEFAULT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `comapny_access_logs` (
+  `comp_acc_logs_id` int NOT NULL,
+  `update_date_time` datetime DEFAULT NULL,
+  `comp_name` text,
+  `comp_address` text,
+  `comp_contact` text,
+  `access_Status` tinyint(1) DEFAULT NULL,
+  `access_date_time` datetime DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `compaigns`
--- --
+--
+-- Table structure for table `compaigns`
+--
 
--- CREATE TABLE `compaigns` (
---   `comp_id` int NOT NULL,
---   `comp_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `comp_name` text,
---   `comp_type` text,
---   `comp_status` tinyint(1) DEFAULT NULL,
---   `comp_ending_date_time` datetime DEFAULT NULL,
---   `comp_deleted` tinyint(1) DEFAULT '0',
---   `comp_paused` tinyint(1) DEFAULT '0',
---   `forFreelancers` tinyint(1) DEFAULT '0',
---   `forAll` tinyint(1) DEFAULT '0',
---   `sup_id` int NOT NULL,
---   `city_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `compaigns` (
+  `comp_id` int NOT NULL,
+  `comp_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `comp_name` text,
+  `comp_type` text,
+  `comp_status` tinyint(1) DEFAULT NULL,
+  `comp_ending_date_time` datetime DEFAULT NULL,
+  `comp_deleted` tinyint(1) DEFAULT '0',
+  `comp_paused` tinyint(1) DEFAULT '0',
+  `forFreelancers` tinyint(1) DEFAULT '0',
+  `forAll` tinyint(1) DEFAULT '0',
+  `sup_id` int NOT NULL,
+  `city_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `compaigns`
@@ -788,60 +849,57 @@ INSERT INTO `compaigns` (`comp_id`, `comp_uuid`, `comp_name`, `comp_type`, `comp
 -- Table structure for table `compaign_activities`
 --
 
+CREATE TABLE `compaign_activities` (
+  `comp_act_id` int NOT NULL,
+  `comp_act_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `comp_id` int NOT NULL,
+  `agency_checkIN` tinyint(1) DEFAULT '0',
+  `field_id` int NOT NULL,
+  `agency_checkOut` tinyint(1) DEFAULT '0',
+  `agency_Checkout_time` datetime DEFAULT NULL,
+  `Latitude` text,
+  `Longitude` text,
+  `agency_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `compaign_sales`
+--
 
--- CREATE TABLE `compaign_activities` (
---   `comp_act_id` int NOT NULL,
---   `comp_act_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `comp_id` int NOT NULL,
---   `agency_checkIN` tinyint(1) DEFAULT '0',
---   `field_id` int NOT NULL,
---   `agency_checkOut` tinyint(1) DEFAULT '0',
---   `agency_Checkout_time` datetime DEFAULT NULL,
---   `Latitude` text,
---   `Longitude` text,
---   `agency_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `compaign_sales` (
+  `comp_sale_id` int NOT NULL,
+  `saomp_sale_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `comp_id` int NOT NULL,
+  `field_id` int NOT NULL,
+  `sale_total_amount` float DEFAULT NULL,
+  `recieved_amount` float DEFAULT NULL,
+  `agency_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `compaign_sales`
--- --
+--
+-- Table structure for table `companies_access`
+--
 
--- CREATE TABLE `compaign_sales` (
---   `comp_sale_id` int NOT NULL,
---   `saomp_sale_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `comp_id` int NOT NULL,
---   `field_id` int NOT NULL,
---   `sale_total_amount` float DEFAULT NULL,
---   `recieved_amount` float DEFAULT NULL,
---   `agency_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- -- --------------------------------------------------------
-
--- --
--- -- Table structure for table `companies_access`
--- --
-
--- CREATE TABLE `companies_access` (
---   `comp_access_id` int NOT NULL,
---   `comp_access_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `sa_id` int NOT NULL,
---   `comp_name` text,
---   `comp_address` text,
---   `comp_contact` text,
---   `access_date_time` datetime DEFAULT NULL,
---   `access_Status` tinyint(1) DEFAULT '0',
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `companies_access` (
+  `comp_access_id` int NOT NULL,
+  `comp_access_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `sa_id` int NOT NULL,
+  `comp_name` text,
+  `comp_address` text,
+  `comp_contact` text,
+  `access_date_time` datetime DEFAULT NULL,
+  `access_Status` tinyint(1) DEFAULT '0',
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `companies_access`
@@ -856,21 +914,21 @@ INSERT INTO `companies_access` (`comp_access_id`, `comp_access_uuid`, `sa_id`, `
 -- Table structure for table `company_gm_info`
 --
 
--- CREATE TABLE `company_gm_info` (
---   `gm_id` int NOT NULL,
---   `gm_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `gm_name` text,
---   `gm_email` text,
---   `gm_password` text,
---   `gm_contact` text,
---   `gm_profile_pic` text,
---   `gm_salary` int DEFAULT NULL,
---   `gm_member_Since` datetime DEFAULT NULL,
---   `comp_access_id` int NOT NULL,
---   `zone_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `company_gm_info` (
+  `gm_id` int NOT NULL,
+  `gm_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `gm_name` text,
+  `gm_email` text,
+  `gm_password` text,
+  `gm_contact` text,
+  `gm_profile_pic` text,
+  `gm_salary` int DEFAULT NULL,
+  `gm_member_Since` datetime DEFAULT NULL,
+  `comp_access_id` int NOT NULL,
+  `zone_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `company_gm_info`
@@ -885,36 +943,36 @@ INSERT INTO `company_gm_info` (`gm_id`, `gm_uuid`, `gm_name`, `gm_email`, `gm_pa
 -- Table structure for table `company_promotions`
 --
 
--- CREATE TABLE `company_promotions` (
---   `comp_prom_id` int NOT NULL,
---   `comp_prom_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `comp_prom_name` text,
---   `comp_prom_desc` text,
---   `prom_status` tinyint(1) DEFAULT NULL,
---   `prom_deleted` tinyint(1) DEFAULT NULL,
---   `gm_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `company_promotions` (
+  `comp_prom_id` int NOT NULL,
+  `comp_prom_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `comp_prom_name` text,
+  `comp_prom_desc` text,
+  `prom_status` tinyint(1) DEFAULT NULL,
+  `prom_deleted` tinyint(1) DEFAULT NULL,
+  `gm_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `complainsofactivities`
--- --
+--
+-- Table structure for table `complainsofactivities`
+--
 
--- CREATE TABLE `complainsofactivities` (
---   `complain_id` int NOT NULL,
---   `complain_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `subject` text,
---   `message` text,
---   `deleted` tinyint(1) DEFAULT '0',
---   `paused` tinyint(1) DEFAULT '0',
---   `list_act_id` int NOT NULL,
---   `field_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `complainsofactivities` (
+  `complain_id` int NOT NULL,
+  `complain_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `subject` text,
+  `message` text,
+  `deleted` tinyint(1) DEFAULT '0',
+  `paused` tinyint(1) DEFAULT '0',
+  `list_act_id` int NOT NULL,
+  `field_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `complainsofactivities`
@@ -929,123 +987,123 @@ INSERT INTO `complainsofactivities` (`complain_id`, `complain_uuid`, `subject`, 
 -- Table structure for table `cust_care_activities`
 --
 
--- CREATE TABLE `cust_care_activities` (
---   `cust_c_act_id` int NOT NULL,
---   `cust_c_act_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `cust_deleted` tinyint(1) DEFAULT '0',
---   `cust_care_id` int NOT NULL,
---   `agency_id` int NOT NULL,
---   `feedback` text,
---   `totalCallTime` text,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `cust_care_activities` (
+  `cust_c_act_id` int NOT NULL,
+  `cust_c_act_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `cust_deleted` tinyint(1) DEFAULT '0',
+  `cust_care_id` int NOT NULL,
+  `agency_id` int NOT NULL,
+  `feedback` text,
+  `totalCallTime` text,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `cust_care_csr`
--- --
+--
+-- Table structure for table `cust_care_csr`
+--
 
--- CREATE TABLE `cust_care_csr` (
---   `cust_care_id` int NOT NULL,
---   `cust_care_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `cust_care_name` text,
---   `cust_care_email` text,
---   `cust_care_password` text,
---   `cust_care_contact` text,
---   `cust_care_userProfilePic` text,
---   `cust_care_target` text,
---   `cust_care_salary` text,
---   `cust_care_commission` text,
---   `cust_care_username` text,
---   `cust_care_isDeleted` tinyint(1) DEFAULT '0',
---   `man_id` int NOT NULL,
---   `d_id` int NOT NULL,
---   `login_id` int NOT NULL,
---   `totalCallTime` text,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `cust_care_csr` (
+  `cust_care_id` int NOT NULL,
+  `cust_care_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `cust_care_name` text,
+  `cust_care_email` text,
+  `cust_care_password` text,
+  `cust_care_contact` text,
+  `cust_care_userProfilePic` text,
+  `cust_care_target` text,
+  `cust_care_salary` text,
+  `cust_care_commission` text,
+  `cust_care_username` text,
+  `cust_care_isDeleted` tinyint(1) DEFAULT '0',
+  `man_id` int NOT NULL,
+  `d_id` int NOT NULL,
+  `login_id` int NOT NULL,
+  `totalCallTime` text,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `dataentry_employee`
--- --
+--
+-- Table structure for table `dataentry_employee`
+--
 
--- CREATE TABLE `dataentry_employee` (
---   `de_emp_id` int NOT NULL,
---   `de_emp_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `login_id` int NOT NULL,
---   `de_emp_name` text,
---   `man_id` int NOT NULL,
---   `deleted` tinyint(1) DEFAULT '0',
---   `salary` int DEFAULT NULL,
---   `timing` text,
---   `isPaused` tinyint(1) DEFAULT '0',
---   `fullName` text,
---   `profilePicPath` text,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `dataentry_employee` (
+  `de_emp_id` int NOT NULL,
+  `de_emp_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `login_id` int NOT NULL,
+  `de_emp_name` text,
+  `man_id` int NOT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `salary` int DEFAULT NULL,
+  `timing` text,
+  `isPaused` tinyint(1) DEFAULT '0',
+  `fullName` text,
+  `profilePicPath` text,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `dealers_info_from_pep`
--- --
+--
+-- Table structure for table `dealers_info_from_pep`
+--
 
--- CREATE TABLE `dealers_info_from_pep` (
---   `pep_dealers_id` int NOT NULL,
---   `pep_dealers_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `status` tinyint(1) DEFAULT '0',
---   `deleted` tinyint(1) DEFAULT '0',
---   `name` text,
---   `contact` text,
---   `address` text,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `dealers_info_from_pep` (
+  `pep_dealers_id` int NOT NULL,
+  `pep_dealers_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `name` text,
+  `contact` text,
+  `address` text,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `dealers_of_pep_activities`
--- --
+--
+-- Table structure for table `dealers_of_pep_activities`
+--
 
--- CREATE TABLE `dealers_of_pep_activities` (
---   `pep_dealer_act_id` int NOT NULL,
---   `pep_dealer_act_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `status` tinyint(1) DEFAULT '0',
---   `deleted` tinyint(1) DEFAULT '0',
---   `feedback` text,
---   `pep_dealers_id` int NOT NULL,
---   `cust_care_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `dealers_of_pep_activities` (
+  `pep_dealer_act_id` int NOT NULL,
+  `pep_dealer_act_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `feedback` text,
+  `pep_dealers_id` int NOT NULL,
+  `cust_care_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `departments`
--- --
+--
+-- Table structure for table `departments`
+--
 
--- CREATE TABLE `departments` (
---   `d_id` int NOT NULL,
---   `d_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `paused` tinyint(1) DEFAULT '0',
---   `d_deleted` tinyint(1) DEFAULT '0',
---   `d_name` text,
---   `d_type` text,
---   `d_added_Date_Time` datetime DEFAULT NULL,
---   `comp_access_id` int NOT NULL,
---   `gm_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL,
---   `sa_id` int DEFAULT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `departments` (
+  `d_id` int NOT NULL,
+  `d_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `d_deleted` tinyint(1) DEFAULT '0',
+  `d_name` text,
+  `d_type` text,
+  `d_added_Date_Time` datetime DEFAULT NULL,
+  `comp_access_id` int NOT NULL,
+  `gm_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL,
+  `sa_id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `departments`
@@ -1060,106 +1118,39 @@ INSERT INTO `departments` (`d_id`, `d_uuid`, `paused`, `d_deleted`, `d_name`, `d
 -- Table structure for table `executivelogins`
 --
 
--- CREATE TABLE `executivelogins` (
---   `execu_login_id` int NOT NULL,
---   `execu_login_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `deleted` tinyint(1) DEFAULT '0',
---   `isPaused` tinyint(1) DEFAULT '0',
---   `loggedInStatus` tinyint(1) DEFAULT '0',
---   `loggedOutStatus` tinyint(1) DEFAULT '0',
---   `ipAddress` text,
---   `loggedOutDate` datetime DEFAULT NULL,
---   `field_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `executivelogins` (
+  `execu_login_id` int NOT NULL,
+  `execu_login_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `isPaused` tinyint(1) DEFAULT '0',
+  `loggedInStatus` tinyint(1) DEFAULT '0',
+  `loggedOutStatus` tinyint(1) DEFAULT '0',
+  `ipAddress` text,
+  `loggedOutDate` datetime DEFAULT NULL,
+  `field_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `executivelogins`
 --
 
 INSERT INTO `executivelogins` (`execu_login_id`, `execu_login_uuid`, `deleted`, `isPaused`, `loggedInStatus`, `loggedOutStatus`, `ipAddress`, `loggedOutDate`, `field_id`, `createdAt`, `updateTimestamp`) VALUES
-(2, '2ae46621-f824-4975-a93c-edab0f5c0525', 0, 0, 0, 0, '::1', NULL, 4, '2021-07-16 15:00:46', '2021-07-16 15:00:46'),
-(3, '1c424ce4-5798-44a3-9394-db9a25bfb366', 0, 0, 0, 0, '::1', NULL, 4, '2021-07-16 15:02:26', '2021-07-16 15:02:26'),
-(4, 'bd2d9fc6-d99c-42b1-afbf-92daa0993926', 0, 0, 0, 0, '::1', NULL, 4, '2021-07-16 15:03:28', '2021-07-16 15:03:28'),
-(5, 'feeda977-0666-4af0-a7db-052cf87cbb02', 0, 0, 0, 0, '::1', NULL, 4, '2021-07-16 15:05:53', '2021-07-16 15:05:53'),
-(6, 'a5d8b85f-61eb-44f8-b1f0-c9535e8e6f56', 0, 0, 0, 0, '::1', NULL, 4, '2021-07-16 15:07:07', '2021-07-16 15:07:07'),
-(7, 'd9ff5b90-04c1-482f-9a76-c02781de1a93', 0, 0, 0, 0, '::1', NULL, 4, '2021-07-16 15:08:24', '2021-07-16 15:08:24'),
-(8, 'fd9935c7-8bec-462d-a079-7ac06cfde483', 0, 0, 0, 0, '::1', NULL, 4, '2021-07-16 15:10:49', '2021-07-16 15:10:49'),
-(9, '43746ed0-fce0-411f-9d6a-1438b2f1c795', 0, 0, 0, 0, '::1', NULL, 4, '2021-07-26 11:34:06', '2021-07-26 11:34:06'),
-(10, '5e096ab6-1e37-4e86-ad08-e2900725941c', 0, 0, 0, 0, '::1', NULL, 4, '2021-07-27 13:22:05', '2021-07-27 13:22:05'),
-(11, '8a4915d5-5f10-45a1-a376-7e77dae53083', 0, 0, 0, 0, '::1', NULL, 4, '2021-07-27 16:52:04', '2021-07-27 16:52:04'),
-(12, '5c64b5a6-93ee-49c5-a57a-31e34ec82d74', 0, 0, 0, 0, '::1', NULL, 4, '2021-08-04 13:49:13', '2021-08-04 13:49:13'),
-(13, 'beeb615f-09d2-48fd-a935-554e5ee5898f', 0, 0, 0, 0, '::1', NULL, 4, '2021-08-09 13:44:13', '2021-08-09 13:44:13'),
-(14, '9d7da3dc-26b9-4191-b828-0e0df5a4514c', 0, 0, 0, 0, '::1', NULL, 4, '2021-08-09 13:54:27', '2021-08-09 13:54:27'),
-(15, '59045484-4a44-46d3-971b-cb882cef4727', 0, 0, 0, 0, '::1', NULL, 4, '2021-08-09 14:29:17', '2021-08-09 14:29:17'),
-(16, '1888e174-7e47-47bc-ac6b-62386a07c678', 0, 0, 0, 0, '::1', NULL, 4, '2021-08-09 16:50:50', '2021-08-09 16:50:50'),
-(17, 'b7715565-f7c6-4297-9ea6-d9516fa36128', 0, 0, 0, 0, '::1', NULL, 4, '2021-08-09 16:52:12', '2021-08-09 16:52:12'),
-(18, 'd5d996c0-369f-4136-8c61-0f6c6b613ce5', 0, 0, 0, 0, '::1', NULL, 4, '2021-09-02 14:01:29', '2021-09-02 14:01:29'),
-(19, '38ba12cc-f911-4b92-9dc1-5254dfa294c1', 0, 0, 0, 0, '::1', NULL, 4, '2021-09-07 15:42:24', '2021-09-07 15:42:24'),
-(20, '4f3db5cf-6f95-4cc7-9b94-6db097c9a4b0', 0, 0, 0, 0, '::1', NULL, 4, '2021-09-07 15:50:41', '2021-09-07 15:50:41'),
-(21, '8318c177-d95e-48ef-867b-78336cae0dd5', 0, 0, 0, 0, '::1', NULL, 4, '2021-09-07 15:54:52', '2021-09-07 15:54:52'),
-(22, '65ce7136-e260-4c46-b899-e2611d977a7a', 0, 0, 0, 0, '::1', NULL, 4, '2021-09-07 16:02:49', '2021-09-07 16:02:49'),
-(23, 'd631c39d-138d-4f10-b29c-d22a9a05689e', 0, 0, 0, 0, '::1', NULL, 4, '2021-09-07 16:03:59', '2021-09-07 16:03:59'),
-(24, 'e8ecdcff-2f6c-47c6-a377-ec75444062ac', 0, 0, 0, 0, '::1', NULL, 4, '2021-09-07 17:29:50', '2021-09-07 17:29:50'),
-(25, '581d05dc-4ad4-4a44-99e5-6007c9e6fb7a', 0, 0, 0, 0, '::1', NULL, 4, '2021-09-15 16:08:32', '2021-09-15 16:08:32'),
-(26, '515f62f8-e15e-42ae-b0fb-3e8d4a92842b', 0, 0, 0, 0, '::1', NULL, 4, '2021-09-23 15:12:42', '2021-09-23 15:12:42'),
-(27, '111407f9-c5b4-4c37-9d28-71cb10bb7653', 0, 0, 0, 0, '::1', NULL, 4, '2021-09-23 16:31:50', '2021-09-23 16:31:50'),
-(28, 'adb1f846-feea-4e16-95dd-cbde6ce712a0', 0, 0, 0, 0, '::1', NULL, 4, '2021-09-29 14:03:18', '2021-09-29 14:03:18'),
-(29, 'a2b8acfe-0fb1-4541-9271-438a4556899a', 0, 0, 0, 0, '::ffff:192.168.100.53', NULL, 4, '2021-10-04 16:13:18', '2021-10-04 16:13:18'),
-(30, '712141cd-dab0-4ee1-ad17-9a5e86dda6f3', 0, 0, 0, 0, '::ffff:192.168.100.68', NULL, 4, '2021-10-04 17:06:24', '2021-10-04 17:06:24'),
-(31, 'c2a3c462-41f2-42fb-a12b-1d9bec26d16e', 0, 0, 0, 0, '::1', NULL, 4, '2021-10-04 17:21:57', '2021-10-04 17:21:57'),
-(32, 'e469836f-bca5-4847-aa68-f2e774471328', 0, 0, 0, 0, '::1', NULL, 4, '2021-10-04 17:26:17', '2021-10-04 17:26:17'),
-(33, 'a6e3905b-daad-4a45-ac26-96db4e74b880', 0, 0, 0, 0, '::ffff:192.168.100.68', NULL, 4, '2021-10-04 17:29:00', '2021-10-04 17:29:00'),
-(34, 'eecf4e7f-fb69-41c9-bb4c-71e8dccd6a44', 0, 0, 0, 0, '::1', NULL, 4, '2021-10-04 17:35:03', '2021-10-04 17:35:03'),
-(35, 'f1e3d586-2223-4fae-b0b9-3c7361915667', 0, 0, 0, 0, '::1', NULL, 4, '2021-10-04 17:37:40', '2021-10-04 17:37:40'),
-(36, '1e832fcf-23fc-4b71-8252-013a8a21c300', 0, 0, 0, 0, '::1', NULL, 4, '2021-10-04 17:47:40', '2021-10-04 17:47:40'),
-(37, '1fe9d5c0-f49a-42c6-b00f-0cc30de272f0', 0, 0, 0, 0, '::1', NULL, 4, '2021-10-04 17:51:08', '2021-10-04 17:51:08'),
-(38, 'dd7a8acb-51c5-43fc-9b2f-cb0cf4411726', 0, 0, 0, 0, '::1', NULL, 4, '2021-10-04 17:53:24', '2021-10-04 17:53:24'),
-(39, 'd8b736f1-0b68-4bb1-96c3-2c9953ebe0ab', 0, 0, 0, 0, '::1', NULL, 4, '2021-10-04 17:55:35', '2021-10-04 17:55:35'),
-(40, '151b275a-8c35-48bd-963c-ea058885f5d9', 0, 0, 0, 0, '::1', NULL, 4, '2021-10-04 17:57:15', '2021-10-04 17:57:15'),
-(41, 'ddd8d557-d09b-471e-bfbc-51e5b08b33e1', 0, 0, 0, 0, '::1', NULL, 4, '2021-10-04 17:58:02', '2021-10-04 17:58:02'),
-(42, '11470e56-d154-4e9b-9ea9-afbf1be0a96f', 0, 0, 0, 0, '::1', NULL, 4, '2021-10-04 17:58:44', '2021-10-04 17:58:44'),
-(43, '93ea55ab-a638-4d0d-a048-178e40833d0c', 0, 0, 0, 0, '::ffff:192.168.100.68', NULL, 4, '2021-10-04 18:08:17', '2021-10-04 18:08:17'),
 (44, '02144067-4bdb-4b76-a796-1b06b700c624', 0, 0, 0, 0, '::ffff:192.168.100.67', NULL, 12, '2021-10-07 16:39:21', '2021-10-07 16:39:21'),
 (45, '3d4d71ba-eee8-424d-b876-ab9c398cf76d', 0, 0, 0, 0, '::ffff:192.168.100.67', NULL, 12, '2021-10-07 16:40:20', '2021-10-07 16:40:20'),
-(46, 'e8263a32-8058-4849-bed3-2ef493bb501c', 0, 0, 0, 0, '::ffff:192.168.100.64', NULL, 13, '2021-10-07 16:52:09', '2021-10-07 16:52:09'),
-(47, 'beefb6b5-c279-431b-920b-bf063ee61029', 0, 0, 0, 0, '::1', NULL, 4, '2021-10-07 16:58:05', '2021-10-07 16:58:05'),
-(48, '721c1cda-da64-43df-8b94-b05b0c5ffdbf', 0, 0, 0, 0, '::ffff:192.168.100.64', NULL, 13, '2021-10-07 17:03:38', '2021-10-07 17:03:38'),
-(49, '27c57706-46b6-45b3-bc05-b954d9cb6110', 0, 0, 0, 0, '::ffff:192.168.100.64', NULL, 13, '2021-10-07 17:07:27', '2021-10-07 17:07:27'),
 (50, '36ed1d0a-0a76-4759-9696-f20ab1d1f504', 0, 0, 0, 0, '::ffff:192.168.100.71', NULL, 14, '2021-10-07 17:29:45', '2021-10-07 17:29:45'),
 (51, 'fcb47194-b854-4059-961b-cdca6d9ee54c', 0, 0, 0, 0, '::ffff:192.168.100.71', NULL, 14, '2021-10-07 17:44:43', '2021-10-07 17:44:43'),
 (52, '10a168c8-b417-41ad-99f5-590b1d80af5b', 0, 0, 0, 0, '::ffff:192.168.100.71', NULL, 14, '2021-10-08 10:28:28', '2021-10-08 10:28:28'),
-(53, '2c177450-e6b2-40bb-978b-a9a6647f7bdc', 0, 0, 0, 0, '::ffff:192.168.100.71', NULL, 13, '2021-10-11 13:00:32', '2021-10-11 13:00:32'),
-(54, '00c501ea-3c35-4927-8118-8a13b04ab862', 0, 0, 0, 0, '::ffff:192.168.100.71', NULL, 13, '2021-10-11 13:00:55', '2021-10-11 13:00:55'),
-(55, '839123e1-7fa1-43e3-bd77-ad99f2e3c932', 0, 0, 0, 0, '::1', NULL, 4, '2021-10-11 13:10:09', '2021-10-11 13:10:09'),
-(56, 'c5b1a769-d3f3-4094-9c1d-f835aa339208', 0, 0, 0, 0, '::1', NULL, 4, '2021-10-11 16:39:48', '2021-10-11 16:39:48'),
-(57, 'cf4f79c5-13fb-4156-9d1a-d6849166f45a', 0, 0, 0, 0, '::1', NULL, 4, '2021-10-12 15:59:00', '2021-10-12 15:59:00'),
-(58, '048dc7a9-96e3-4d69-96dc-da02fd870d11', 0, 0, 0, 0, '::ffff:127.0.0.1', NULL, 4, '2021-10-12 15:59:52', '2021-10-12 15:59:52'),
-(59, 'bfcf633a-ae23-4bf2-ad41-ffb3040c1e65', 0, 0, 0, 0, '::1', NULL, 4, '2021-10-12 16:00:06', '2021-10-12 16:00:06'),
-(60, 'bd517650-374e-47f6-8c17-9f5da43930c3', 0, 0, 0, 0, '::1', NULL, 4, '2021-10-12 16:00:41', '2021-10-12 16:00:41'),
 (61, '9a90ea6f-0442-46d5-9848-10ab40e99a94', 0, 0, 0, 0, '::ffff:192.168.100.66', NULL, 14, '2021-10-12 16:06:13', '2021-10-12 16:06:13'),
-(62, '549e2234-ac78-4e50-9432-2eceb8258a26', 0, 0, 0, 0, '::ffff:192.168.100.67', NULL, 4, '2021-10-18 15:10:38', '2021-10-18 15:10:38'),
-(63, 'ff4e71fb-9f1e-4d78-b67c-32faed9d453f', 0, 0, 0, 0, '::ffff:192.168.100.67', NULL, 4, '2021-10-18 15:28:39', '2021-10-18 15:28:39'),
-(64, '898a60e4-e8b0-4b84-9e3d-c171a932d2d5', 0, 0, 0, 0, '::ffff:192.168.100.67', NULL, 4, '2021-10-18 15:29:24', '2021-10-18 15:29:24'),
-(65, '7378fd9b-c0e1-4224-9a23-4789723d2fc2', 0, 0, 0, 0, '::ffff:192.168.100.67', NULL, 4, '2021-10-18 15:29:41', '2021-10-18 15:29:41'),
-(66, '4dc5cae1-3000-45f8-98e5-108353ee69fd', 0, 0, 0, 0, '::ffff:192.168.100.67', NULL, 4, '2021-10-18 15:31:06', '2021-10-18 15:31:06'),
-(67, 'e1e38720-6a5b-494d-86ee-1d79fc9f59ff', 0, 0, 0, 0, '::ffff:192.168.100.67', NULL, 4, '2021-10-18 15:32:57', '2021-10-18 15:32:57'),
-(68, '010c2de7-1583-4b27-a6c8-11e5eec16c17', 0, 0, 0, 0, '::ffff:192.168.100.67', NULL, 4, '2021-10-18 15:37:39', '2021-10-18 15:37:39'),
-(69, 'a340fcc1-534d-48ec-9436-c040a5a9534c', 0, 0, 0, 0, '::ffff:192.168.100.67', NULL, 4, '2021-10-18 15:55:19', '2021-10-18 15:55:19'),
-(70, '0cf38b42-675f-493b-b32f-9d776c220613', 0, 0, 0, 0, '::ffff:192.168.100.67', NULL, 4, '2021-10-20 11:42:14', '2021-10-20 11:42:14'),
-(71, '1138afcf-c0a8-4946-b919-365bf51758e7', 0, 0, 0, 0, '::ffff:192.168.100.67', NULL, 4, '2021-10-20 12:42:31', '2021-10-20 12:42:31'),
-(72, '2c993c6b-aaa5-4718-91d0-da205dff221b', 0, 0, 0, 0, '::ffff:192.168.100.67', NULL, 4, '2021-10-20 12:43:45', '2021-10-20 12:43:45'),
-(73, '892d5c48-f8fc-4334-a783-7273a35ab6df', 0, 0, 0, 0, '::ffff:192.168.100.67', NULL, 4, '2021-10-20 12:49:15', '2021-10-20 12:49:15'),
-(74, 'a3dc3047-389f-4a7f-be00-2353e7c5bc25', 0, 0, 0, 0, '::ffff:192.168.100.67', NULL, 4, '2021-10-20 12:54:28', '2021-10-20 12:54:28'),
-(75, '6af6d11f-03c4-4214-a775-04e1cc7a3a97', 0, 0, 0, 0, '::ffff:192.168.100.67', NULL, 4, '2021-10-20 12:56:04', '2021-10-20 12:56:04'),
-(76, '7d55c01b-c9c1-424c-84ad-c35e72e9ce76', 0, 0, 0, 0, '::ffff:192.168.100.64', NULL, 4, '2021-10-21 15:44:08', '2021-10-21 15:44:08'),
-(77, '09014b10-44c6-43a6-a058-9d841303359c', 0, 0, 0, 0, '::ffff:192.168.100.64', NULL, 4, '2021-10-21 17:51:39', '2021-10-21 17:51:39'),
-(78, '42aed71a-b259-47cd-9b1d-0241f1c3605f', 0, 0, 0, 0, '::ffff:192.168.100.64', NULL, 4, '2021-10-21 17:53:08', '2021-10-21 17:53:08'),
-(79, '57f20151-1972-40bf-a5f1-5b34f72bedb3', 0, 0, 0, 0, '::ffff:192.168.100.64', NULL, 4, '2021-10-21 18:46:56', '2021-10-21 18:46:56'),
-(80, 'cf592312-d180-4c3f-8fc0-db217799ff0f', 0, 0, 0, 0, '::ffff:192.168.100.67', NULL, 4, '2021-11-02 17:23:09', '2021-11-02 17:23:09'),
-(81, 'd95d741e-28d3-456c-a232-90056938ff76', 0, 0, 0, 0, '::1', NULL, 4, '2021-11-02 17:25:13', '2021-11-02 17:25:13'),
-(82, '18afbff6-bed2-4b56-bf4e-4054bb2c1a44', 0, 0, 0, 0, '::ffff:192.168.100.61', NULL, 4, '2021-11-03 13:05:12', '2021-11-03 13:05:12');
+(86, '7f3816ff-f219-4cb4-b7c6-dd4a1288c249', 0, 0, 0, 0, '::ffff:192.168.100.61', NULL, 28, '2021-11-05 17:41:14', '2021-11-05 17:41:14'),
+(87, '4ea22db9-0066-488d-bf40-93ed5f3e1056', 0, 0, 0, 0, '::ffff:192.168.100.62', NULL, 28, '2021-11-08 12:09:48', '2021-11-08 12:09:48'),
+(91, '03c56800-a7fb-41e2-9ddd-8c725fb64180', 0, 0, 0, 0, '::ffff:192.168.100.60', NULL, 28, '2021-11-09 15:45:46', '2021-11-09 15:45:46'),
+(92, '64ee6fbb-e6be-42d4-92bd-8b4c5e7eff36', 0, 0, 0, 0, '::ffff:192.168.100.60', NULL, 28, '2021-11-09 16:14:24', '2021-11-09 16:14:24'),
+(94, 'd15c1e0d-5beb-4ebf-bd88-669551324b4c', 0, 0, 0, 0, '::ffff:192.168.100.63', NULL, 28, '2021-11-10 15:11:57', '2021-11-10 15:11:57'),
+(96, '899f3bdd-39da-4b39-8d55-6013f7b4f7a7', 0, 0, 0, 0, '::ffff:192.168.100.63', NULL, 28, '2021-11-10 16:25:38', '2021-11-10 16:25:38'),
+(97, '5d82cae2-d2d1-4eee-8b30-1f153ac9f1e2', 0, 0, 0, 0, '::ffff:192.168.100.63', NULL, 28, '2021-11-10 16:26:02', '2021-11-10 16:26:02'),
+(99, '3dd79428-86ce-47df-af29-e34f5c68f372', 0, 0, 0, 0, '::ffff:192.168.100.82', NULL, 28, '2021-11-12 15:30:08', '2021-11-12 15:30:08');
 
 -- --------------------------------------------------------
 
@@ -1167,78 +1158,24 @@ INSERT INTO `executivelogins` (`execu_login_id`, `execu_login_uuid`, `deleted`, 
 -- Table structure for table `executivenotifications`
 --
 
--- CREATE TABLE `executivenotifications` (
---   `execu_notification_id` int NOT NULL,
---   `execu_notification_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `deleted` tinyint(1) DEFAULT '0',
---   `isPaused` tinyint(1) DEFAULT '0',
---   `notification_text` text,
---   `isRead` tinyint(1) NOT NULL DEFAULT '0',
---   `field_id` int NOT NULL,
---   `notification_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `executivenotifications` (
+  `execu_notification_id` int NOT NULL,
+  `execu_notification_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `isPaused` tinyint(1) DEFAULT '0',
+  `notification_text` text,
+  `isRead` tinyint(1) NOT NULL DEFAULT '0',
+  `field_id` int NOT NULL,
+  `notification_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `executivenotifications`
 --
 
 INSERT INTO `executivenotifications` (`execu_notification_id`, `execu_notification_uuid`, `deleted`, `isPaused`, `notification_text`, `isRead`, `field_id`, `notification_id`, `createdAt`, `updateTimestamp`) VALUES
-(1, 'b93f9b92-3979-492d-aa6c-f8e4d1bbf4f3', 0, 0, 'You have started working on the Already Registered Agency Saad Sohail...!!!', 1, 4, 2, '2021-06-08 15:30:22', '2021-06-21 17:16:34'),
-(2, '2092b555-185f-4d6f-92bf-949c6979f863', 0, 0, 'You have started working on the Already Registered Agency Saad Sohail...!!!                            ', 1, 4, 2, '2021-06-08 15:31:15', '2021-06-15 12:16:33'),
-(4, '3f1cab17-2009-4af0-ad3f-3993dca2de3c', 0, 0, 'Some notification', 1, 4, 2, '2021-06-09 12:22:49', '2021-06-15 12:16:33'),
-(5, '3286d847-508d-4eb7-9fc8-087cea4284dd', 0, 0, 'Some other notification', 1, 4, 1, '2021-06-09 12:22:49', '2021-06-15 12:16:33'),
-(6, 'b320558c-cf9f-4016-b2eb-7393c4ab4c28', 0, 0, 'Whatever notification', 1, 4, 1, '2021-06-09 12:22:49', '2021-06-14 17:11:23'),
-(7, 'bf3e10d0-5aaa-42af-b651-efa421543a03', 0, 0, 'Some notification', 1, 4, 2, '2021-06-09 12:22:49', '2021-06-14 17:15:44'),
-(8, '86c345c1-6e11-4a81-8634-fbeb7c24213d', 0, 0, 'You have started working on the Already Registered Agency Saad Sohail...!!!', 1, 4, 2, '2021-06-17 17:26:33', '2021-06-21 13:42:49'),
-(9, '69834436-1d8f-4b5d-88f2-5952ceaa5389', 0, 0, 'You have started working on the Already Registered Agency Saad Sohail...!!!', 1, 4, 2, '2021-06-17 17:40:06', '2021-06-21 13:42:49'),
-(10, '55e02b86-7409-4991-ad11-e47ff97e6fc2', 0, 0, 'You have started working on the Already Registered Agency Saad Sohail...!!!', 1, 4, 2, '2021-06-17 17:48:02', '2021-06-21 13:42:49'),
-(11, '39f4bbdd-9bbe-4204-93d5-7be51694ca15', 0, 0, 'You have started working on the Already Registered Agency Pending Clearance...!!!', 1, 4, 2, '2021-06-17 17:56:45', '2021-06-21 13:42:49'),
-(12, '3929508d-2ef7-4870-8ff5-1a75b03859f8', 0, 0, 'You have started working on the Already Registered Agency Saad Sohail...!!!', 1, 4, 2, '2021-06-17 18:02:30', '2021-06-21 13:42:49'),
-(13, '78a59cfb-0968-4bf5-be17-0988820b2d00', 0, 0, 'You have started working on the Already Registered Agency 3535Pending Clearances```111111...!!!', 1, 4, 2, '2021-06-17 18:04:23', '2021-06-21 13:42:49'),
-(14, '086daab0-4d6d-4606-ac2d-a53ceb853100', 0, 0, 'You have started working on the Already Registered Agency 3535Pending Clearances```111111...!!!', 1, 4, 2, '2021-06-17 18:10:48', '2021-06-21 13:42:49'),
-(15, 'c3b0e1f4-36f4-4a02-a5ff-ce4773912c5c', 0, 0, 'You have started working on the Already Registered Agency Pending Clearance...!!!', 1, 4, 2, '2021-06-17 18:12:37', '2021-06-21 13:42:49'),
-(16, 'cf520739-9f05-44f0-97f6-8a51c6a48563', 0, 0, 'You have started working on the Already Registered Agency Pending Clearance...!!!', 1, 4, 2, '2021-06-17 18:16:22', '2021-06-21 13:42:49'),
-(17, '188e2ee4-3fa1-45bf-ae3b-e2b619f30e3c', 0, 0, 'You have started working on the Already Registered Agency Pending Clearance...!!!', 1, 4, 2, '2021-06-17 18:30:19', '2021-06-21 13:42:49'),
-(18, 'be594620-4577-4eb0-9d10-8ceea27730aa', 0, 0, 'You have started working on the Already Registered Agency Pending Clearance...!!!', 1, 4, 2, '2021-06-17 18:32:51', '2021-06-21 13:42:49'),
-(19, '59fa4ed8-81b3-424f-a40a-acfa7ae091d9', 0, 0, 'You have started working on the Already Registered Agency Pending Clearance...!!!', 1, 4, 2, '2021-06-17 18:38:51', '2021-06-21 13:42:49'),
-(20, 'f69aff92-f2c5-404d-9764-40cfaa983951', 0, 0, 'You have started working on the Already Registered Agency Pending Clearance...!!!', 1, 4, 2, '2021-06-17 18:59:44', '2021-06-21 13:42:49'),
-(21, '93f99001-49fd-4b1a-978e-792cb2771f10', 0, 0, 'You have started working on the Already Registered Agency Pending Clearance...!!!', 1, 4, 2, '2021-06-17 19:14:14', '2021-06-21 13:42:49'),
-(22, '7815ef5f-84dd-4a86-8839-d21f03c83e26', 0, 0, 'You have started working on the Already Registered Agency Saad Sohail...!!!', 1, 4, 2, '2021-06-21 12:03:22', '2021-06-21 13:42:49'),
-(23, '9d1e537c-c01f-459d-a107-d5c603076ca0', 0, 0, 'You have started working on the Already Registered Agency Saad Sohail...!!!', 1, 4, 2, '2021-06-21 12:05:25', '2021-06-21 13:42:49'),
-(24, '5bb201d8-47b2-4fd6-8110-55a049fb02ef', 0, 0, 'You have started working on the Already Registered Agency Pending Clearances8...!!!', 1, 4, 2, '2021-06-21 12:11:39', '2021-06-21 13:42:49'),
-(25, '0cfbe8fc-c09d-4002-9831-a0e7dc86c756', 0, 0, 'You have started working on the Already Registered Agency Pending Clearances8...!!!', 1, 4, 2, '2021-06-21 12:29:23', '2021-06-21 13:42:49'),
-(26, '2c5858da-2e90-474a-bf3f-a16b25ca4ab5', 0, 0, 'You have started working on the Already Registered Agency Pending Clearances8...!!!', 1, 4, 2, '2021-06-21 12:33:11', '2021-06-21 13:42:49'),
-(27, '5c1f4d8f-7c30-4ede-a804-b45eefc2fa55', 0, 0, 'You have started working on the Already Registered Agency Pending Clearances8...!!!', 1, 4, 2, '2021-06-21 12:39:28', '2021-06-21 13:42:49'),
-(28, '55bff034-d308-4279-8d3a-acd1a175cfc2', 0, 0, 'You have started working on the Already Registered Agency Pending Clearances8...!!!', 1, 4, 2, '2021-06-21 12:40:49', '2021-06-21 13:42:49'),
-(29, 'c64ce516-e0e7-4803-9d2c-0f302a7e8b44', 0, 0, 'You have started working on the Already Registered Agency Pending Clearances8...!!!', 1, 4, 2, '2021-06-21 12:44:31', '2021-06-21 13:42:49'),
-(30, '2ef8100a-12da-44ba-9eb5-8563e88175ab', 0, 0, 'You have started working on the Already Registered Agency Pending Clearances8...!!!', 1, 4, 2, '2021-06-21 12:57:00', '2021-06-21 13:42:49'),
-(31, 'bfb506b2-c67f-4faa-a251-f4eaea2f559e', 0, 0, 'You have started working on the Already Registered Agency Pending Clearances8...!!!', 1, 4, 2, '2021-06-21 12:58:53', '2021-06-21 13:42:49'),
-(32, 'ef8a38af-ff85-4913-8b50-fd6fc98d2b8e', 0, 0, 'You have started working on the Already Registered Agency Pending Clearances8...!!!', 1, 4, 2, '2021-06-21 13:00:20', '2021-06-21 13:42:49'),
-(33, '326c975f-f511-46dc-b1c8-1a5493d8b7ca', 0, 0, 'You have started working on the Already Registered Agency Pending Clearances8...!!!', 1, 4, 2, '2021-06-21 13:01:34', '2021-06-21 13:42:49'),
-(34, 'daa1d72d-e5f5-441d-ae54-42946ef99b73', 0, 0, 'You have started working on the Already Registered Agency Pending Clearances8...!!!', 1, 4, 2, '2021-06-21 13:31:29', '2021-06-21 13:42:49'),
-(35, '8889fdb3-81f4-40ca-bfc9-c2eae2b41a05', 0, 0, 'req.body.messageText', 0, 1, 4, '2021-08-04 13:33:46', '2021-08-04 13:33:46'),
-(36, 'dfa8663d-0706-4fcd-8c09-746199f083f8', 0, 0, 'req.body.messageText', 0, 2, 4, '2021-08-04 13:33:46', '2021-08-04 13:33:46'),
-(37, 'ee3b7c44-8f25-43f3-96eb-9c6f5c48e9ca', 0, 0, 'req.body.messageText', 0, 1, 4, '2021-08-04 13:34:05', '2021-08-04 13:34:05'),
-(38, '2f7cd5b9-4b68-41ff-b0fe-4192a5d46b70', 0, 0, 'req.body.messageText', 0, 2, 4, '2021-08-04 13:34:05', '2021-08-04 13:34:05'),
-(39, '123c3334-2d08-4b85-bd8e-66a3d3207207', 0, 0, 'await Convey Message to Your Team Convey Message to Your Team', 1, 4, 4, '2021-08-04 13:46:35', '2021-08-04 13:50:00'),
-(40, '1165b3ea-9607-4603-be18-30069b778f08', 0, 0, 'await Convey Message to Your Team Convey Message to Your Team', 1, 4, 4, '2021-08-04 13:46:35', '2021-08-04 13:50:00'),
-(41, 'd9344a05-0009-4bc7-a2b5-2be9cca96a51', 0, 0, 'You have started working on the Already Registered Agency Saad Sohail...!!!', 1, 4, 2, '2021-08-09 13:54:13', '2021-10-04 17:07:01'),
-(42, '868c81f9-fdf1-4a38-883d-4602f035db5f', 0, 0, 'fghfghfgh', 0, 1, 4, '2021-08-09 13:58:03', '2021-08-09 13:58:03'),
-(43, '0058cb1a-67ab-4689-8430-8076a7053ff2', 0, 0, 'fghfghfgh', 1, 4, 4, '2021-08-09 13:58:03', '2021-10-04 17:07:01'),
-(44, '3c772513-8bb0-4ef2-beab-10efd79ef782', 0, 0, 'fghfghfgh', 0, 1, 4, '2021-08-09 13:58:05', '2021-08-09 13:58:05'),
-(45, '19994b00-58e7-414f-adb0-8d42e016552d', 0, 0, 'fghfghfgh', 1, 4, 4, '2021-08-09 13:58:05', '2021-10-04 17:07:01'),
-(46, '39dfab18-4d5a-4e2a-886a-f8fc00032fa2', 0, 0, 'asdasdasdasd', 0, 1, 4, '2021-08-09 14:05:37', '2021-08-09 14:05:37'),
-(47, 'e02f4958-ca34-4f5e-bc78-b8720fbe447e', 0, 0, 'asdasdasdasd', 0, 2, 4, '2021-08-09 14:05:37', '2021-08-09 14:05:37'),
-(48, 'afa60e35-249a-47b2-b87f-f4174ce8ad9c', 0, 0, 'asdasdasdasd', 1, 4, 4, '2021-08-09 14:05:37', '2021-10-04 17:07:01'),
-(49, '0fdd7de3-ca49-4db8-a941-4de0391205c0', 0, 0, 'asdasdasdasd', 0, 9, 4, '2021-08-09 14:05:37', '2021-08-09 14:05:37'),
-(50, '319b4d80-8443-4580-bd6e-2c4ea28f67e5', 0, 0, 'sdasdasdas', 0, 1, 4, '2021-08-09 14:06:38', '2021-08-09 14:06:38'),
-(51, '56fb9548-8fa9-4bcd-b3d2-0f64ceda2ccf', 0, 0, 'sdasdasdas', 1, 4, 4, '2021-08-09 14:06:38', '2021-10-04 17:07:01'),
-(52, 'a3a28866-d318-408f-b81a-116c4bdb2112', 0, 0, 'You have started working on the Already Registered Agency Saad Sohail...!!!', 1, 4, 2, '2021-08-09 14:29:35', '2021-10-04 17:07:01'),
-(53, '383aeaa3-bf75-4aa9-8531-47a419ab7329', 0, 0, 'You have started working on the Already Registered Agency Saad Sohail...!!!', 1, 4, 2, '2021-08-09 16:51:29', '2021-10-04 17:07:01'),
-(54, '19ba8b8e-44c3-4389-9604-bdd25d2c1a3c', 0, 0, 'You have started working on the Already Registered Agency Saad Sohail...!!!', 1, 4, 2, '2021-08-09 16:52:28', '2021-10-04 17:07:01'),
-(55, '20c193f4-069a-4063-84b3-00d0edd46b0c', 0, 0, 'You have started working on the Already Registered Agency Pending Clearances8...!!!', 1, 13, 2, '2021-10-07 16:58:03', '2021-10-07 16:59:07'),
 (56, '1fa5c549-d545-48ce-87e9-d18b43d80c71', 0, 0, 'You have started working on the Already Registered Agency Pending Clearances8...!!!', 1, 14, 2, '2021-10-07 17:48:01', '2021-10-07 17:49:13'),
 (57, '5cbea27a-31ea-461d-948f-4550d70d3a38', 0, 0, 'You have started working on the Already Registered Agency Pending Clearances8...!!!', 1, 14, 2, '2021-10-12 16:08:34', '2021-10-12 16:11:55');
 
@@ -1248,32 +1185,32 @@ INSERT INTO `executivenotifications` (`execu_notification_id`, `execu_notificati
 -- Table structure for table `executive_advert_stock`
 --
 
--- CREATE TABLE `executive_advert_stock` (
---   `field_e_stock_id` int NOT NULL,
---   `field_e_stock_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `total_Quantity` int DEFAULT NULL,
---   `team_adver_stock_id` int NOT NULL,
---   `field_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `executive_advert_stock` (
+  `field_e_stock_id` int NOT NULL,
+  `field_e_stock_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `total_Quantity` int DEFAULT NULL,
+  `team_adver_stock_id` int NOT NULL,
+  `field_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `executive_recommendation`
--- --
+--
+-- Table structure for table `executive_recommendation`
+--
 
--- CREATE TABLE `executive_recommendation` (
---   `exec_recomm_id` int NOT NULL,
---   `exec_recomm_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `paused` tinyint(1) DEFAULT '0',
---   `deleted` tinyint(1) DEFAULT '0',
---   `Recommendation` text,
---   `sa_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `executive_recommendation` (
+  `exec_recomm_id` int NOT NULL,
+  `exec_recomm_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `Recommendation` text,
+  `sa_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `executive_recommendation`
@@ -1291,43 +1228,43 @@ INSERT INTO `executive_recommendation` (`exec_recomm_id`, `exec_recomm_uuid`, `p
 -- Table structure for table `executive_stock_usage`
 --
 
--- CREATE TABLE `executive_stock_usage` (
---   `stock_Usage_id` int NOT NULL,
---   `stock_Usage_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `stock_Usage_dateTime` datetime DEFAULT NULL,
---   `stock_Usage_given` int DEFAULT NULL,
---   `field_id` int NOT NULL,
---   `agency_id` int NOT NULL,
---   `field_e_stock_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `executive_stock_usage` (
+  `stock_Usage_id` int NOT NULL,
+  `stock_Usage_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `stock_Usage_dateTime` datetime DEFAULT NULL,
+  `stock_Usage_given` int DEFAULT NULL,
+  `field_id` int NOT NULL,
+  `agency_id` int NOT NULL,
+  `field_e_stock_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `field_executive`
--- --
+--
+-- Table structure for table `field_executive`
+--
 
--- CREATE TABLE `field_executive` (
---   `field_id` int NOT NULL,
---   `field_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `field_name` text,
---   `field_userProfilePic` text,
---   `field_contact` text,
---   `field_target` text,
---   `field_DOB` text,
---   `field_salary` text,
---   `salaryStatus` tinyint(1) DEFAULT '0',
---   `field_commission` text,
---   `field_username` text,
---   `field_isDeleted` tinyint(1) DEFAULT '0',
---   `field_isPaused` tinyint(1) DEFAULT '0',
---   `login_id` int NOT NULL,
---   `team_L_id` int DEFAULT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `field_executive` (
+  `field_id` int NOT NULL,
+  `field_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `field_name` text,
+  `field_userProfilePic` text,
+  `field_contact` text,
+  `field_target` text,
+  `field_DOB` text,
+  `field_salary` text,
+  `salaryStatus` tinyint(1) DEFAULT '0',
+  `field_commission` text,
+  `field_username` text,
+  `field_isDeleted` tinyint(1) DEFAULT '0',
+  `field_isPaused` tinyint(1) DEFAULT '0',
+  `login_id` int NOT NULL,
+  `team_L_id` int DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `field_executive`
@@ -1336,16 +1273,13 @@ INSERT INTO `executive_recommendation` (`exec_recomm_id`, `exec_recomm_uuid`, `p
 INSERT INTO `field_executive` (`field_id`, `field_uuid`, `field_name`, `field_userProfilePic`, `field_contact`, `field_target`, `field_DOB`, `field_salary`, `salaryStatus`, `field_commission`, `field_username`, `field_isDeleted`, `field_isPaused`, `login_id`, `team_L_id`, `createdAt`, `updateTimestamp`) VALUES
 (1, 'ce1308f8-0452-42f6-b900-a144ea3ab1f3', 'First Executive', NULL, NULL, NULL, '', NULL, 0, NULL, NULL, 0, 0, 6, 1, '2021-04-19 14:45:32', '2021-07-30 15:43:44'),
 (2, '2723ae86-d5e5-47e4-a7e8-c99d852213e7', 'Testing', NULL, NULL, NULL, '', NULL, 0, NULL, NULL, 0, 0, 4, 3, '2021-04-19 14:46:07', '2021-07-30 15:56:55'),
-(4, 'aef06ba4-8d47-4810-92c1-9f4942fcd473', 'Saad', NULL, '031245555', NULL, '2010-01-04', NULL, 0, NULL, 'rsasdasd12321', 0, 0, 5, 1, '2021-04-19 15:19:48', '2021-09-23 16:31:58'),
-(9, '1016e851-da1a-46ab-8366-d472f0440981', 'voip_ITZ', '/userprofileImage/500493e0-b971-4e74-8eb1-523315fca4a5.jpeg', '3423423', NULL, '2021-06-02', NULL, 0, NULL, 'muna_safdar', 0, 0, 16, 1, '2021-06-29 16:48:52', '2021-08-09 13:59:29'),
-(11, 'a6a33218-4957-45ee-90e7-51f117673d4f', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 0, 0, 18, 1, '2021-10-07 16:30:55', '2021-10-20 13:04:52'),
-(12, 'd03b354a-c289-479a-95cb-00f9cd66d12c', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 0, 0, 19, NULL, '2021-10-07 16:34:31', '2021-10-07 16:34:31'),
-(13, 'e8c27a3c-a5f2-459a-a035-17d8698afaef', 'Hassam Ul Haq', '/userprofileImage/1096b38e-af8b-40d8-badb-8ea3e55081d1.jpeg', '03226092892', NULL, '2000-09-08', NULL, 0, NULL, 'huhaq', 0, 0, 20, 1, '2021-10-07 16:51:39', '2021-10-20 13:05:16'),
+(4, 'a6a33218-4957-45ee-90e7-51f117673d4f', 'voip_ITZ', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 0, 0, 18, NULL, '2021-10-07 16:30:55', '2021-12-16 12:48:07'),
+(12, 'd03b354a-c289-479a-95cb-00f9cd66d12c', 'voip_ITZ', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 0, 0, 19, NULL, '2021-10-07 16:34:31', '2021-12-15 15:00:15'),
 (14, '2cc0d628-ccd6-4765-9d1e-94918595256b', 'Ihatsham', '/userprofileImage/71338ab5-a8b7-46c1-b2a4-11c100ad0d38.jpeg', '923085201916', NULL, '1973-04-17', NULL, 0, NULL, 'IQ', 0, 0, 21, NULL, '2021-10-07 17:28:43', '2021-10-07 17:45:47'),
-(25, 'fb52ac4c-6e27-4c57-984a-33b554de3fad', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 0, 0, 33, NULL, '2021-10-20 16:59:59', '2021-10-20 16:59:59'),
-(26, '8bf25d96-ff49-41ad-be88-a36f4d4659c9', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 0, 0, 34, NULL, '2021-11-01 16:57:27', '2021-11-01 16:57:27'),
-(27, '860b8652-2948-4945-a56b-6eb346d02ea1', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 0, 0, 35, NULL, '2021-11-02 15:21:47', '2021-11-02 15:21:47'),
-(28, '0242b403-23cf-49f6-a850-1d53522e049a', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 0, 0, 36, NULL, '2021-11-02 15:29:06', '2021-11-02 15:29:06');
+(25, 'fb52ac4c-6e27-4c57-984a-33b554de3fad', 'Ihatsham', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 0, 0, 33, NULL, '2021-10-20 16:59:59', '2021-10-20 16:59:59'),
+(26, '8bf25d96-ff49-41ad-be88-a36f4d4659c9', 'Ihatsham', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 0, 0, 34, NULL, '2021-11-01 16:57:27', '2021-11-01 16:57:27'),
+(27, '860b8652-2948-4945-a56b-6eb346d02ea1', 'Ihatsham', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 0, 0, 35, NULL, '2021-11-02 15:21:47', '2021-11-02 15:21:47'),
+(28, '0242b403-23cf-49f6-a850-1d53522e049a', 'Muti ur Rehman', '/userprofileImage/API1636549273743.png', '+923085610991', NULL, '19-11-1996', NULL, 0, NULL, 'userMuti', 0, 0, 36, NULL, '2021-11-02 15:29:06', '2021-11-10 18:02:04');
 
 -- --------------------------------------------------------
 
@@ -1353,56 +1287,56 @@ INSERT INTO `field_executive` (`field_id`, `field_uuid`, `field_name`, `field_us
 -- Table structure for table `field_executive_earning`
 --
 
--- CREATE TABLE `field_executive_earning` (
---   `field_exe_earn_id` int NOT NULL,
---   `field_exe_earn_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `paused` tinyint(1) DEFAULT '0',
---   `withdrawed` tinyint(1) DEFAULT '0',
---   `bank_sale` tinyint(1) DEFAULT '0',
---   `bank_deposited` tinyint(1) DEFAULT '0',
---   `bank_deposited_referenceNumber` int DEFAULT NULL,
---   `bank_datetime` datetime DEFAULT NULL,
---   `accountant_approve` tinyint(1) DEFAULT '0',
---   `account_approve_datetime` datetime DEFAULT NULL,
---   `account_decline` tinyint(1) DEFAULT '0',
---   `account_decline_dateTime` datetime DEFAULT NULL,
---   `account_decline_reason` text,
---   `field_id` int NOT NULL,
---   `list_act_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `field_executive_earning` (
+  `field_exe_earn_id` int NOT NULL,
+  `field_exe_earn_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `withdrawed` tinyint(1) DEFAULT '0',
+  `bank_sale` tinyint(1) DEFAULT '0',
+  `bank_deposited` tinyint(1) DEFAULT '0',
+  `bank_deposited_referenceNumber` int DEFAULT NULL,
+  `bank_datetime` datetime DEFAULT NULL,
+  `accountant_approve` tinyint(1) DEFAULT '0',
+  `account_approve_datetime` datetime DEFAULT NULL,
+  `account_decline` tinyint(1) DEFAULT '0',
+  `account_decline_dateTime` datetime DEFAULT NULL,
+  `account_decline_reason` text,
+  `field_id` int NOT NULL,
+  `list_act_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `field_executive_pending_earning`
--- --
+--
+-- Table structure for table `field_executive_pending_earning`
+--
 
--- CREATE TABLE `field_executive_pending_earning` (
---   `field_exe_earn_id` int NOT NULL,
---   `field_exe_earn_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `paused` tinyint(1) DEFAULT '0',
---   `deleted` tinyint(1) DEFAULT '0',
---   `withdrawed` tinyint(1) DEFAULT '0',
---   `bankName` text,
---   `depositedAmount` text,
---   `totalAmount` text,
---   `bank_sale` tinyint(1) DEFAULT '0',
---   `bank_deposited` tinyint(1) DEFAULT '0',
---   `bank_deposited_referenceNumber` text,
---   `bank_datetime` datetime DEFAULT NULL,
---   `accountant_approve` tinyint(1) DEFAULT '0',
---   `account_approve_datetime` datetime DEFAULT NULL,
---   `account_decline` tinyint(1) DEFAULT '0',
---   `account_decline_dateTime` datetime DEFAULT NULL,
---   `account_decline_reason` text,
---   `clearanceDateTime` datetime DEFAULT NULL,
---   `field_id` int NOT NULL,
---   `list_act_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `field_executive_pending_earning` (
+  `field_exe_earn_id` int NOT NULL,
+  `field_exe_earn_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `withdrawed` tinyint(1) DEFAULT '0',
+  `bankName` text,
+  `depositedAmount` text,
+  `totalAmount` text,
+  `bank_sale` tinyint(1) DEFAULT '0',
+  `bank_deposited` tinyint(1) DEFAULT '0',
+  `bank_deposited_referenceNumber` text,
+  `bank_datetime` datetime DEFAULT NULL,
+  `accountant_approve` tinyint(1) DEFAULT '0',
+  `account_approve_datetime` datetime DEFAULT NULL,
+  `account_decline` tinyint(1) DEFAULT '0',
+  `account_decline_dateTime` datetime DEFAULT NULL,
+  `account_decline_reason` text,
+  `clearanceDateTime` datetime DEFAULT NULL,
+  `field_id` int NOT NULL,
+  `list_act_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `field_executive_pending_earning`
@@ -1435,77 +1369,77 @@ INSERT INTO `field_executive_pending_earning` (`field_exe_earn_id`, `field_exe_e
 -- Table structure for table `field_executive_withdraws`
 --
 
--- CREATE TABLE `field_executive_withdraws` (
---   `field_exe_with_id` int NOT NULL,
---   `field_exe_with_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `withdraw_status` tinyint(1) DEFAULT '0',
---   `totalAmount` int DEFAULT NULL,
---   `field_id` int NOT NULL,
---   `field_exe_earn_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `field_executive_withdraws` (
+  `field_exe_with_id` int NOT NULL,
+  `field_exe_with_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `withdraw_status` tinyint(1) DEFAULT '0',
+  `totalAmount` int DEFAULT NULL,
+  `field_id` int NOT NULL,
+  `field_exe_earn_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `gmlogin`
--- --
+--
+-- Table structure for table `gmlogin`
+--
 
--- CREATE TABLE `gmlogin` (
---   `gm_Company_login_id` int NOT NULL,
---   `gm_Company_login_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `deleted` tinyint(1) DEFAULT '0',
---   `isPaused` tinyint(1) DEFAULT '0',
---   `loggedInStatus` tinyint(1) DEFAULT '0',
---   `loggedOutStatus` tinyint(1) DEFAULT '0',
---   `loggedOutDate` datetime DEFAULT NULL,
---   `ipAddress` text,
---   `gm_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `gmlogin` (
+  `gm_Company_login_id` int NOT NULL,
+  `gm_Company_login_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `isPaused` tinyint(1) DEFAULT '0',
+  `loggedInStatus` tinyint(1) DEFAULT '0',
+  `loggedOutStatus` tinyint(1) DEFAULT '0',
+  `loggedOutDate` datetime DEFAULT NULL,
+  `ipAddress` text,
+  `gm_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `gm_notifications`
--- --
+--
+-- Table structure for table `gm_notifications`
+--
 
--- CREATE TABLE `gm_notifications` (
---   `gm_Company_notification_id` int NOT NULL,
---   `gm_Company_notification_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `deleted` tinyint(1) DEFAULT '0',
---   `isPaused` tinyint(1) DEFAULT '0',
---   `notification_title` text,
---   `notification_text` text,
---   `isRead` tinyint(1) NOT NULL DEFAULT '0',
---   `gm_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `gm_notifications` (
+  `gm_Company_notification_id` int NOT NULL,
+  `gm_Company_notification_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `isPaused` tinyint(1) DEFAULT '0',
+  `notification_title` text,
+  `notification_text` text,
+  `isRead` tinyint(1) NOT NULL DEFAULT '0',
+  `gm_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `lists`
--- --
+--
+-- Table structure for table `lists`
+--
 
--- CREATE TABLE `lists` (
---   `list_id` int NOT NULL,
---   `list_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `list_name` text,
---   `list_deleted` tinyint(1) DEFAULT '0',
---   `list_paused` tinyint(1) DEFAULT '0',
---   `isRepeat` tinyint(1) NOT NULL DEFAULT '0',
---   `isBank` tinyint(1) DEFAULT '0',
---   `bankAmount` float DEFAULT NULL,
---   `commissionAmount` float DEFAULT NULL,
---   `list_amount` int DEFAULT NULL,
---   `list_description` text,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `lists` (
+  `list_id` int NOT NULL,
+  `list_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `list_name` text,
+  `list_deleted` tinyint(1) DEFAULT '0',
+  `list_paused` tinyint(1) DEFAULT '0',
+  `isRepeat` tinyint(1) NOT NULL DEFAULT '0',
+  `isBank` tinyint(1) DEFAULT '0',
+  `bankAmount` float DEFAULT NULL,
+  `commissionAmount` float DEFAULT NULL,
+  `list_amount` int DEFAULT NULL,
+  `list_description` text,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `lists`
@@ -1523,16 +1457,16 @@ INSERT INTO `lists` (`list_id`, `list_uuid`, `list_name`, `list_deleted`, `list_
 -- Table structure for table `list_sub_activities`
 --
 
--- CREATE TABLE `list_sub_activities` (
---   `list_sub_act_id` int NOT NULL,
---   `list_sub_act_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `list_id` int NOT NULL,
---   `list_act_id` int NOT NULL,
---   `list_deleted` tinyint(1) DEFAULT '0',
---   `list_paused` tinyint(1) DEFAULT '0',
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `list_sub_activities` (
+  `list_sub_act_id` int NOT NULL,
+  `list_sub_act_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `list_id` int NOT NULL,
+  `list_act_id` int NOT NULL,
+  `list_deleted` tinyint(1) DEFAULT '0',
+  `list_paused` tinyint(1) DEFAULT '0',
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `list_sub_activities`
@@ -1645,28 +1579,28 @@ INSERT INTO `list_sub_activities` (`list_sub_act_id`, `list_sub_act_uuid`, `list
 -- Table structure for table `login_page`
 --
 
--- CREATE TABLE `login_page` (
---   `login_page_id` int NOT NULL,
---   `login_page_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `paused` tinyint(1) DEFAULT '0',
---   `deleted` tinyint(1) DEFAULT '0',
---   `loginTitle` text,
---   `btnText` text,
---   `forgetText` text,
---   `forgetEmail` text,
---   `forgetPassword` text,
---   `createAccountText` text,
---   `pictureName` text,
---   `pictureFolder` text,
---   `createAccountIcon` text,
---   `emailPlaceHolder` text,
---   `emailIcon` text,
---   `passwordPlaceHolder` text,
---   `passwordIcon` text,
---   `sa_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `login_page` (
+  `login_page_id` int NOT NULL,
+  `login_page_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `loginTitle` text,
+  `btnText` text,
+  `forgetText` text,
+  `forgetEmail` text,
+  `forgetPassword` text,
+  `createAccountText` text,
+  `pictureName` text,
+  `pictureFolder` text,
+  `createAccountIcon` text,
+  `emailPlaceHolder` text,
+  `emailIcon` text,
+  `passwordPlaceHolder` text,
+  `passwordIcon` text,
+  `sa_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `login_page`
@@ -1681,19 +1615,19 @@ INSERT INTO `login_page` (`login_page_id`, `login_page_uuid`, `paused`, `deleted
 -- Table structure for table `managerlogin`
 --
 
--- CREATE TABLE `managerlogin` (
---   `manager_login_id` int NOT NULL,
---   `manager_login_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `deleted` tinyint(1) DEFAULT '0',
---   `isPaused` tinyint(1) DEFAULT '0',
---   `loggedInStatus` tinyint(1) DEFAULT '0',
---   `loggedOutStatus` tinyint(1) DEFAULT '0',
---   `loggedOutDate` datetime DEFAULT NULL,
---   `ipAddress` text,
---   `man_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `managerlogin` (
+  `manager_login_id` int NOT NULL,
+  `manager_login_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `isPaused` tinyint(1) DEFAULT '0',
+  `loggedInStatus` tinyint(1) DEFAULT '0',
+  `loggedOutStatus` tinyint(1) DEFAULT '0',
+  `loggedOutDate` datetime DEFAULT NULL,
+  `ipAddress` text,
+  `man_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `managerlogin`
@@ -1771,7 +1705,39 @@ INSERT INTO `managerlogin` (`manager_login_id`, `manager_login_uuid`, `deleted`,
 (69, 'a58507af-9a93-4fe6-8c45-3446835e09e4', 0, 0, 0, 0, NULL, '::ffff:192.168.100.67', 1, '2021-10-18 17:01:20', '2021-10-18 17:01:20'),
 (70, 'c7b3e7d2-6a8f-42e0-a811-cc8d5f00a478', 0, 0, 0, 0, NULL, '::ffff:192.168.100.67', 1, '2021-10-20 13:05:45', '2021-10-20 13:05:45'),
 (71, 'b6fcf05d-014c-457a-b6a1-682578d898eb', 0, 0, 0, 0, NULL, '::ffff:192.168.100.67', 1, '2021-10-20 13:09:25', '2021-10-20 13:09:25'),
-(72, 'b6bb62f4-41ba-4e30-86b1-b15d3a936383', 0, 0, 0, 0, NULL, '::ffff:192.168.100.64', 1, '2021-10-21 15:23:32', '2021-10-21 15:23:32');
+(72, 'b6bb62f4-41ba-4e30-86b1-b15d3a936383', 0, 0, 0, 0, NULL, '::ffff:192.168.100.64', 1, '2021-10-21 15:23:32', '2021-10-21 15:23:32'),
+(73, '3b12ae9d-7f29-4e5f-85d8-f8f1aafe5ff1', 0, 0, 0, 0, NULL, '::1', 1, '2021-11-09 15:25:02', '2021-11-09 15:25:02'),
+(74, '3b649022-3471-41ad-9d55-f9bd5cb452db', 0, 0, 0, 0, NULL, '::1', 1, '2021-11-25 12:14:13', '2021-11-25 12:14:13'),
+(75, '5b53d565-49cc-4336-8eb6-509e27af1514', 0, 0, 0, 0, NULL, '::1', 1, '2021-11-25 12:49:12', '2021-11-25 12:49:12'),
+(76, 'b2f0ed20-a37d-4279-bef7-e229be215212', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-07 15:12:36', '2021-12-07 15:12:36'),
+(77, 'b3614bbd-ad67-4f4d-a4b1-f8545ec83ff6', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-07 15:13:19', '2021-12-07 15:13:19'),
+(78, '6815c065-d4ff-4a20-95fc-d1b19c8c5a31', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-07 15:42:35', '2021-12-07 15:42:35'),
+(79, '6d9ed8c9-e4ee-43a4-b007-d8550779c6d2', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-07 15:43:57', '2021-12-07 15:43:57'),
+(80, '707f6de9-a057-4177-a0c4-8eb5450de8f9', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-07 15:45:21', '2021-12-07 15:45:21'),
+(81, '934886d0-fe93-4a29-9815-c950d39961cc', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-07 15:46:21', '2021-12-07 15:46:21'),
+(82, 'ff36e109-92b6-4137-88d2-ccb551f95fb4', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-07 15:54:23', '2021-12-07 15:54:23'),
+(83, '9c92998e-420b-45e5-aa2c-8ee50e33c388', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-08 15:25:44', '2021-12-08 15:25:44'),
+(84, 'bb820f9e-8af6-495e-9a9a-c4767ec781b1', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-08 15:28:03', '2021-12-08 15:28:03'),
+(85, '834f546f-e139-4cb4-98c1-e02e0e77339a', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-08 15:28:39', '2021-12-08 15:28:39'),
+(86, '5878f3c5-aaee-43c1-901d-5f3906b2dddf', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-08 15:30:26', '2021-12-08 15:30:26'),
+(87, '89f641b3-646c-4340-8428-e950fd09df27', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-08 15:41:45', '2021-12-08 15:41:45'),
+(88, '22731f64-2dc3-4229-b4b9-873723bbd218', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-08 15:42:14', '2021-12-08 15:42:14'),
+(89, 'cf56c68f-ed93-4c79-a776-0c0883d3032b', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-08 15:49:33', '2021-12-08 15:49:33'),
+(90, '1cfdfcfc-a04d-4a6e-9463-bf79c33e96ef', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-08 15:53:39', '2021-12-08 15:53:39'),
+(91, '9f8509e0-c654-4aab-ae68-db409c479d21', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-08 15:54:48', '2021-12-08 15:54:48'),
+(92, '57794df0-65a3-48e4-8b91-3a724786f850', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-08 18:01:08', '2021-12-08 18:01:08'),
+(93, 'baccb9e3-d91a-4d59-9857-bc1dbd82ea57', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-08 18:08:36', '2021-12-08 18:08:36'),
+(94, 'fdcc898e-8888-4d5e-bf1a-b9e87f329d71', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-13 12:49:19', '2021-12-13 12:49:19'),
+(95, '9f494f13-851c-4ac2-8474-44c0d0f30965', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-16 12:50:32', '2021-12-16 12:50:32'),
+(96, '26030610-9e31-4746-91c8-e159c1fac9d6', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-28 12:39:34', '2021-12-28 12:39:34'),
+(97, 'd217a6e4-6ceb-438a-a629-41bb296343ea', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-29 11:45:16', '2021-12-29 11:45:16'),
+(98, 'f875ef9e-60d5-4ea5-8b3b-d20963738c37', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-29 12:46:22', '2021-12-29 12:46:22'),
+(99, '769327a6-c91b-4d5f-9455-c2ee5d972844', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-29 14:24:27', '2021-12-29 14:24:27'),
+(100, '55f76824-8af7-4864-af86-785ada9de21c', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-29 14:26:14', '2021-12-29 14:26:14'),
+(101, 'a85a38e8-74a0-4eac-a919-b04f4c926c81', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-29 14:29:29', '2021-12-29 14:29:29'),
+(102, '95894eac-54de-446e-a14d-2e006ddb4dcc', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-29 14:31:01', '2021-12-29 14:31:01'),
+(103, '9c874211-b2f7-42ea-a8e4-3ef8f96dcfea', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-30 11:39:20', '2021-12-30 11:39:20'),
+(104, '4b79c317-b0f6-4160-a353-7460b49e7486', 0, 0, 0, 0, NULL, '::1', 1, '2021-12-30 11:45:47', '2021-12-30 11:45:47');
 
 -- --------------------------------------------------------
 
@@ -1779,47 +1745,47 @@ INSERT INTO `managerlogin` (`manager_login_id`, `manager_login_uuid`, `deleted`,
 -- Table structure for table `managernotifications`
 --
 
--- CREATE TABLE `managernotifications` (
---   `manager_notification_id` int NOT NULL,
---   `manager_notification_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `deleted` tinyint(1) DEFAULT '0',
---   `isPaused` tinyint(1) DEFAULT '0',
---   `notification_title` text,
---   `notification_text` text,
---   `isRead` tinyint(1) NOT NULL DEFAULT '0',
---   `man_id` int NOT NULL,
---   `notification_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `managernotifications` (
+  `manager_notification_id` int NOT NULL,
+  `manager_notification_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `isPaused` tinyint(1) DEFAULT '0',
+  `notification_title` text,
+  `notification_text` text,
+  `isRead` tinyint(1) NOT NULL DEFAULT '0',
+  `man_id` int NOT NULL,
+  `notification_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `managers`
--- --
+--
+-- Table structure for table `managers`
+--
 
--- CREATE TABLE `managers` (
---   `man_id` int NOT NULL,
---   `man_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `man_name` text,
---   `man_email` text,
---   `man_password` text,
---   `man_userProfilePic` text,
---   `man_DOB` text NOT NULL,
---   `man_contact` text,
---   `man_target` text NOT NULL,
---   `man_commission` text NOT NULL,
---   `man_isDeleted` tinyint(1) DEFAULT '0',
---   `man_isPaused` tinyint(1) NOT NULL DEFAULT '0',
---   `man_salary` text,
---   `man_username` text,
---   `login_id` int NOT NULL,
---   `d_id` int NOT NULL,
---   `zone_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `managers` (
+  `man_id` int NOT NULL,
+  `man_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `man_name` text,
+  `man_email` text,
+  `man_password` text,
+  `man_userProfilePic` text,
+  `man_DOB` text NOT NULL,
+  `man_contact` text,
+  `man_target` text NOT NULL,
+  `man_commission` text NOT NULL,
+  `man_isDeleted` tinyint(1) DEFAULT '0',
+  `man_isPaused` tinyint(1) NOT NULL DEFAULT '0',
+  `man_salary` text,
+  `man_username` text,
+  `login_id` int NOT NULL,
+  `d_id` int NOT NULL,
+  `zone_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `managers`
@@ -1834,17 +1800,17 @@ INSERT INTO `managers` (`man_id`, `man_uuid`, `man_name`, `man_email`, `man_pass
 -- Table structure for table `notificationtext`
 --
 
--- CREATE TABLE `notificationtext` (
---   `notification_id` int NOT NULL,
---   `notification_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `deleted` tinyint(1) DEFAULT '0',
---   `isPaused` tinyint(1) DEFAULT '0',
---   `notification_title` text,
---   `notification_icon` text,
---   `isRead` tinyint(1) NOT NULL DEFAULT '0',
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `notificationtext` (
+  `notification_id` int NOT NULL,
+  `notification_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `isPaused` tinyint(1) DEFAULT '0',
+  `notification_title` text,
+  `notification_icon` text,
+  `isRead` tinyint(1) NOT NULL DEFAULT '0',
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `notificationtext`
@@ -1864,36 +1830,36 @@ INSERT INTO `notificationtext` (`notification_id`, `notification_uuid`, `deleted
 -- Table structure for table `packages`
 --
 
--- CREATE TABLE `packages` (
---   `pack_id` int NOT NULL,
---   `pack_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `deleted` tinyint(1) DEFAULT '0',
---   `isPaused` tinyint(1) DEFAULT '0',
---   `pack_name` text,
---   `description` text,
---   `pack_type` text,
---   `pack_amount` float NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `packages` (
+  `pack_id` int NOT NULL,
+  `pack_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `isPaused` tinyint(1) DEFAULT '0',
+  `pack_name` text,
+  `description` text,
+  `pack_type` text,
+  `pack_amount` float NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `pendance_clearance_details`
--- --
+--
+-- Table structure for table `pendance_clearance_details`
+--
 
--- CREATE TABLE `pendance_clearance_details` (
---   `clearance_details_id` int NOT NULL,
---   `clearance_details_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `paused` tinyint(1) DEFAULT '0',
---   `deleted` tinyint(1) DEFAULT '0',
---   `pending_days` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `pendance_clearance_details` (
+  `clearance_details_id` int NOT NULL,
+  `clearance_details_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `pending_days` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --
+--
 -- Dumping data for table `pendance_clearance_details`
 --
 
@@ -1906,20 +1872,20 @@ INSERT INTO `pendance_clearance_details` (`clearance_details_id`, `clearance_det
 -- Table structure for table `pep_banks_details`
 --
 
--- CREATE TABLE `pep_banks_details` (
---   `PEP_Banks_Details_id` int NOT NULL,
---   `PEP_Banks_Details_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `paused` tinyint(1) DEFAULT '0',
---   `deleted` tinyint(1) DEFAULT '0',
---   `bankAccount` text,
---   `bankIBAN` text,
---   `bankBranchCode` text,
---   `bankAddress` text,
---   `sa_id` int NOT NULL,
---   `Banks_List_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `pep_banks_details` (
+  `PEP_Banks_Details_id` int NOT NULL,
+  `PEP_Banks_Details_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `bankAccount` text,
+  `bankIBAN` text,
+  `bankBranchCode` text,
+  `bankAddress` text,
+  `sa_id` int NOT NULL,
+  `Banks_List_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `pep_banks_details`
@@ -1934,21 +1900,21 @@ INSERT INTO `pep_banks_details` (`PEP_Banks_Details_id`, `PEP_Banks_Details_uuid
 -- Table structure for table `permissions`
 --
 
--- CREATE TABLE `permissions` (
---   `permmission_id` int NOT NULL,
---   `permmission_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `paused` tinyint(1) DEFAULT '0',
---   `d_deleted` tinyint(1) DEFAULT '0',
---   `permission_name` text,
---   `controller` text,
---   `icon` text,
---   `edit` tinyint(1) DEFAULT '0',
---   `delete_permission` tinyint(1) DEFAULT '0',
---   `add_permission` tinyint(1) DEFAULT '1',
---   `update_permission` tinyint(1) DEFAULT '1',
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `permissions` (
+  `permmission_id` int NOT NULL,
+  `permmission_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `d_deleted` tinyint(1) DEFAULT '0',
+  `permission_name` text,
+  `controller` text,
+  `icon` text,
+  `edit` tinyint(1) DEFAULT '0',
+  `delete_permission` tinyint(1) DEFAULT '0',
+  `add_permission` tinyint(1) DEFAULT '1',
+  `update_permission` tinyint(1) DEFAULT '1',
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `permissions`
@@ -1973,7 +1939,8 @@ INSERT INTO `permissions` (`permmission_id`, `permmission_uuid`, `paused`, `d_de
 (18, 'bc5093c2-d40c-4863-a92c-84b4e199dc05', 0, 0, 'Manage Incentive', '/manageIncentive', 'fa fa-gift', 0, 0, 1, 1, '2021-07-26 11:43:37', '2021-07-26 11:43:37'),
 (20, '00f6e36d-f14b-4598-93c7-77d2ea2b5610', 0, 0, 'Add Freelancer to Team', '/addFreelance', 'fa fa-plus', 0, 0, 1, 1, '2021-07-26 11:43:37', '2021-07-26 11:43:37'),
 (21, '9e93fe8e-8671-4586-aca0-bbae8b1b4c69', 0, 0, 'Assign Advertisement Giveaway', '/assignGiveaway', 'fa fa-gift', 0, 0, 1, 1, '2021-08-27 15:09:25', '2021-08-27 15:09:25'),
-(22, 'ad34dc6c-6601-49b5-96e6-19b6f16a4d66', 0, 0, 'Recommendations', '/recommendations', 'fa fa-newspaper-o', 0, 0, 1, 1, '2021-09-07 15:26:49', '2021-09-07 15:26:49');
+(22, 'ad34dc6c-6601-49b5-96e6-19b6f16a4d66', 0, 0, 'Recommendations', '/recommendations', 'fa fa-newspaper-o', 0, 0, 1, 1, '2021-09-07 15:26:49', '2021-09-07 15:26:49'),
+(23, 'c5794528-b485-4f40-9421-234fe497a656', 0, 0, 'Manage Team', '/manageTeam', 'fa fa-cogs', 0, 0, 1, 1, '2021-12-13 14:52:49', '2021-12-13 14:52:49');
 
 -- --------------------------------------------------------
 
@@ -1981,16 +1948,16 @@ INSERT INTO `permissions` (`permmission_id`, `permmission_uuid`, `paused`, `d_de
 -- Table structure for table `permission_role_associate`
 --
 
--- CREATE TABLE `permission_role_associate` (
---   `perm_assos_id` int NOT NULL,
---   `perm_assos_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `paused` tinyint(1) DEFAULT '0',
---   `d_deleted` tinyint(1) DEFAULT '0',
---   `permmission_id` int NOT NULL,
---   `user_role_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `permission_role_associate` (
+  `perm_assos_id` int NOT NULL,
+  `perm_assos_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `d_deleted` tinyint(1) DEFAULT '0',
+  `permmission_id` int NOT NULL,
+  `user_role_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `permission_role_associate`
@@ -2000,8 +1967,6 @@ INSERT INTO `permission_role_associate` (`perm_assos_id`, `perm_assos_uuid`, `pa
 (1, 'dc8e55c5-dfd5-4d0f-8eb6-faf7af3c6836', 0, 0, 2, 5, '2021-04-16 16:19:12', '2021-04-16 16:19:12'),
 (2, '291253a4-62bf-4e25-9193-ee409013b7c2', 0, 0, 2, 6, '2021-04-16 16:19:39', '2021-04-16 16:19:39'),
 (4, '87f5f9ad-71e5-4853-b6ca-65f696fef670', 0, 0, 3, 5, '2021-04-16 16:20:04', '2021-04-16 16:20:04'),
-(7, 'e3cf0625-bf4c-4bb4-913c-e5d740569f6d', 0, 0, 5, 5, '2021-04-16 16:20:49', '2021-04-16 16:20:49'),
-(8, '54fc9a0e-ea88-4c1a-9015-2c64cb02c9d9', 0, 0, 6, 5, '2021-04-16 16:21:17', '2021-04-16 16:21:17'),
 (9, '2690dddf-4009-4c4e-a9f2-575f14222d58', 0, 0, 7, 5, '2021-04-16 16:22:07', '2021-04-16 16:22:07'),
 (10, '1bfec392-7265-436d-82d2-f531082a97a6', 0, 0, 7, 6, '2021-04-16 16:22:36', '2021-04-16 16:22:36'),
 (11, '6543d015-4e6c-4ca7-80be-33e53d48efa7', 0, 0, 8, 6, '2021-04-16 16:22:50', '2021-04-16 16:22:50'),
@@ -2038,7 +2003,13 @@ INSERT INTO `permission_role_associate` (`perm_assos_id`, `perm_assos_uuid`, `pa
 (44, '294af75a-5412-4dc4-b8c2-f6bdb9c12627', 0, 0, 13, 2, '2021-09-30 13:11:32', '2021-09-30 13:11:32'),
 (45, 'e3a6bf80-7023-4c51-a5d9-a43dd2e12314', 0, 0, 15, 2, '2021-09-30 13:11:43', '2021-09-30 13:11:43'),
 (46, 'cd26c377-a1b0-49a3-9f96-22451b9c99b1', 0, 0, 18, 2, '2021-09-30 13:11:55', '2021-09-30 13:11:55'),
-(47, 'fcb6cc58-d03e-4b7d-a392-7a8ed24798dc', 0, 0, 21, 2, '2021-09-30 13:12:07', '2021-09-30 13:12:07');
+(47, 'fcb6cc58-d03e-4b7d-a392-7a8ed24798dc', 0, 0, 21, 2, '2021-09-30 13:12:07', '2021-09-30 13:12:07'),
+(48, '9d9dfef0-3ad4-416c-bbb6-89aceead9b9b', 0, 0, 22, 5, '2021-11-18 14:56:16', '2021-11-18 14:56:16'),
+(49, 'ef9770e9-ea52-4fd9-84d1-640c058e0d62', 0, 0, 10, 6, '2021-11-22 16:29:23', '2021-11-22 16:29:23'),
+(50, '6ff061d7-6408-40ab-b882-4545f054284b', 0, 0, 22, 4, '2021-11-25 15:46:32', '2021-11-25 15:46:32'),
+(51, '26fe39aa-90e1-4a79-b64a-cdce49377553', 0, 0, 23, 4, '2021-12-13 14:53:14', '2021-12-13 14:53:14'),
+(52, 'bf569a4d-0998-438f-81e1-0d8b4e0337f0', 0, 0, 23, 3, '2021-12-16 13:53:45', '2021-12-16 13:53:45'),
+(53, 'f5f1019b-5b34-42c2-8312-8bc50e848ef6', 0, 0, 23, 2, '2021-12-16 13:53:56', '2021-12-16 13:53:56');
 
 -- --------------------------------------------------------
 
@@ -2046,21 +2017,21 @@ INSERT INTO `permission_role_associate` (`perm_assos_id`, `perm_assos_uuid`, `pa
 -- Table structure for table `promotion_requests_status`
 --
 
--- CREATE TABLE `promotion_requests_status` (
---   `prom_req_id` int NOT NULL,
---   `prom_req_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `deleted` tinyint(1) DEFAULT '0',
---   `isPaused` tinyint(1) DEFAULT '0',
---   `prom_req_approve` tinyint(1) DEFAULT '0',
---   `prom_req_decline` tinyint(1) DEFAULT '0',
---   `prom_req_datetime` datetime DEFAULT NULL,
---   `prom_req_approve_desc` text,
---   `prom_req_decline_desc` text,
---   `prom_id` int NOT NULL,
---   `man_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `promotion_requests_status` (
+  `prom_req_id` int NOT NULL,
+  `prom_req_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `isPaused` tinyint(1) DEFAULT '0',
+  `prom_req_approve` tinyint(1) DEFAULT '0',
+  `prom_req_decline` tinyint(1) DEFAULT '0',
+  `prom_req_datetime` datetime DEFAULT NULL,
+  `prom_req_approve_desc` text,
+  `prom_req_decline_desc` text,
+  `prom_id` int NOT NULL,
+  `man_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2068,20 +2039,20 @@ INSERT INTO `permission_role_associate` (`perm_assos_id`, `perm_assos_uuid`, `pa
 -- Table structure for table `promotion_req_by_supervisor`
 --
 
--- CREATE TABLE `promotion_req_by_supervisor` (
---   `prom_id` int NOT NULL,
---   `prom_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `deleted` tinyint(1) DEFAULT '0',
---   `isPaused` tinyint(1) DEFAULT '0',
---   `prom_name` text,
---   `prom_desc` text,
---   `prom_requested_Date` datetime DEFAULT NULL,
---   `prom_status` tinyint(1) DEFAULT '0',
---   `city_id` int NOT NULL,
---   `sup_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `promotion_req_by_supervisor` (
+  `prom_id` int NOT NULL,
+  `prom_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `isPaused` tinyint(1) DEFAULT '0',
+  `prom_name` text,
+  `prom_desc` text,
+  `prom_requested_Date` datetime DEFAULT NULL,
+  `prom_status` tinyint(1) DEFAULT '0',
+  `city_id` int NOT NULL,
+  `sup_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2089,100 +2060,100 @@ INSERT INTO `permission_role_associate` (`perm_assos_id`, `perm_assos_uuid`, `pa
 -- Table structure for table `receiving_calls`
 --
 
--- CREATE TABLE `receiving_calls` (
---   `receive_call_id` int NOT NULL,
---   `call_recieve_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `deleted` tinyint(1) DEFAULT '0',
---   `isPaused` tinyint(1) DEFAULT '0',
---   `receive_call_solved` tinyint(1) DEFAULT '0',
---   `receive_call_status` tinyint(1) DEFAULT '0',
---   `receive_call_problem_text` text,
---   `receive_call_solution` text,
---   `cust_care_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `receiving_calls` (
+  `receive_call_id` int NOT NULL,
+  `call_recieve_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `isPaused` tinyint(1) DEFAULT '0',
+  `receive_call_solved` tinyint(1) DEFAULT '0',
+  `receive_call_status` tinyint(1) DEFAULT '0',
+  `receive_call_problem_text` text,
+  `receive_call_solution` text,
+  `cust_care_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `recommendation_for_executive`
--- --
+--
+-- Table structure for table `recommendation_for_executive`
+--
 
--- CREATE TABLE `recommendation_for_executive` (
---   `recomm_for_Exec_id` int NOT NULL,
---   `recomm_for_Exec_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `paused` tinyint(1) DEFAULT '0',
---   `deleted` tinyint(1) DEFAULT '0',
---   `recommendationTitle` text,
---   `recommendationDetails` text,
---   `field_id` int NOT NULL,
---   `approval_status` tinyint(1) DEFAULT '0',
---   `status` tinyint(1) DEFAULT '0',
---   `decline` tinyint(1) DEFAULT '0',
---   `decline_descrip` text,
---   `team_L_id` int NOT NULL,
---   `team_lead_forward_status` tinyint(1) DEFAULT '0',
---   `team_lead_decline_status` tinyint(1) DEFAULT '0',
---   `team_lead_decline_descr` text,
---   `sup_id` int NOT NULL,
---   `sup_forward_status` tinyint(1) DEFAULT '0',
---   `sup_decline_status` tinyint(1) DEFAULT '0',
---   `sup_decline_descr` text,
---   `man_id` int NOT NULL,
---   `team_lead_date_time` datetime DEFAULT NULL,
---   `sup_dateTime` datetime DEFAULT NULL,
---   `mana_dateTime` datetime DEFAULT NULL,
---   `mana_approval` tinyint(1) DEFAULT '0',
---   `exec_recomm_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `recommendation_for_executive` (
+  `recomm_for_Exec_id` int NOT NULL,
+  `recomm_for_Exec_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `recommendationTitle` text,
+  `recommendationDetails` text,
+  `field_id` int NOT NULL,
+  `approval_status` tinyint(1) DEFAULT '0',
+  `status` tinyint(1) DEFAULT '0',
+  `decline` tinyint(1) DEFAULT '0',
+  `decline_descrip` text,
+  `team_L_id` int NOT NULL,
+  `team_lead_forward_status` tinyint(1) DEFAULT '0',
+  `team_lead_decline_status` tinyint(1) DEFAULT '0',
+  `team_lead_decline_descr` text,
+  `sup_id` int NOT NULL,
+  `sup_forward_status` tinyint(1) DEFAULT '0',
+  `sup_decline_status` tinyint(1) DEFAULT '0',
+  `sup_decline_descr` text,
+  `man_id` int NOT NULL,
+  `team_lead_date_time` datetime DEFAULT NULL,
+  `sup_dateTime` datetime DEFAULT NULL,
+  `mana_dateTime` datetime DEFAULT NULL,
+  `mana_approval` tinyint(1) DEFAULT '0',
+  `exec_recomm_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `request_of_advertisement`
--- --
+--
+-- Table structure for table `request_of_advertisement`
+--
 
--- CREATE TABLE `request_of_advertisement` (
---   `req_adver` int NOT NULL,
---   `request_of_adver_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `deleted` tinyint(1) DEFAULT '0',
---   `isPaused` tinyint(1) DEFAULT '0',
---   `req_status` tinyint(1) DEFAULT '0',
---   `req_approve` tinyint(1) DEFAULT '0',
---   `req_decline` tinyint(1) DEFAULT '0',
---   `req_decline_descrip` text,
---   `req_name` text,
---   `req_description` text,
---   `req_type` text,
---   `man_id` int NOT NULL,
---   `gm_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `request_of_advertisement` (
+  `req_adver` int NOT NULL,
+  `request_of_adver_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `isPaused` tinyint(1) DEFAULT '0',
+  `req_status` tinyint(1) DEFAULT '0',
+  `req_approve` tinyint(1) DEFAULT '0',
+  `req_decline` tinyint(1) DEFAULT '0',
+  `req_decline_descrip` text,
+  `req_name` text,
+  `req_description` text,
+  `req_type` text,
+  `man_id` int NOT NULL,
+  `gm_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `role_extrainfo`
--- --
+--
+-- Table structure for table `role_extrainfo`
+--
 
--- CREATE TABLE `role_extrainfo` (
---   `role_creden_id` int NOT NULL,
---   `role_creden_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `paused` tinyint(1) DEFAULT '0',
---   `deleted` tinyint(1) DEFAULT '0',
---   `target` text,
---   `salary` text,
---   `commission` text,
---   `user_role_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `role_extrainfo` (
+  `role_creden_id` int NOT NULL,
+  `role_creden_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `target` text,
+  `salary` text,
+  `commission` text,
+  `user_role_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --
+--
 -- Dumping data for table `role_extrainfo`
 --
 
@@ -2199,18 +2170,18 @@ INSERT INTO `role_extrainfo` (`role_creden_id`, `role_creden_uuid`, `paused`, `d
 -- Table structure for table `sa_logs_ondepartment`
 --
 
--- CREATE TABLE `sa_logs_ondepartment` (
---   `sa_on_Depart_id` int NOT NULL,
---   `date_time` datetime DEFAULT NULL,
---   `d_id` int DEFAULT NULL,
---   `d_name` text,
---   `d_deleted` tinyint(1) DEFAULT '0',
---   `d_type` text,
---   `comp_access_id` tinyint(1) DEFAULT NULL,
---   `d_added_Date_Time` datetime DEFAULT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `sa_logs_ondepartment` (
+  `sa_on_Depart_id` int NOT NULL,
+  `date_time` datetime DEFAULT NULL,
+  `d_id` int DEFAULT NULL,
+  `d_name` text,
+  `d_deleted` tinyint(1) DEFAULT '0',
+  `d_type` text,
+  `comp_access_id` tinyint(1) DEFAULT NULL,
+  `d_added_Date_Time` datetime DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2218,27 +2189,27 @@ INSERT INTO `role_extrainfo` (`role_creden_id`, `role_creden_uuid`, `paused`, `d
 -- Table structure for table `signup_page`
 --
 
--- CREATE TABLE `signup_page` (
---   `signUp_page_id` int NOT NULL,
---   `signUp_page_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `paused` tinyint(1) DEFAULT '0',
---   `deleted` tinyint(1) DEFAULT '0',
---   `signUpTitle` text,
---   `btnText` text,
---   `alreadyHaveAccount` text,
---   `alreadyHaveAccountIcon` text,
---   `pictureName` text,
---   `pictureFolder` text,
---   `emailPlaceHolder` text,
---   `emailIcon` text,
---   `passwordPlaceHolder` text,
---   `passwordIcon` text,
---   `confirmPasswordPlaceHolder` text,
---   `confirmPasswordIcon` text,
---   `sa_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `signup_page` (
+  `signUp_page_id` int NOT NULL,
+  `signUp_page_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `signUpTitle` text,
+  `btnText` text,
+  `alreadyHaveAccount` text,
+  `alreadyHaveAccountIcon` text,
+  `pictureName` text,
+  `pictureFolder` text,
+  `emailPlaceHolder` text,
+  `emailIcon` text,
+  `passwordPlaceHolder` text,
+  `passwordIcon` text,
+  `confirmPasswordPlaceHolder` text,
+  `confirmPasswordIcon` text,
+  `sa_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `signup_page`
@@ -2253,32 +2224,32 @@ INSERT INTO `signup_page` (`signUp_page_id`, `signUp_page_uuid`, `paused`, `dele
 -- Table structure for table `supervisor`
 --
 
--- CREATE TABLE `supervisor` (
---   `sup_id` int NOT NULL,
---   `sup_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `sup_name` text,
---   `sup_userProfilePic` text,
---   `sup_contact` text,
---   `sup_target` text,
---   `sup_salary` text,
---   `sup_commission` text,
---   `sup_DOB` text,
---   `sup_username` text,
---   `sup_isDeleted` tinyint(1) DEFAULT '0',
---   `sup_isPaused` tinyint(1) DEFAULT '0',
---   `login_id` int NOT NULL,
---   `man_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `supervisor` (
+  `sup_id` int NOT NULL,
+  `sup_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `sup_name` text,
+  `sup_userProfilePic` text,
+  `sup_contact` text,
+  `sup_target` text,
+  `sup_salary` text,
+  `sup_commission` text,
+  `sup_DOB` text,
+  `sup_username` text,
+  `sup_isDeleted` tinyint(1) DEFAULT '0',
+  `sup_isPaused` tinyint(1) DEFAULT '0',
+  `login_id` int NOT NULL,
+  `man_id` int DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `supervisor`
 --
 
 INSERT INTO `supervisor` (`sup_id`, `sup_uuid`, `sup_name`, `sup_userProfilePic`, `sup_contact`, `sup_target`, `sup_salary`, `sup_commission`, `sup_DOB`, `sup_username`, `sup_isDeleted`, `sup_isPaused`, `login_id`, `man_id`, `createdAt`, `updateTimestamp`) VALUES
-(1, '4a531f36-7ce3-43f5-91c3-2cf358d78357', 'Saad Sohail Supervisor', '/userprofileImage/ec53183c-129c-4b99-9197-4a171c7bff00.png', '+923035229779', '15', '50000', '15%', '2021-09-06', 'rishat', 0, 0, 2, 1, '2021-03-24 12:34:04', '2021-09-30 14:07:00'),
-(2, '4a531f36-7ce3-43f5-91c3-2cf358d96541', 'Supervisor 2 Saad', '/userprofileImage/ec53183c-129c-4b99-9197-4a171c7bff00.png', '+923035229779', '15', '50000', '15%', '2021-08-24', 'super_username', 0, 0, 1, 1, '2021-03-24 12:34:04', '2021-08-27 11:02:44');
+(1, '4a531f36-7ce3-43f5-91c3-2cf358d96541', 'Supervisor 2 Saad', '/userprofileImage/ec53183c-129c-4b99-9197-4a171c7bff00.png', '+923035229779', '15', '50000', '15%', '2021-08-24', 'super_username', 0, 0, 2, 1, '2021-03-24 12:34:04', '2021-08-27 11:02:44'),
+(2, '2a531f36-7ce3-43f5-91c3-2cf174d96541', 'Supervisor 2 Saad', '/userprofileImage/ec53183c-129c-4b99-9197-4a171c7bff00.png', '+923035229779', '15', '50000', '15%', '2021-08-24', 'super_username', 0, 0, 2, 1, '2021-03-24 12:34:04', '2021-08-27 11:02:44');
 
 -- --------------------------------------------------------
 
@@ -2286,19 +2257,19 @@ INSERT INTO `supervisor` (`sup_id`, `sup_uuid`, `sup_name`, `sup_userProfilePic`
 -- Table structure for table `supervisorlogin`
 --
 
--- CREATE TABLE `supervisorlogin` (
---   `supervisor_login_id` int NOT NULL,
---   `supervisor_login_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `deleted` tinyint(1) DEFAULT '0',
---   `isPaused` tinyint(1) DEFAULT '0',
---   `loggedInStatus` tinyint(1) DEFAULT '0',
---   `loggedOutStatus` tinyint(1) DEFAULT '0',
---   `loggedOutDate` datetime DEFAULT NULL,
---   `ipAddress` text,
---   `sup_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `supervisorlogin` (
+  `supervisor_login_id` int NOT NULL,
+  `supervisor_login_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `isPaused` tinyint(1) DEFAULT '0',
+  `loggedInStatus` tinyint(1) DEFAULT '0',
+  `loggedOutStatus` tinyint(1) DEFAULT '0',
+  `loggedOutDate` datetime DEFAULT NULL,
+  `ipAddress` text,
+  `sup_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `supervisorlogin`
@@ -2513,19 +2484,19 @@ INSERT INTO `supervisorlogin` (`supervisor_login_id`, `supervisor_login_uuid`, `
 -- Table structure for table `supervisornotification`
 --
 
--- CREATE TABLE `supervisornotification` (
---   `supervisor_notification_id` int NOT NULL,
---   `supervisor_notification_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `deleted` tinyint(1) DEFAULT '0',
---   `isPaused` tinyint(1) DEFAULT '0',
---   `notification_title` text,
---   `notification_text` text,
---   `isRead` tinyint(1) NOT NULL DEFAULT '0',
---   `sup_id` int NOT NULL,
---   `notification_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `supervisornotification` (
+  `supervisor_notification_id` int NOT NULL,
+  `supervisor_notification_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `isPaused` tinyint(1) DEFAULT '0',
+  `notification_title` text,
+  `notification_text` text,
+  `isRead` tinyint(1) NOT NULL DEFAULT '0',
+  `sup_id` int NOT NULL,
+  `notification_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `supervisornotification`
@@ -2534,7 +2505,8 @@ INSERT INTO `supervisorlogin` (`supervisor_login_id`, `supervisor_login_uuid`, `
 INSERT INTO `supervisornotification` (`supervisor_notification_id`, `supervisor_notification_uuid`, `deleted`, `isPaused`, `notification_title`, `notification_text`, `isRead`, `sup_id`, `notification_id`, `createdAt`, `updateTimestamp`) VALUES
 (1, 'fe4501be-22ba-449b-b0c9-68c549f81580', 0, 0, NULL, 'Testing', 0, 1, 7, '2021-10-05 15:37:41', '2021-10-05 15:37:41'),
 (2, 'a93664d6-ea44-4f4e-8098-a40a7bbd7371', 0, 0, NULL, 'Testing to All', 0, 1, 7, '2021-10-05 15:37:59', '2021-10-05 15:37:59'),
-(3, '2c34a65d-609e-47b9-a6c5-be210620327a', 0, 0, NULL, 'Testing to All', 0, 2, 7, '2021-10-05 15:37:59', '2021-10-05 15:37:59');
+(3, '2c34a65d-609e-47b9-a6c5-be210620327a', 0, 0, NULL, 'Testing to All', 0, 2, 7, '2021-10-05 15:37:59', '2021-10-05 15:37:59'),
+(4, '2c34a65d-609e-47b9-a6c5-be210620327a', 0, 0, NULL, 'Testing to All', 0, 1, 7, '2021-10-05 15:37:59', '2021-10-05 15:37:59');
 
 -- --------------------------------------------------------
 
@@ -2542,17 +2514,17 @@ INSERT INTO `supervisornotification` (`supervisor_notification_id`, `supervisor_
 -- Table structure for table `super_admin`
 --
 
--- CREATE TABLE `super_admin` (
---   `sa_id` int NOT NULL,
---   `sa_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `sa_name` text,
---   `sa_email` text,
---   `sa_password` text,
---   `sa_contact` text,
---   `sa_profile_pic` text,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `super_admin` (
+  `sa_id` int NOT NULL,
+  `sa_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `sa_name` text,
+  `sa_email` text,
+  `sa_password` text,
+  `sa_contact` text,
+  `sa_profile_pic` text,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `super_admin`
@@ -2567,19 +2539,19 @@ INSERT INTO `super_admin` (`sa_id`, `sa_uuid`, `sa_name`, `sa_email`, `sa_passwo
 -- Table structure for table `teamlead_login`
 --
 
--- CREATE TABLE `teamlead_login` (
---   `teamLead_login_id` int NOT NULL,
---   `teamLead_login_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `deleted` tinyint(1) DEFAULT '0',
---   `isPaused` tinyint(1) DEFAULT '0',
---   `loggedInStatus` tinyint(1) DEFAULT '0',
---   `loggedOutStatus` tinyint(1) DEFAULT '0',
---   `loggedOutDate` datetime DEFAULT NULL,
---   `ipAddress` text,
---   `team_L_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `teamlead_login` (
+  `teamLead_login_id` int NOT NULL,
+  `teamLead_login_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `isPaused` tinyint(1) DEFAULT '0',
+  `loggedInStatus` tinyint(1) DEFAULT '0',
+  `loggedOutStatus` tinyint(1) DEFAULT '0',
+  `loggedOutDate` datetime DEFAULT NULL,
+  `ipAddress` text,
+  `team_L_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `teamlead_login`
@@ -2716,21 +2688,21 @@ INSERT INTO `teamlead_login` (`teamLead_login_id`, `teamLead_login_uuid`, `delet
 -- Table structure for table `teamlead_notifications`
 --
 
--- CREATE TABLE `teamlead_notifications` (
---   `teamLead_notification_id` int NOT NULL,
---   `teamLead_notification_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `deleted` tinyint(1) DEFAULT '0',
---   `isPaused` tinyint(1) DEFAULT '0',
---   `notification_title` text,
---   `notification_text` text,
---   `isRead` tinyint(1) NOT NULL DEFAULT '0',
---   `team_L_id` int NOT NULL,
---   `notification_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `teamlead_notifications` (
+  `teamLead_notification_id` int NOT NULL,
+  `teamLead_notification_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  `isPaused` tinyint(1) DEFAULT '0',
+  `notification_title` text,
+  `notification_text` text,
+  `isRead` tinyint(1) NOT NULL DEFAULT '0',
+  `team_L_id` int NOT NULL,
+  `notification_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --
+--
 -- Dumping data for table `teamlead_notifications`
 --
 
@@ -2747,19 +2719,19 @@ INSERT INTO `teamlead_notifications` (`teamLead_notification_id`, `teamLead_noti
 -- Table structure for table `teaml_adver_stock`
 --
 
--- CREATE TABLE `teaml_adver_stock` (
---   `team_adver_stock_id` int NOT NULL,
---   `team_adver_stock_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `total_Quantity` int DEFAULT NULL,
---   `used` int DEFAULT NULL,
---   `paused` tinyint(1) NOT NULL DEFAULT '0',
---   `deleted` tinyint(1) NOT NULL DEFAULT '0',
---   `team_L_id` int NOT NULL,
---   `sup_id` int NOT NULL,
---   `adver_stock_act_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `teaml_adver_stock` (
+  `team_adver_stock_id` int NOT NULL,
+  `team_adver_stock_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `total_Quantity` int DEFAULT NULL,
+  `used` int DEFAULT NULL,
+  `paused` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `team_L_id` int NOT NULL,
+  `sup_id` int NOT NULL,
+  `adver_stock_act_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `teaml_adver_stock`
@@ -2777,24 +2749,24 @@ INSERT INTO `teaml_adver_stock` (`team_adver_stock_id`, `team_adver_stock_uuid`,
 -- Table structure for table `team_lead`
 --
 
--- CREATE TABLE `team_lead` (
---   `team_L_id` int NOT NULL,
---   `team_L_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `team_L_name` text,
---   `team_L_userProfilePic` text,
---   `team_L_contact` text,
---   `team_L_target` text,
---   `team_L_salary` text,
---   `team_L_commission` text,
---   `team_L_username` text,
---   `team_L_isDeleted` tinyint(1) DEFAULT '0',
---   `team_L_isPaused` tinyint(1) DEFAULT '0',
---   `city_area_id` int DEFAULT NULL,
---   `sup_id` int DEFAULT NULL,
---   `login_id` int DEFAULT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `team_lead` (
+  `team_L_id` int NOT NULL,
+  `team_L_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `team_L_name` text,
+  `team_L_userProfilePic` text,
+  `team_L_contact` text,
+  `team_L_target` text,
+  `team_L_salary` text,
+  `team_L_commission` text,
+  `team_L_username` text,
+  `team_L_isDeleted` tinyint(1) DEFAULT '0',
+  `team_L_isPaused` tinyint(1) DEFAULT '0',
+  `city_area_id` int DEFAULT NULL,
+  `sup_id` int DEFAULT NULL,
+  `login_id` int DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `team_lead`
@@ -2810,58 +2782,58 @@ INSERT INTO `team_lead` (`team_L_id`, `team_L_uuid`, `team_L_name`, `team_L_user
 -- Table structure for table `training`
 --
 
--- CREATE TABLE `training` (
---   `training_ID` int NOT NULL,
---   `training_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `paused` tinyint(1) DEFAULT '0',
---   `deleted` tinyint(1) DEFAULT '0',
---   `name` text,
---   `purpose` text,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `training` (
+  `training_ID` int NOT NULL,
+  `training_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `name` text,
+  `purpose` text,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `training_activities`
--- --
+--
+-- Table structure for table `training_activities`
+--
 
--- CREATE TABLE `training_activities` (
---   `training_act_ID` int NOT NULL,
---   `training_act_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `paused` tinyint(1) DEFAULT '0',
---   `isComplete` tinyint(1) DEFAULT '0',
---   `deleted` tinyint(1) DEFAULT '0',
---   `completeDescription` text,
---   `name` text,
---   `purpose` text,
---   `training_ID` int NOT NULL,
---   `field_id` int NOT NULL,
---   `team_L_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `training_activities` (
+  `training_act_ID` int NOT NULL,
+  `training_act_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `isComplete` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `completeDescription` text,
+  `name` text,
+  `purpose` text,
+  `training_ID` int NOT NULL,
+  `field_id` int NOT NULL,
+  `team_L_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
--- --
--- -- Table structure for table `user_login_information`
--- --
+--
+-- Table structure for table `user_login_information`
+--
 
--- CREATE TABLE `user_login_information` (
---   `login_id` int NOT NULL,
---   `login_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `paused` tinyint(1) DEFAULT '0',
---   `deleted` tinyint(1) DEFAULT '0',
---   `login_email` text,
---   `login_password` text,
---   `jwt` text,
---   `verified` tinyint(1) DEFAULT '0',
---   `user_role_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `user_login_information` (
+  `login_id` int NOT NULL,
+  `login_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `login_email` text,
+  `login_password` text,
+  `jwt` text,
+  `verified` tinyint(1) DEFAULT '0',
+  `user_role_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `user_login_information`
@@ -2871,18 +2843,18 @@ INSERT INTO `user_login_information` (`login_id`, `login_uuid`, `paused`, `delet
 (1, 'f416b96d-90c2-4eca-9977-ca88ddf7aefb', 0, 0, 'Manager@gmail.com', '$2b$10$yzvXW8fE.5cozYeXQPWLxO8aGQ9gP8zcJVCUGJdjRPKXhOx6Ua7Ou', NULL, 1, 2, '2021-04-19 14:38:39', '2021-09-30 13:26:53'),
 (2, 'ec53183c-129c-4b99-9197-4a171c7bff00', 0, 0, 'Supervisor@gmail.com', '$2b$10$yzvXW8fE.5cozYeXQPWLxO8aGQ9gP8zcJVCUGJdjRPKXhOx6Ua7Ou', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiU3VwZXJ2aXNvckBnbWFpbC5jb20iLCJpYXQiOjE2MTg4MjU1MzIsImV4cCI6MTYxOTQzMDMzMn0.D2q7ZZd70Uscxrvuaz1sMYDfWWTzOiTyvm42t1w_zgW2-vwrxC_1ak1iXeUS1JeT', 1, 3, '2021-04-19 14:45:32', '2021-08-25 15:11:23'),
 (3, '28053ff9-2156-45ab-ba77-70366d47d2cc', 0, 0, 'team@gmail.com', '$2b$10$yzvXW8fE.5cozYeXQPWLxO8aGQ9gP8zcJVCUGJdjRPKXhOx6Ua7Ou', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVhbUBnbWFpbC5jb20iLCJpYXQiOjE2MTg4MjU1NjcsImV4cCI6MTYxOTQzMDM2N30.76zjMIoTRVRI2U5M8huG9Tpd4Dh70yljCGaWBIzg_rneav-xLc0AHFCk7PooC8n6', 1, 4, '2021-04-19 14:46:07', '2021-07-26 12:36:20'),
-(4, 'c4c61caf-8a5a-4bec-a4fb-9839f5b0d4ff', 0, 0, 'rishat.81@gmai.com', '$2b$10$//pdVJzK66uhUWO5vteBd.QUllLxCAyTsAFz5Os1QrPN015T21ddu', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicmlzaGF0LjUwODFAZ21haWwuY29tIiwiaWF0IjoxNjE4ODI2ODQ5LCJleHAiOjE2MTk0MzE2NDl9.EAuwO3nDMbzcUTjw6jxsIIAiqLKBVYJogLgkY63kMX0818vHESjNzm_H3FNDlqHM', 1, 5, '2021-04-19 15:07:29', '2021-07-30 15:56:55'),
-(5, 'c5dcd668-86ba-4bac-9da1-26d1c90e1ed8', 0, 0, 'rishat.5081@gmail.com', '$2b$10$EHPVAp721YaKKBjt4QpeW.g91md3G7rWrnWO.TpQ8/QSNuUSaFmBq', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicmlzaGF0LjUwODFAZ21haWwuY29tIiwiaWF0IjoxNjE4ODI3NTg3LCJleHAiOjE2MTk0MzIzODd9.YCVj-wJh32cKSQA3Uw9uwRldFdCYSSbw3XG-bb8CLjddF_KJ7l5kcrITr8-GKuLD', 1, 6, '2021-04-19 15:19:47', '2021-06-04 17:49:51'),
-(6, '99009998-a33d-40b5-bcf8-6d3d4673209e', 0, 0, 'qqa!@A.COM', '$2b$10$Cr8Ij/WJ5YTPM1V1SRQnEOfJMxWRi41vXcY7QKw9.kUe60FPqMn4i', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicXFhIUBBLkNPTSIsImlhdCI6MTYyMTQ5MzIxNywiZXhwIjoxNjIyMDk4MDE3fQ.kOduARNeVMJMfuqR7MdzBmKAVnwkdCmYD84dX7WFOxTraojJnlpvCzDrVjiqP8Rx', 1, 6, '2021-05-20 11:46:57', '2021-07-30 15:43:44'),
+(4, 'c4c61caf-8a5a-4bec-a4fb-9839f5b0d4ff', 0, 0, 'r@gmail.com', '$2b$10$//pdVJzK66uhUWO5vteBd.QUllLxCAyTsAFz5Os1QrPN015T21ddu', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicmlzaGF0LjUwODFAZ21haWwuY29tIiwiaWF0IjoxNjE4ODI2ODQ5LCJleHAiOjE2MTk0MzE2NDl9.EAuwO3nDMbzcUTjw6jxsIIAiqLKBVYJogLgkY63kMX0818vHESjNzm_H3FNDlqHM', 1, 5, '2021-04-19 15:07:29', '2021-12-15 12:41:05'),
+(5, 'c5dcd668-86ba-4bac-9da1-26d1c90e1ed8', 0, 0, 'rishat.5081@gmail.com', '$2b$10$EHPVAp721YaKKBjt4QpeW.g91md3G7rWrnWO.TpQ8/QSNuUSaFmBq', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicmlzaGF0LjUwODFAZ21haWwuY29tIiwiaWF0IjoxNjE4ODI3NTg3LCJleHAiOjE2MTk0MzIzODd9.YCVj-wJh32cKSQA3Uw9uwRldFdCYSSbw3XG-bb8CLjddF_KJ7l5kcrITr8-GKuLD', 1, 5, '2021-04-19 15:19:47', '2021-12-15 12:41:06'),
+(6, '99009998-a33d-40b5-bcf8-6d3d4673209e', 0, 0, 'qa@gmail.com', '$2b$10$Cr8Ij/WJ5YTPM1V1SRQnEOfJMxWRi41vXcY7QKw9.kUe60FPqMn4i', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicXFhIUBBLkNPTSIsImlhdCI6MTYyMTQ5MzIxNywiZXhwIjoxNjIyMDk4MDE3fQ.kOduARNeVMJMfuqR7MdzBmKAVnwkdCmYD84dX7WFOxTraojJnlpvCzDrVjiqP8Rx', 1, 5, '2021-05-20 11:46:57', '2021-12-15 12:41:03'),
 (16, '500493e0-b971-4e74-8eb1-523315fca4a5', 0, 0, 'voip.itz.olutions@gmail.com', '$2b$10$eykRe4128bfft6PCPxCBJuJwmmXnbIfcyRI7JNupowf9MaeIEWkRq', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidm9pcC5pdHouc29sdXRpb25zQGdtYWlsLmNvbSIsImlhdCI6MTYyNDk2NzMzMiwiZXhwIjoxNjI1NTcyMTMyfQ.m2CZYlHDvT74KPGY6zmrmpLbPBk-ZRmhQ7-XUdfSUU55_OTWTxglnjpxbhQCzXP8', 1, 5, '2021-06-29 16:48:52', '2021-08-09 13:59:29'),
-(18, '58ae2f5e-7c7a-439d-8888-86efb6a2ccac', 0, 0, 'Abdullahzadi@gmail.com', '$2b$10$W7G1qRBhTsL42xlidwWVTOaf4kose4dHzHKTAIMy9GpTBWtEGJG5u', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiQWJkdWxsYWh6YWRpQGdtYWlsLmNvbSIsImlhdCI6MTYzMzYwNjI1NCwiZXhwIjoxNjM0MjExMDU0fQ.jEiwL3WN-IvX8Sk0oXbo8sH6U3qRrKFSWk82lwXaIw_YMPS1h6BlXXn9n1zsoemj', 0, 5, '2021-10-07 16:30:54', '2021-10-20 13:04:51'),
-(19, '810729c1-a60e-479b-a395-68780bb22f56', 0, 0, 'labdullah7@gmail.com', '$2b$10$2wb8OQ2Smiy.pOsfu08D8ucRZP5qEAtnOp5CWV8W/xUx.8of0hNcC', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoibGFiZHVsbGFoN0BnbWFpbC5jb20iLCJpYXQiOjE2MzM2MDY0NzEsImV4cCI6MTYzNDIxMTI3MX0.pSCOlqI7I2GbhTz7KcJfzXbGhzRDlOqLJYOlw4_A7u3jDCHQQBgXVKCJfH-EH4-3', 1, 6, '2021-10-07 16:34:31', '2021-10-07 16:35:34'),
+(18, '58ae2f5e-7c7a-439d-8888-86efb6a2ccac', 0, 0, 'Abdullahzadi@gmail.com', '$2b$10$W7G1qRBhTsL42xlidwWVTOaf4kose4dHzHKTAIMy9GpTBWtEGJG5u', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiQWJkdWxsYWh6YWRpQGdtYWlsLmNvbSIsImlhdCI6MTYzMzYwNjI1NCwiZXhwIjoxNjM0MjExMDU0fQ.jEiwL3WN-IvX8Sk0oXbo8sH6U3qRrKFSWk82lwXaIw_YMPS1h6BlXXn9n1zsoemj', 0, 6, '2021-10-07 16:30:54', '2021-12-16 12:48:16'),
+(19, '810729c1-a60e-479b-a395-68780bb22f56', 0, 0, 'labdullah7@gmail.com', '$2b$10$2wb8OQ2Smiy.pOsfu08D8ucRZP5qEAtnOp5CWV8W/xUx.8of0hNcC', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoibGFiZHVsbGFoN0BnbWFpbC5jb20iLCJpYXQiOjE2MzM2MDY0NzEsImV4cCI6MTYzNDIxMTI3MX0.pSCOlqI7I2GbhTz7KcJfzXbGhzRDlOqLJYOlw4_A7u3jDCHQQBgXVKCJfH-EH4-3', 1, 6, '2021-10-07 16:34:31', '2021-12-15 15:23:57'),
 (20, '1096b38e-af8b-40d8-badb-8ea3e55081d1', 0, 0, 'huhaq22@gmail.com', '$2b$10$VTYMH4/q4C9Udy4tZgSHfeHW5HYlu0cDREhtDdlJLO7XToHVtL4V2', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiaHVoYXEyMkBnbWFpbC5jb20iLCJpYXQiOjE2MzM2MDc0OTksImV4cCI6MTYzNDIxMjI5OX0.JPSyRo1m99RaHX8za4OM2jPmgaWdh1qqbH85XyIE2VK1LjPA2jvR8poW7sENjXah', 1, 5, '2021-10-07 16:51:39', '2021-10-20 13:05:16'),
 (21, '71338ab5-a8b7-46c1-b2a4-11c100ad0d38', 0, 0, 'ihatsham@gmail.com', '$2b$10$rngB6.1JC64hH4ktdhvn8uaYHjGVL/zHgyS1i.ZV1VBH1uAytwjn6', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiaWhhdHNoYW1AZ21haWwuY29tIiwiaWF0IjoxNjMzNjA5NzIzLCJleHAiOjE2MzQyMTQ1MjN9.99ZqSJUsf6Y1OAuYzJIGS2tXw4EpgtNLipeQegSuGlG8ELC5ovkIzrZswBXzz1jW', 1, 6, '2021-10-07 17:28:43', '2021-10-07 17:34:44'),
 (33, 'fc053182-07f6-4353-aceb-447387680d5d', 0, 0, 'voip.itz.solutions@gmail.com', '$2b$10$FFItPuuuOjP/RWhGxNotEOUc8v27TdtgRK7qrrqszOaIh.coQxIdi', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidm9pcC5pdHouc29sdXRpb25zQGdtYWlsLmNvbSIsImlhdCI6MTYzNDczMTE5OSwiZXhwIjoxNjQwNzc5MTk5fQ.Fiq14NGMajQXjt0iBm21y7CVRxUVA0FjMLBSdrWEUfdPDjKWDsHVpEV9yM7ZVu7Z', 0, 6, '2021-10-20 16:59:59', '2021-10-20 16:59:59'),
 (34, '07c26a47-85ce-4f03-9f78-ddafcc4dc67d', 0, 0, 'vip.itz.solutions@gmail.com', '$2b$10$T4K6RYF8EnqzDMD8aWlePuwx2xrauLvC0iT82aVxhsNfNWEhy8P0q', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidmlwLml0ei5zb2x1dGlvbnNAZ21haWwuY29tIiwiaWF0IjoxNjM1NzY3ODQ2LCJleHAiOjE2NDE4MTU4NDZ9.kxFjkcD1_9yfTgkbnGoT0S2GOAhC4QymJy-xqxx1p4VLHoEbdQwUrsoa76aYEYtU', 0, 6, '2021-11-01 16:57:26', '2021-11-01 16:57:26'),
 (35, '93586700-0022-4e83-b65e-766908fd4a56', 0, 0, 'pepqualityassurance@gmail.com', '$2b$10$f7kuqVXd1yYiNKA8Need7.yReB.6gghkmO0NpODodF7y..8T4.8L2', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicGVwcXVhbGl0eWFzc3VyYW5jZUBnbWFpbC5jb20iLCJpYXQiOjE2MzU4NDg1MDcsImV4cCI6MTY0MTg5NjUwN30.hA6tG617HWlYgF1ssS0XaG4QLx-S6XjKyhNq9U5KsLGJrEqF9OsTj32wFmHfbKnr', 0, 6, '2021-11-02 15:21:47', '2021-11-02 15:21:47'),
-(36, '491f7050-602e-491a-b098-b02542be1858', 0, 0, 'pepchatitz@gmail.com', '$2b$10$XA9JfQUqDsFoE3kB5G7SEu9M/SRCP1TfMo2IlhkK3whfzWxI/RU5S', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicGVwY2hhdGl0ekBnbWFpbC5jb20iLCJpYXQiOjE2MzU4NDg5NDYsImV4cCI6MTY0MTg5Njk0Nn0.J4pwcK3bKvbBDHoBrOU13FNnWe6czUaGPCNwmsjVAvhOjW6viAyHwWk_-hxGbs_B', 1, 6, '2021-11-02 15:29:06', '2021-11-02 15:29:45');
+(36, '491f7050-602e-491a-b098-b02542be1858', 0, 0, 'pepchatitz@gmail.com', '$2b$10$XA9JfQUqDsFoE3kB5G7SEu9M/SRCP1TfMo2IlhkK3whfzWxI/RU5S', 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicGVwY2hhdGl0ekBnbWFpbC5jb20iLCJpYXQiOjE2MzU4NDg5NDYsImV4cCI6MTY0MTg5Njk0Nn0.J4pwcK3bKvbBDHoBrOU13FNnWe6czUaGPCNwmsjVAvhOjW6viAyHwWk_-hxGbs_B', 1, 6, '2021-11-02 15:29:06', '2021-11-10 18:02:04');
 
 -- --------------------------------------------------------
 
@@ -2890,15 +2862,15 @@ INSERT INTO `user_login_information` (`login_id`, `login_uuid`, `paused`, `delet
 -- Table structure for table `user_login_role`
 --
 
--- CREATE TABLE `user_login_role` (
---   `user_role_id` int NOT NULL,
---   `user_role_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `paused` tinyint(1) DEFAULT '0',
---   `deleted` tinyint(1) DEFAULT '0',
---   `type_name` text,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `user_login_role` (
+  `user_role_id` int NOT NULL,
+  `user_role_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `type_name` text,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `user_login_role`
@@ -2918,19 +2890,19 @@ INSERT INTO `user_login_role` (`user_role_id`, `user_role_uuid`, `paused`, `dele
 -- Table structure for table `webads`
 --
 
--- CREATE TABLE `webads` (
---   `WebAds_id` int NOT NULL,
---   `WebAds_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `paused` tinyint(1) DEFAULT '0',
---   `deleted` tinyint(1) DEFAULT '0',
---   `title` text,
---   `description` text,
---   `picPath` text,
---   `sa_id` int NOT NULL,
---   `user_role_id` int NOT NULL,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `webads` (
+  `WebAds_id` int NOT NULL,
+  `WebAds_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `title` text,
+  `description` text,
+  `picPath` text,
+  `sa_id` int NOT NULL,
+  `user_role_id` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `webads`
@@ -2959,53 +2931,53 @@ INSERT INTO `webads` (`WebAds_id`, `WebAds_uuid`, `paused`, `deleted`, `title`, 
 -- Table structure for table `web_content`
 --
 
--- CREATE TABLE `web_content` (
---   `web_content_id` int NOT NULL,
---   `web_content_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `paused` tinyint(1) DEFAULT '0',
---   `deleted` tinyint(1) DEFAULT '0',
---   `logo` text,
---   `firstHeading` text,
---   `secondHeading` text,
---   `thirdHeading` text,
---   `firstHeadingText` text,
---   `secondHeadingText` text,
---   `thirdHeadingText` text,
---   `signUpbtn` text,
---   `loginbtn` text,
---   `firstCardHeading` text,
---   `firstCardtext` text,
---   `secondCardHeading` text,
---   `secondCardtext` text,
---   `thirdCardHeading` text,
---   `thirdCardtext` text,
---   `fourthCardHeading` text,
---   `fourthCardtext` text,
---   `fifthCardHeading` text,
---   `fifthCardtext` text,
---   `sixthCardHeading` text,
---   `sixthCardtext` text,
---   `seventhCardHeading` text,
---   `seventhCardtext` text,
---   `eighthCardHeading` text,
---   `eighthCardtext` text,
---   `ninthCardHeading` text,
---   `ninthCardtext` text,
---   `sa_id` int NOT NULL,
---   `footer_heading_one` text,
---   `footer_heading_second` text,
---   `footer_heading_third` text,
---   `footer_heading_fourth` text,
---   `footer_heading_fifth` text,
---   `footer_heading_one_content` text,
---   `footer_heading_second_content` text,
---   `footer_heading_third_content` text,
---   `footer_heading_fourth_content` text,
---   `footer_heading_fifth_content` text,
---   `backgroundVideo` text,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `web_content` (
+  `web_content_id` int NOT NULL,
+  `web_content_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `logo` text,
+  `firstHeading` text,
+  `secondHeading` text,
+  `thirdHeading` text,
+  `firstHeadingText` text,
+  `secondHeadingText` text,
+  `thirdHeadingText` text,
+  `signUpbtn` text,
+  `loginbtn` text,
+  `firstCardHeading` text,
+  `firstCardtext` text,
+  `secondCardHeading` text,
+  `secondCardtext` text,
+  `thirdCardHeading` text,
+  `thirdCardtext` text,
+  `fourthCardHeading` text,
+  `fourthCardtext` text,
+  `fifthCardHeading` text,
+  `fifthCardtext` text,
+  `sixthCardHeading` text,
+  `sixthCardtext` text,
+  `seventhCardHeading` text,
+  `seventhCardtext` text,
+  `eighthCardHeading` text,
+  `eighthCardtext` text,
+  `ninthCardHeading` text,
+  `ninthCardtext` text,
+  `sa_id` int NOT NULL,
+  `footer_heading_one` text,
+  `footer_heading_second` text,
+  `footer_heading_third` text,
+  `footer_heading_fourth` text,
+  `footer_heading_fifth` text,
+  `footer_heading_one_content` text,
+  `footer_heading_second_content` text,
+  `footer_heading_third_content` text,
+  `footer_heading_fourth_content` text,
+  `footer_heading_fifth_content` text,
+  `backgroundVideo` text,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `web_content`
@@ -3020,15 +2992,15 @@ INSERT INTO `web_content` (`web_content_id`, `web_content_uuid`, `paused`, `dele
 -- Table structure for table `zone`
 --
 
--- CREATE TABLE `zone` (
---   `zone_id` int NOT NULL,
---   `zone_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
---   `paused` tinyint(1) DEFAULT '0',
---   `deleted` tinyint(1) DEFAULT '0',
---   `zone_name` text,
---   `createdAt` datetime NOT NULL,
---   `updateTimestamp` datetime NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `zone` (
+  `zone_id` int NOT NULL,
+  `zone_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `paused` tinyint(1) DEFAULT '0',
+  `deleted` tinyint(1) DEFAULT '0',
+  `zone_name` text,
+  `createdAt` datetime NOT NULL,
+  `updateTimestamp` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `zone`
@@ -3065,7 +3037,8 @@ ALTER TABLE `advertisement_recommendation`
   ADD KEY `field_id` (`field_id`),
   ADD KEY `team_L_id` (`team_L_id`),
   ADD KEY `sup_id` (`sup_id`),
-  ADD KEY `man_id` (`man_id`);
+  ADD KEY `man_id` (`man_id`),
+  ADD KEY `adver_gift_id` (`adver_gift_id`);
 
 --
 -- Indexes for table `advertising_stock`
@@ -3083,6 +3056,12 @@ ALTER TABLE `advertising_stock_allocation`
   ADD KEY `adver_stock_id` (`adver_stock_id`),
   ADD KEY `sup_id` (`sup_id`),
   ADD KEY `man_id` (`man_id`);
+
+--
+-- Indexes for table `advertismentgift`
+--
+ALTER TABLE `advertismentgift`
+  ADD PRIMARY KEY (`adver_gift_id`);
 
 --
 -- Indexes for table `agencylogs_supervisor`
@@ -3155,6 +3134,22 @@ ALTER TABLE ` carriers_services_payment`
 ALTER TABLE `changerolelogs`
   ADD PRIMARY KEY (`changeRole_id`),
   ADD KEY `field_id` (`field_id`),
+  ADD KEY `team_L_id` (`team_L_id`);
+
+--
+-- Indexes for table `changesupervisorrolelogs`
+--
+ALTER TABLE `changesupervisorrolelogs`
+  ADD PRIMARY KEY (`changeRole_id`),
+  ADD KEY `sup_id` (`sup_id`),
+  ADD KEY `man_id` (`man_id`);
+
+--
+-- Indexes for table `changeteamleadrolelogs`
+--
+ALTER TABLE `changeteamleadrolelogs`
+  ADD PRIMARY KEY (`changeRole_id`),
+  ADD KEY `sup_id` (`sup_id`),
   ADD KEY `team_L_id` (`team_L_id`);
 
 --
@@ -3655,7 +3650,7 @@ ALTER TABLE `zone`
 -- AUTO_INCREMENT for table `activities`
 --
 ALTER TABLE `activities`
-  MODIFY `list_act_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `list_act_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT for table `activity_instruction`
@@ -3667,7 +3662,7 @@ ALTER TABLE `activity_instruction`
 -- AUTO_INCREMENT for table `advertisement_recommendation`
 --
 ALTER TABLE `advertisement_recommendation`
-  MODIFY `adver_recom_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `adver_recom_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `advertising_stock`
@@ -3680,6 +3675,12 @@ ALTER TABLE `advertising_stock`
 --
 ALTER TABLE `advertising_stock_allocation`
   MODIFY `adver_stock_act_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `advertismentgift`
+--
+ALTER TABLE `advertismentgift`
+  MODIFY `adver_gift_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `agencylogs_supervisor`
@@ -3697,7 +3698,7 @@ ALTER TABLE `agencytypes`
 -- AUTO_INCREMENT for table `agency_info`
 --
 ALTER TABLE `agency_info`
-  MODIFY `agency_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `agency_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `banks_list`
@@ -3739,7 +3740,19 @@ ALTER TABLE ` carriers_services_payment`
 -- AUTO_INCREMENT for table `changerolelogs`
 --
 ALTER TABLE `changerolelogs`
-  MODIFY `changeRole_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `changeRole_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
+--
+-- AUTO_INCREMENT for table `changesupervisorrolelogs`
+--
+ALTER TABLE `changesupervisorrolelogs`
+  MODIFY `changeRole_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `changeteamleadrolelogs`
+--
+ALTER TABLE `changeteamleadrolelogs`
+  MODIFY `changeRole_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `city`
@@ -3751,19 +3764,19 @@ ALTER TABLE `city`
 -- AUTO_INCREMENT for table `city_area`
 --
 ALTER TABLE `city_area`
-  MODIFY `city_area_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `city_area_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `city_sectors`
 --
 ALTER TABLE `city_sectors`
-  MODIFY `city_sector_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `city_sector_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `city_sector_assosiate`
 --
 ALTER TABLE `city_sector_assosiate`
-  MODIFY `city_sector_assos_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `city_sector_assos_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `city_sup_assos`
@@ -3817,7 +3830,7 @@ ALTER TABLE `company_promotions`
 -- AUTO_INCREMENT for table `complainsofactivities`
 --
 ALTER TABLE `complainsofactivities`
-  MODIFY `complain_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `complain_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `cust_care_activities`
@@ -3859,7 +3872,7 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `executivelogins`
 --
 ALTER TABLE `executivelogins`
-  MODIFY `execu_login_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `execu_login_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=185;
 
 --
 -- AUTO_INCREMENT for table `executivenotifications`
@@ -3901,7 +3914,7 @@ ALTER TABLE `field_executive_earning`
 -- AUTO_INCREMENT for table `field_executive_pending_earning`
 --
 ALTER TABLE `field_executive_pending_earning`
-  MODIFY `field_exe_earn_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `field_exe_earn_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `field_executive_withdraws`
@@ -3931,7 +3944,7 @@ ALTER TABLE `lists`
 -- AUTO_INCREMENT for table `list_sub_activities`
 --
 ALTER TABLE `list_sub_activities`
-  MODIFY `list_sub_act_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
+  MODIFY `list_sub_act_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
 
 --
 -- AUTO_INCREMENT for table `login_page`
@@ -3943,7 +3956,7 @@ ALTER TABLE `login_page`
 -- AUTO_INCREMENT for table `managerlogin`
 --
 ALTER TABLE `managerlogin`
-  MODIFY `manager_login_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `manager_login_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
 
 --
 -- AUTO_INCREMENT for table `managernotifications`
@@ -3985,13 +3998,13 @@ ALTER TABLE `pep_banks_details`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `permmission_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `permmission_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `permission_role_associate`
 --
 ALTER TABLE `permission_role_associate`
-  MODIFY `perm_assos_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `perm_assos_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `promotion_requests_status`
@@ -4045,19 +4058,19 @@ ALTER TABLE `signup_page`
 -- AUTO_INCREMENT for table `supervisor`
 --
 ALTER TABLE `supervisor`
-  MODIFY `sup_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `sup_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `supervisorlogin`
 --
 ALTER TABLE `supervisorlogin`
-  MODIFY `supervisor_login_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=202;
+  MODIFY `supervisor_login_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=244;
 
 --
 -- AUTO_INCREMENT for table `supervisornotification`
 --
 ALTER TABLE `supervisornotification`
-  MODIFY `supervisor_notification_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `supervisor_notification_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `super_admin`
@@ -4069,7 +4082,7 @@ ALTER TABLE `super_admin`
 -- AUTO_INCREMENT for table `teamlead_login`
 --
 ALTER TABLE `teamlead_login`
-  MODIFY `teamLead_login_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `teamLead_login_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=213;
 
 --
 -- AUTO_INCREMENT for table `teamlead_notifications`
@@ -4149,9 +4162,10 @@ ALTER TABLE `activities`
 ALTER TABLE `advertisement_recommendation`
   ADD CONSTRAINT `advertisement_recommendation_ibfk_1` FOREIGN KEY (`agency_id`) REFERENCES `agency_info` (`agency_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `advertisement_recommendation_ibfk_2` FOREIGN KEY (`field_id`) REFERENCES `field_executive` (`field_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `advertisement_recommendation_ibfk_3` FOREIGN KEY (`team_L_id`) REFERENCES `team_lead` (`team_L_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `advertisement_recommendation_ibfk_4` FOREIGN KEY (`sup_id`) REFERENCES `supervisor` (`sup_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `advertisement_recommendation_ibfk_5` FOREIGN KEY (`man_id`) REFERENCES `managers` (`man_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `advertisement_recommendation_ibfk_3` FOREIGN KEY (`team_L_id`) REFERENCES `team_lead` (`team_L_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `advertisement_recommendation_ibfk_4` FOREIGN KEY (`sup_id`) REFERENCES `supervisor` (`sup_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `advertisement_recommendation_ibfk_5` FOREIGN KEY (`man_id`) REFERENCES `managers` (`man_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `advertisement_recommendation_ibfk_6` FOREIGN KEY (`adver_gift_id`) REFERENCES `advertismentgift` (`adver_gift_id`);
 
 --
 -- Constraints for table `advertising_stock`
@@ -4220,6 +4234,20 @@ ALTER TABLE ` carriers_services_payment`
 ALTER TABLE `changerolelogs`
   ADD CONSTRAINT `changerolelogs_ibfk_1` FOREIGN KEY (`field_id`) REFERENCES `field_executive` (`field_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `changerolelogs_ibfk_2` FOREIGN KEY (`team_L_id`) REFERENCES `team_lead` (`team_L_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `changesupervisorrolelogs`
+--
+ALTER TABLE `changesupervisorrolelogs`
+  ADD CONSTRAINT `changesupervisorrolelogs_ibfk_1` FOREIGN KEY (`sup_id`) REFERENCES `supervisor` (`sup_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `changesupervisorrolelogs_ibfk_2` FOREIGN KEY (`man_id`) REFERENCES `managers` (`man_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `changeteamleadrolelogs`
+--
+ALTER TABLE `changeteamleadrolelogs`
+  ADD CONSTRAINT `changeteamleadrolelogs_ibfk_1` FOREIGN KEY (`sup_id`) REFERENCES `supervisor` (`sup_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `changeteamleadrolelogs_ibfk_2` FOREIGN KEY (`team_L_id`) REFERENCES `team_lead` (`team_L_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `city`

@@ -184,6 +184,7 @@
 
       const db_agencyCount = JSON.parse(`<%-JSON.stringify(agencyCount)%>`);
 
+      //console.log(JSON.parse(`%-JSON.stringify(agencyCount)%>`));
       //   -----------------end of db values
       var agencyCount_dates;
       if (db_agencyCount) {
@@ -195,13 +196,12 @@
       }
       var agencyCount;
       if (db_agencyCount) {
-        agencyCount = db_agencyCount.map((data) => {
-          return data.activitiesPerMonth;
-        });
+        agencyCount = db_agencyCount.map((data) => data.agencyCount);
       } else {
         agencyCount = [];
       }
 
+ 
       var ctx1 = document.getElementById("SalePerMonth").getContext("2d");
       var myChart1 = new Chart(ctx1, {
         type: "bar",
@@ -223,7 +223,7 @@
                 "rgba(116, 116, 243,0.3)",
                 "rgba(250, 127, 83,0.3)",
                 "rgba(83, 150, 250,0.4)",
-                " rgba(211, 83, 250,0.4)",
+                "rgba(211, 83, 250,0.4)",
               ],
               borderColor: [
                 "rgba(255, 99, 132, 1)",

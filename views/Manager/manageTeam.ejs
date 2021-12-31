@@ -60,7 +60,7 @@
             <a href="#">
               <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
             </a>
-            <a href="<%=url%>/teamlead/notification">
+            <a href="<%=url%>/supervisor/notification">
               <span class="fa fa-bell menu-button">
                 <span class="button__badge" style="display: none"></span>
               </span>
@@ -70,7 +70,7 @@
                 <% permissions.forEach(element=> { %>
                 <li>
                   <a
-                    href="<%=url%>/teamlead<%= element.controller%>/<%=info.uuid%>"
+                    href="<%=url%>/supervisor<%= element.controller%>/<%=info.uuid%>"
                   >
                     <span class="<%= element.icon%>"></span>
                     <%= element.permission_name %>
@@ -78,7 +78,7 @@
                 </li>
                 <% }); %>
                 <li>
-                  <a href="<%=url%>/teamlead/signout">
+                  <a href="<%=url%>/supervisor/signout">
                     <span class="fa fa-sign-out"> </span> Log Out</a
                   >
                 </li>
@@ -89,8 +89,8 @@
 
           <!-- --------------------------- -->
           <div class="container topmargin">
-            <div class="text-center m-4 p-4">
-              <h4 class="ml-1 mb-3">Team Member</h4>
+            <div class="text-center">
+              <h4 class="ml-1 mb-3">Supervisor</h4>
             </div>
             <div class="text-center m-4 d-flex flex-row">
               <div class="input-group flex-row m-2 p-2">
@@ -150,15 +150,15 @@
                 <%teamMember.forEach((member,index) =>{ %>
                 <tr>
                   <th scope="row"><%=++index %></th>
-                  <td><%= member.field_name %></td>
+                  <td><%= member.sup_name %></td>
                   <td><%= member.User_Login_Information.login_email %></td>
-                  <td><%= member.field_contact %></td>
+                  <td><%= member.sup_contact %></td>
                   <td><%= member.User_Login_Information.createdAt %></td>
                   <td>
                     <button
                       type="button"
                       class="btn btn-outline-danger"
-                      value="<%= member.field_uuid %>"
+                      value="<%= member.sup_uuid %>"
                       onclick="removeMembertoTeam(this.value)"
                     >
                       <i class="fa fa-minus-circle" aria-hidden="true"></i>
@@ -243,7 +243,7 @@
       );
       if (notificationCount) {
         $(".button__badge").css("display", "block");
-        $(".button__badge").html();
+        $(".button__badge").html(notificationCount);
       }
       $(".js-tilt").tilt({
         scale: 1.1,
@@ -282,7 +282,7 @@
         if (findID(id)) {
           $.ajax({
             type: "PUT",
-            url: `${window.location.origin}/removeMembertoTeam`,
+            url: `${window.location.origin}/removeSupervisorfromteam`,
             data: { id },
             dataType: "json",
             error: (error) => {
@@ -304,7 +304,7 @@
 
       const findID = (id) => {
         const data = JSON.parse(`<%-JSON.stringify(teamMember)%>`);
-        return data.find((member) => member.field_uuid === id);
+        return data.find((member) => member.sup_uuid === id);
       };
     </script>
   </body>

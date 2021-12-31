@@ -526,7 +526,7 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
       },
       where: {
         login_id,
-        salaryStatus: 0,
+        // salaryStatus: 0,
         field_isDeleted: 0,
         field_isPaused: 0,
       },
@@ -557,7 +557,7 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
       },
       where: {
         login_id,
-        salaryStatus: 1,
+        // salaryStatus: 1,
         field_isDeleted: 0,
         field_isPaused: 0,
       },

@@ -15,58 +15,54 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
-        validate: {
-          max: 11,
-          isNumeric: true
-        }
       },
       sup_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       sup_name: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       sup_userProfilePic: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       sup_contact: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       sup_target: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       sup_salary: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       sup_commission: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       sup_DOB: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       sup_username: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       sup_isDeleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       sup_isPaused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       login_id: {
         type: DataTypes.INTEGER,
@@ -75,30 +71,30 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "user_login_information",
-          key: "login_id"
+          key: "login_id",
         },
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
+        onUpdate: "CASCADE",
       },
       man_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         primaryKey: false,
         autoIncrement: false,
         references: {
           model: "managers",
-          key: "man_id"
+          key: "man_id",
         },
 
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
-      }
+        onUpdate: "CASCADE",
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "Supervisor",
-      tableName: "supervisor"
+      tableName: "supervisor",
     }
   );
 
@@ -107,24 +103,24 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
      * One user can have one login credential
      */
     models.User_Login_Information.hasOne(Supervisor, {
-      foreignKey: "login_id"
+      foreignKey: "login_id",
     });
 
     Supervisor.belongsTo(models.User_Login_Information, {
       targetKey: "login_id",
-      foreignKey: "login_id"
+      foreignKey: "login_id",
     });
 
     /**
      * One manager can have many supervisor
      */
     models.Managers.hasOne(Supervisor, {
-      foreignKey: "man_id"
+      foreignKey: "man_id",
     });
 
     Supervisor.belongsTo(models.Managers, {
       targetKey: "man_id",
-      foreignKey: "man_id"
+      foreignKey: "man_id",
     });
   };
 

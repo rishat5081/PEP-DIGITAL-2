@@ -863,6 +863,62 @@ router.get(
     res.end();
   }
 );
+
+//route to manage team
+router.get(
+  "/manageTeam/:man_uuid",
+  isUser_Login,
+  isManagerAuthentic,
+  async (req, res) => {
+    //getting the notificaton of the user
+    let unreadNotificationCount = await countofNotificationOfManager(
+      req.session.profileData.man_id
+    );
+    // getting the all executive which are no in any team they are working as freelance
+    let teamMember = await Database.Supervisor.findAll({
+      attributes: ["sup_uuid", "sup_name", "sup_contact"],
+      include: {
+        model: Database.User_Login_Information,
+        required: true,
+        attributes: ["login_email", "createdAt"],
+        where: {
+          paused: 0,
+          deleted: 0,
+        },
+      },
+      where: {
+        sup_isDeleted: 0,
+        sup_isPaused: 0,
+        man_id: req.session.profileData.man_id,
+      },
+    })
+      .then((member) => {
+        return member ? member : null;
+      })
+      .catch((error) => {
+        console.error("Error in getting Supervisor Member");
+        console.trace(error);
+        return error ? null : true;
+      });
+
+    res.status(200).render("Manager/manageTeam", {
+      info: {
+        id: req.session.passport.user.userInfo.login_id,
+        uuid: req.session.profileData.man_uuid,
+      },
+      teamMember,
+      url: req.protocol + "://" + req.get("host"),
+      user_role: req.session.passport.user.userRole,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      permissions: req.session.permissions.permissionObject,
+    });
+
+    unreadNotificationCount = null;
+    res.end();
+  }
+);
+
 /**
  * displaying the all the notifications
  *  Getting all the notificaitons

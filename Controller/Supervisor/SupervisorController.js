@@ -2,7 +2,6 @@ const router = require("express").Router(),
   fs = require("fs"),
   Sequelize = require("sequelize"),
   Database = require("../../Configuration Files/Sequelize/Database_Synchronization"),
-  { sequelize } = require("../../Configuration Files/Sequelize/Sequelize"),
   {
     multerFile_Upload_Function,
   } = require("../../Configuration Files/Multer Js/multer"),
@@ -435,14 +434,22 @@ router
           null;
       res.end();
     } else {
+      res.status(200).send({
+        status: "Not Found",
+        message: "No Record Found",
+        teamLeadID,
+        teamMember,
+        activitiesPerMonth,
+        cancelledactivitiesPerMonth,
+        agencyCount,
+      });
+      res.end();
       teamLeadID =
         teamMember =
         activitiesPerMonth =
         cancelledactivitiesPerMonth =
         agencyCount =
           null;
-      res.status(500).send({ error: "Please try again" });
-      res.end();
     }
     ////console.(req.body);
   });
@@ -602,6 +609,20 @@ router
           agencyCount =
             null;
         res.end();
+      } else {
+        res.status(200).send({
+          error: "No Activities Found",
+          activitiesPerMonth,
+          cancelledactivitiesPerMonth,
+          agencyCount,
+        });
+        res.end();
+        teamLeadID =
+          teamMember =
+          activitiesPerMonth =
+          cancelledactivitiesPerMonth =
+          agencyCount =
+            null;
       }
     } else {
       teamLeadID =
@@ -1389,6 +1410,83 @@ router.route("/removeTeamLeadfromteamm").put(async (req, res) => {
     res.status(400).send({
       error: "error",
     });
+  }
+});
+
+/**
+ * here is the removing the area from the executive
+ */
+
+router.route("/supervisor/removeAreaofTeamLead").put(async (req, res) => {
+  //getting the sector ID from the database
+  let sectorID = await Database.City_Areas.findOne({
+    attributes: ["city_area_id"],
+    include: {
+      model: Database.Team_Lead,
+      required: true,
+      attributes: [],
+      where: {
+        team_L_uuid: req.body.executiveUUID,
+        team_L_isDeleted: 0,
+        team_L_isPaused: 0,
+        sup_id: req.session.profileData.sup_id,
+      },
+    },
+    where: {
+      city_area_uuid: req.body.selectedArea,
+      deleted: 0,
+      paused: 0,
+    },
+  })
+    .then((result) => {
+      if (result) return result;
+    })
+    .catch((err) => {
+      if (err) {
+        console.error("Error Fetching Remove Area Information");
+        console.trace(err);
+        return null;
+      }
+    });
+
+  if (sectorID) {
+    let updateTeamLeadStatus = await sequelize
+      .query(
+        `UPDATE team_lead SET city_area_id = NULL WHERE team_L_uuid = '${req.body.executiveUUID}';`,
+        null,
+        { raw: true }
+      )
+      .then((response) => {
+        console.log(response);
+        if (response) return response;
+      })
+
+      .catch((err) => {
+        if (err) {
+          console.log("Error Updating the Team Lead Info");
+          console.trace(err);
+          return null;
+        }
+      });
+
+    if (updateTeamLeadStatus) {
+      res.status(200).send({
+        status: "success",
+        message: "Area Removed Successfully",
+        updateTeamLeadStatus,
+      });
+      sectorID = updateTeamLeadStatus = null;
+      res.end();
+    } else {
+      sectorID = updateTeamLeadStatus = null;
+      res.status(500).send({ error: "Please try again" });
+      res.end();
+    }
+  } else {
+    res
+      .status(200)
+      .send({ status: "Marked Already", message: "Area is Already Deleted" });
+    res.end();
   }
 });
 

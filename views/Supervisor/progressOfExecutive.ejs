@@ -203,7 +203,7 @@
                 "rgba(116, 116, 243,0.3)",
                 "rgba(250, 127, 83,0.3)",
                 "rgba(83, 150, 250,0.4)",
-                " rgba(211, 83, 250,0.4)"
+                " rgba(211, 83, 250,0.4)",
               ],
               borderColor: [
                 "rgba(255, 99, 132, 1)",
@@ -217,26 +217,26 @@
                 "rgb(116, 116, 243, 1)",
                 "rgba(250, 127, 83,1)",
                 "rgba(83, 150, 250,1)",
-                "rgba(211, 83, 250,1)"
+                "rgba(211, 83, 250,1)",
               ],
-              borderWidth: 1
-            }
-          ]
+              borderWidth: 1,
+            },
+          ],
         },
         options: {
           plugins: {
             title: {
-              display: true
+              display: true,
               // text: "Custom Chart Title"
-            }
+            },
           },
           scales: {
             y: {
               beginAtZero: true,
-              suggestedMax: 100
-            }
-          }
-        }
+              suggestedMax: 100,
+            },
+          },
+        },
       });
       var agencyPerMonth_Chart = new Chart(agencyPerMonth_ID, {
         type: "bar",
@@ -258,7 +258,7 @@
                 "rgba(116, 116, 243,0.3)",
                 "rgba(250, 127, 83,0.3)",
                 "rgba(83, 150, 250,0.4)",
-                " rgba(211, 83, 250,0.4)"
+                " rgba(211, 83, 250,0.4)",
               ],
               borderColor: [
                 "rgba(255, 99, 132, 1)",
@@ -272,20 +272,20 @@
                 "rgb(116, 116, 243, 1)",
                 "rgba(250, 127, 83,1)",
                 "rgba(83, 150, 250,1)",
-                "rgba(211, 83, 250,1)"
+                "rgba(211, 83, 250,1)",
               ],
-              borderWidth: 1
-            }
-          ]
+              borderWidth: 1,
+            },
+          ],
         },
         options: {
           scales: {
             y: {
               beginAtZero: true,
-              suggestedMax: 100
-            }
-          }
-        }
+              suggestedMax: 100,
+            },
+          },
+        },
       });
       var cancelPerMonth_Chart = new Chart(cancelPerMonth_ID, {
         type: "doughnut",
@@ -307,7 +307,7 @@
                 "rgba(116, 116, 243,0.3)",
                 "rgba(250, 127, 83,0.3)",
                 "rgba(83, 150, 250,0.4)",
-                " rgba(211, 83, 250,0.4)"
+                " rgba(211, 83, 250,0.4)",
               ],
               borderColor: [
                 "rgba(255, 99, 132, 1)",
@@ -321,28 +321,28 @@
                 "rgb(116, 116, 243, 1)",
                 "rgba(250, 127, 83,1)",
                 "rgba(83, 150, 250,1)",
-                "rgba(211, 83, 250,1)"
+                "rgba(211, 83, 250,1)",
               ],
-              borderWidth: 1
-            }
-          ]
+              borderWidth: 1,
+            },
+          ],
         },
         options: {
           plugins: {
             title: {
               display: true,
-              text: "Cancel Activities Per Month"
-            }
+              text: "Cancel Activities Per Month",
+            },
           },
           scales: {
             y: {
               beginAtZero: true,
-              suggestedMax: 100
-            }
+              suggestedMax: 100,
+            },
           },
           //this aspect ratio will make the height and width of the donut
-          aspectRatio: 3
-        }
+          aspectRatio: 3,
+        },
       });
 
       $("#progress_byCity").change((e) => {
@@ -377,44 +377,13 @@
               }
             },
             success: (response) => {
+              const {
+                activitiesPerMonth,
+                agencyCount,
+                cancelledactivitiesPerMonth,
+              } = response;
               if (response) {
-                toastr.success(response.status);
-                //displaying the activity per month
-                activitiesPerMonth_Chart.data.labels =
-                  response.activitiesPerMonth.map(
-                    (activity) => activity.moonth + " " + activity.Year
-                  );
-                activitiesPerMonth_Chart.data.datasets[0].data =
-                  response.activitiesPerMonth.map(
-                    (activity) => activity.activitiesPerMonth
-                  );
-                activitiesPerMonth_Chart.update();
-                //end of activity per month
-
-                // //displaying the agency per month
-
-                agencyPerMonth_Chart.data.labels = response.agencyCount.map(
-                  (activity) => activity.moonth + " " + activity.Year
-                );
-                agencyPerMonth_Chart.data.datasets[0].data =
-                  response.agencyCount.map((activity) => activity.agencyCount);
-                agencyPerMonth_Chart.update();
-
-                //end of agency per month
-
-                //displaying the cancel activities per month
-
-                cancelPerMonth_Chart.data.labels =
-                  response.cancelledactivitiesPerMonth.map(
-                    (activity) => activity.moonth + " " + activity.Year
-                  );
-                cancelPerMonth_Chart.data.datasets[0].data =
-                  response.cancelledactivitiesPerMonth.map(
-                    (activity) => activity.cancelledactivitiesPerMonth
-                  );
-                cancelPerMonth_Chart.update();
-                //end of cancel activities per month
-
+                //adding team lead to select
                 const selectTeamLead =
                   document.getElementById("selectTeamLead");
                 response.teamLeadID.forEach((teamLead) => {
@@ -424,8 +393,53 @@
                   teamLead_Data.push(teamLead);
                   selectTeamLead.append(option);
                 });
+
+                console.log(response);
+
+                if (
+                  (activitiesPerMonth, agencyCount, cancelledactivitiesPerMonth)
+                ) {
+                  toastr.success(response.status);
+                  //displaying the activity per month
+                  activitiesPerMonth_Chart.data.labels = activitiesPerMonth.map(
+                    (activity) => activity.moonth + " " + activity.Year
+                  );
+                  activitiesPerMonth_Chart.data.datasets[0].data =
+                    activitiesPerMonth.map(
+                      (activity) => activity.activitiesPerMonth
+                    );
+                  activitiesPerMonth_Chart.update();
+                  //end of activity per month
+
+                  // //displaying the agency per month
+
+                  agencyPerMonth_Chart.data.labels = agencyCount.map(
+                    (activity) => activity.moonth + " " + activity.Year
+                  );
+                  agencyPerMonth_Chart.data.datasets[0].data = agencyCount.map(
+                    (activity) => activity.agencyCount
+                  );
+                  agencyPerMonth_Chart.update();
+
+                  //end of agency per month
+
+                  //displaying the cancel activities per month
+
+                  cancelPerMonth_Chart.data.labels =
+                    cancelledactivitiesPerMonth.map(
+                      (activity) => activity.moonth + " " + activity.Year
+                    );
+                  cancelPerMonth_Chart.data.datasets[0].data =
+                    cancelledactivitiesPerMonth.map(
+                      (activity) => activity.cancelledactivitiesPerMonth
+                    );
+                  cancelPerMonth_Chart.update();
+                  //end of cancel activities per month
+                } else {
+                  toastr.error(response.message);
+                }
               }
-            }
+            },
           });
         } else {
           toastr.error("Invalid City selected");
@@ -451,10 +465,12 @@
         ) {
           //making the ajax call to fetch the data from the server
           let teamLeadUUID = $("#selectTeamLead").find(":selected").val();
+          console.log(teamLeadUUID);
           $.ajax({
             type: "GET",
             url: `${window.location.origin}/getTeamLeadAnalytics/${teamLeadUUID}/<%=info.uuid%>`,
             error: (error) => {
+              console.log(error);
               if (error) {
                 toastr.error(error.responseJSON.error);
                 //displaying the activity per month
@@ -475,6 +491,7 @@
               }
             },
             success: (response) => {
+              console.log(response);
               if (response) {
                 toastr.success(response.status);
                 //displaying the activity per month
@@ -510,7 +527,7 @@
               } else {
                 toastr.error("No response");
               }
-            }
+            },
           });
         } else {
           toastr.error("Invalid City selected");
@@ -530,17 +547,9 @@
         );
       }
       $(".js-tilt").tilt({
-        scale: 1.1
+        scale: 1.1,
       });
 
-      //  teamMembers = JSON.parse(`%-JSON.stringify(teamMember)%>`),
-      //   agencyCount = JSON.parse(`%-JSON.stringify(agencyCount)%>`),
-      //   cancelledactivitiesPerMonth = JSON.parse(
-      //     `%-JSON.stringify(cancelledactivitiesPerMonth)%>`
-      //   ),
-      //   activitiesPerMonth = JSON.parse(
-      //     `%-JSON.stringify(activitiesPerMonth)%>`
-      //   ),
       var menu = document.getElementById("menu");
 
       function openMenu() {
@@ -549,7 +558,6 @@
       function closeMenu() {
         menu.style.top = "-100vh";
       }
-
     </script>
   </body>
 </html>

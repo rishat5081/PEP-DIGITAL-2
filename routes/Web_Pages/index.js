@@ -221,4 +221,9 @@ router.get("/email", isUser_Not_Login, function (req, res, next) {
   });
 });
 
+// router.get("/a2", isUser_Not_Login, function (req, res, next) {
+//   // console.log(response)
+//   res.render("Web Pages/editManagers");
+// });
+
 module.exports = { router, isUser_Not_Login, isUser_Login };

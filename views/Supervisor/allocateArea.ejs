@@ -141,10 +141,34 @@
                   <td scope="col"><strong> <%= ++index %> </strong></td>
                   <td scope="col"><%=element.team_L_name %></td>
                   <td scope="col"><%=element.team_L_contact %></td>
+
                   <td scope="col">
                     <% teamMember.forEach(member => { %>
                     <%if(element.team_L_uuid=== member.team_L_uuid ){%>
-                    <%=member.City_Area.city_name %> <%}else{ %> ---- <%} })%>
+                    <ul class="list-group">
+                      <!-- %member.City_Sectors.forEach(area => {%> -->
+                      <li
+                        class="
+                          list-group-item
+                          d-flex
+                          justify-content-between
+                          align-items-center
+                        "
+                      >
+                        <%=member.City_Area.city_name %>
+                        <span
+                          class="badge badge-danger badge-pill"
+                          style="cursor: pointer"
+                          onclick="deleteArea('<%=member.City_Area.city_area_uuid%>','<%=member.team_L_uuid%>')"
+                        >
+                          <i class="fa fa-times" aria-hidden="true"></i
+                        ></span>
+                      </li>
+
+                      <!-- % }) %> -->
+                    </ul>
+
+                    <%} })%>
                   </td>
                 </tr>
                 <% }) %>
@@ -176,7 +200,7 @@
         );
       }
       $(".js-tilt").tilt({
-        scale: 1.1
+        scale: 1.1,
       });
 
       var menu = document.getElementById("menu"),
@@ -237,10 +261,29 @@
                 toastr.success("Area Allocated to the Employees ");
                 location.reload(true);
               }
-            }
+            },
           });
         }
       });
+
+      const deleteArea = (selectedArea, executiveUUID) => {
+        console.log(selectedArea);
+        console.log(executiveUUID);
+        $.ajax({
+          type: "PUT",
+          url: `${window.location.origin}/supervisor/removeAreaofTeamLead`,
+          data: { selectedArea, executiveUUID },
+          dataType: "json",
+          error: (error) => {
+            console.error(error);
+            toastr.error(error.error);
+          },
+          success: (response) => {
+            if (response.status === "success") toastr.success(response.message);
+            else toastr.warning("Sector is already marked deleted");
+          },
+        });
+      };
     </script>
   </body>
 </html>

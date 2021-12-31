@@ -2,7 +2,6 @@ const router = require("express").Router(),
   fs = require("fs"),
   { Op } = require("sequelize"),
   Database = require("../../Configuration Files/Sequelize/Database_Synchronization"),
-  { sequelize } = require("../../Configuration Files/Sequelize/Sequelize"),
   {
     multerFile_Upload_Function,
   } = require("../../Configuration Files/Multer Js/multer"),
@@ -766,6 +765,95 @@ router
     }
   });
 
+router.route("/removeSupervisorfromteam").put(async (req, res) => {
+  // checking the user inofrmation from the database and also getting the role and field id
+  const supervisorInfo = await Database.User_Login_Information.findOne({
+    attributes: ["login_id", "user_role_id"],
+    include: {
+      model: Database.Supervisor,
+      required: true,
+      attributes: ["sup_id"],
+      where: {
+        //using the UUID from the front end
+        sup_uuid: req.body.id,
+        sup_isDeleted: false,
+        sup_isPaused: false,
+      },
+    },
+    where: {
+      deleted: false,
+      paused: false,
+    },
+  })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      if (err) {
+        console.log("Error Getting the Supervisor Info");
+        console.trace(err);
+        return null;
+      }
+    });
+
+  //  and adding the Field Executive to the NULL
+  const updateExecutiveToTeam = await sequelize
+    .query(
+      `UPDATE supervisor SET man_id = NULL WHERE sup_uuid = '${req.body.id}';`,
+      null,
+      { raw: true }
+    )
+    .then((response) => {
+      return response;
+    })
+
+    .catch((err) => {
+      if (err) {
+        console.log("Error Updating the Supervisor Info");
+        console.trace(err);
+        return null;
+      }
+    });
+
+  //update the role of the user to Field Executive
+
+  if (updateExecutiveToTeam) {
+    // adding the role information into the roleChanged table
+    const roleChanged = await Database.ChangeSupervisorRoleLogs.create({
+      previousRole: supervisorInfo.dataValues.user_role_id,
+      newRole: 0,
+      sup_id: supervisorInfo.dataValues.Supervisor.dataValues.sup_id,
+      man_id: req.session.profileData.man_id,
+    }).catch((err) => {
+      if (err) {
+        console.log("Error Creating the User Role Change Info");
+        console.trace(err);
+        return null;
+      }
+    });
+
+    //sending the response to the user
+    if ((supervisorInfo, updateExecutiveToTeam, roleChanged)) {
+      res.status(200).send({
+        status: "Done",
+      });
+      res.end();
+    } else {
+      res.status(400).send({
+        error: "error",
+      });
+      res.end();
+    }
+  } else {
+    res.status(400).send({
+      error: "error",
+    });
+    res.end();
+  }
+});
+
+
+
 /**
  * reading all the notification to isRead to true
  * so it will make the notification is read
@@ -789,4 +877,3 @@ router.route("/readAllManagerNotifications").post(async (req, res) => {
 });
 
 module.exports = { router };
-

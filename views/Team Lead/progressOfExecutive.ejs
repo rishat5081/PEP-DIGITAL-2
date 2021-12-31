@@ -127,7 +127,7 @@
         );
       }
       $(".js-tilt").tilt({
-        scale: 1.1
+        scale: 1.1,
       });
 
       var teamMembers = JSON.parse(`<%-JSON.stringify(teamMember)%>`),
@@ -140,6 +140,10 @@
         ),
         menu = document.getElementById("menu");
 
+      console.log(teamMembers);
+      console.log(agencyCount);
+      console.log(cancelledactivitiesPerMonth);
+      console.log(activitiesPerMonth);
       function openMenu() {
         menu.style.top = "0";
       }
@@ -173,7 +177,7 @@
           datasets: [
             {
               label: "Actitivies Per Month",
-              data: [15, 5, 1, 5],
+              data: [0, 0, 0, 0],
               backgroundColor: [
                 "rgba(255, 99, 132, 0.5)",
                 "rgba(54, 162, 235, 0.5)",
@@ -186,7 +190,7 @@
                 "rgba(116, 116, 243,0.3)",
                 "rgba(250, 127, 83,0.3)",
                 "rgba(83, 150, 250,0.4)",
-                " rgba(211, 83, 250,0.4)"
+                " rgba(211, 83, 250,0.4)",
               ],
               borderColor: [
                 "rgba(255, 99, 132, 1)",
@@ -200,20 +204,20 @@
                 "rgb(116, 116, 243, 1)",
                 "rgba(250, 127, 83,1)",
                 "rgba(83, 150, 250,1)",
-                "rgba(211, 83, 250,1)"
+                "rgba(211, 83, 250,1)",
               ],
-              borderWidth: 1
-            }
-          ]
+              borderWidth: 1,
+            },
+          ],
         },
         options: {
           scales: {
             y: {
               beginAtZero: true,
-              suggestedMax: 100
-            }
-          }
-        }
+              suggestedMax: 100,
+            },
+          },
+        },
       });
       var agencyPerMonth_Chart = new Chart(agencyPerMonth_ID, {
         type: "bar",
@@ -222,7 +226,7 @@
           datasets: [
             {
               label: "Agency Per Month",
-              data: [15, 5, 1, 5],
+              data: [0, 0, 0, 0],
               backgroundColor: [
                 "rgba(255, 99, 132, 0.5)",
                 "rgba(54, 162, 235, 0.5)",
@@ -235,7 +239,7 @@
                 "rgba(116, 116, 243,0.3)",
                 "rgba(250, 127, 83,0.3)",
                 "rgba(83, 150, 250,0.4)",
-                " rgba(211, 83, 250,0.4)"
+                " rgba(211, 83, 250,0.4)",
               ],
               borderColor: [
                 "rgba(255, 99, 132, 1)",
@@ -249,20 +253,20 @@
                 "rgb(116, 116, 243, 1)",
                 "rgba(250, 127, 83,1)",
                 "rgba(83, 150, 250,1)",
-                "rgba(211, 83, 250,1)"
+                "rgba(211, 83, 250,1)",
               ],
-              borderWidth: 1
-            }
-          ]
+              borderWidth: 1,
+            },
+          ],
         },
         options: {
           scales: {
             y: {
               beginAtZero: true,
-              suggestedMax: 100
-            }
-          }
-        }
+              suggestedMax: 100,
+            },
+          },
+        },
       });
 
       var cancelPerMonth_Chart = new Chart(cancelPerMonth_ID, {
@@ -272,7 +276,7 @@
           datasets: [
             {
               label: "Cancelled Activities Per Month",
-              data: [15, 5, 1, 5],
+              data: [0, 0, 0, 0],
               backgroundColor: [
                 "rgba(255, 99, 132, 0.5)",
                 "rgba(54, 162, 235, 0.5)",
@@ -285,7 +289,7 @@
                 "rgba(116, 116, 243,0.3)",
                 "rgba(250, 127, 83,0.3)",
                 "rgba(83, 150, 250,0.4)",
-                " rgba(211, 83, 250,0.4)"
+                " rgba(211, 83, 250,0.4)",
               ],
               borderColor: [
                 "rgba(255, 99, 132, 1)",
@@ -299,43 +303,41 @@
                 "rgb(116, 116, 243, 1)",
                 "rgba(250, 127, 83,1)",
                 "rgba(83, 150, 250,1)",
-                "rgba(211, 83, 250,1)"
+                "rgba(211, 83, 250,1)",
               ],
-              borderWidth: 1
-            }
-          ]
+              borderWidth: 1,
+            },
+          ],
         },
         options: {
           scales: {
             y: {
               beginAtZero: true,
-              suggestedMax: 100
-            }
+              suggestedMax: 100,
+            },
           },
 
-          aspectRatio: 3
+          aspectRatio: 3,
           // circumference: 50
-        }
+        },
       });
 
       const updateActivities_Chart = (count, month, year) => {
         console.log(count, month, year);
         activitiesPerMonth_Chart.data.datasets[0].data = count;
         activitiesPerMonth_Chart.data.labels = month;
-        activitiesPerMonth_Chart.update()
+        activitiesPerMonth_Chart.update();
       };
       const updateCancelled_Chart = (count, month, year) => {
         cancelPerMonth_Chart.data.datasets[0].data = count;
         cancelPerMonth_Chart.data.labels = month;
-        cancelPerMonth_Chart.update()
+        cancelPerMonth_Chart.update();
       };
       const updateAgency_Chart = (count, month, year) => {
         agencyPerMonth_Chart.data.datasets[0].data = count;
         agencyPerMonth_Chart.data.labels = month;
-        agencyPerMonth_Chart.update()
+        agencyPerMonth_Chart.update();
       };
-
-
 
       $("#selectBoxID").on("change", (e) => {
         var data1 = [];
