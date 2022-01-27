@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon app.js --inspect",
-    "dev": "webpack-dev-server"
+    "start": "node app.js",
+    "start-dev": "nodemon --inspect app.js"
   },
   "dependencies": {
     "axios": "^0.21.4",
@@ -31,6 +31,7 @@
     "nodemon": "^2.0.6",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
+    "pm2": "^5.1.2",
     "prompt": "^1.1.0",
     "sequelize": "^6.5.0",
     "socket.io": "^4.0.1",
@@ -44,9 +45,7 @@
   "devDependencies": {
     "ejs-loader": "^0.5.0",
     "ejs-webpack-plugin": "^1.0.0",
-    "webpack": "^5.56.1",
-    "webpack-cli": "^4.8.0",
-    "webpack-dev-server": "^4.3.0",
+    "kill-port": "^1.6.1",
     "webpack-node-externals": "^3.0.0"
   }
 }

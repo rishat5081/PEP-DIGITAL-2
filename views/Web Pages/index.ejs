@@ -1,266 +1,231 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+    />
+    <title>Untitled</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/fonts-1/font-awesome-4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-        <title>Untitled</title>
-        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/css/style.css">
-        <link rel="stylesheet" type="text/css" href="/fonts-1/font-awesome-4.7.0/css/font-awesome.min.css">
-        <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
-    </head>
-
-    <body>
-        <section class="video">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="logo">
-                            <img src="<%=response.logo%>" alt="">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <ul class="nav nav-tabs">
-                            <li class="nav-item"><a class="nav-link active" role="tab" data-toggle="tab" href="#tab-1">
-                                    <%=response.firstHeading%>
-                                </a></li>
-                            <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-2">
-                                    <%=response.secondHeading%>
-                                </a></li>
-                            <li class="nav-item"><a class="nav-link " role="tab" data-toggle="tab" href="#tab-3">
-                                    <%=response.thirdHeading%>
-                                </a></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="login-btns">
-                            <a href="/login">
-                                <%=response.loginbtn%>
-                            </a>
-                            <a href="/signup">
-                                <%=response.signUpbtn%>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div id="minimal-tabs">
-                            <div class="tab-content">
-                                <div class="tab-pane active" role="tabpanel" id="tab-1">
-                                    <!-- <h1>What We Do</h1> -->
-                                    <p>
-                                        <%=response.firstHeadingText%>
-                                    </p>
-                                </div>
-                                <div class="tab-pane" role="tabpanel" id="tab-2">
-                                    <!-- <h1>HOW WE DO IT </h1> -->
-                                    <p>
-                                        <%=response.secondHeadingText%>
-                                    </p>
-                                </div>
-                                <div class="tab-pane" role="tabpanel" id="tab-3">
-                                    <!-- <h1>WHAT IT DELIVERS</h1> -->
-                                    <p>
-                                        <%=response.thirdHeadingText%>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="card-sec">
-                        <div class="box" style="border-top: 0; border-bottom: 0; border-left: 0; border-right: 0;">
-                            <div class="info">
-                                <h3>
-                                    <%=response.firstCardHeading%>
-                                </h3>
-                            </div>
-                            <div class="text">
-                                <h3>
-                                    <%=response.firstCardHeading%>
-                                </h3>
-                                <p>
-                                    <%=response.firstCardtext%>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="box" style="border-top: 0; border-bottom: 0; border-right: 0;">
-                            <div class="info">
-                                <h3>
-                                    <%=response.secondCardHeading%>
-                                </h3>
-                            </div>
-                            <div class="text">
-                                <h3>
-                                    <%=response.secondCardHeading%>
-                                </h3>
-                                <p>
-                                    <%=response.secondCardtext%>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="box" style="border-top: 0; border-bottom: 0; border-right: 0;">
-                            <div class="info">
-                                <h3>
-                                    <%=response.thirdCardHeading%>
-                                </h3>
-                            </div>
-                            <div class="text">
-                                <h3>
-                                    <%=response.thirdCardHeading%>
-                                </h3>
-                                <p>
-                                    <%=response.thirdCardtext%>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="box" style=" border-bottom: 0; border-left: 0; border-right: 0;">
-                            <div class="info">
-                                <h3>
-                                    <%=response.fourthCardHeading%>
-                                </h3>
-                            </div>
-                            <div class="text">
-                                <h3>
-                                    <%=response.fourthCardHeading%>
-                                </h3>
-                                <p>
-                                    <%=response.fourthCardtext%>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="box" style=" border-bottom: 0;border-right: 0;">
-                            <div class="info">
-                                <h3>
-                                    <%=response.fifthCardHeading%>
-                                </h3>
-                            </div>
-                            <div class="text">
-                                <h3>
-                                    <%=response.fifthCardHeading%>
-                                </h3>
-                                <p>
-                                    <%=response.fifthCardtext%>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="box" style=" border-bottom: 0; border-right: 0;">
-                            <div class="info">
-                                <h3>
-                                    <%=response.sixthCardHeading%>
-                                </h3>
-                            </div>
-                            <div class="text">
-                                <h3>
-                                    <%=response.sixthCardHeading%>
-                                </h3>
-                                <p>
-                                    <%=response.sixthCardtext%>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="box" style="border-bottom: 0; border-left: 0; border-right: 0;">
-                            <div class="info">
-                                <h3>
-                                    <%=response.seventhCardHeading%>
-                                </h3>
-                            </div>
-                            <div class="text">
-                                <h3>
-                                    <%=response.seventhCardHeading%>
-                                </h3>
-                                <p>
-                                    <%=response.seventhCardtext%>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="box" style=" border-bottom: 0; border-right: 0;">
-                            <div class="info">
-                                <h3>
-                                    <%=response.eighthCardHeading%>
-                                </h3>
-                            </div>
-                            <div class="text">
-                                <h3>
-                                    <%=response.eighthCardHeading%>
-                                </h3>
-                                <p>
-                                    <%=response.eighthCardtext%>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="box" style=" border-bottom: 0; border-right: 0;">
-                            <div class="info">
-                                <h3>
-                                    <%=response.ninthCardHeading%>
-                                </h3>
-                            </div>
-                            <div class="text">
-                                <h3>
-                                    <%=response.ninthCardHeading%>
-                                </h3>
-                                <p>
-                                    <%=response.ninthCardtext%>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="footer">
-                        <div class="footer-nav">
-                            <h4>
-                                <%=response.footer_heading_one%>
-                            </h4>
-                            <ul>
-                                <%-response.footer_heading_one_content%>
-                            </ul>
-                        </div>
-                        <div class="footer-nav">
-                            <h4>
-                                <%=response.footer_heading_second%>
-                            </h4>
-                            <ul>
-                                <%-response.footer_heading_second_content%>
-                            </ul>
-                        </div>
-                        <div class="footer-nav">
-                            <h4>
-                                <%=response.footer_heading_third%>
-                            </h4>
-                            <ul>
-                                <%-response.footer_heading_third_content%>
-                            </ul>
-                        </div>
-                        <div class="footer-nav">
-                            <h4>
-                                <%=response.footer_heading_fourth%>
-                            </h4>
-                            <ul>
-                                <%-response.footer_heading_fourth_content%>
-                            </ul>
-                        </div>
-                        <div class="footer-nav">
-                            <h4>
-                                <%=response.footer_heading_fifth%>
-                            </h4>
-                            <ul>
-                                <%-response.footer_heading_fifth_content%>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+  <body>
+    <section class="video">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="logo">
+              <img src="<%=response.logo%>" alt="" />
             </div>
-        </section>
-        <video autoplay muted loop id="myVideo">
-            <source src="<%=response.backgroundVideo%>" type="video/mp4">
-            Your browser does not support HTML5 video.
-        </video>
-        <script src="/js/jquery.min.js"></script>
-        <script src="/bootstrap/js/bootstrap.min.js"></script>
-    </body>
-
+          </div>
+          <div class="col-md-6">
+            <ul class="nav nav-tabs">
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  role="tab"
+                  data-toggle="tab"
+                  href="#tab-1"
+                >
+                  <%=response.firstHeading%>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" role="tab" data-toggle="tab" href="#tab-2">
+                  <%=response.secondHeading%>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" role="tab" data-toggle="tab" href="#tab-3">
+                  <%=response.thirdHeading%>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-3">
+            <div class="login-btns">
+              <a href="/login"> <%=response.loginbtn%> </a>
+              <a href="/signup"> <%=response.signUpbtn%> </a>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div id="minimal-tabs">
+              <div class="tab-content">
+                <div class="tab-pane active" role="tabpanel" id="tab-1">
+                  <!-- <h1>What We Do</h1> -->
+                  <p><%=response.firstHeadingText%></p>
+                </div>
+                <div class="tab-pane" role="tabpanel" id="tab-2">
+                  <!-- <h1>HOW WE DO IT </h1> -->
+                  <p><%=response.secondHeadingText%></p>
+                </div>
+                <div class="tab-pane" role="tabpanel" id="tab-3">
+                  <!-- <h1>WHAT IT DELIVERS</h1> -->
+                  <p><%=response.thirdHeadingText%></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="card-sec">
+            <div
+              class="box"
+              style="
+                border-top: 0;
+                border-bottom: 0;
+                border-left: 0;
+                border-right: 0;
+              "
+            >
+              <div class="info">
+                <h3><%=response.firstCardHeading%></h3>
+              </div>
+              <div class="text">
+                <h3><%=response.firstCardHeading%></h3>
+                <p><%=response.firstCardtext%></p>
+              </div>
+            </div>
+            <div
+              class="box"
+              style="border-top: 0; border-bottom: 0; border-right: 0"
+            >
+              <div class="info">
+                <h3><%=response.secondCardHeading%></h3>
+              </div>
+              <div class="text">
+                <h3><%=response.secondCardHeading%></h3>
+                <p><%=response.secondCardtext%></p>
+              </div>
+            </div>
+            <div
+              class="box"
+              style="border-top: 0; border-bottom: 0; border-right: 0"
+            >
+              <div class="info">
+                <h3><%=response.thirdCardHeading%></h3>
+              </div>
+              <div class="text">
+                <h3><%=response.thirdCardHeading%></h3>
+                <p><%=response.thirdCardtext%></p>
+              </div>
+            </div>
+            <div
+              class="box"
+              style="border-bottom: 0; border-left: 0; border-right: 0"
+            >
+              <div class="info">
+                <h3><%=response.fourthCardHeading%></h3>
+              </div>
+              <div class="text">
+                <h3><%=response.fourthCardHeading%></h3>
+                <p><%=response.fourthCardtext%></p>
+              </div>
+            </div>
+            <div class="box" style="border-bottom: 0; border-right: 0">
+              <div class="info">
+                <h3><%=response.fifthCardHeading%></h3>
+              </div>
+              <div class="text">
+                <h3><%=response.fifthCardHeading%></h3>
+                <p><%=response.fifthCardtext%></p>
+              </div>
+            </div>
+            <div class="box" style="border-bottom: 0; border-right: 0">
+              <div class="info">
+                <h3><%=response.sixthCardHeading%></h3>
+              </div>
+              <div class="text">
+                <h3><%=response.sixthCardHeading%></h3>
+                <p><%=response.sixthCardtext%></p>
+              </div>
+            </div>
+            <div
+              class="box"
+              style="border-bottom: 0; border-left: 0; border-right: 0"
+            >
+              <div class="info">
+                <h3><%=response.seventhCardHeading%></h3>
+              </div>
+              <div class="text">
+                <h3><%=response.seventhCardHeading%></h3>
+                <p><%=response.seventhCardtext%></p>
+              </div>
+            </div>
+            <div class="box" style="border-bottom: 0; border-right: 0">
+              <div class="info">
+                <h3><%=response.eighthCardHeading%></h3>
+              </div>
+              <div class="text">
+                <h3><%=response.eighthCardHeading%></h3>
+                <p><%=response.eighthCardtext%></p>
+              </div>
+            </div>
+            <div class="box" style="border-bottom: 0; border-right: 0">
+              <div class="info">
+                <h3><%=response.ninthCardHeading%></h3>
+              </div>
+              <div class="text">
+                <h3><%=response.ninthCardHeading%></h3>
+                <p><%=response.ninthCardtext%></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="footer">
+            <div class="footer-nav">
+              <h4><%=response.footer_heading_one%></h4>
+              <ul>
+                <%-response.footer_heading_one_content%>
+              </ul>
+            </div>
+            <div class="footer-nav">
+              <h4><%=response.footer_heading_second%></h4>
+              <ul>
+                <%-response.footer_heading_second_content%>
+              </ul>
+            </div>
+            <div class="footer-nav">
+              <h4><%=response.footer_heading_third%></h4>
+              <ul>
+                <%-response.footer_heading_third_content%>
+              </ul>
+            </div>
+            <div class="footer-nav">
+              <h4><%=response.footer_heading_fourth%></h4>
+              <ul>
+                <%-response.footer_heading_fourth_content%>
+              </ul>
+            </div>
+            <div class="footer-nav">
+              <h4><%=response.footer_heading_fifth%></h4>
+              <ul>
+                <%-response.footer_heading_fifth_content%>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <video autoplay muted loop id="myVideo">
+      <source src="<%=response.backgroundVideo%>" type="video/mp4" />
+      Your browser does not support HTML5 video.
+    </video>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+  </body>
 </html>

@@ -221,9 +221,28 @@ router.get("/email", isUser_Not_Login, function (req, res, next) {
   });
 });
 
-// router.get("/a2", isUser_Not_Login, function (req, res, next) {
-//   // console.log(response)
-//   res.render("Web Pages/editManagers");
-// });
+router.get("/eman", isUser_Not_Login, function (req, res, next) {
+  // console.log(response)
+  res.render("Web Pages/editManagers", {
+    url: req.protocol + "//" + req.get("host"),
+  });
+});
+router.get("/mzone", isUser_Not_Login, function (req, res, next) {
+  // console.log(response)
+  res.render("Web Pages/ManageZones");
+});
+
+router.get("/cprom", isUser_Not_Login, function (req, res, next) {
+  // console.log(response)
+  res.render("Web Pages/CompanyPromotions");
+});
+router.get("/mdep", isUser_Not_Login, function (req, res, next) {
+  // console.log(response)
+  res.render("Web Pages/manageDepartments");
+});
+router.get("/pprom", isUser_Not_Login, function (req, res, next) {
+  // console.log(response)
+  res.render("Web Pages/PreviousPromotions");
+});
 
 module.exports = { router, isUser_Not_Login, isUser_Login };

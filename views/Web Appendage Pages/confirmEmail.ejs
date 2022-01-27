@@ -1,60 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Confirm Mail</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--===============================================================================================-->
+    <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/vendor/bootstrap/css/bootstrap.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/fonts-1/font-awesome-4.7.0/css/font-awesome.min.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/style_2.css" />
+    <link rel="stylesheet" href="/toastr/toastr.min.css" />
+    <!--===============================================================================================-->
+  </head>
 
-    <head>
-        <title>Confirm Mail</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!--===============================================================================================-->
-        <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/fonts-1/font-awesome-4.7.0/css/font-awesome.min.css">
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/css/main.css">
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="/css/style.css">
-        <link rel="stylesheet" type="text/css" href="/css/style_2.css">
-        <link rel="stylesheet" href="/toastr/toastr.min.css">
-        <!--===============================================================================================-->
-
-    </head>
-
-    <body>
-
-        <div class="limiter">
-            <div class="container-profile100">
-                <div class="header">
-                    <div class="cover-image100">
-                    </div>
-                    <div class="container email-verify-page">
-                        <img src="/logo/logo.png" class="email-img" alt="">
-                        <h1>Verify Your Email</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eu sem accumsan, tincidunt
-                            lacus sit amet, </p>
-                        <button class="btn btn-primary" id="resendMail" value="">Resend Email</button>
-                        <p>You can Resend confirmation email in
-                            <span id="countdown-timer">5:00</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
+  <body>
+    <div class="limiter">
+      <div class="container-profile100">
+        <div class="header">
+          <div class="cover-image100"></div>
+          <div class="container email-verify-page">
+            <img src="/logo/logo.png" class="email-img" alt="" />
+            <h1>Verify Your Email</h1>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
+              eu sem accumsan, tincidunt lacus sit amet,
+            </p>
+            <button class="btn btn-primary" id="resendMail" value="">
+              Resend Email
+            </button>
+            <p>
+              You can Resend confirmation email in
+              <span id="countdown-timer">5:00</span>
+            </p>
+          </div>
         </div>
-        <!--===============================================================================================-->
-        <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
-        <!--===============================================================================================-->
-        <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
-        <!--===============================================================================================-->
-        <script src="/vendor/jquery/tilt.jquery.min.js"></script>
-        <script src="/toastr/toastr.min.js"></script>
-        <script src="/JavaScript/Web Appendage Pages/confirmEmail.js">
+      </div>
+    </div>
+    <!--===============================================================================================-->
+    <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="/vendor/jquery/tilt.jquery.min.js"></script>
+    <script src="/toastr/toastr.min.js"></script>
+    <script src="/JavaScript/Web Appendage Pages/confirmEmail.js">
 
-            console.log(JSON.parse('<%-JSON.stringify(uuid)%>'));
-        </script>
+      console.log(JSON.parse('<%-JSON.stringify(uuid)%>'));
+    </script>
 
-        <!--===============================================================================================-->
-
-    </body>
-
+    <!--===============================================================================================-->
+  </body>
 </html>

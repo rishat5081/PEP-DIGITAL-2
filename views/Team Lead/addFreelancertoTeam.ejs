@@ -206,7 +206,7 @@
         $(".button__badge").html();
       }
       $(".js-tilt").tilt({
-        scale: 1.1
+        scale: 1.1,
       });
 
       var menu = document.getElementById("menu");
@@ -255,7 +255,7 @@
               if (response) {
                 toastr.success("Successfully Added the member");
               }
-            }
+            },
           });
         } else {
           toastr.error("Invalid ID, Try Again");

@@ -1,0 +1,147 @@
+.table {
+  width: 100%;
+}
+
+.table-wrapper {
+  width: 850px;
+  margin: 30px auto;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.table-title {
+  padding-bottom: 5px;
+  margin: 0 0 5px;
+}
+
+.table-title .add-new {
+  float: right;
+  font-weight: bold;
+  font-size: 12px;
+  text-shadow: none;
+  min-width: 100px;
+  border-radius: 50px;
+  line-height: 13px;
+}
+
+.add-new {
+  display: inline-block;
+  height: 30px;
+  font-weight: bold;
+  font-size: 12px;
+  text-shadow: none;
+  min-width: 100px;
+  border-radius: 50px;
+  line-height: 13px;
+  margin-left: 80%;
+}
+
+.previous_records {
+  /* font-size: 14px; */
+  text-decoration: underline;
+  padding-bottom: 5px;
+}
+
+.table-title .add-new i {
+  margin-right: 4px;
+  display: inline-block;
+}
+
+table.table {
+  table-layout: fixed;
+}
+
+table.table tr th,
+table.table tr td {
+  border-color: rgba(77, 76, 76, 0.377);
+  max-height: fit-content;
+}
+
+table.table th i {
+  display: inline-block;
+  font-size: 10px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+table.table th:last-child {
+  width: 100px;
+}
+
+table.table td a {
+  cursor: pointer;
+  display: inline-block;
+  margin: 9px 5px;
+  min-width: 24px;
+}
+
+table.table td a.add {
+  color: #27c46b;
+}
+
+table.table td a.edit {
+  color: #4294c4;
+}
+
+table.table td a.delete {
+  color: #e32424;
+}
+
+table.table td i {
+  font-size: 20px;
+  padding-top: 8px;
+}
+
+table.table td .status {
+  font-size: 10px;
+  padding-top: 22px;
+}
+
+table.table .td2 {
+  padding-top: 28px;
+}
+
+table.table .form-control {
+  height: 32px;
+  line-height: 32px;
+  box-shadow: none;
+  border-radius: 2px;
+}
+
+table.table .form-control.error {
+  border-color: #f50000;
+}
+
+table.table td .add {
+  display: none;
+}
+
+table.table .active_icon {
+  text-align: justify;
+  margin-top: 7px;
+  vertical-align: middle;
+}
+
+.avatar {
+  border-radius: 50% !important;
+  vertical-align: middle !important;
+  margin-right: 10px !important;
+  width: 58px !important;
+  height: 58px !important;
+}
+
+.padding_class {
+  padding-top: 10px;
+}
+
+#Fill_Fields {
+  background-color: #df2f2f;
+  display: none;
+  margin-bottom: 0px;
+  text-align: center;
+  color: black;
+}
+
+#Fields_Added {
+  display: none;
+  color: black;
+}

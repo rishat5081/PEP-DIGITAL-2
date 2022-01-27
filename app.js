@@ -142,6 +142,12 @@ app.use(require("./routes/Web_Pages/index").router);
 app.use(require("./routes/Web_Pages/users").router);
 
 // ---------------------------------------- Start of Role Routes ------------------------------------------
+
+/**
+ * This one is for General Manager
+ */
+app.use("/gm", require("./routes/General Manager/generalManager").router);
+
 /**
  * This one is for Manager
  */
@@ -624,12 +630,10 @@ app.use(
   cors(corsOptionsDelegate),
   require("./API/Field Executive/field_API").router
 );
+
 // ------------------------------------ Redirecting if route does not found -----------------------------------
-app.get("/asddasdsadasd", (req, res) => {
-  console.log(req.query);
-  res.send({ status: "Okay", query: req.query });
-});
 
 app.get("*", (req, res) => {
   res.redirect("/");
 });
+
