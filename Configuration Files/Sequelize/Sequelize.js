@@ -13,7 +13,7 @@ module.exports = new Sequelize(
     host: process.env.host_db,
     // host: "webs16rdns1.futuresouls.com",
     dialect: "mysql",
-    
+
     timezone: "+05:00",
     port: process.env.db_port,
     logging: false,
