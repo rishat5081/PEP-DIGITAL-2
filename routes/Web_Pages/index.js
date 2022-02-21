@@ -63,7 +63,7 @@ router.get("/", isUser_Not_Login, function (req, res, next) {
 
   dbResponse.then((response) => {
     if (!response) {
-      res.status(404).render();
+      res.status(404).send("Error in Login Page");
     } else {
       // console.log(response)
       res.render("Web Pages/index", {
