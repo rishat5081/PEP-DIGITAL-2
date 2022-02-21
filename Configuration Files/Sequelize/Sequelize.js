@@ -6,16 +6,16 @@ require("dotenv").config();
 
 module.exports = new Sequelize(
   // "aksjd",
-  process.env.db,
-  process.env.db_user,
-  process.env.db_password,
+  "pepintlc_pep_digital",
+  "pepintlc_pep_digital_user",
+  "pep_digital@zamulk",
   {
-    host: process.env.host_db,
+    host: "localhost",
     // host: "webs16rdns1.futuresouls.com",
     dialect: "mysql",
 
     timezone: "+05:00",
-    port: process.env.db_port,
+    port: 3306,
     logging: false,
     benchmark: true,
     omitNull: true,
