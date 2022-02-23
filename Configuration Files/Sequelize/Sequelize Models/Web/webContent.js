@@ -13,134 +13,130 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
-        validate: {
-          max: 11,
-          isNumeric: true
-        }
       },
       web_content_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       paused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       logo: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       firstHeading: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       secondHeading: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       thirdHeading: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       firstHeadingText: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       secondHeadingText: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       thirdHeadingText: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       signUpbtn: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       loginbtn: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       firstCardHeading: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       firstCardtext: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       secondCardHeading: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       secondCardtext: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       thirdCardHeading: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       thirdCardtext: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       fourthCardHeading: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       fourthCardtext: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       fifthCardHeading: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       fifthCardtext: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       sixthCardHeading: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       sixthCardtext: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       seventhCardHeading: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       seventhCardtext: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       eighthCardHeading: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       eighthCardtext: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       ninthCardHeading: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       ninthCardtext: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       sa_id: {
         type: DataTypes.INTEGER,
@@ -149,76 +145,76 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         validate: {
           max: 11,
-          isNumeric: true
+          isNumeric: true,
         },
         references: {
           model: "super_admin",
-          key: "sa_id"
+          key: "sa_id",
         },
         onUpdate: "CASCADE",
-        onDelete: "CASCADE"
+        onDelete: "CASCADE",
       },
       footer_heading_one: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       footer_heading_second: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       footer_heading_third: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       footer_heading_fourth: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       footer_heading_fifth: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       footer_heading_one_content: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       footer_heading_second_content: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       footer_heading_third_content: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       footer_heading_fourth_content: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       footer_heading_fifth_content: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       backgroundVideo: {
         type: DataTypes.TEXT,
-        allowNull: true
-      }
+        allowNull: true,
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "Web_Content",
-      tableName: "web_Content"
+      tableName: "web_content",
     }
   );
 
   Web_Content.associate = (models) => {
     models.Super_Admin.hasOne(Web_Content, {
-      foreignKey: "sa_id"
+      foreignKey: "sa_id",
     });
 
     Web_Content.belongsTo(models.Super_Admin, {
       targetKey: "sa_id",
-      foreignKey: "sa_id"
+      foreignKey: "sa_id",
     });
   };
 

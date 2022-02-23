@@ -31,8 +31,8 @@ const isUser_Not_Login = (req, res, next) => {
 
 /* GET home page. */
 
-router.get("/", function (req, res, next) {
-  let dbResponse = DataBase.Web_Content.findOne({
+router.get("/", async (req, res, next) => {
+  let dbResponse = await DataBase.Web_Content.findOne({
     attributes: {
       exclude: [
         "paused",
@@ -56,17 +56,14 @@ router.get("/", function (req, res, next) {
       return null;
     });
 
-  dbResponse.then((response) => {
-    console.log("response", response);
-    if (!response) {
-      res.status(404).send("Error in Login Page");
-    } else {
-      // console.log(response)
-      res.render("Web Pages/index", {
-        response,
-      });
-    }
-  });
+  if (!dbResponse) {
+    res.status(404).send("Error in Login Page");
+  } else {
+    // console.log(response)
+    res.render("Web Pages/index", {
+      response: dbResponse,
+    });
+  }
 });
 
 /**
@@ -237,3 +234,31 @@ router.get("/pprom", isUser_Not_Login, function (req, res, next) {
 });
 
 module.exports = { router, isUser_Not_Login, isUser_Login };
+
+// (async () => {
+//   const db = await DataBase.Web_Content.findOne({
+//     attributes: {
+//       exclude: [
+//         "paused",
+//         "deleted",
+//         "sa_id",
+//         "createdAt",
+//         "updateTimestamp",
+//         "web_content_id",
+//         "web_content_uuid",
+//       ],
+//     },
+//     limit: 1,
+//     raw: true,
+//     where: {
+//       paused: 0,
+//     },
+//   })
+//     .then((response) => response)
+//     .catch((error) => {
+//       // console.log("error", error);
+//       return null;
+//     });
+
+//   console.log(db);
+// })();

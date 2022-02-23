@@ -374,7 +374,7 @@ Object.keys(Models).forEach((modelName) => {
   }
 });
 
-let Synchronizing = async () => {
+Synchronizing = async () => {
   /**
    * Commented lines are used to sync the database tables
    * forcely and then check the foreign key true
@@ -415,7 +415,7 @@ let Synchronizing = async () => {
   console.log("*************************************************************");
   console.log("*************************************************************");
 };
-//  Synchronizing();
+// Synchronizing();
 
 // Dropping all the Tables from the database
 let DropDatabaseTables = async () => {

@@ -16,7 +16,6 @@ const Sequelize = require("sequelize"),
   io = require("socket.io")(server),
   passportJs_File = require("./Configuration Files/Passport Js/passport"),
   {
-    Synchronizing,
     User_Role,
     Supervisor,
     Team_Lead,
@@ -27,6 +26,9 @@ const Sequelize = require("sequelize"),
     Managers,
     ManagerLogin,
     TeamLead_Login,
+  } = require("./Configuration Files/Sequelize/Database_Synchronization"),
+  {
+    Synchronizing,
   } = require("./Configuration Files/Sequelize/Database_Synchronization"),
   { corsOptionsDelegate } = require("./additional");
 //setting the .env file to read the server port and database ports
@@ -206,7 +208,6 @@ require("./Configuration Files/Sequelize/DBConnection").connectionTo_DB();
  *                          read the Important Note first
  * ------------------------------ IMPORTANNT ------------------------------
  */
-//Synchronizing();
 
 //DevelopmentDatabase()
 
@@ -636,4 +637,3 @@ app.use(
 app.get("*", (req, res) => {
   res.redirect("/");
 });
-
