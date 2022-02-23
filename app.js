@@ -610,7 +610,7 @@ const getMenu = async (roleName) => {
   });
 };
 
-server.listen(process.env.server_PORT, () => {
+server.listen(3000, () => {
   console.log(`\x1b[42m--------------------------------------\x1b[0m`);
   console.log(
     `\n \x1b[32m Node Server Listening at: ${process.env.server_PORT}\n \x1b[0m`
