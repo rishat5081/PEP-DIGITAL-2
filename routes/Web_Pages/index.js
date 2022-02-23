@@ -58,7 +58,7 @@ router.get("/", isUser_Not_Login, function (req, res, next) {
       return response;
     })
     .catch((error) => {
-      res.status(404).render("error", { error });
+      return null;
     });
 
   dbResponse.then((response) => {
