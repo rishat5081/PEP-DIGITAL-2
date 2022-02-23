@@ -10,7 +10,7 @@ module.exports = new Sequelize(
   "pepintlc_pep_digital_user",
   "pep_digital@zamulk",
   {
-    host: "localhost",
+    host: "181.214.31.79",
     // host: "webs16rdns1.futuresouls.com",
     dialect: "mysql",
 
