@@ -1,10 +1,6 @@
 var express = require("express"),
   router = express.Router(),
-  {
-    Login_Page,
-    Web_Content,
-    SignUp_Page,
-  } = require("../../Configuration Files/Sequelize/Database_Synchronization");
+  DataBase = require("../../Configuration Files/Sequelize/Database_Synchronization");
 require("dotenv").config();
 /**
  * this middle ware is used when the user is logged and
@@ -36,7 +32,7 @@ const isUser_Not_Login = (req, res, next) => {
 /* GET home page. */
 
 router.get("/", function (req, res, next) {
-  let dbResponse = Web_Content.findOne({
+  let dbResponse = DataBase.Web_Content.findOne({
     attributes: {
       exclude: [
         "paused",
@@ -54,9 +50,7 @@ router.get("/", function (req, res, next) {
       paused: 0,
     },
   })
-    .then((response) => {
-      return response;
-    })
+    .then((response) => response)
     .catch((error) => {
       console.log("error", error);
       return null;
@@ -86,7 +80,7 @@ router.get("/login", isUser_Not_Login, (req, res, next) => {
    * and returning it to the variable
    */
 
-  let dbResponse = Login_Page.findOne({
+  let dbResponse = DataBase.Login_Page.findOne({
     attributes: [
       "loginTitle",
       "btnText",
@@ -107,12 +101,8 @@ router.get("/login", isUser_Not_Login, (req, res, next) => {
       deleted: 0,
     },
   })
-    .then((doneDB) => {
-      return doneDB;
-    })
-    .catch((error) => {
-      res.status(404).render("error", { error });
-    });
+    .then((doneDB) => doneDB)
+    .catch((error) => null);
 
   /**
    * Ful filling the promise
@@ -143,7 +133,7 @@ router.get("/signup", isUser_Not_Login, function (req, res, next) {
   /**
    * Let the SignUp page to get all the text from the database
    */
-  let dbResponse = SignUp_Page.findOne({
+  let dbResponse = DataBase.SignUp_Page.findOne({
     attributes: [
       "signUpTitle",
       "btnText",
@@ -163,11 +153,10 @@ router.get("/signup", isUser_Not_Login, function (req, res, next) {
       deleted: 0,
     },
   })
-    .then((db) => {
-      return db;
-    })
+    .then((db) => db)
     .catch((error) => {
-      res.status(404).render("error", { error });
+      console.log("error ---->", error);
+      return null;
     });
 
   dbResponse.then((dbData) => {
