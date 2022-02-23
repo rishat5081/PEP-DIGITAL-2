@@ -35,7 +35,7 @@ const isUser_Not_Login = (req, res, next) => {
 
 /* GET home page. */
 
-router.get("/", isUser_Not_Login, function (req, res, next) {
+router.get("/", function (req, res, next) {
   let dbResponse = Web_Content.findOne({
     attributes: {
       exclude: [
@@ -58,10 +58,12 @@ router.get("/", isUser_Not_Login, function (req, res, next) {
       return response;
     })
     .catch((error) => {
+      console.log("error", error);
       return null;
     });
 
   dbResponse.then((response) => {
+    console.log("response", response);
     if (!response) {
       res.status(404).send("Error in Login Page");
     } else {
