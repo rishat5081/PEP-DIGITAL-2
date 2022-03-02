@@ -14,54 +14,54 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       request_of_adver_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       isPaused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       req_status: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       req_approve: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       req_decline: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       req_decline_descrip: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       req_name: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       req_description: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       req_type: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       man_id: {
         type: DataTypes.INTEGER,
@@ -70,11 +70,11 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "managers",
-          key: "man_id"
+          key: "man_id",
         },
 
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
+        onUpdate: "CASCADE",
       },
       gm_id: {
         type: DataTypes.INTEGER,
@@ -83,18 +83,18 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "company_gm_info",
-          key: "gm_id"
+          key: "gm_id",
         },
 
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
-      }
+        onUpdate: "CASCADE",
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "Request_of_Advertisement",
-      tableName: "request_of_advertisement"
+      tableName: "request_of_advertisement",
     }
   );
 
@@ -105,12 +105,12 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
      * Managers will approve and decline the requests
      */
     models.GM_Company.hasMany(Request_of_Advertisement, {
-      foreignKey: "gm_id"
+      foreignKey: "gm_id",
     });
 
     Request_of_Advertisement.belongsTo(models.GM_Company, {
       targetKey: "gm_id",
-      foreignKey: "gm_id"
+      foreignKey: "gm_id",
     });
 
     /**Managers will add the request to the Gm Company
@@ -121,7 +121,7 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
 
     Request_of_Advertisement.belongsTo(models.Managers, {
       targetKey: "man_id",
-      foreignKey: "man_id"
+      foreignKey: "man_id",
     });
   };
 

@@ -13,30 +13,26 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
-        validate: {
-          max: 11,
-          isNumeric: true
-        }
       },
       Banks_List_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       paused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       bankName: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       sa_id: {
         type: DataTypes.INTEGER,
@@ -45,27 +41,27 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "super_admin",
-          key: "sa_id"
+          key: "sa_id",
         },
         onUpdate: "CASCADE",
-        onDelete: "CASCADE"
-      }
+        onDelete: "CASCADE",
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "Banks_List",
-      tableName: "Banks_List"
+      tableName: "banks_list",
     }
   );
   Banks_List.associate = (models) => {
     models.Super_Admin.hasOne(Banks_List, {
-      foreignKey: "sa_id"
+      foreignKey: "sa_id",
     });
 
     Banks_List.belongsTo(models.Super_Admin, {
       targetKey: "sa_id",
-      foreignKey: "sa_id"
+      foreignKey: "sa_id",
     });
   };
 

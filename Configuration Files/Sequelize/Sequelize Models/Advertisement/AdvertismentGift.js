@@ -40,7 +40,7 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
       sequelize,
       // We need to pass the connection instance
       modelName: "AdvertismentGift",
-      tableName: "AdvertismentGift",
+      tableName: "advertismentgift",
     }
   );
   return AdvertismentGift;

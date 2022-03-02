@@ -10,34 +10,34 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       agencytype_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       type_name: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false
+        defaultValue: false,
       },
       isPaused: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "AgencyTypes",
-      tableName: "agencyTypes"
+      tableName: "agencytypes",
     }
   );
 

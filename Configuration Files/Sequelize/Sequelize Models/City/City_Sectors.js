@@ -13,31 +13,31 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       city_sector_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       sector_name: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       sector_code: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       paused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       city_area_id: {
         type: DataTypes.INTEGER,
@@ -46,15 +46,15 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "city_area",
-          key: "city_area_id"
-        }
-      }
+          key: "city_area_id",
+        },
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "City_Sectors",
-      tableName: "City_Sectors"
+      tableName: "city_sectors",
     }
   );
 
@@ -64,12 +64,12 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
      */
 
     models.City_Areas.hasMany(City_Sectors, {
-      foreignKey: "city_area_id"
+      foreignKey: "city_area_id",
     });
 
     City_Sectors.belongsTo(models.City_Areas, {
       targetKey: "city_area_id",
-      foreignKey: "city_area_id"
+      foreignKey: "city_area_id",
     });
   };
 

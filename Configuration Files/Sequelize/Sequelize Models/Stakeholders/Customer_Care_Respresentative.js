@@ -6,7 +6,7 @@
 //   User_Login_Information = require("../Users Login/User_Login_Information");
 
 "use strict";
-module.exports = (sequelize, { DataTypes,  UUIDV4 }) => {
+module.exports = (sequelize, { DataTypes, UUIDV4 }) => {
   const Customer_Care_Respresentative = sequelize.define(
     "Customer_Care_Respresentative",
     {
@@ -15,57 +15,53 @@ module.exports = (sequelize, { DataTypes,  UUIDV4 }) => {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
-        validate: {
-          max: 11,
-          isNumeric: true
-        }
       },
       cust_care_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       cust_care_name: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       cust_care_email: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       cust_care_password: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       cust_care_contact: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       cust_care_userProfilePic: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       cust_care_target: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       cust_care_salary: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       cust_care_commission: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       cust_care_username: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       cust_care_isDeleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       man_id: {
         type: DataTypes.INTEGER,
@@ -74,12 +70,12 @@ module.exports = (sequelize, { DataTypes,  UUIDV4 }) => {
         autoIncrement: false,
         validate: {
           max: 11,
-          isNumeric: true
+          isNumeric: true,
         },
         references: {
           model: "managers",
-          key: "man_id"
-        }
+          key: "man_id",
+        },
       },
       d_id: {
         type: DataTypes.INTEGER,
@@ -88,12 +84,12 @@ module.exports = (sequelize, { DataTypes,  UUIDV4 }) => {
         autoIncrement: false,
         validate: {
           max: 11,
-          isNumeric: true
+          isNumeric: true,
         },
         references: {
           model: "departments",
-          key: "d_id"
-        }
+          key: "d_id",
+        },
       },
       login_id: {
         type: DataTypes.INTEGER,
@@ -102,54 +98,54 @@ module.exports = (sequelize, { DataTypes,  UUIDV4 }) => {
         autoIncrement: false,
         validate: {
           max: 11,
-          isNumeric: true
+          isNumeric: true,
         },
         references: {
           model: "user_login_information",
-          key: "login_id"
-        }
+          key: "login_id",
+        },
       },
       totalCallTime: {
         type: DataTypes.TEXT,
-        allowNull: true
-      }
+        allowNull: true,
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "Customer_Care_Respresentative",
-      tableName: "cust_care_csr"
+      tableName: "cust_care_csr",
     }
   );
 
   Customer_Care_Respresentative.associate = (models) => {
     /**one manager can have many CSR  */
     models.Managers.hasMany(Customer_Care_Respresentative, {
-      foreignKey: "man_id"
+      foreignKey: "man_id",
     });
 
     Customer_Care_Respresentative.belongsTo(models.Managers, {
       targetKey: "man_id",
-      foreignKey: "man_id"
+      foreignKey: "man_id",
     });
 
     /**one department can have many CSR  */
     models.Department.hasMany(Customer_Care_Respresentative, {
-      foreignKey: "d_id"
+      foreignKey: "d_id",
     });
 
     Customer_Care_Respresentative.belongsTo(models.Department, {
       targetKey: "d_id",
-      foreignKey: "d_id"
+      foreignKey: "d_id",
     });
 
     models.User_Login_Information.hasOne(Customer_Care_Respresentative, {
-      foreignKey: "login_id"
+      foreignKey: "login_id",
     });
 
     Customer_Care_Respresentative.belongsTo(models.User_Login_Information, {
       targetKey: "login_id",
-      foreignKey: "login_id"
+      foreignKey: "login_id",
     });
   };
 

@@ -18,14 +18,14 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: true,
         validate: {
           max: 11,
-          isNumeric: true
-        }
+          isNumeric: true,
+        },
       },
       list_act_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       field_id: {
         type: DataTypes.INTEGER,
@@ -34,10 +34,10 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "field_executive",
-          key: "field_id"
+          key: "field_id",
         },
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
+        onUpdate: "CASCADE",
       },
       comp_id: {
         type: DataTypes.INTEGER,
@@ -46,10 +46,10 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "compaigns",
-          key: "comp_id"
+          key: "comp_id",
         },
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
+        onUpdate: "CASCADE",
       },
       agency_id: {
         type: DataTypes.INTEGER,
@@ -58,37 +58,37 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "agency_info",
-          key: "agency_id"
+          key: "agency_id",
         },
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
+        onUpdate: "CASCADE",
       },
       withdrawn: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       paused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       cancelled: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "Activities",
-      tableName: "Activities"
+      tableName: "activities",
     }
   );
 
@@ -98,12 +98,12 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
      * to each agency
      */
     models.Field_Executive.hasMany(Activities, {
-      foreignKey: "field_id"
+      foreignKey: "field_id",
     });
 
     Activities.belongsTo(models.Field_Executive, {
       targetKey: "field_id",
-      foreignKey: "field_id"
+      foreignKey: "field_id",
     });
 
     /**
@@ -111,12 +111,12 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
      * to each agency
      */
     models.Agency_Info.hasMany(Activities, {
-      foreignKey: "agency_id"
+      foreignKey: "agency_id",
     });
 
     Activities.belongsTo(models.Agency_Info, {
       targetKey: "agency_id",
-      foreignKey: "agency_id"
+      foreignKey: "agency_id",
     });
 
     /**
@@ -125,12 +125,12 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
      * to track all the lists
      **/
     models.Compaigns.hasMany(Activities, {
-      foreignKey: "comp_id"
+      foreignKey: "comp_id",
     });
 
     Activities.belongsTo(models.Compaigns, {
       targetKey: "comp_id",
-      foreignKey: "comp_id"
+      foreignKey: "comp_id",
     });
   };
   // /**

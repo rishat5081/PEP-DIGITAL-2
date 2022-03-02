@@ -13,42 +13,42 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       teamLead_login_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       isPaused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       loggedInStatus: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       loggedOutStatus: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       loggedOutDate: {
         type: DataTypes.DATE,
         allowNull: true,
-        defaultValue: null
+        defaultValue: null,
       },
       ipAddress: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       team_L_id: {
         type: DataTypes.INTEGER,
@@ -57,18 +57,18 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "team_lead",
-          key: "team_L_id"
+          key: "team_L_id",
         },
 
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
-      }
+        onUpdate: "CASCADE",
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "TeamLead_Login",
-      tableName: "teamLead_Login"
+      tableName: "teamlead_login",
     }
   );
 
@@ -77,12 +77,12 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
      * One Field Executive table will have many notifications
      */
     models.Team_Lead.hasMany(TeamLead_Login, {
-      foreignKey: "team_L_id"
+      foreignKey: "team_L_id",
     });
 
     TeamLead_Login.belongsTo(models.Team_Lead, {
       targetKey: "team_L_id",
-      foreignKey: "team_L_id"
+      foreignKey: "team_L_id",
     });
   };
 

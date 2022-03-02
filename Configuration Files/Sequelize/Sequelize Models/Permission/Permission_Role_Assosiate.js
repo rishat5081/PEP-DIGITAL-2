@@ -14,53 +14,49 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
-        validate: {
-          max: 11,
-          isNumeric: true
-        }
       },
       perm_assos_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       paused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       d_deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       permmission_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
           model: "permissions",
-          key: "permmission_id"
+          key: "permmission_id",
         },
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
+        onUpdate: "CASCADE",
       },
       user_role_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
           model: "user_login_role",
-          key: "user_role_id"
+          key: "user_role_id",
         },
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
-      }
+        onUpdate: "CASCADE",
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "Permission_Role_Assosiate",
-      tableName: "permission_role_associate"
+      tableName: "permission_role_associate",
     }
   );
 

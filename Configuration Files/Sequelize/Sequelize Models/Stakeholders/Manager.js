@@ -14,61 +14,57 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
-        validate: {
-          max: 11,
-          isNumeric: true
-        }
       },
       man_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       man_name: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       man_email: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       man_password: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       man_userProfilePic: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       man_DOB: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       man_contact: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       man_target: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       man_commission: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       man_isDeleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       man_salary: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       man_username: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       login_id: {
         type: DataTypes.INTEGER,
@@ -77,11 +73,11 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "user_login_information",
-          key: "login_id"
+          key: "login_id",
         },
 
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
+        onUpdate: "CASCADE",
       },
       d_id: {
         type: DataTypes.INTEGER,
@@ -90,10 +86,10 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "departments",
-          key: "d_id"
+          key: "d_id",
         },
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
+        onUpdate: "CASCADE",
       },
       zone_id: {
         type: DataTypes.INTEGER,
@@ -102,16 +98,16 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "zone",
-          key: "zone_id"
+          key: "zone_id",
         },
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
-      }
+        onUpdate: "CASCADE",
+      },
     },
     {
       sequelize,
       modelName: "Managers",
-      tableName: "managers"
+      tableName: "managers",
     }
   );
 
@@ -121,7 +117,7 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
 
     Managers.belongsTo(models.Zone, {
       targetKey: "zone_id",
-      foreignKey: "zone_id"
+      foreignKey: "zone_id",
     });
 
     /**One Department have many Manager but one zone and one department have one manager
@@ -131,16 +127,16 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
 
     Managers.belongsTo(models.Department, {
       targetKey: "d_id",
-      foreignKey: "d_id"
+      foreignKey: "d_id",
     });
 
     models.User_Login_Information.hasOne(Managers, {
-      foreignKey: "login_id"
+      foreignKey: "login_id",
     });
 
     Managers.belongsTo(models.User_Login_Information, {
       targetKey: "login_id",
-      foreignKey: "login_id"
+      foreignKey: "login_id",
     });
   };
 

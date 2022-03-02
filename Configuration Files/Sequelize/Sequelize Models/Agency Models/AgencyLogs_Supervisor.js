@@ -12,43 +12,43 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       AgencyLogs_Sup_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       previousDeleted: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false
+        defaultValue: false,
       },
       nowDeletedStatus: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false
+        defaultValue: false,
       },
       previousPaused: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false
+        defaultValue: false,
       },
       nowPausedStatus: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false
+        defaultValue: false,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false
+        defaultValue: false,
       },
       paused: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false
+        defaultValue: false,
       },
       agency_id: {
         type: DataTypes.INTEGER,
@@ -57,8 +57,8 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "agency_info",
-          key: "agency_id"
-        }
+          key: "agency_id",
+        },
       },
       sup_id: {
         type: DataTypes.INTEGER,
@@ -67,8 +67,8 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "supervisor",
-          key: "sup_id"
-        }
+          key: "sup_id",
+        },
       },
       man_id: {
         type: DataTypes.INTEGER,
@@ -77,15 +77,15 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "managers",
-          key: "man_id"
-        }
-      }
+          key: "man_id",
+        },
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "AgencyLogs_Supervisor",
-      tableName: "AgencyLogs_Supervisor"
+      tableName: "agencylogs_supervisor",
     }
   );
 
@@ -104,26 +104,26 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
 
     AgencyLogs_Supervisor.belongsTo(models.Supervisor, {
       targetKey: "sup_id",
-      foreignKey: "sup_id"
+      foreignKey: "sup_id",
     });
 
     models.Managers.hasMany(AgencyLogs_Supervisor, { foreignKey: "man_id" });
 
     AgencyLogs_Supervisor.belongsTo(models.Managers, {
       targetKey: "man_id",
-      foreignKey: "man_id"
+      foreignKey: "man_id",
     });
 
     // /**
     //  * which field executive have added this agency
     //  */
     models.Agency_Info.hasMany(AgencyLogs_Supervisor, {
-      foreignKey: "agency_id"
+      foreignKey: "agency_id",
     });
 
     AgencyLogs_Supervisor.belongsTo(models.Agency_Info, {
       targetKey: "agency_id",
-      foreignKey: "agency_id"
+      foreignKey: "agency_id",
     });
   };
   return AgencyLogs_Supervisor;

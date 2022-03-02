@@ -13,31 +13,31 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       complain_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       subject: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       message: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       paused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       list_act_id: {
         type: DataTypes.INTEGER,
@@ -46,10 +46,10 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "activities",
-          key: "list_act_id"
+          key: "list_act_id",
         },
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
+        onUpdate: "CASCADE",
       },
       field_id: {
         type: DataTypes.INTEGER,
@@ -58,38 +58,38 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "field_executive",
-          key: "field_id"
+          key: "field_id",
         },
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
-      }
+        onUpdate: "CASCADE",
+      },
     },
     {
       sequelize,
       modelName: "ComplainsOfActivities",
-      tableName: "ComplainsOfActivities"
+      tableName: "Complainsofactivities",
     }
   );
 
   ComplainsOfActivities.associate = (models) => {
     /**One Activity have many Complains  */
     models.Activities.hasMany(ComplainsOfActivities, {
-      foreignKey: "list_act_id"
+      foreignKey: "list_act_id",
     });
 
     ComplainsOfActivities.belongsTo(models.Activities, {
       targetKey: "list_act_id",
-      foreignKey: "list_act_id"
+      foreignKey: "list_act_id",
     });
 
     /**One Field_Executive have many Complains  */
     models.Field_Executive.hasMany(ComplainsOfActivities, {
-      foreignKey: "field_id"
+      foreignKey: "field_id",
     });
 
     ComplainsOfActivities.belongsTo(models.Field_Executive, {
       targetKey: "field_id",
-      foreignKey: "field_id"
+      foreignKey: "field_id",
     });
   };
 

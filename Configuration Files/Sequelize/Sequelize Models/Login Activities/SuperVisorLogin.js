@@ -13,42 +13,42 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       supervisor_login_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       isPaused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       loggedInStatus: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       loggedOutStatus: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       loggedOutDate: {
         type: DataTypes.DATE,
         allowNull: true,
-        defaultValue: null
+        defaultValue: null,
       },
       ipAddress: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       sup_id: {
         type: DataTypes.INTEGER,
@@ -57,18 +57,18 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "supervisor",
-          key: "sup_id"
+          key: "sup_id",
         },
 
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
-      }
+        onUpdate: "CASCADE",
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "SuperVisorLogin",
-      tableName: "superVisorLogin"
+      tableName: "supervisorlogin",
     }
   );
 
@@ -77,12 +77,12 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
      * One Field Executive table will have many notifications
      */
     models.Supervisor.hasMany(SuperVisorLogin, {
-      foreignKey: "sup_id"
+      foreignKey: "sup_id",
     });
 
     SuperVisorLogin.belongsTo(models.Supervisor, {
       targetKey: "sup_id",
-      foreignKey: "sup_id"
+      foreignKey: "sup_id",
     });
   };
 

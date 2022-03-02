@@ -160,7 +160,7 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
       sequelize,
       // We need to pass the connection instance
       modelName: "Recommendation_for_Executive",
-      tableName: "Recommendation_for_Executive",
+      tableName: "recommendation_for_executive",
     }
   );
 

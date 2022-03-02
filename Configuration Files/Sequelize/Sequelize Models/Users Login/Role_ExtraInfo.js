@@ -13,41 +13,37 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
-        validate: {
-          max: 11,
-          isNumeric: true
-        }
       },
       role_creden_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       paused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       target: {
         type: DataTypes.TEXT,
         allowNull: true,
-        defaultValue: null
+        defaultValue: null,
       },
       salary: {
         type: DataTypes.TEXT,
         allowNull: true,
-        defaultValue: null
+        defaultValue: null,
       },
       commission: {
         type: DataTypes.TEXT,
         allowNull: true,
-        defaultValue: null
+        defaultValue: null,
       },
       user_role_id: {
         type: DataTypes.INTEGER,
@@ -56,32 +52,32 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         validate: {
           max: 11,
-          isNumeric: true
+          isNumeric: true,
         },
         references: {
           model: "user_login_role",
-          key: "user_role_id"
+          key: "user_role_id",
         },
         onUpdate: "CASCADE",
-        onDelete: "CASCADE"
-      }
+        onDelete: "CASCADE",
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "Role_ExtraInfo",
-      tableName: "role_extraInfo"
+      tableName: "role_extrainfo",
     }
   );
 
   Role_ExtraInfo.associate = (models) => {
     models.User_Role.hasOne(Role_ExtraInfo, {
-      foreignKey: "user_role_id"
+      foreignKey: "user_role_id",
     });
 
     Role_ExtraInfo.belongsTo(models.User_Role, {
       targetKey: "user_role_id",
-      foreignKey: "user_role_id"
+      foreignKey: "user_role_id",
     });
   };
 

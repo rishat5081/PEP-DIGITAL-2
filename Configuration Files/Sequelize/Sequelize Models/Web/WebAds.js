@@ -14,38 +14,34 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
-        validate: {
-          max: 11,
-          isNumeric: true
-        }
       },
       WebAds_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       paused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       title: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       description: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       picPath: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       sa_id: {
         type: DataTypes.INTEGER,
@@ -54,10 +50,10 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "super_admin",
-          key: "sa_id"
+          key: "sa_id",
         },
         onUpdate: "CASCADE",
-        onDelete: "CASCADE"
+        onDelete: "CASCADE",
       },
       user_role_id: {
         type: DataTypes.INTEGER,
@@ -66,17 +62,17 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "user_login_role",
-          key: "user_role_id"
+          key: "user_role_id",
         },
         onUpdate: "CASCADE",
-        onDelete: "CASCADE"
-      }
+        onDelete: "CASCADE",
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "WebAds",
-      tableName: "WebAds"
+      tableName: "Webads",
     }
   );
 
@@ -100,21 +96,21 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
 
   WebAds.associate = (models) => {
     models.Super_Admin.hasOne(WebAds, {
-      foreignKey: "sa_id"
+      foreignKey: "sa_id",
     });
 
     WebAds.belongsTo(models.Super_Admin, {
       targetKey: "sa_id",
-      foreignKey: "sa_id"
+      foreignKey: "sa_id",
     });
 
     models.User_Role.hasOne(WebAds, {
-      foreignKey: "user_role_id"
+      foreignKey: "user_role_id",
     });
 
     WebAds.belongsTo(models.User_Role, {
       targetKey: "user_role_id",
-      foreignKey: "user_role_id"
+      foreignKey: "user_role_id",
     });
   };
 

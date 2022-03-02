@@ -13,31 +13,31 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       changeRole_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       paused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       previousRole: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
       newRole: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
       field_id: {
         type: DataTypes.INTEGER,
@@ -46,10 +46,10 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "field_executive",
-          key: "field_id"
+          key: "field_id",
         },
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
+        onUpdate: "CASCADE",
       },
       team_L_id: {
         type: DataTypes.INTEGER,
@@ -58,17 +58,17 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "team_lead",
-          key: "team_L_id"
+          key: "team_L_id",
         },
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
-      }
+        onUpdate: "CASCADE",
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "changeRoleLogs",
-      tableName: "changeRoleLogs"
+      tableName: "changeroleLogs",
     }
   );
 
@@ -76,22 +76,22 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
 
   changeRoleLogs.associate = (models) => {
     models.Field_Executive.hasMany(changeRoleLogs, {
-      foreignKey: "field_id"
+      foreignKey: "field_id",
     });
 
     changeRoleLogs.belongsTo(models.Field_Executive, {
       targetKey: "field_id",
-      foreignKey: "field_id"
+      foreignKey: "field_id",
     });
 
     /**one Field_Executive can have many role change  */
     models.Team_Lead.hasMany(changeRoleLogs, {
-      foreignKey: "team_L_id"
+      foreignKey: "team_L_id",
     });
 
     changeRoleLogs.belongsTo(models.Team_Lead, {
       targetKey: "team_L_id",
-      foreignKey: "team_L_id"
+      foreignKey: "team_L_id",
     });
   };
 

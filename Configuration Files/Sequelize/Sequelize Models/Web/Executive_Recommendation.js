@@ -14,30 +14,26 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
-        validate: {
-          max: 11,
-          isNumeric: true
-        }
       },
       exec_recomm_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       paused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       Recommendation: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       sa_id: {
         type: DataTypes.INTEGER,
@@ -46,28 +42,28 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "super_admin",
-          key: "sa_id"
+          key: "sa_id",
         },
         onUpdate: "CASCADE",
-        onDelete: "CASCADE"
-      }
+        onDelete: "CASCADE",
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "Executive_Recommendation",
-      tableName: "Executive_Recommendation"
+      tableName: "executive_recommendation",
     }
   );
 
   Executive_Recommendation.associate = (models) => {
     models.Super_Admin.hasOne(Executive_Recommendation, {
-      foreignKey: "sa_id"
+      foreignKey: "sa_id",
     });
 
     Executive_Recommendation.belongsTo(models.Super_Admin, {
       targetKey: "sa_id",
-      foreignKey: "sa_id"
+      foreignKey: "sa_id",
     });
   };
   // Super_Admin.hasOne(Executive_Recommendation, {

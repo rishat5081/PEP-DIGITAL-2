@@ -15,42 +15,38 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
-        validate: {
-          max: 11,
-          isNumeric: true
-        }
       },
       PEP_Banks_Details_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       paused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       bankAccount: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       bankIBAN: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       bankBranchCode: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       bankAddress: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       sa_id: {
         type: DataTypes.INTEGER,
@@ -59,10 +55,10 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "super_admin",
-          key: "sa_id"
+          key: "sa_id",
         },
         onUpdate: "CASCADE",
-        onDelete: "CASCADE"
+        onDelete: "CASCADE",
       },
       Banks_List_id: {
         type: DataTypes.INTEGER,
@@ -71,37 +67,37 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "banks_list",
-          key: "Banks_List_id"
+          key: "Banks_List_id",
         },
         onUpdate: "CASCADE",
-        onDelete: "CASCADE"
-      }
+        onDelete: "CASCADE",
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "PEP_Banks_Details",
-      tableName: "PEP_Banks_Details"
+      tableName: "pep_banks_details",
     }
   );
 
   PEP_Banks_Details.associate = (models) => {
     models.Banks_List.hasOne(PEP_Banks_Details, {
-      foreignKey: "Banks_List_id"
+      foreignKey: "Banks_List_id",
     });
 
     PEP_Banks_Details.belongsTo(models.Banks_List, {
       targetKey: "Banks_List_id",
-      foreignKey: "Banks_List_id"
+      foreignKey: "Banks_List_id",
     });
 
     models.Super_Admin.hasOne(PEP_Banks_Details, {
-      foreignKey: "sa_id"
+      foreignKey: "sa_id",
     });
 
     PEP_Banks_Details.belongsTo(models.Super_Admin, {
       targetKey: "sa_id",
-      foreignKey: "sa_id"
+      foreignKey: "sa_id",
     });
   };
 

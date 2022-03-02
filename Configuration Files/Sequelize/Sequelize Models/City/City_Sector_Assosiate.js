@@ -14,23 +14,23 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       city_sector_assos_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       paused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       city_sector_id: {
         type: DataTypes.INTEGER,
@@ -39,8 +39,8 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "city_sectors",
-          key: "city_sector_id"
-        }
+          key: "city_sector_id",
+        },
       },
       field_id: {
         type: DataTypes.INTEGER,
@@ -49,15 +49,15 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "field_executive",
-          key: "field_id"
-        }
-      }
+          key: "field_id",
+        },
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "City_Sector_Assosiate",
-      tableName: "City_Sector_Assosiate"
+      tableName: "city_sector_assosiate",
     }
   );
 
@@ -65,7 +65,7 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
     /**City could have many supervisor  */
     models.City_Sectors.belongsToMany(models.Field_Executive, {
       through: City_Sector_Assosiate,
-      foreignKey: "city_sector_id"
+      foreignKey: "city_sector_id",
     });
 
     /**One supervisor could be a head of one or more city
@@ -73,7 +73,7 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
      */
     models.Field_Executive.belongsToMany(models.City_Sectors, {
       through: City_Sector_Assosiate,
-      foreignKey: "field_id"
+      foreignKey: "field_id",
     });
   };
 

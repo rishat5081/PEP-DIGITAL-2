@@ -14,16 +14,12 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
-        validate: {
-          max: 11,
-          isNumeric: true
-        }
       },
       list_sub_act_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       list_id: {
         type: DataTypes.INTEGER,
@@ -32,10 +28,10 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "lists",
-          key: "list_id"
+          key: "list_id",
         },
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
+        onUpdate: "CASCADE",
       },
       list_act_id: {
         type: DataTypes.INTEGER,
@@ -44,21 +40,21 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "Activities",
-          key: "list_act_id"
+          key: "list_act_id",
         },
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
+        onUpdate: "CASCADE",
       },
       list_deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       list_paused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
       // amount: {
       //   type: DataTypes.TEXT,
       //   allowNull: true,
@@ -68,7 +64,7 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
       sequelize,
       // We need to pass the connection instance
       modelName: "List_sub_Activities",
-      tableName: "list_sub_activities"
+      tableName: "list_sub_activities",
     }
   );
 
@@ -78,12 +74,12 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
      * field executive had made
      */
     models.List_of_Packages.hasMany(List_sub_Activities, {
-      foreignKey: "list_id"
+      foreignKey: "list_id",
     });
 
     List_sub_Activities.belongsTo(models.List_of_Packages, {
       targetKey: "list_id",
-      foreignKey: "list_id"
+      foreignKey: "list_id",
     });
 
     /**
@@ -91,12 +87,12 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
      * field executive had made
      */
     models.Activities.hasMany(List_sub_Activities, {
-      foreignKey: "list_act_id"
+      foreignKey: "list_act_id",
     });
 
     List_sub_Activities.belongsTo(models.Activities, {
       targetKey: "list_act_id",
-      foreignKey: "list_act_id"
+      foreignKey: "list_act_id",
     });
   };
 

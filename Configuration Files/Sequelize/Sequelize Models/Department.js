@@ -15,38 +15,34 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
-        validate: {
-          max: 11,
-          isNumeric: true
-        }
       },
       d_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       paused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       d_deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       d_name: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       d_type: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       d_added_Date_Time: {
         type: DataTypes.DATE,
-        allowNull: true
+        allowNull: true,
       },
       comp_access_id: {
         type: DataTypes.INTEGER,
@@ -55,14 +51,14 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "companies_access",
-          key: "comp_access_id"
+          key: "comp_access_id",
         },
         validate: {
           max: 11,
-          isNumeric: true
+          isNumeric: true,
         },
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
+        onUpdate: "CASCADE",
       },
       gm_id: {
         type: DataTypes.INTEGER,
@@ -71,21 +67,21 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "company_gm_info",
-          key: "gm_id"
+          key: "gm_id",
         },
         validate: {
           max: 11,
-          isNumeric: true
+          isNumeric: true,
         },
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
-      }
+        onUpdate: "CASCADE",
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "Department",
-      tableName: "departments"
+      tableName: "departments",
     }
   );
 
@@ -112,17 +108,17 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
 
     Department.belongsTo(models.Super_Admin, {
       targetKey: "sa_id",
-      foreignKey: "sa_id"
+      foreignKey: "sa_id",
     });
 
     /**Companies will handle many Departments */
     models.Companies_Access.hasMany(Department, {
-      foreignKey: "comp_access_id"
+      foreignKey: "comp_access_id",
     });
 
     Department.belongsTo(models.Companies_Access, {
       targetKey: "comp_access_id",
-      foreignKey: "comp_access_id"
+      foreignKey: "comp_access_id",
     });
   };
 

@@ -12,42 +12,42 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       manager_login_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       isPaused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       loggedInStatus: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       loggedOutStatus: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       loggedOutDate: {
         type: DataTypes.DATE,
         allowNull: true,
-        defaultValue: null
+        defaultValue: null,
       },
       ipAddress: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       man_id: {
         type: DataTypes.INTEGER,
@@ -56,18 +56,18 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "managers",
-          key: "man_id"
+          key: "man_id",
         },
 
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
-      }
+        onUpdate: "CASCADE",
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "ManagerLogin",
-      tableName: "managerLogin"
+      tableName: "managerlogin",
     }
   );
 
@@ -76,12 +76,12 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
      * One Manager table will have many notifications
      */
     models.Managers.hasMany(ManagerLogin, {
-      foreignKey: "man_id"
+      foreignKey: "man_id",
     });
 
     ManagerLogin.belongsTo(models.Managers, {
       targetKey: "man_id",
-      foreignKey: "man_id"
+      foreignKey: "man_id",
     });
   };
 

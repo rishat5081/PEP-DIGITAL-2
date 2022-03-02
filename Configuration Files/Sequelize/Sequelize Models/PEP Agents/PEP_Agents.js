@@ -12,45 +12,41 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
-        validate: {
-          max: 11,
-          isNumeric: true
-        }
       },
       pep_dealers_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       status: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       name: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       contact: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       address: {
         type: DataTypes.TEXT,
-        allowNull: true
-      }
+        allowNull: true,
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "PEP_Agents",
-      tableName: "dealers_info_from_pep"
+      tableName: "dealers_info_from_pep",
     }
   );
 

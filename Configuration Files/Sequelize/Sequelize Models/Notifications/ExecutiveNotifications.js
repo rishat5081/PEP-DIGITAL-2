@@ -14,32 +14,32 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       execu_notification_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       isPaused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       notification_text: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       isRead: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false
+        defaultValue: false,
       },
       field_id: {
         type: DataTypes.INTEGER,
@@ -48,11 +48,11 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "field_executive",
-          key: "field_id"
+          key: "field_id",
         },
 
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
+        onUpdate: "CASCADE",
       },
       notification_id: {
         type: DataTypes.INTEGER,
@@ -61,17 +61,17 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "notificationText",
-          key: "notification_id"
+          key: "notification_id",
         },
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
-      }
+        onUpdate: "CASCADE",
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "ExecutiveNotifications",
-      tableName: "executiveNotifications"
+      tableName: "executivenotifications",
     }
   );
   ExecutiveNotifications.associate = (models) => {
@@ -79,23 +79,23 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
      * One Field Executive table will have many notifications
      */
     models.Field_Executive.hasMany(ExecutiveNotifications, {
-      foreignKey: "field_id"
+      foreignKey: "field_id",
     });
 
     ExecutiveNotifications.belongsTo(models.Field_Executive, {
       targetKey: "field_id",
-      foreignKey: "field_id"
+      foreignKey: "field_id",
     });
     /**
      * One Field Executive table will have many notifications
      */
     models.NotificationText.hasMany(ExecutiveNotifications, {
-      foreignKey: "notification_id"
+      foreignKey: "notification_id",
     });
 
     ExecutiveNotifications.belongsTo(models.NotificationText, {
       targetKey: "notification_id",
-      foreignKey: "notification_id"
+      foreignKey: "notification_id",
     });
   };
 

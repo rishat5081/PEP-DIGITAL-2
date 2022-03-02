@@ -12,42 +12,42 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       execu_login_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       isPaused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       loggedInStatus: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       loggedOutStatus: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       ipAddress: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       loggedOutDate: {
         type: DataTypes.DATE,
         allowNull: true,
-        defaultValue: null
+        defaultValue: null,
       },
       field_id: {
         type: DataTypes.INTEGER,
@@ -56,18 +56,18 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "field_executive",
-          key: "field_id"
+          key: "field_id",
         },
 
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
-      }
+        onUpdate: "CASCADE",
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "ExecutiveLogins",
-      tableName: "executiveLogins"
+      tableName: "executivelogins",
     }
   );
 
@@ -76,12 +76,12 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
      * One Field Executive table will have many notifications
      */
     models.Field_Executive.hasMany(ExecutiveLogins, {
-      foreignKey: "field_id"
+      foreignKey: "field_id",
     });
 
     ExecutiveLogins.belongsTo(models.Field_Executive, {
       targetKey: "field_id",
-      foreignKey: "field_id"
+      foreignKey: "field_id",
     });
   };
 

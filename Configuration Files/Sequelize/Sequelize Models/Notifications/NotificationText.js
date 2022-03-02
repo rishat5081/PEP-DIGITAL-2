@@ -13,46 +13,42 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
-        validate: {
-          max: 11,
-          isNumeric: true
-        }
       },
       notification_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       isPaused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       notification_title: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       notification_icon: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       isRead: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "NotificationText",
-      tableName: "notificationText"
+      tableName: "notificationtext",
     }
   );
 

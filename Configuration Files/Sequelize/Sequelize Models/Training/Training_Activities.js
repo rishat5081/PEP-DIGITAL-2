@@ -15,43 +15,39 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
-        validate: {
-          max: 11,
-          isNumeric: true
-        }
       },
       training_act_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       paused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       isComplete: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       completeDescription: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       name: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       purpose: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       training_ID: {
         type: DataTypes.INTEGER,
@@ -60,14 +56,14 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         validate: {
           max: 11,
-          isNumeric: true
+          isNumeric: true,
         },
         references: {
           model: "training",
-          key: "training_ID"
+          key: "training_ID",
         },
         onUpdate: "CASCADE",
-        onDelete: "CASCADE"
+        onDelete: "CASCADE",
       },
       field_id: {
         type: DataTypes.INTEGER,
@@ -76,14 +72,14 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         validate: {
           max: 11,
-          isNumeric: true
+          isNumeric: true,
         },
         references: {
           model: "field_executive",
-          key: "field_id"
+          key: "field_id",
         },
         onUpdate: "CASCADE",
-        onDelete: "CASCADE"
+        onDelete: "CASCADE",
       },
       team_L_id: {
         type: DataTypes.INTEGER,
@@ -92,21 +88,21 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         validate: {
           max: 11,
-          isNumeric: true
+          isNumeric: true,
         },
         references: {
           model: "team_lead",
-          key: "team_L_id"
+          key: "team_L_id",
         },
         onUpdate: "CASCADE",
-        onDelete: "CASCADE"
-      }
+        onDelete: "CASCADE",
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "Training_Activities",
-      tableName: "training_activities"
+      tableName: "training_activities",
     }
   );
 
@@ -118,19 +114,19 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
 
     Training_Activities.belongsTo(models.Training, {
       targetKey: "training_ID",
-      foreignKey: "training_ID"
+      foreignKey: "training_ID",
     });
 
     /**
      * One field executive can have many training
      */
     models.Field_Executive.hasMany(Training_Activities, {
-      foreignKey: "field_id"
+      foreignKey: "field_id",
     });
 
     Training_Activities.belongsTo(models.Field_Executive, {
       targetKey: "field_id",
-      foreignKey: "field_id"
+      foreignKey: "field_id",
     });
 
     /**
@@ -140,7 +136,7 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
 
     Training_Activities.belongsTo(models.Team_Lead, {
       targetKey: "team_L_id",
-      foreignKey: "team_L_id"
+      foreignKey: "team_L_id",
     });
   };
 

@@ -13,36 +13,36 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       manager_notification_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       isPaused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       notification_title: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       notification_text: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       isRead: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false
+        defaultValue: false,
       },
       man_id: {
         type: DataTypes.INTEGER,
@@ -51,11 +51,11 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "managers",
-          key: "man_id"
+          key: "man_id",
         },
 
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
+        onUpdate: "CASCADE",
       },
       notification_id: {
         type: DataTypes.INTEGER,
@@ -64,17 +64,17 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "notificationText",
-          key: "notification_id"
+          key: "notification_id",
         },
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
-      }
+        onUpdate: "CASCADE",
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "ManagerNotifications",
-      tableName: "managerNotifications"
+      tableName: "managernotifications",
     }
   );
   ManagerNotifications.associate = (models) => {
@@ -82,27 +82,25 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
      * One Manager table will have many notifications
      */
     models.Managers.hasMany(ManagerNotifications, {
-      foreignKey: "man_id"
+      foreignKey: "man_id",
     });
 
     ManagerNotifications.belongsTo(models.Managers, {
       targetKey: "man_id",
-      foreignKey: "man_id"
+      foreignKey: "man_id",
     });
 
-
-     /**
+    /**
      * One Supervisor table will have many notifications
      */
-      models.NotificationText.hasMany(ManagerNotifications, {
-        foreignKey: "notification_id"
-      });
-  
-      ManagerNotifications.belongsTo(models.NotificationText, {
-        targetKey: "notification_id",
-        foreignKey: "notification_id"
-      });
+    models.NotificationText.hasMany(ManagerNotifications, {
+      foreignKey: "notification_id",
+    });
 
+    ManagerNotifications.belongsTo(models.NotificationText, {
+      targetKey: "notification_id",
+      foreignKey: "notification_id",
+    });
   };
 
   // /**

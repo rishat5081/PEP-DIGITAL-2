@@ -13,16 +13,12 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
-        validate: {
-          max: 11,
-          isNumeric: true
-        }
       },
       de_emp_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       login_id: {
         type: DataTypes.INTEGER,
@@ -31,16 +27,16 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         validate: {
           max: 11,
-          isNumeric: true
+          isNumeric: true,
         },
         references: {
           model: "user_login_information",
-          key: "login_id"
-        }
+          key: "login_id",
+        },
       },
       de_emp_name: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       man_id: {
         type: DataTypes.INTEGER,
@@ -49,45 +45,45 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         validate: {
           max: 11,
-          isNumeric: true
+          isNumeric: true,
         },
         references: {
           model: "managers",
-          key: "man_id"
-        }
+          key: "man_id",
+        },
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       salary: {
         type: DataTypes.INTEGER,
-        allowNull: true
+        allowNull: true,
       },
       timing: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       isPaused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       fullName: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       profilePicPath: {
         type: DataTypes.TEXT,
-        allowNull: true
-      }
+        allowNull: true,
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "Data_Entry_Operator",
-      tableName: "dataentry_employee"
+      tableName: "dataentry_employee",
     }
   );
 

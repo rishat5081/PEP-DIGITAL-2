@@ -12,60 +12,60 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       list_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       list_name: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       list_deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       list_paused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       isBank: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       bankAmount: {
         type: DataTypes.FLOAT,
-        allowNull: true
+        allowNull: true,
       },
       commissionAmount: {
         type: DataTypes.FLOAT,
-        allowNull: true
+        allowNull: true,
       },
       list_amount: {
         type: DataTypes.INTEGER,
-        allowNull: true
+        allowNull: true,
       },
       list_description: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       isRepeat: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "List_of_Packages",
-      tableName: "lists"
+      tableName: "lists",
     }
   );
 

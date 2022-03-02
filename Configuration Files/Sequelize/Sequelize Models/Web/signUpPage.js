@@ -13,74 +13,70 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
-        validate: {
-          max: 11,
-          isNumeric: true
-        }
       },
       signUp_page_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       paused: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       signUpTitle: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       btnText: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       alreadyHaveAccount: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       alreadyHaveAccountIcon: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       pictureName: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       pictureFolder: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       emailPlaceHolder: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       emailIcon: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       passwordPlaceHolder: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       passwordIcon: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       confirmPasswordPlaceHolder: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       confirmPasswordIcon: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       sa_id: {
         type: DataTypes.INTEGER,
@@ -89,27 +85,27 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         references: {
           model: "super_admin",
-          key: "sa_id"
+          key: "sa_id",
         },
         onUpdate: "CASCADE",
-        onDelete: "CASCADE"
-      }
+        onDelete: "CASCADE",
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "SignUp_Page",
-      tableName: "signUp_page"
+      tableName: "signup_page",
     }
   );
   SignUp_Page.associate = (models) => {
     models.Super_Admin.hasOne(SignUp_Page, {
-      foreignKey: "sa_id"
+      foreignKey: "sa_id",
     });
 
     SignUp_Page.belongsTo(models.Super_Admin, {
       targetKey: "sa_id",
-      foreignKey: "sa_id"
+      foreignKey: "sa_id",
     });
   };
 

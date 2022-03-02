@@ -13,16 +13,12 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
-        validate: {
-          max: 11,
-          isNumeric: true
-        }
       },
       sa_login_uuid: {
         type: DataTypes.UUID,
         defaultValue: UUIDV4,
         autoIncrement: false,
-        primaryKey: false
+        primaryKey: false,
       },
       sa_id: {
         type: DataTypes.INTEGER,
@@ -31,34 +27,34 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         autoIncrement: false,
         validate: {
           max: 11,
-          isNumeric: true
+          isNumeric: true,
         },
         references: {
           model: "super_admin",
-          key: "sa_id"
+          key: "sa_id",
         },
         onUpdate: "CASCADE",
-        onDelete: "CASCADE"
+        onDelete: "CASCADE",
       },
       sa_login_status: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       sa_login_date: {
         type: DataTypes.DATE,
-        allowNull: true
+        allowNull: true,
       },
       sa_login_logout_time: {
         type: { DataTypes, Model, UUIDV4 }.DATE,
-        allowNull: true
-      }
+        allowNull: true,
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "SuperAdmin_LoginActivities",
-      tableName: "super_admin_login_activities"
+      tableName: "super_admin_login_activities",
     }
   );
 
@@ -71,12 +67,12 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
 
   SuperAdmin_LoginActivities.associate = (models) => {
     models.Super_Admin.hasMany(SuperAdmin_LoginActivities, {
-      foreignKey: "sa_id"
+      foreignKey: "sa_id",
     });
 
     SuperAdmin_LoginActivities.belongsTo(models.Super_Admin, {
       targetKey: "sa_id",
-      foreignKey: "sa_id"
+      foreignKey: "sa_id",
     });
   };
 

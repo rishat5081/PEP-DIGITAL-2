@@ -12,51 +12,47 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       date_time: {
         type: DataTypes.DATE,
-        allowNull: true
+        allowNull: true,
       },
       d_id: {
         type: DataTypes.INTEGER,
         allowNull: true,
-        validate: {
-          max: 11,
-          isNumeric: true
-        }
       },
       d_name: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       d_deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: false,
       },
       d_type: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       comp_access_id: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
         validate: {
           max: 11,
-          isNumeric: true
-        }
+          isNumeric: true,
+        },
       },
       d_added_Date_Time: {
         type: DataTypes.DATE,
-        allowNull: true
-      }
+        allowNull: true,
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
       modelName: "SuperAdmin_Department_Logs",
-      tableName: "sa_logs_ondepartment"
+      tableName: "sa_logs_ondepartment",
     }
   );
 
