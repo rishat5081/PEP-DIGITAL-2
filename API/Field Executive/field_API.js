@@ -1577,6 +1577,91 @@ router.route("/companyDeposits").get(async (req, res) => {
   res.end();
 });
 
+router.get(
+  "/viewAgencies",
+  // validateToken,
+  async (req, res) => {
+    try {
+      const { userRole, field_id } = req.query;
+
+      if (!(userRole, field_id)) {
+        res
+          .status(400)
+          .send({ message: "Field Executive and User Role is Required" });
+        res.end();
+        return;
+      } else {
+        const AgencyData = await Database.Agency_Info.findAll({
+          attributes: ["agency_name", "agency_address"],
+          where: {
+            deleted: 0,
+            isPaused: 0,
+          },
+        })
+          .then((result) => {
+            if (result) return result;
+          })
+          .catch((error) => {
+            if (error) console.error("Error getting Agencies" + error);
+            return null;
+          });
+
+        /**
+         *
+         * getting the compaigns from the DB
+         */
+        let CompaignsList = await Database.Compaigns.findAll({
+          attributes: ["comp_id", "comp_name"],
+          where: {
+            comp_deleted: 0,
+            comp_paused: 0,
+            /**
+             * Here we are looking if the user role is NOT field
+             * executive and he is an employee of the company than bring the Compaign name and
+             */
+            [Op.or]: [
+              {
+                forFreelancers: userRole !== "Field Executive" ? true : false,
+              },
+              { forAll: true },
+            ],
+          },
+        })
+          .then((compaigns) => {
+            if (compaigns) {
+              return compaigns;
+            }
+          })
+          .catch((error) => {
+            if (error) console.error("Error getting Compaigns" + error);
+            return null;
+          });
+
+        let unreadNotificationCount = await countofNotificationOfExecutive(
+          +field_id
+        );
+
+        if ((unreadNotificationCount, CompaignsList, AgencyData)) {
+          res.status(200).send({
+            AgencyData,
+            pakistanCityName,
+            CompaignsList,
+            url: req.protocol + "://" + req.get("host"),
+            unreadNotificationCount:
+              unreadNotificationCount[0].dataValues.unreadNotificationCount,
+          });
+        } else {
+          res.status(404).send({ message: "Error in finding the record" });
+        }
+      }
+      unreadNotificationCount = null;
+    } catch (error) {
+      console.log("Error in the Get Agencies");
+      console.trace(error);
+    }
+  }
+);
+
 module.exports = { router };
 
 const countofNotificationOfExecutive = async (field_id) => {
@@ -1595,10 +1680,6 @@ const countofNotificationOfExecutive = async (field_id) => {
     if (notifications) return notifications;
   });
 };
-
-
-
-
 
 // async function addPermissioins() {
 //   const Perm = await Database. Permissions.findOne({
@@ -1621,10 +1702,6 @@ const countofNotificationOfExecutive = async (field_id) => {
 //   console.log(Perm)
 // }
 // addPermissioins()
-
-
-
-
 
 // async function addPermissioins() {
 //   const Perm = await Database. Permissions.findOne({
