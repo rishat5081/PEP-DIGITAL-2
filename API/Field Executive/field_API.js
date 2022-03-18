@@ -1577,6 +1577,7 @@ router.route("/companyDeposits").get(async (req, res) => {
   res.end();
 });
 
+//GET Route to view all the agencies
 router.get(
   "/viewAgencies",
   // validateToken,
@@ -1662,6 +1663,58 @@ router.get(
   }
 );
 
+//POST to find the agency
+
+router.route("/getAgencyDetails").post(async (req, res) => {
+  try {
+    let userReqBody = { ...req.body };
+    let lengthofUser_Req = Object.keys(userReqBody).length;
+
+    if (lengthofUser_Req === getAuthenticateJSON(userReqBody)) {
+      const AgencyDetails = await Database.Agency_Info.findOne({
+        attributes: {
+          exclude: [
+            "agency_Longitude",
+            "agency_Latitude",
+            "firstVisit",
+            "deleted",
+            "isPaused",
+            "updateTimestamp",
+          ],
+        },
+        where: {
+          agency_name: {
+            [Op.like]: `%${userReqBody.agencyName}`,
+          },
+          agency_city: {
+            [Op.like]: `%${userReqBody.agencyCity}`,
+          },
+          agency_address: {
+            [Op.like]: `%${userReqBody.selectedAgencyAddress}`,
+          },
+          deleted: false,
+          isPaused: false,
+        },
+        include: {
+          attributes: ["field_name", "field_userProfilePic", "field_contact"],
+          model: Database.Field_Executive,
+        },
+      });
+
+      let status = AgencyDetails === null ? false : true;
+      if (status) res.status(200).send({ success: "Found", AgencyDetails });
+      else res.status(404).send({ error: "error", details: "No Found" });
+    } else
+      res
+        .status(404)
+        .send({ error: "error", details: "Invalid values are entered" });
+  } catch (error) {
+    console.log("Error in Getting the details");
+    console.trace(error);
+    res.status(500).send({ error: "Error" });
+  }
+});
+
 module.exports = { router };
 
 const countofNotificationOfExecutive = async (field_id) => {
@@ -1679,6 +1732,19 @@ const countofNotificationOfExecutive = async (field_id) => {
   }).then((notifications) => {
     if (notifications) return notifications;
   });
+};
+
+const getAuthenticateJSON = (userReqBody) => {
+  Object.keys(userReqBody).forEach((key) => {
+    if (
+      userReqBody[key] === "select" ||
+      userReqBody[key] === "update" ||
+      userReqBody[key] === "insert"
+    ) {
+      delete userReqBody[key];
+    }
+  });
+  return Object.keys(userReqBody).length;
 };
 
 // async function addPermissioins() {
