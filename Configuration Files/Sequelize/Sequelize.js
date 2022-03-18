@@ -6,11 +6,11 @@ require("dotenv").config();
 
 module.exports = new Sequelize(
   // "aksjd",
-  "pepintlc_pep_digital",
-  "pepintlc_pep_digital_user",
-  "pep_digital@zamulk",
+  "pep_digital",
+  "root",
+  "root",
   {
-    host: "181.214.31.79",
+    host: "localhost",
     // host: "webs16rdns1.futuresouls.com",
     dialect: "mysql",
 
