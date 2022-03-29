@@ -1704,10 +1704,10 @@ router.route("/getAgencyDetails").post(async (req, res) => {
 
       let status = AgencyDetails === null ? false : true;
       if (status) res.status(200).send({ success: "Found", AgencyDetails });
-      else res.status(404).send({ error: "error", details: "No Found" });
+      else res.status(400).send({ error: "error", details: "No Found" });
     } else
       res
-        .status(404)
+        .status(400)
         .send({ error: "error", details: "Invalid values are entered" });
   } catch (error) {
     console.log("Error in Getting the details");
