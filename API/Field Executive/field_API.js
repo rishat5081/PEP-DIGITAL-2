@@ -1812,6 +1812,47 @@ router.route("/startActivityOnExsitingActivity").post(async (req, res) => {
   }
 });
 
+router.route("/notification").get(async (req, res) => {
+  /**
+   * getting the count of the unread notifications
+   */
+  const unreadNotificationCount = await countofNotificationOfExecutive(
+    req.body.field_id
+  );
+  const unreadNotification = await Database.ExecutiveNotifications.findAll({
+    attributes: [
+      "execu_notification_uuid",
+      "notification_text",
+      "isRead",
+      "createdAt"
+    ],
+    include: {
+      model: Database.NotificationText,
+      attributes: ["notification_title", "notification_icon"],
+      required: true,
+      where: {
+        isPaused: false,
+        deleted: false
+      }
+    },
+    where: {
+      isPaused: false,
+      deleted: false,
+      field_id: req.body.field_id
+    },
+    limit: 50
+  }).then(notifications => {
+    if (notifications) return notifications;
+  });
+  res.status(200).send({
+    unreadNotificationCount:
+      unreadNotificationCount[0].dataValues.unreadNotificationCount,
+    unreadNotification
+  });
+  res.end();
+  return;
+});
+
 module.exports = { router };
 
 /*
