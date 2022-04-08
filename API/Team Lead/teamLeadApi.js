@@ -112,7 +112,6 @@ router.get("/dashboard", async (req, res) => {
 });
 
 //profile of the team lead
-
 router.get("/profileTeamLead", async (req, res) => {
   /**
    * getiing the user details for the profile
@@ -198,6 +197,156 @@ router.get("/profileTeamLead", async (req, res) => {
   return;
 });
 
+//Assign Area
+
+router.get("/assignArea", async (req, res) => {
+  //getting the notification
+  let unreadNotificationCount = await countofNotificationOfTeamLead(
+    req.query.team_L_uuid
+  );
+
+  //getting the team lead city areas
+
+  let areaSectors = await Database.City_Sectors.findAll({
+    attributes: ["sector_name", "city_sector_uuid", "sector_code"],
+    where: {
+      paused: 0,
+      deleted: 0,
+      city_area_id: req.query.city_area_id
+    }
+  })
+    .then(sectors => {
+      return sectors ? sectors : null;
+    })
+    .catch(error => {
+      console.error("Error in getting Area Sector");
+      console.trace(error);
+      return error ? null : true;
+    });
+
+  //getting all team member
+  let allTeamMember = await Database.Field_Executive.findAll({
+    attributes: ["field_id", "field_uuid", "field_name", "field_contact"],
+    where: {
+      team_L_id: req.query.team_L_id,
+      field_isDeleted: 0,
+      field_isPaused: 0
+    }
+  })
+    .then(member => {
+      return member ? member : null;
+    })
+    .catch(error => {
+      console.error("Error in getting all the team members from the Database");
+      console.trace(error);
+      return error ? null : true;
+    });
+  //getting the team member names and UUID
+
+  let teamMember = await Database.Field_Executive.findAll({
+    attributes: ["field_id", "field_uuid"],
+    where: {
+      team_L_id: req.query.team_L_id,
+      field_isDeleted: 0,
+      field_isPaused: 0
+    },
+    include: {
+      model: Database.City_Sectors,
+      attributes: ["sector_name", "city_sector_uuid"],
+      required: true,
+      through: {
+        attributes: [],
+        where: {
+          paused: 0,
+          deleted: 0
+        }
+      },
+      where: {
+        paused: 0,
+        deleted: 0
+      }
+    }
+  })
+    .then(member => {
+      // console.warn(member);
+      return member ? member : null;
+    })
+    .catch(error => {
+      console.error("Error in getting Member");
+      console.trace(error);
+      return error ? null : true;
+    });
+
+  //end of getting data from DB
+
+  if ((areaSectors, teamMember)) {
+    res.status(200).send({
+      areaSectors,
+      teamMember,
+      allTeamMember,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount
+    });
+    res.end();
+    return;
+  } else {
+    res
+      .status(500)
+      .send({ message: "Error Getting Details of the Area Assign" });
+    res.end();
+    return;
+  }
+});
+
+// addFreelance to the team
+router.get("/addFreelance", async (req, res) => {
+  //getting the notificaton of the user
+  let unreadNotificationCount = await countofNotificationOfTeamLead(
+    req.query.team_L_uuid
+  );
+  //getting the all executive which are no in any team they are working as freelance
+  let teamMember = await Database.Field_Executive.findAll({
+    attributes: ["field_uuid", "field_name", "field_contact"],
+    include: {
+      model: Database.User_Login_Information,
+      required: true,
+      attributes: ["login_email", "createdAt"],
+      where: {
+        paused: 0,
+        deleted: 0
+      }
+    },
+    where: {
+      field_isDeleted: 0,
+      field_isPaused: 0,
+      team_L_id: null
+    }
+  })
+    .then(member => {
+      return member ? member : null;
+    })
+    .catch(error => {
+      console.error("Error in getting Member");
+      console.trace(error);
+      return error ? null : true;
+    });
+
+  if (teamMember && unreadNotificationCount) {
+    res.status(200).send({
+      teamMember,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount
+    });
+    res.end();
+    return;
+  } else {
+    res.status(500).send({
+      message: "Error Fetching the Details of the Freelancers"
+    });
+    res.end();
+    return;
+  }
+});
 module.exports = { router };
 
 /**
