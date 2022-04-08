@@ -1817,7 +1817,7 @@ router.route("/notification").get(async (req, res) => {
    * getting the count of the unread notifications
    */
   const unreadNotificationCount = await countofNotificationOfExecutive(
-    req.body.field_id
+    req.query.field_id
   );
   const unreadNotification = await Database.ExecutiveNotifications.findAll({
     attributes: [
@@ -1838,7 +1838,7 @@ router.route("/notification").get(async (req, res) => {
     where: {
       isPaused: false,
       deleted: false,
-      field_id: req.body.field_id
+      field_id: req.query.field_id
     },
     limit: 50
   }).then(notifications => {
