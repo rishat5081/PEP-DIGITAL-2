@@ -347,6 +347,363 @@ router.get("/addFreelance", async (req, res) => {
     return;
   }
 });
+
+// route for the managing the team
+//route to manage team
+router.get("/manageTeam", async (req, res) => {
+  //getting the notificaton of the user
+  let unreadNotificationCount = await countofNotificationOfTeamLead(
+    req.query.team_L_uuid
+  );
+
+  // getting the all executive which are no in any team they are working as freelance
+  let teamMember = await Database.Field_Executive.findAll({
+    attributes: ["field_uuid", "field_name", "field_contact"],
+    include: {
+      model: Database.User_Login_Information,
+      required: true,
+      attributes: ["login_email", "createdAt"],
+      where: {
+        paused: 0,
+        deleted: 0
+      }
+    },
+    where: {
+      field_isDeleted: 0,
+      field_isPaused: 0,
+      team_L_id: req.query.team_L_id
+    }
+  })
+    .then(member => {
+      return member ? member : null;
+    })
+    .catch(error => {
+      console.error("Error in getting Member");
+      console.trace(error);
+      return error ? null : true;
+    });
+
+  res.status(200).send({
+    teamMember,
+    url: req.protocol + "://" + req.get("host")
+  });
+
+  res.end();
+});
+
+//convey the message page
+router.get("/conveyMessage", async (req, res) => {
+  //getting the team lead notifications
+  let unreadNotificationCount = await countofNotificationOfTeamLead(
+    req.query.team_L_uuid
+  );
+
+  //getting the team-lead , member
+  let teamMember = await Database.Field_Executive.findAll({
+    attributes: ["field_id", "field_uuid", "field_name", "field_contact"],
+    where: {
+      team_L_id: req.query.team_L_id,
+      field_isDeleted: 0,
+      field_isPaused: 0
+    }
+  })
+    .then(member => {
+      // console.warn(member);
+      return member ? member : null;
+    })
+    .catch(error => {
+      console.error("Error in getting Member");
+      console.trace(error);
+      return error ? null : true;
+    });
+
+  if (teamMember !== null) {
+    res.status(200).send({
+      teamMember,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount
+    });
+    unreadNotificationCount = null;
+    res.end();
+  } else {
+    res.status(400).send({ status: "error", message: "Invalid parameters" });
+  }
+});
+
+//manage Incentive
+router.get("/manageIncentive", async (req, res) => {
+  let unreadNotificationCount = await countofNotificationOfTeamLead(
+    req.query.team_L_uuid
+  );
+
+  //getting the recommendation list from the data
+
+  let recommendation = await Database.Executive_Recommendation.findAll({
+    attributes: ["exec_recomm_uuid", "Recommendation"],
+    where: {
+      deleted: false,
+      paused: false
+    }
+  }).catch(error => {
+    if (error) {
+      console.error("Error Fetching the Data of Executive Recommendation");
+      console.trace(error);
+      return null;
+    }
+  });
+  /**
+   * getting the members from the database
+   */
+
+  let teamMembers = await Database.Field_Executive.findAll({
+    attributes: ["field_id", "field_uuid", "field_name"],
+    where: {
+      team_L_id: req.query.team_L_id,
+      field_isDeleted: 0,
+      field_isPaused: 0
+    }
+  }).catch(error => {
+    if (error) {
+      console.error("Error Fetching the Data of Executive");
+      console.trace(error);
+      return null;
+    }
+  });
+
+  if (recommendation.length > 0 && teamMembers.length > 0) {
+    res.status(200).send({
+      recommendation,
+      teamMembers,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount
+    });
+    res.end();
+    return;
+  } else {
+    res.status(400).send({
+      status: "error",
+      message: "No Record found"
+    });
+    res.end();
+    return;
+  }
+});
+
+//displaying the pending recommendations
+router.get("/recommendations", async (req, res) => {
+  let unreadNotificationCount = await countofNotificationOfTeamLead(
+    req.query.team_L_uuid
+  );
+
+  //getting the recommendation list from the data
+
+  let allRecommendations = await Database.Advertisement_Recommendation.findAll({
+    attributes: [
+      "team_lead_forward_status",
+      "status",
+      "createdAt",
+      "advert_recom_uuid"
+    ],
+    include: [
+      {
+        model: Database.Agency_Info,
+        required: true,
+        attributes: ["agency_name", "agency_city"],
+        where: {
+          deleted: 0,
+          isPaused: 0
+        }
+      },
+      {
+        model: Database.AdvertismentGift,
+        required: true,
+        attributes: ["adver_gift_name"],
+        where: {
+          deleted: 0,
+          paused: 0
+        }
+      },
+      {
+        model: Database.Field_Executive,
+        required: true,
+        attributes: ["field_name"],
+        where: {
+          field_isDeleted: 0,
+          field_isPaused: 0,
+          team_L_id: req.query.team_L_id
+        }
+      }
+    ],
+    where: {
+      paused: 0,
+      status: 0,
+      deleted: 0
+    }
+  })
+    .then(result => {
+      if (result) return result;
+      else return null;
+    })
+    .catch(err => {
+      if (err) {
+        console.log("Error Getting all the recommendation");
+        console.trace(err);
+        return null;
+      }
+    });
+
+  if (allRecommendations.length > 0) {
+    res.status(200).send({
+      allRecommendations,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount
+    });
+    res.end();
+    return;
+  } else {
+    res.status(400).send({
+      status: "error",
+      message: "No Record Found"
+    });
+    res.end();
+    return;
+  }
+});
+
+//view the recommendation history
+router.get("/viewRecommendationsHistory", async (req, res) => {
+  let unreadNotificationCount = await countofNotificationOfTeamLead(
+    req.query.team_L_uuid
+  );
+
+  //getting the recommendation list from the data
+
+  let allRecommendations = await Database.Advertisement_Recommendation.findAll({
+    attributes: [
+      "team_lead_forward_status",
+      "team_lead_decline_status",
+      "team_lead_decline_descr",
+      "team_lead_dateTime",
+      "advert_recom_uuid"
+    ],
+    include: [
+      {
+        model: Database.Agency_Info,
+        required: true,
+        attributes: ["agency_name", "agency_city"],
+        where: {
+          deleted: 0,
+          isPaused: 0
+        }
+      },
+      {
+        model: Database.AdvertismentGift,
+        required: true,
+        attributes: ["adver_gift_name"],
+        where: {
+          deleted: 0,
+          paused: 0
+        }
+      },
+      {
+        model: Database.Field_Executive,
+        required: true,
+        attributes: ["field_name"],
+        where: {
+          field_isDeleted: 0,
+          field_isPaused: 0,
+          team_L_id: req.query.team_L_id
+        }
+      }
+    ],
+    where: {
+      paused: 0,
+      status: 1,
+      deleted: 0
+    }
+  })
+    .then(result => {
+      if (result) return result;
+      else return null;
+    })
+    .catch(err => {
+      if (err) {
+        console.log("Error Getting all the recommendation");
+        console.trace(err);
+        return null;
+      }
+    });
+
+  if (allRecommendations.length > 0) {
+    res.status(200).send({
+      allRecommendations,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount
+    });
+    res.end();
+    return;
+  } else {
+    res.status(400).send({
+      status: "error",
+      message: "No Record Found"
+    });
+    res.end();
+    return;
+  }
+});
+
+//view all the notificatons
+router.get("/notification", async (req, res) => {
+  /**
+   * getting the count of the unread notifications
+   */
+  const unreadNotificationCount = await countofNotificationOfTeamLead(
+    req.query.team_L_uuid
+  );
+  const unreadNotification = await Database.TeamLead_Notifications.findAll({
+    attributes: [
+      "teamLead_notification_uuid",
+      "notification_text",
+      "isRead",
+      "createdAt"
+    ],
+    include: {
+      model: Database.NotificationText,
+      attributes: ["notification_title", "notification_icon"],
+      required: true,
+      where: {
+        isPaused: false,
+        deleted: false
+      }
+    },
+    where: {
+      isPaused: false,
+      deleted: false,
+      team_L_id: req.query.team_L_id
+    },
+    limit: 50
+  }).then(notifications => {
+    if (notifications) return notifications;
+  });
+
+  if (unreadNotification.length > 0) {
+    res.status(200).send({
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      unreadNotification
+    });
+    res.end();
+    return;
+  } else {
+    res.status(400).send({
+      status: "error",
+      message: "No Notification Found"
+    });
+    res.end();
+    return;
+  }
+});
+
 module.exports = { router };
 
 /**
