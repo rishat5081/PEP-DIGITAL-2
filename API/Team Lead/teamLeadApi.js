@@ -704,6 +704,70 @@ router.get("/notification", async (req, res) => {
   }
 });
 
+/**
+ *
+ *
+ *
+ *
+ *
+ *
+ **
+ *
+ *
+ *
+ * ************************* Controllers *************************
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ ***/
+router.post("/uploadProfilePhoto", async (req, res) => {
+  multerFile_Upload_ForAPI(req, res, err => {
+    if (err) {
+      return res.send({ messages: err, type: "danger" });
+    } else {
+      let filename = req.files[0].filename;
+      let filePath = req.files[0].destination.split("./public");
+
+      Database.Team_Lead.update(
+        {
+          team_L_userProfilePic: filePath[1] + filename
+        },
+        {
+          where: {
+            login_id: req.body.login_id
+          }
+        }
+      ).then(response => {
+        if (response) {
+          res.send({
+            type: "success",
+            messages: "Profile Image Uploaded",
+            profileImage: filePath[1] + filename
+          });
+        } else {
+          res.send({
+            type: "danger",
+            messages: "Error! in Uploading Image! "
+          });
+        }
+      });
+    }
+  });
+});
+
 module.exports = { router };
 
 /**
