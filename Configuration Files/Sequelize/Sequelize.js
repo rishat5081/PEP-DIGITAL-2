@@ -6,7 +6,7 @@ require("dotenv").config();
 
 module.exports = new Sequelize(
   // "aksjd",
-
+  //
   // "pep_digital",
   // "root",
   // "root",
