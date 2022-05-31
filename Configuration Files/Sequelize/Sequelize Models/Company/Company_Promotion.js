@@ -4,9 +4,10 @@
 //   GM_Company = require("../Stakeholders/GM_Company");
 
 "use strict";
-module.exports = (sequelize, { DataTypes, UUIDV4 }) => {
-  const Company_Promotion = sequelize.define(
-    "Company_Promotion",
+module.exports = (sequelize, { DataTypes,Model, UUIDV4 }) => {
+    class Company_Promotion extends Model {}
+  
+    Company_Promotion.init(
     {
       comp_prom_id: {
         type: DataTypes.INTEGER,
