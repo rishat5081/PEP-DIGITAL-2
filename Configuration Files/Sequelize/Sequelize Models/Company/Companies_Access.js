@@ -2,9 +2,12 @@
 //   sequelize = require("../../Sequelize"),
 //   Super_Admin = require("../Stakeholders/Super_Admin");
 "use strict";
-module.exports = (sequelize, { DataTypes,  UUIDV4 }) => {
-  const Companies_Access = sequelize.define(
-    "Companies_Access",
+module.exports = (sequelize, { DataTypes,Model,  UUIDV4 }) => {
+  class Companies_Access extends Model {}
+
+  // const Companies_Access = sequelize.define(
+  //   "Companies_Access",
+  Companies_Access.init(
     {
       comp_access_id: {
         type: DataTypes.INTEGER,
