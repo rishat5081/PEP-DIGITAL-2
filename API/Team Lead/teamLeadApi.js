@@ -852,6 +852,89 @@ router.route("/updateProfileInfo").post(async (req, res) => {
   }
 });
 
+router.route("/updateProfileInfo").post(async (req, res) => {
+  const dbResponse = await Database.Role_ExtraInfo.findOne({
+    include: {
+      model: Database.User_Role,
+      attributes: [],
+      where: {
+        type_name: {
+          [Op.like]: "%Team Lead%",
+          [Op.like]: "%Team%"
+        }
+      }
+    },
+    attributes: ["target", "commission", "salary"],
+    where: {
+      paused: 0,
+      deleted: 0
+    }
+  })
+    .then(response => {
+      if (response) return response;
+      else return null;
+    })
+    .catch(error => {
+      if (error) {
+        console.error("Error! Can not Fetch Commissions and Target from DB");
+        console.trace(error);
+        return null;
+      }
+    });
+
+  if (dbResponse !== null) {
+    const updateStatus = await Database.Team_Lead.update(
+      {
+        team_L_name: req.body.name,
+        team_L_contact: req.body.contact,
+        team_L_username: req.body.username,
+        team_L_target: dbResponse.dataValues.target,
+        team_L_salary: dbResponse.dataValues.salary,
+        team_L_commission: dbResponse.dataValues.commission
+      },
+      {
+        where: {
+          login_id: req.body.login_id
+        }
+      }
+    )
+      .then(response => {
+        //console.(response);
+        if (response) {
+          return response;
+        } else {
+          return null;
+        }
+      })
+      .catch(error => {
+        if (error) {
+          console.error("Error Updating the Team lead Info");
+          console.trace(error);
+          return null;
+        }
+      });
+
+    if (updateStatus !== null) {
+      res.status(200).send({
+        type: "success",
+        messages: "Updated"
+      });
+      res.end();
+    } else {
+      res.status(400).send({
+        type: "danger",
+        messages: "Error! Can not update the information"
+      });
+      res.end();
+    }
+  } else {
+    res.status(400).send({
+      type: "danger",
+      messages: "Error! No Role Details found"
+    });
+  }
+});
+
 module.exports = { router };
 
 /**
