@@ -935,6 +935,54 @@ router.route("/updateProfileInfo").post(async (req, res) => {
   }
 });
 
+router.route("/updateTeamLeadProfile").post(async (req, res) => {
+  let userReqBody = { ...req.body };
+  let lengthofUser_Req = Object.keys(userReqBody).length;
+
+  if (lengthofUser_Req === getAuthenticateJSON(userReqBody)) {
+    /**
+     * Updating the email if the user entered the new email address
+     */
+    const emailUpdate = await Database.User_Login_Information.update(
+      {
+        login_email: userReqBody.email
+      },
+      {
+        where: {
+          login_id: req.body.login_id,
+          paused: 0,
+          deleted: 0
+        }
+      }
+    );
+
+    const updateExecutiveInfo = await Database.Team_Lead.update(
+      {
+        team_L_name: userReqBody.fullname,
+        team_L_contact: userReqBody.contact,
+        team_L_username: userReqBody.username
+      },
+      {
+        where: {
+          team_L_uuid: req.body.team_L_uuid
+        }
+      }
+    );
+    if (emailUpdate && updateExecutiveInfo) {
+      res.status(200).send({ status: "Information Updated" });
+    } else {
+      console.trace(
+        "There is an error while updating the Information of User @ Line"
+      );
+      res.status(500).send({
+        error: "error",
+        details: "Error! while updating your information."
+      });
+    }
+  } else
+    res.status(400).send({ error: "error", details: "Invalid entered data" });
+});
+
 module.exports = { router };
 
 /**
@@ -942,7 +990,18 @@ module.exports = { router };
 count of the notificaiton
 
 **/
-
+getAuthenticateJSON = userReqBody => {
+  Object.keys(userReqBody).forEach(key => {
+    if (
+      userReqBody[key] === "select" ||
+      userReqBody[key] === "update" ||
+      userReqBody[key] === "insert"
+    ) {
+      delete userReqBody[key];
+    }
+  });
+  return Object.keys(userReqBody).length;
+};
 const countofNotificationOfTeamLead = async team_L_id => {
   return await Database.TeamLead_Notifications.findAll({
     attributes: [
