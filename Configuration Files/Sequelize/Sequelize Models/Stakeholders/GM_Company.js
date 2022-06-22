@@ -4,9 +4,13 @@
 //   Companies_Access = require("../Company/Companies_Access"),
 //   Zone = require("../Zone");
 "use strict";
-module.exports = (sequelize, { DataTypes,  UUIDV4 }) => {
-  const GM_Company = sequelize.define(
-    "GM_Company",
+module.exports = (sequelize, { DataTypes,Model, UUIDV4 }) => {
+
+  class GM_Company extends Model {}
+
+  GM_Company.init(
+  // const GM_Company = sequelize.define(
+    // "GM_Company",
     {
       gm_id: {
         type: DataTypes.INTEGER,
@@ -83,7 +87,34 @@ module.exports = (sequelize, { DataTypes,  UUIDV4 }) => {
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE"
-      }
+      },
+
+      login_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: false,
+        autoIncrement: false,
+        references: {
+          model: "user_login_information",
+          key: "login_id"
+        },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE"
+      },
+      gm_isDeleted: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false
+      },
+      gm_isPaused: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false
+      },
+      gm_username: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
     },
     {
       sequelize,
@@ -96,9 +127,7 @@ module.exports = (sequelize, { DataTypes,  UUIDV4 }) => {
   //GM_Company.sync({ force: true }).then(re => //console.log(re))
   GM_Company.associate = (models) => {
     /**One GM has one company */
-    models.Companies_Access.hasOne(GM_Company, {
-      foreignKey: "comp_access_id"
-    });
+    models.Companies_Access.hasOne(GM_Company, { foreignKey: "comp_access_id"});
 
     GM_Company.belongsTo(models.Companies_Access, {
       targetKey: "comp_access_id",
@@ -112,14 +141,24 @@ module.exports = (sequelize, { DataTypes,  UUIDV4 }) => {
       targetKey: "zone_id",
       foreignKey: "zone_id"
     });
+    models.User_Login_Information.hasOne(GM_Company, {
+      foreignKey: "login_id"
+    });
+
+    GM_Company.belongsTo(models.User_Login_Information, {
+      targetKey: "login_id",
+      foreignKey: "login_id"
+    });
+  
   };
+
 
   // /**One GM has one company */
   // Companies_Access.hasOne(GM_Company, { foreignKey: "comp_access_id" });
 
   // GM_Company.belongsTo(Companies_Access, {
   //   targetKey: "comp_access_id",
-  //   foreignKey: "comp_access_id"
+  //   foreignKey: "comp_access_id" 
   // });
 
   // /**One Zone has only one GM  */
