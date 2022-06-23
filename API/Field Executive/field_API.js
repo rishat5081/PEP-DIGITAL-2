@@ -42,15 +42,13 @@ router.get(
       }
     });
 
-    res.status(200).send([
-      {
-        url: req.protocol + "://" + req.get("host"),
-        profileData,
-        webAds,
-        unreadNotificationCount:
-          unreadNotificationCount[0].dataValues.unreadNotificationCount
-      }
-    ]);
+    res.status(200).send({
+      url: req.protocol + "://" + req.get("host"),
+      profileData,
+      webAds,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount
+    });
     unreadNotificationCount = null;
   }
 );
@@ -146,19 +144,17 @@ router.get(
         };
       }
 
-      res.status(200).send([
-        {
-          status: "Found",
-          field_executive_info,
-          teamLead_Info,
-          City_Area_Info,
-          LoginEmail,
-          url: req.protocol + "://" + req.get("host"),
-          countOfTargetsActivities,
-          unreadNotificationCount:
-            unreadNotificationCount[0].dataValues.unreadNotificationCount
-        }
-      ]);
+      res.status(200).send({
+        status: "Found",
+        field_executive_info,
+        teamLead_Info,
+        City_Area_Info,
+        LoginEmail,
+        url: req.protocol + "://" + req.get("host"),
+        countOfTargetsActivities,
+        unreadNotificationCount:
+          unreadNotificationCount[0].dataValues.unreadNotificationCount
+      });
     } else {
       res.status(200).send({
         status: "Invalid",
@@ -207,12 +203,10 @@ router.route("/updateProfile").post(async (req, res) => {
     )
       .then(response => {
         if (response) {
-          res.send([
-            {
-              status: "success",
-              messages: "Updated"
-            }
-          ]);
+          res.send({
+            status: "success",
+            messages: "Updated"
+          });
           res.end();
         }
       })
@@ -285,14 +279,12 @@ router.route("/uploadImage").post(async (req, res) => {
         }
       ).then(response => {
         if (response) {
-          res.send([
-            {
-              status: "success",
-              messages: "Profile Image Uploaded",
-              url: req.protocol + "://" + req.get("host"),
-              ProfilePic: filePath[1] + filename
-            }
-          ]);
+          res.send({
+            status: "success",
+            messages: "Profile Image Uploaded",
+            url: req.protocol + "://" + req.get("host"),
+            ProfilePic: filePath[1] + filename
+          });
         } else {
           res.send({
             type: "danger",
@@ -350,12 +342,10 @@ router.route("/updateProfileInfo").post(async (req, res) => {
     )
       .then(response => {
         if (response) {
-          res.send([
-            {
-              status: "success",
-              messages: "Updated"
-            }
-          ]);
+          res.send({
+            status: "success",
+            messages: "Updated"
+          });
           res.end();
         }
       })
@@ -439,16 +429,14 @@ router.get(
         if (error) console.error("Error Fetching Activities : " + error);
       });
 
-    res.status(200).send([
-      {
-        dbResponse,
-        subActivities,
-        url: req.protocol + "://" + req.get("host"),
-        unreadNotificationCount:
-          unreadNotificationCount[0].dataValues.unreadNotificationCount,
-        totalActivities: subActivities.length
-      }
-    ]);
+    res.status(200).send({
+      dbResponse,
+      subActivities,
+      url: req.protocol + "://" + req.get("host"),
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      totalActivities: subActivities.length
+    });
     unreadNotificationCount = null;
   }
 );
@@ -578,17 +566,15 @@ router.get(
             console.error("Error Fetching Sum of Activities : " + error);
         });
 
-      res.status(200).send([
-        {
-          sumOf_Activities: sumOf_Activities[0].dataValues,
-          agencyInfo,
-          Activity_Info,
-          subActivities,
-          url: req.protocol + "://" + req.get("host"),
-          unreadNotificationCount:
-            unreadNotificationCount[0].dataValues.unreadNotificationCount
-        }
-      ]);
+      res.status(200).send({
+        sumOf_Activities: sumOf_Activities[0].dataValues,
+        agencyInfo,
+        Activity_Info,
+        subActivities,
+        url: req.protocol + "://" + req.get("host"),
+        unreadNotificationCount:
+          unreadNotificationCount[0].dataValues.unreadNotificationCount
+      });
       unreadNotificationCount = null;
     } else if (activitiesResponse === null) {
       res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`);
@@ -686,30 +672,24 @@ router.get("/bankDeposit", async (req, res) => {
      */
 
     if (sumOf_Activities) {
-      res.send([
-        {
-          bankList,
-          companyDetails,
-          sumOf_Activities,
-          url: req.protocol + "://" + req.get("host"),
-          activityDetails: activitiesResponse
-        }
-      ]);
+      res.send({
+        bankList,
+        companyDetails,
+        sumOf_Activities,
+        url: req.protocol + "://" + req.get("host"),
+        activityDetails: activitiesResponse
+      });
     } else {
-      res.status(200).send([
-        {
-          status: "error",
-          message: "No Information Found with this Activity ID"
-        }
-      ]);
-    }
-  } else {
-    res.status(200).send([
-      {
+      res.status(200).send({
         status: "error",
         message: "No Information Found with this Activity ID"
-      }
-    ]);
+      });
+    }
+  } else {
+    res.status(200).send({
+      status: "error",
+      message: "No Information Found with this Activity ID"
+    });
   }
 });
 
@@ -804,18 +784,16 @@ router.get("/contactAboutActivity", async (req, res) => {
     });
 
   if (activity === null) {
-    res.send([{ status: "Error", message: "No Activity Found" }]);
+    res.send({ status: "Error", message: "No Activity Found" });
     res.end();
     return;
   } else {
-    res.send([
-      {
-        status: "success",
-        message: "Activity Found",
-        activityUUID: req.query.activityUUID,
-        url: req.protocol + "://" + req.get("host")
-      }
-    ]);
+    res.send({
+      status: "success",
+      message: "Activity Found",
+      activityUUID: req.query.activityUUID,
+      url: req.protocol + "://" + req.get("host")
+    });
     res.end();
   }
 });
@@ -953,17 +931,15 @@ router.get(
         return null;
       });
 
-    res.status(200).send([
-      {
-        url: req.protocol + "://" + req.get("host"),
-        unreadNotificationCount:
-          unreadNotificationCount[0].dataValues.unreadNotificationCount,
-        agencyTypes,
-        CompaignsList,
-        pakistanCityName,
-        instrucntions: activity_Instruc
-      }
-    ]);
+    res.status(200).send({
+      url: req.protocol + "://" + req.get("host"),
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      agencyTypes,
+      CompaignsList,
+      pakistanCityName,
+      instrucntions: activity_Instruc
+    });
 
     // Notification = null
     unreadNotificationCount = null;
@@ -1564,17 +1540,14 @@ router.route("/companyDeposits").get(async (req, res) => {
   );
   if (bankDeposits.length > 0) {
     // res.send(bankDeposits)
-    res.status(200).send([
-      {
-        url: req.protocol + "://" + req.get("host"),
-        unreadNotificationCount:
-          unreadNotificationCount[0].dataValues.unreadNotificationCount,
-        bankDeposits
-      }
-    ]);
+    res.status(200).send({
+      url: req.protocol + "://" + req.get("host"),
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      bankDeposits
+    });
     res.end();
-  } else
-    res.status(200).send([{ status: "Error", message: "Invalid Request" }]);
+  } else res.status(200).send({ status: "Error", message: "Invalid Request" });
   res.end();
 });
 
