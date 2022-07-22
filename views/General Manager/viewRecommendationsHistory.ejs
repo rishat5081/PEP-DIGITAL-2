@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>View All Assigned Gifts</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--===============================================================================================-->
+    <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/vendor/bootstrap/css/bootstrap.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/fonts-1/font-awesome-4.7.0/css/font-awesome.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/main.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<%=url%>/css/style_2.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%=url%>/toastr/toastr.min.css"
+    />
+  </head>
+
+  <body>
+    <!--  Navigation-->
+    <div class="limiter">
+      <div class="container-profile100">
+        <div class="header w-100">
+          <div class="cover-image100">
+            <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
+            <a href="#">
+              <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
+            </a>
+            <a href="<%=url%>/generalManager/notification">
+              <span class="fa fa-bell menu-button">
+                <span class="button__badge" style="display: none"></span>
+              </span>
+            </a>
+            <nav id="menu">
+              <ul>
+                <% permissions.forEach(element=> { %>
+                <li>
+                  <a
+                    href="<%=url%>/generalManager<%= element.controller%>/<%=info.uuid%>"
+                  >
+                    <span class="<%= element.icon%>"></span>
+                    <%= element.permission_name %>
+                  </a>
+                </li>
+                <% }); %>
+                <li>
+                  <a href="<%=url%>/generalManager/signout">
+                    <span class="fa fa-sign-out"> </span> Log Out</a
+                  >
+                </li>
+              </ul>
+              <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
+            </nav>
+          </div>
+          <!-- --------------------- -->
+          <!-- advertisment,
+        cityNames, -->
+          <!-- --------------------------- -->
+          <div class="container salesup">
+            <h3 class="col-12  text-center m-auto">All Assigned Gifts</h3>
+              <input
+                type="text"
+                id="myInput"
+                onkeyup="myFunction()"
+                placeholder="Search for Recommendation.."
+                title="Find the Recommendation"
+                class="p-2 form-control cardsection w-25 mt-2"
+              />
+              <div class="table-responsive mt-4 mb-5">
+
+              <table class="table " id="depositedSlipTable" name="table">
+                <thead class="table-primary">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Manager Name</th>
+                    <th scope="col">Agency Name</th>
+                    <th scope="col">Agency City</th>
+                    <th scope="col">Gift Name</th>
+                    <th scope="col">Status</th>
+
+                    <th scope="col">Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% allRecommendations.forEach((element,index) => { %>
+                  <tr>
+                    <th scope="row"><%=++index %></th>
+                    <td><%= element.Manager.man_name %></td>
+                    <td><%= element.Agency_Info.agency_name %></td>
+                    <td><%= element.Agency_Info.agency_city %></td>
+                    <td><%= element.AdvertismentGift.adver_gift_name %></td>
+                    <% if (element.mana_approval) { %>
+                    <td style="color: green">Approved</td>
+                    <% } else{%>
+                    <td style="color: rgb(250, 79, 0)">Declined</td>
+                    <% } %>
+                    <td><%= element.mana_dateTime %></td>
+                  </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="<%=url%>/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="<%=url%>/vendor/bootstrap/js/popper.min.js"></script>
+    <script src="<%=url%>/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="<%=url%>/vendor/jquery/tilt.jquery.min.js"></script>
+    <script src="<%=url%>/toastr/toastr.min.js"></script>
+    <script>
+      var notificationCount = JSON.parse(
+        "<%-JSON.stringify(unreadNotificationCount)%>"
+      );
+
+      function pagination() {
+        //   $('#data').after('<div id="nav" class="text-center"></div>');
+        var rowsShown = 10;
+        var rowsTotal = $("#depositedSlipTable tbody tr").length;
+        if (rowsShown < rowsTotal) {
+          $("#depositedSlipTable").after(
+            '<div id="nav" class="text-center" ></div>'
+          );
+          var numPages = rowsTotal / rowsShown;
+          for (i = 0; i < numPages; i++) {
+            var pageNum = i + 1;
+            $("#nav").append(
+              '<a href="#" rel="' + i + '">' + pageNum + "</a> "
+            );
+          }
+          $("#depositedSlipTable tbody tr").hide();
+          $("#depositedSlipTable tbody tr").slice(0, rowsShown).show();
+          $("#nav a").bind("click", function () {
+            var currPage = $(this).attr("rel");
+            var startItem = currPage * rowsShown;
+            var endItem = startItem + rowsShown;
+            $("#depositedSlipTable tbody tr")
+              .css("opacity", "0.0")
+              .hide()
+              .slice(startItem, endItem)
+              .css("display", "table-row")
+              .animate(
+                {
+                  opacity: 1,
+                },
+                300
+              );
+          });
+        }
+      }
+
+      window.onload = () => {
+        pagination();
+      };
+      if (notificationCount) {
+        $(".button__badge").css("display", "block");
+        $(".button__badge").html(
+          JSON.parse("<%-JSON.stringify(unreadNotificationCount)%>")
+        );
+      }
+
+      $(".js-tilt").tilt({
+        scale: 1.1,
+      });
+
+      // console.log(JSON.parse(`%-JSON.stringify(advertisment)%>`));
+      var menu = document.getElementById("menu");
+
+      function openMenu() {
+        menu.style.top = "0";
+      }
+      function closeMenu() {
+        menu.style.top = "-100vh";
+      }
+
+      const myFunction = () => {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("depositedSlipTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[0];
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            console.log(txtValue);
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          }
+        }
+      };
+    </script>
+  </body>
+</html>
