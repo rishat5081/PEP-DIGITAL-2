@@ -78,7 +78,7 @@
   height: 100vh;
   background: #9153c7ea;
   z-index: 2;
-  top: -100vh;
+  top: -120vh;
   left: 0;
   display: flex;
   align-items: center;
@@ -107,7 +107,7 @@
 }
 
 .container-profile100 .header .cover-image100 nav ul li a {
-  font-size: 25px;
+  /* font-size: 25px; */
   color: #fff;
   padding: 10px;
   letter-spacing: 3px;
@@ -149,7 +149,7 @@
 .header img {
   width: 100%;
   border-radius: 50%;
-  height: 220px;
+  /* height: 220px; */
 }
 
 .prf-img {
@@ -842,10 +842,7 @@ ul.ui-autocomplete.ui-menu li {
 
 /* ----------------------------------------------------Sales Page---------------------------- */
 
-.limiter {
-  width: 100%;
-  margin: auto;
-}
+
 
 .sales {
   background: #9053c7;
@@ -854,27 +851,14 @@ ul.ui-autocomplete.ui-menu li {
   background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
   background: linear-gradient(-135deg, #c850c0, #4158d0);
   margin-left: 3.8%;
-  margin-top: 10%;
   width: 90%;
 }
 
-.saletitle {
-  background-color: white;
-}
-
-.flexcontainer {
-  background-color: white;
-  width: 90%;
-  margin: auto;
-}
-
-.salesTabs {
-  margin-left: 2%;
-  padding: 40px 20px;
-}
 
 .activitiesName {
   background-color: #d6cde0 !important;
+  width: 90%;
+  margin-left: 3.8%;
 }
 
 .viewDetailsOfActivity:hover {
@@ -910,18 +894,11 @@ ul.ui-autocomplete.ui-menu li {
   overflow: hidden;
 }
 
-.userinfo {
-  margin-top: 1vw;
-  height: auto;
-  text-align: center;
-  width: 50%;
-  max-width: 100%;
-  margin-left: 24%;
-}
 
 .editicon {
-  position: absolute;
-  right: 10vw;
+  
+ 
+  margin-top: 2px;
 }
 
 .userdatacard {
@@ -930,6 +907,12 @@ ul.ui-autocomplete.ui-menu li {
   height: auto;
   max-width: 100%;
   margin-left: 4%;
+}
+.profile_heading{
+  width: 90%;
+  max-width: 100%;
+  margin-left: 4%;
+
 }
 
 .detname {
@@ -944,21 +927,15 @@ ul.ui-autocomplete.ui-menu li {
   margin-top: 0px;
 }
 
-.info {
-  margin-top: 3vw;
-  height: 500px;
-}
 
 .editbtn {
   position: absolute;
   width: 100%;
   max-width: 100%;
   height: auto;
-  max-height: 3vw;
   text-align: center;
   bottom: 0%;
   left: 0;
-  background: rgba(0, 0, 0, 0.5);
   transition: 0.5s all;
   opacity: 0;
 }
@@ -966,12 +943,11 @@ ul.ui-autocomplete.ui-menu li {
 .piccontainer {
   position: relative;
   border-radius: 50%;
-  width: 12vw;
-  margin-top: 5vw;
-  height: 12vw;
-  margin-left: 40%;
   overflow: hidden;
   transition: 0.5s all;
+  height: 250px;
+  width: 250px;
+  margin: auto;
 }
 
 .piccontainer:hover .editbtn {
@@ -984,94 +960,21 @@ ul.ui-autocomplete.ui-menu li {
   border: 1px solid #c850c0;
 }
 
-#updateProfile_Btn {
-  margin: 0% 0% 5% 36%;
-}
+
 
 /* ------------------------ Activity Completition Page ---------------------------- */
 
-.uppersection {
-  width: 70%;
-  height: auto;
-  max-width: 100%;
-  margin-top: 10%;
-  outline: 2px;
-  padding: 10px;
-  color: inherit;
-  margin-left: 9%;
-  border: 1px solid #3a8ffe;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.05);
-  background: transparent;
+
+.background{
+background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
 }
 
-.amountheading {
-  font-size: 2vw;
+
+.background-border{
+  border: 2px solid #a66cda;
+
 }
 
-.settext {
-  height: auto;
-  width: 100%;
-  max-width: 100;
-}
-
-.lowersection {
-  padding: 0px 3px opx 3px;
-  width: 100%;
-  margin-left: 0%;
-}
-
-.flexpad {
-  padding: 6px 3px opx 3px;
-  width: 100%;
-  margin-left: 0%;
-}
-
-.itemlist {
-  background: #3a8ffe;
-  height: auto;
-  width: 150vw;
-  max-width: 100%;
-  margin-left: 0%;
-  padding: 4px 0px 4px 0px;
-}
-
-.custom-btn {
-  text-align: center;
-  width: 66%;
-  height: auto;
-  max-width: 100%;
-  border: none;
-  outline: none;
-  color: #fff;
-  font-size: 14px;
-  text-transform: uppercase;
-  margin-top: 12px;
-  cursor: pointer;
-  margin-left: 8%;
-  background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
-}
-
-.cardcss {
-  width: 84%;
-  margin-top: 10%;
-  border-color: #3a8ffe;
-}
-
-.cardcss h3 {
-  color: #9658fe;
-  font-size: larger;
-}
-
-.hr {
-  background: #9053c7;
-  background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: linear-gradient(-135deg, #c850c0, #4158d0);
-  width: 100%;
-  height: auto;
-  margin: 0%;
-}
 
 .congrats {
   position: absolute;
@@ -1087,9 +990,6 @@ ul.ui-autocomplete.ui-menu li {
   max-width: 100%;
 }
 
-#amount_earned {
-  margin-left: 20px;
-}
 
 .congrats h1 {
   margin-left: 21%;
@@ -1100,14 +1000,14 @@ ul.ui-autocomplete.ui-menu li {
   font-family: "Sigmar One", cursive;
   cursor: pointer;
   position: absolute;
-  top: 0;
+  top: 80px;
   text-align: center;
   width: 100%;
   margin-top: -3vw;
 }
 
 .blob {
-  margin-top: -5vw;
+  margin-top: 0vw;
   height: 50px;
   width: 50px;
   color: yellowgreen;
@@ -1118,16 +1018,7 @@ ul.ui-autocomplete.ui-menu li {
   font-size: 30px;
   display: none;
 }
-
-.setupprow {
-  margin: 0 auto;
-  top: 0;
-  position: relative;
-}
-
-.setrows {
-  padding: 4px 0px 4px 6px;
-}
+ 
 
 .button__badge {
   background-color: #6c55ca;
@@ -1142,151 +1033,31 @@ ul.ui-autocomplete.ui-menu li {
 
 /* --------------------------- Notifications ----------------------------- */
 
-.notify p {
-  font-size: x-small;
-  margin-left: 6.5vw;
-  margin-top: -1vw;
-}
-
-.notifytitle {
-  height: 4.6vw;
-  width: 74%;
-  margin-top: 5vw;
-  margin-left: 10vw;
-  padding: 1.2vw 0vw 0vw 1vw;
-}
-
-.notificationtitle {
-  background-color: whitesmoke;
-  height: 5vw;
-  max-width: 100%;
-  margin-bottom: 1vw;
-  padding: 1vw;
-  width: 70%;
-  max-width: 100%;
-  margin-left: 11vw;
-  border: 1px solid rgb(205, 205, 211);
-}
-
-.notify {
-  background: linear-gradient(-135deg, #d0e7f5, whitesmoke);
-  background-color: #d0e7f5;
-  width: 70%;
-  border: 1px solid rgb(194, 193, 193);
-  max-width: 100%;
-  margin-left: 11vw;
-  margin-top: 0.5vw;
-}
-
-.line {
-  background-color: gray;
-  height: 0.2vw;
-  margin-top: -1vw;
-  margin-bottom: 0%;
-  width: 70%;
-  max-width: 100%;
-  margin-left: 11vw;
-}
-
-.imgtext {
-  margin-left: 6.5vw;
-  margin-top: -4vw;
-}
-
-.profilepic {
-  border-radius: 50% !important;
-  height: auto !important;
-}
-
-.notificationIcons {
+ .notificationIcons {
   width: 4%;
 }
-
 /* ----------------------------------------- Bank Deposit Page --------------------------------------------- */
 
-.companybank {
-  border: 1px solid #3a8ffe;
-  width: 63%;
-  height: auto;
-  margin-left: 14%;
-  margin-top: 9vw;
-  margin-bottom: 1vw;
-  padding: 2vw 2vw 2vw 4vw;
-}
 
-.companybank h1 {
-  margin-left: 6%;
-}
-
-.companybankdetails {
-  height: auto;
-  padding: 2vw;
-}
-
-.userbank {
-  border: 1px solid #3a8ffe;
-  width: 63%;
-  height: auto;
-  margin-left: 14%;
-  margin-top: 0.5vw;
-  margin-bottom: 1vw;
-  padding: 2vw 2vw 2vw 7vw;
-}
-
-.content {
-  letter-spacing: 1px;
-  background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
-  color: black;
-  height: auto;
-  padding: 8px;
-  font-size: 16px;
-  border: none;
-  border-radius: 4px;
-}
-
-.usertransaction {
-  margin-top: 1vw;
-  width: 100%;
-  height: auto;
-}
-
-.slider {
-  margin-top: 1vw;
-  margin-left: 5%;
-  background-color: whitesmoke;
-  height: auto;
-  width: 90%;
-  margin-bottom: 2vw;
-}
-
-.bankimgs {
-  border: 2px solid #3a8ffe !important;
-  width: 220px !important;
-  height: 100px !important;
-  object-fit: cover !important;
-}
 
 /* -------------------------------------------- Withdraw Page ----------------------------------------------- */
 
-.withdraw {
-  background: linear-gradient(-135deg, #c850c0, #4158d0);
-  margin-left: 2vw;
-  margin-bottom: 1vw;
+.withdraw, .withdraw_with {
   height: auto;
   width: 95%;
   max-width: 100%;
 }
 
 .withdraw_with {
-  padding: 1vw;
-  height: auto;
-  width: 95%;
-  max-width: 100%;
-  margin-left: 2vw;
-  margin-bottom: 2vw;
-  margin-top: 2vw;
+ 
   border: 2px solid #3a8ffe;
 }
+.withdraw{
+  background: linear-gradient(-135deg, #c850c0, #4158d0);
+
+}
+
+
 
 .toast {
   margin-top: 0%;
@@ -1294,37 +1065,6 @@ ul.ui-autocomplete.ui-menu li {
   height: 20%;
 }
 
-.cardcontainer {
-  margin-top: 14%;
-  padding: 10px 10px;
-}
-
-.cardsize {
-  height: auto;
-  max-width: 100%;
-}
-
-.activitydata {
-  width: 95%;
-  height: auto;
-  max-width: 100%;
-  margin-left: 2vw;
-  margin-bottom: 2vw;
-}
-
-.act_title {
-  width: 100%;
-  height: auto;
-  background: #3a8ffe;
-  margin-bottom: 0.5vw;
-  border: 1px solid rgba(86, 61, 124, 0.15);
-}
-
-.activity_record {
-  background-color: whitesmoke;
-  border: 1px solid rgba(86, 61, 124, 0.15);
-  margin-bottom: 0.3vw;
-}
 
 .Appimg {
   height: 2vw !important;
@@ -1341,9 +1081,8 @@ ul.ui-autocomplete.ui-menu li {
 
 .withdraw_with button {
   color: white !important;
-  font-weight: 600;
-  font-size: medium;
-  line-height: 36px;
+  background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
+
 }
 
 /* -------------------------------- Deposit Slip ------------------------------- */
@@ -1363,56 +1102,163 @@ ul.ui-autocomplete.ui-menu li {
   margin-left: 15%;
 }
 
-.back-button {
-  margin-left: 39%;
-}
+
 
 /* ----------------------------- progress anaylytics ------------------------------- */
 
-.saleup {
-  margin-top: 6vw;
+
+.salesup{
+  margin-top: 8vw;
+
 }
 
-canvas {
-  margin-bottom: 2vw;
-  color: rgb(211, 83, 250);
-}
 
 /* ---------------------------------------- Dashboard ----------------------------------------------- */
 
+ @media (min-width: 320px) and (max-width:374px) {
+
 .carouselimg img {
-  height: 34vw;
+  height:380px;}
+
+
+
+.carouselimg_team img {
+  height: 592px;
+  margin-top: 8px;
+}
+.carouselimg_sup img{
+  height: 596px;
+
+}
+.carouselimg_man img{
+  height: 550px;
+
+}
+
+}
+@media (min-width: 375px) and (max-width:424px){
+
+  .carouselimg img {
+    height:380px;
+  }
+
+    .carouselimg_team img {
+    height: 542px;
+      margin-top: 8px;
+    }
+  .carouselimg_sup img{
+    height: 574px;
+
+  }
+  .carouselimg_man img{
+    height: 568px;
+  
+  }
+}
+@media (min-width: 425px) and (max-width: 767px) {
+
+    .carouselimg img {
+      height:400px;
+    }
+      .carouselimg_team img {
+        height: 517px;
+          margin-top: 8px;
+        }
+        .carouselimg_sup img{
+          height: 544px;
+      
+        }
+        .carouselimg_man img{
+          height: 535px;
+        
+        }
+        
+   }
+@media (min-width: 768px) and (max-width: 1339px) {
+
+      .carouselimg img {
+        height:462px;}
+
+        .carouselimg_team img {
+          height: 548px;
+            margin-top: 8px;
+          }
+          .carouselimg_sup img{
+            height: 497px;
+        
+          }
+          .carouselimg_man img{
+            height: 477px;
+          
+          }
+      
+      } 
+@media (min-width: 1024px) and (max-width: 1339px) {
+
+        .carouselimg img {
+          height:620px;
+        }
+
+          .carouselimg_team img {
+            height: 593px;
+              margin-top: 8px;
+            }
+            .carouselimg_sup img{
+              height: 547px;
+          
+            }
+            .carouselimg_man img{
+              height: 518px;
+            
+            }
+        
+        } 
+@media (min-width: 1440px) and (max-width: 2559px) {
+
+          .carouselimg img {
+            height:763px;
+          }
+            .carouselimg_team img {
+              height: 688px;
+                margin-top: 8px;
+              }
+              .carouselimg_sup img{
+                height: 625px;
+            
+              }
+              .carouselimg_man img{
+                height: 585px;
+              
+              }
+          } 
+@media (min-width: 2560px)  {
+
+            .carouselimg img {
+              height:763px;
+            }
+              .carouselimg_team img {
+                height: 688px;
+                  margin-top: 8px;
+                }
+                .carouselimg_sup img{
+                  height: 625px;
+              
+                }
+                .carouselimg_man img{
+                  height: 585px;
+                
+                }
+            } 
+
+.carouselimg img, .carouselimg_sup img, .carouselimg_team img, .carouselimg_man img, .crouselimg_gift img
+{
   border-radius: 0% !important;
+  /* height:380px; */
 }
 
-.dashboardarea {
-  margin-top: 9vw;
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  margin: 01%;
-  padding: 15px;
-  margin-bottom: 5vw;
-}
 
-.profilearea {
-  height: 42vw;
-  width: 100%;
-  text-align: center;
-}
 
-.profile_uppersection {
-  padding: 2vw;
-}
 
-.profile_belowsection {
-  height: 40%;
-}
-
-.profile_uppersection,
-.profile_belowsection {
-  border: 2px solid #23aed1;
-}
 
 /* ---------------------------------------- Contact US ----------------------------------------------- */
 
@@ -1490,7 +1336,7 @@ canvas {
 /* ------------------------------------------- Team Lead Add Freelancer to Team  --------------------------------------------- */
 
 .topmargin {
-  margin-top: 9vw;
+  margin-top: 20%;
 }
 
 /* ------------------------------------------- Convery Message to Team  --------------------------------------------- */
@@ -1552,9 +1398,3 @@ canvas {
   border: 2px solid #3a8ffe;
 }
 
-.linear_bg {
-  background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: linear-gradient(-135deg, #c850c0, #4158d0);
-}
