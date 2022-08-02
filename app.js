@@ -25,10 +25,10 @@ const Sequelize = require("sequelize"),
     SuperVisorLogin,
     Managers,
     ManagerLogin,
-    TeamLead_Login
+    TeamLead_Login,
   } = require("./Configuration Files/Sequelize/Database_Synchronization"),
   {
-    Synchronizing
+    Synchronizing,
   } = require("./Configuration Files/Sequelize/Database_Synchronization"),
   { corsOptionsDelegate } = require("./additional");
 //setting the .env file to read the server port and database ports
@@ -87,7 +87,7 @@ app.set("view engine", "ejs");
 app.use(
   cookieParser("PEP DIGITAL", {
     maxAge: new Date(Date.now() + 1000 * 60 * 60), // for seven days // 1 sec * seconds * minutes * total hours of day * num of days in week
-    httpOnly: true
+    httpOnly: true,
   })
 );
 
@@ -104,9 +104,9 @@ app.use(
       path: "/",
       httpOnly: true,
       secure: false,
-      maxAge: 1000 * 60 * 60 * 24 * 7
+      maxAge: 1000 * 60 * 60 * 24 * 7,
     },
-    resave: true
+    resave: true,
   })
 );
 
@@ -114,7 +114,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(flash());
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.locals.messages = require("express-messages")(req, res);
   next();
 });
@@ -224,7 +224,7 @@ app.post(
   "/LoginForm",
   passportJs_File.authenticate("local-login", {
     failureRedirect: "/login",
-    failureFlash: true
+    failureFlash: true,
   }),
   (req, res, next) => {
     if (req.body.user_remember_me) {
@@ -236,7 +236,7 @@ app.post(
       if (!req.user.userInfo.verified) {
         res.status(200).render("Web Appendage Pages/confirmEmail", {
           message: req.flash("danger", "Please Verify your Email"),
-          uuid: req.user.userInfo.login_uuid
+          uuid: req.user.userInfo.login_uuid,
         });
       }
       if (req.user.userInfo.paused) {
@@ -245,7 +245,7 @@ app.post(
           errorHeading: `You have been temporarily block.
                          In order to get your profile back.
                          Contact your superiors.
-                         `
+                         `,
         });
       }
       if (req.user.userInfo.login_uuid) {
@@ -275,7 +275,7 @@ app.post("/LoginForm", async (req, res) => {
    * here we are solving all those promises
    */
   await menuData
-    .then(profileInfo => {
+    .then((profileInfo) => {
       /**
        * Setting the user profile information into the .
        * sessions so we can use it to the userProfile route and
@@ -306,7 +306,7 @@ app.post("/LoginForm", async (req, res) => {
           edit: element.dataValues.edit,
           delete_permission: element.dataValues.delete_permission,
           add_permission: element.dataValues.add_permission,
-          update_permission: element.dataValues.update_permission
+          update_permission: element.dataValues.update_permission,
         };
         permissionObject[index] = breakPermissions;
         breakPermissions = null;
@@ -328,7 +328,7 @@ app.post("/LoginForm", async (req, res) => {
         //creating the login information of the Supervisor
         ManagerLogin.create({
           ipAddress: req.ip,
-          man_id: profileInfo.userInfo.dataValues.man_id
+          man_id: profileInfo.userInfo.dataValues.man_id,
         });
         if (profileInfo.userInfo.dataValues.man_name !== null || "")
           res
@@ -348,7 +348,7 @@ app.post("/LoginForm", async (req, res) => {
         //creating the login information of the Supervisor
         SuperVisorLogin.create({
           ipAddress: req.ip,
-          sup_id: profileInfo.userInfo.dataValues.sup_id
+          sup_id: profileInfo.userInfo.dataValues.sup_id,
         });
         if (profileInfo.userInfo.dataValues.sup_name !== null || "") {
           console.log("----------------------------------------------");
@@ -369,7 +369,7 @@ app.post("/LoginForm", async (req, res) => {
         //creating the login information of the team lead
         TeamLead_Login.create({
           ipAddress: req.ip,
-          team_L_id: profileInfo.userInfo.dataValues.team_L_id
+          team_L_id: profileInfo.userInfo.dataValues.team_L_id,
         });
 
         if (profileInfo.userInfo.dataValues.team_L_name !== null) {
@@ -395,7 +395,7 @@ app.post("/LoginForm", async (req, res) => {
 
         ExecutiveLogins.create({
           ipAddress: req.ip,
-          field_id: profileInfo.userInfo.dataValues.field_id
+          field_id: profileInfo.userInfo.dataValues.field_id,
         });
 
         if (profileInfo.userInfo.dataValues.field_name !== null) {
@@ -413,11 +413,11 @@ app.post("/LoginForm", async (req, res) => {
         }
       }
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error);
       res.status(200).render("Web Appendage Pages/error", {
         errorStatus: "Sorry ! Your Profile is suspended. ",
-        errorHeading: `Please Contact the Customer Support.`
+        errorHeading: `Please Contact the Customer Support.`,
       });
     });
 });
@@ -430,7 +430,7 @@ function rememberMe_Cookies(res, uuid) {
     maxAge: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7 * 50),
     path: "/",
     secure: isDev ? false : true,
-    signed: isDev ? false : true
+    signed: isDev ? false : true,
   });
 }
 
@@ -444,20 +444,20 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
           "man_isDeleted",
           "man_isPaused",
           "login_id",
-          "updateTimestamp"
-        ]
+          "updateTimestamp",
+        ],
       },
       where: {
         login_id,
         man_isDeleted: 0,
-        man_isPaused: 0
-      }
+        man_isPaused: 0,
+      },
     })
-      .then(response => {
+      .then((response) => {
         if (response) return response;
         else return null;
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) {
           console.error("Error fetching Manager Data");
           console.trace(error);
@@ -474,20 +474,20 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
           "sup_isDeleted",
           "sup_isPaused",
           "login_id",
-          "updateTimestamp"
-        ]
+          "updateTimestamp",
+        ],
       },
       where: {
         login_id,
         sup_isPaused: 0,
-        sup_isDeleted: 0
-      }
+        sup_isDeleted: 0,
+      },
     })
-      .then(response => {
+      .then((response) => {
         if (response) return response;
         else return null;
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) {
           console.error("Error fetching SuperVisor Data");
           console.trace(error);
@@ -500,19 +500,19 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
     const menuData = await getMenu(userRole.type_name);
     const userInfo = await Team_Lead.findOne({
       attributes: {
-        exclude: ["team_L_isDeleted", "team_L_isPaused", "updateTimestamp"]
+        exclude: ["team_L_isDeleted", "team_L_isPaused", "updateTimestamp"],
       },
       where: {
         login_id,
         team_L_isDeleted: 0,
-        team_L_isPaused: 0
-      }
+        team_L_isPaused: 0,
+      },
     })
-      .then(response => {
+      .then((response) => {
         if (response) return response;
         else return null;
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) {
           console.error("Error fetching Team Lead Data");
           console.trace(error);
@@ -529,21 +529,21 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
           "updateTimestamp",
           "field_isDeleted",
           "field_isPaused",
-          "login_id"
-        ]
+          "login_id",
+        ],
       },
       where: {
         login_id,
         // salaryStatus: 0,
         field_isDeleted: 0,
-        field_isPaused: 0
-      }
+        field_isPaused: 0,
+      },
     })
-      .then(response => {
+      .then((response) => {
         if (response) return response;
         else return null;
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) {
           console.error("Error fetching Freelance Field Executive Data");
           console.trace(error);
@@ -560,21 +560,21 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
           "updateTimestamp",
           "field_isDeleted",
           "field_isPaused",
-          "login_id"
-        ]
+          "login_id",
+        ],
       },
       where: {
         login_id,
         // salaryStatus: 1,
         field_isDeleted: 0,
-        field_isPaused: 0
-      }
+        field_isPaused: 0,
+      },
     })
-      .then(response => {
+      .then((response) => {
         if (response) return response;
         else return null;
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) {
           console.error("Error fetching Field Executive Data");
           console.trace(error);
@@ -586,7 +586,7 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
 }
 
 // -------------------------- Getting permissions from the DB -------------------------------------
-const getMenu = async roleName => {
+const getMenu = async (roleName) => {
   return await Permissions.findAll({
     attributes: ["permission_name", "controller", "icon"],
     include: {
@@ -595,14 +595,14 @@ const getMenu = async roleName => {
       where: {
         type_name: roleName,
         paused: 0,
-        deleted: 0
-      }
+        deleted: 0,
+      },
     },
     where: {
       paused: 0,
-      d_deleted: 0
-    }
-  }).catch(error => {
+      d_deleted: 0,
+    },
+  }).catch((error) => {
     if (error) {
       console.error("Error fetching Permissions Data");
       console.trace(error);
@@ -611,9 +611,9 @@ const getMenu = async roleName => {
   });
 };
 
-server.listen(3000, () => {
+server.listen(80, () => {
   console.log(`\x1b[42m--------------------------------------\x1b[0m`);
-  console.log(`\n \x1b[32m Node Server Listening at: 3000 \n \x1b[0m`);
+  console.log(`\n \x1b[32m Node Server Listening at: 80 \n \x1b[0m`);
   console.log(`\x1b[42m--------------------------------------\x1b[0m\n`);
   console.log("Node Memory Status: ", process.memoryUsage());
 });
