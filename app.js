@@ -611,9 +611,9 @@ const getMenu = async (roleName) => {
   });
 };
 
-server.listen(80, () => {
+server.listen(3000, () => {
   console.log(`\x1b[42m--------------------------------------\x1b[0m`);
-  console.log(`\n \x1b[32m Node Server Listening at: 80 \n \x1b[0m`);
+  console.log(`\n \x1b[32m Node Server Listening at: 3000 \n \x1b[0m`);
   console.log(`\x1b[42m--------------------------------------\x1b[0m\n`);
   console.log("Node Memory Status: ", process.memoryUsage());
 });
