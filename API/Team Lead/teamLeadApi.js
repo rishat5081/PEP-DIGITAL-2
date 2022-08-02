@@ -1067,6 +1067,49 @@ router.route("/addMembertoTeam").post(async (req, res) => {
   }
 });
 
+router.route("/allocateSectorToExecutive").post(async (req, res) => {
+  //getting the sector ID from the database
+  let sectorID = await Database.City_Sectors.findOne({
+    attributes: ["city_sector_id"],
+    where: {
+      city_sector_uuid: req.body.selectedArea,
+      deleted: 0,
+      paused: 0,
+    },
+  });
+  let selectedEmployee = JSON.parse(req.body.employees);
+
+  let executiveID = await Database.Field_Executive.findAll({
+    attributes: ["field_id"],
+    where: {
+      field_uuid: selectedEmployee.map((uuid) => uuid),
+      field_isDeleted: 0,
+      field_isPaused: 0,
+    },
+  });
+
+  //console.(sectorID);
+  //console.(selectedEmployee);
+  //console.(executiveID);
+
+  let assignArea = await Database.City_Sector_Assosiate.bulkCreate(
+    executiveID.map((employee) => {
+      return {
+        field_id: employee.field_id,
+        city_sector_id: sectorID.city_sector_id,
+      };
+    })
+  );
+
+  if ((sectorID, selectedEmployee, executiveID, assignArea !== null)) {
+    res.status(200).send({ status: "Area Assigned Successfully" });
+    res.end();
+  } else {
+    res.status(500).send({ error: "Please try again" });
+    res.end();
+  }
+});
+
 module.exports = { router };
 
 /**
