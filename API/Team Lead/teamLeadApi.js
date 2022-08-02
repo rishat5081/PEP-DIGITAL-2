@@ -1,5 +1,5 @@
 const {
-  multerFile_Upload_ForAPI
+  multerFile_Upload_ForAPI,
 } = require("../../Configuration Files/Multer Js/multer");
 
 const router = require("express").Router(),
@@ -28,8 +28,8 @@ router.get("/dashboard", async (req, res) => {
     where: {
       paused: 0,
       deleted: 0,
-      user_role_id: req.query.user_role_id
-    }
+      user_role_id: req.query.user_role_id,
+    },
   });
 
   /**
@@ -45,8 +45,8 @@ router.get("/dashboard", async (req, res) => {
         attributes: ["sup_name"],
         where: {
           sup_isPaused: 0,
-          sup_isDeleted: 0
-        }
+          sup_isDeleted: 0,
+        },
       },
       {
         model: Database.City_Areas,
@@ -54,22 +54,22 @@ router.get("/dashboard", async (req, res) => {
         attributes: ["city_name"],
         where: {
           deleted: 0,
-          paused: 0
-        }
-      }
+          paused: 0,
+        },
+      },
     ],
     where: {
       team_L_id: req.query.team_L_id,
       team_L_uuid: req.query.team_L_uuid,
       team_L_isDeleted: 0,
-      team_L_isPaused: 0
-    }
+      team_L_isPaused: 0,
+    },
   })
-    .then(data => {
+    .then((data) => {
       if (data) return data;
       else return null;
     })
-    .catch(error => {
+    .catch((error) => {
       if (error) {
         console.error("Error Fetchin Dashboard Data of Team Lead");
         console.trace(error);
@@ -87,7 +87,7 @@ router.get("/dashboard", async (req, res) => {
       createdAt: teamLeadDashboard.dataValues.createdAt,
       team_L_salary: teamLeadDashboard.dataValues.team_L_salary,
       sup_name: teamLeadDashboard.dataValues.Supervisor.dataValues.sup_name,
-      city_name: teamLeadDashboard.dataValues.City_Area.dataValues.city_name
+      city_name: teamLeadDashboard.dataValues.City_Area.dataValues.city_name,
     }
   );
 
@@ -95,7 +95,7 @@ router.get("/dashboard", async (req, res) => {
     (webAds, unreadNotificationCount, profileData, teamLeadDashboard === null)
   ) {
     res.status(500).send({
-      message: "Error Fetching Dashboard Details"
+      message: "Error Fetching Dashboard Details",
     });
     res.end();
     return;
@@ -104,7 +104,7 @@ router.get("/dashboard", async (req, res) => {
       profileData,
       webAds,
       unreadNotificationCount:
-        unreadNotificationCount[0].dataValues.unreadNotificationCount
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
     });
     res.end();
     return;
@@ -126,8 +126,8 @@ router.get("/profileTeamLead", async (req, res) => {
         "createdAt",
         "updateTimestamp",
         "sup_id",
-        "city_area_id"
-      ]
+        "city_area_id",
+      ],
     },
     /**
      * getting the inner join with team lead
@@ -140,7 +140,7 @@ router.get("/profileTeamLead", async (req, res) => {
         attributes: ["sup_name"],
         where: {
           sup_isPaused: 0,
-          sup_isDeleted: 0
+          sup_isDeleted: 0,
         },
         include: {
           //this is the many to many relation ship
@@ -148,13 +148,13 @@ router.get("/profileTeamLead", async (req, res) => {
           attributes: ["city_name"],
           required: true,
           through: {
-            attributes: []
+            attributes: [],
           },
           where: {
             paused: 0,
-            deleted: 0
-          }
-        }
+            deleted: 0,
+          },
+        },
       },
       {
         model: Database.City_Areas,
@@ -162,15 +162,15 @@ router.get("/profileTeamLead", async (req, res) => {
         attributes: ["city_name"],
         where: {
           paused: 0,
-          deleted: 0
-        }
-      }
+          deleted: 0,
+        },
+      },
     ],
     where: {
       team_L_uuid: req.query.team_L_uuid,
       team_L_isDeleted: 0,
-      team_L_isPaused: 0
-    }
+      team_L_isPaused: 0,
+    },
   });
 
   // getting the email from the Login Info table
@@ -179,8 +179,8 @@ router.get("/profileTeamLead", async (req, res) => {
     where: {
       login_id: req.query.login_id,
       paused: 0,
-      deleted: 0
-    }
+      deleted: 0,
+    },
   });
   // unread notification count
   let unreadNotificationCount = await countofNotificationOfTeamLead(
@@ -191,7 +191,7 @@ router.get("/profileTeamLead", async (req, res) => {
     LoginEmail,
     teamLead,
     unreadNotificationCount:
-      unreadNotificationCount[0].dataValues.unreadNotificationCount
+      unreadNotificationCount[0].dataValues.unreadNotificationCount,
   });
   res.end();
   return;
@@ -212,13 +212,13 @@ router.get("/assignArea", async (req, res) => {
     where: {
       paused: 0,
       deleted: 0,
-      city_area_id: req.query.city_area_id
-    }
+      city_area_id: req.query.city_area_id,
+    },
   })
-    .then(sectors => {
+    .then((sectors) => {
       return sectors ? sectors : null;
     })
-    .catch(error => {
+    .catch((error) => {
       console.error("Error in getting Area Sector");
       console.trace(error);
       return error ? null : true;
@@ -230,13 +230,13 @@ router.get("/assignArea", async (req, res) => {
     where: {
       team_L_id: req.query.team_L_id,
       field_isDeleted: 0,
-      field_isPaused: 0
-    }
+      field_isPaused: 0,
+    },
   })
-    .then(member => {
+    .then((member) => {
       return member ? member : null;
     })
-    .catch(error => {
+    .catch((error) => {
       console.error("Error in getting all the team members from the Database");
       console.trace(error);
       return error ? null : true;
@@ -248,7 +248,7 @@ router.get("/assignArea", async (req, res) => {
     where: {
       team_L_id: req.query.team_L_id,
       field_isDeleted: 0,
-      field_isPaused: 0
+      field_isPaused: 0,
     },
     include: {
       model: Database.City_Sectors,
@@ -258,20 +258,20 @@ router.get("/assignArea", async (req, res) => {
         attributes: [],
         where: {
           paused: 0,
-          deleted: 0
-        }
+          deleted: 0,
+        },
       },
       where: {
         paused: 0,
-        deleted: 0
-      }
-    }
+        deleted: 0,
+      },
+    },
   })
-    .then(member => {
+    .then((member) => {
       // console.warn(member);
       return member ? member : null;
     })
-    .catch(error => {
+    .catch((error) => {
       console.error("Error in getting Member");
       console.trace(error);
       return error ? null : true;
@@ -285,7 +285,7 @@ router.get("/assignArea", async (req, res) => {
       teamMember,
       allTeamMember,
       unreadNotificationCount:
-        unreadNotificationCount[0].dataValues.unreadNotificationCount
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
     });
     res.end();
     return;
@@ -313,19 +313,19 @@ router.get("/addFreelance", async (req, res) => {
       attributes: ["login_email", "createdAt"],
       where: {
         paused: 0,
-        deleted: 0
-      }
+        deleted: 0,
+      },
     },
     where: {
       field_isDeleted: 0,
       field_isPaused: 0,
-      team_L_id: null
-    }
+      team_L_id: null,
+    },
   })
-    .then(member => {
+    .then((member) => {
       return member ? member : null;
     })
-    .catch(error => {
+    .catch((error) => {
       console.error("Error in getting Member");
       console.trace(error);
       return error ? null : true;
@@ -335,13 +335,13 @@ router.get("/addFreelance", async (req, res) => {
     res.status(200).send({
       teamMember,
       unreadNotificationCount:
-        unreadNotificationCount[0].dataValues.unreadNotificationCount
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
     });
     res.end();
     return;
   } else {
     res.status(500).send({
-      message: "Error Fetching the Details of the Freelancers"
+      message: "Error Fetching the Details of the Freelancers",
     });
     res.end();
     return;
@@ -365,19 +365,19 @@ router.get("/manageTeam", async (req, res) => {
       attributes: ["login_email", "createdAt"],
       where: {
         paused: 0,
-        deleted: 0
-      }
+        deleted: 0,
+      },
     },
     where: {
       field_isDeleted: 0,
       field_isPaused: 0,
-      team_L_id: req.query.team_L_id
-    }
+      team_L_id: req.query.team_L_id,
+    },
   })
-    .then(member => {
+    .then((member) => {
       return member ? member : null;
     })
-    .catch(error => {
+    .catch((error) => {
       console.error("Error in getting Member");
       console.trace(error);
       return error ? null : true;
@@ -385,7 +385,7 @@ router.get("/manageTeam", async (req, res) => {
 
   res.status(200).send({
     teamMember,
-    url: req.protocol + "://" + req.get("host")
+    url: req.protocol + "://" + req.get("host"),
   });
 
   res.end();
@@ -404,14 +404,14 @@ router.get("/conveyMessage", async (req, res) => {
     where: {
       team_L_id: req.query.team_L_id,
       field_isDeleted: 0,
-      field_isPaused: 0
-    }
+      field_isPaused: 0,
+    },
   })
-    .then(member => {
+    .then((member) => {
       // console.warn(member);
       return member ? member : null;
     })
-    .catch(error => {
+    .catch((error) => {
       console.error("Error in getting Member");
       console.trace(error);
       return error ? null : true;
@@ -421,7 +421,7 @@ router.get("/conveyMessage", async (req, res) => {
     res.status(200).send({
       teamMember,
       unreadNotificationCount:
-        unreadNotificationCount[0].dataValues.unreadNotificationCount
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
     });
     unreadNotificationCount = null;
     res.end();
@@ -442,9 +442,9 @@ router.get("/manageIncentive", async (req, res) => {
     attributes: ["exec_recomm_uuid", "Recommendation"],
     where: {
       deleted: false,
-      paused: false
-    }
-  }).catch(error => {
+      paused: false,
+    },
+  }).catch((error) => {
     if (error) {
       console.error("Error Fetching the Data of Executive Recommendation");
       console.trace(error);
@@ -460,9 +460,9 @@ router.get("/manageIncentive", async (req, res) => {
     where: {
       team_L_id: req.query.team_L_id,
       field_isDeleted: 0,
-      field_isPaused: 0
-    }
-  }).catch(error => {
+      field_isPaused: 0,
+    },
+  }).catch((error) => {
     if (error) {
       console.error("Error Fetching the Data of Executive");
       console.trace(error);
@@ -475,14 +475,14 @@ router.get("/manageIncentive", async (req, res) => {
       recommendation,
       teamMembers,
       unreadNotificationCount:
-        unreadNotificationCount[0].dataValues.unreadNotificationCount
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
     });
     res.end();
     return;
   } else {
     res.status(200).send({
       status: "error",
-      message: "No Record found"
+      message: "No Record found",
     });
     res.end();
     return;
@@ -502,7 +502,7 @@ router.get("/recommendations", async (req, res) => {
       "team_lead_forward_status",
       "status",
       "createdAt",
-      "advert_recom_uuid"
+      "advert_recom_uuid",
     ],
     include: [
       {
@@ -511,8 +511,8 @@ router.get("/recommendations", async (req, res) => {
         attributes: ["agency_name", "agency_city"],
         where: {
           deleted: 0,
-          isPaused: 0
-        }
+          isPaused: 0,
+        },
       },
       {
         model: Database.AdvertismentGift,
@@ -520,8 +520,8 @@ router.get("/recommendations", async (req, res) => {
         attributes: ["adver_gift_name"],
         where: {
           deleted: 0,
-          paused: 0
-        }
+          paused: 0,
+        },
       },
       {
         model: Database.Field_Executive,
@@ -530,21 +530,21 @@ router.get("/recommendations", async (req, res) => {
         where: {
           field_isDeleted: 0,
           field_isPaused: 0,
-          team_L_id: req.query.team_L_id
-        }
-      }
+          team_L_id: req.query.team_L_id,
+        },
+      },
     ],
     where: {
       paused: 0,
       status: 0,
-      deleted: 0
-    }
+      deleted: 0,
+    },
   })
-    .then(result => {
+    .then((result) => {
       if (result) return result;
       else return null;
     })
-    .catch(err => {
+    .catch((err) => {
       if (err) {
         console.log("Error Getting all the recommendation");
         console.trace(err);
@@ -556,14 +556,14 @@ router.get("/recommendations", async (req, res) => {
     res.status(200).send({
       allRecommendations,
       unreadNotificationCount:
-        unreadNotificationCount[0].dataValues.unreadNotificationCount
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
     });
     res.end();
     return;
   } else {
     res.status(200).send({
       status: "error",
-      message: "No Record Found"
+      message: "No Record Found",
     });
     res.end();
     return;
@@ -584,7 +584,7 @@ router.get("/viewRecommendationsHistory", async (req, res) => {
       "team_lead_decline_status",
       "team_lead_decline_descr",
       "team_lead_dateTime",
-      "advert_recom_uuid"
+      "advert_recom_uuid",
     ],
     include: [
       {
@@ -593,8 +593,8 @@ router.get("/viewRecommendationsHistory", async (req, res) => {
         attributes: ["agency_name", "agency_city"],
         where: {
           deleted: 0,
-          isPaused: 0
-        }
+          isPaused: 0,
+        },
       },
       {
         model: Database.AdvertismentGift,
@@ -602,8 +602,8 @@ router.get("/viewRecommendationsHistory", async (req, res) => {
         attributes: ["adver_gift_name"],
         where: {
           deleted: 0,
-          paused: 0
-        }
+          paused: 0,
+        },
       },
       {
         model: Database.Field_Executive,
@@ -612,21 +612,21 @@ router.get("/viewRecommendationsHistory", async (req, res) => {
         where: {
           field_isDeleted: 0,
           field_isPaused: 0,
-          team_L_id: req.query.team_L_id
-        }
-      }
+          team_L_id: req.query.team_L_id,
+        },
+      },
     ],
     where: {
       paused: 0,
       status: 1,
-      deleted: 0
-    }
+      deleted: 0,
+    },
   })
-    .then(result => {
+    .then((result) => {
       if (result) return result;
       else return null;
     })
-    .catch(err => {
+    .catch((err) => {
       if (err) {
         console.log("Error Getting all the recommendation");
         console.trace(err);
@@ -638,14 +638,14 @@ router.get("/viewRecommendationsHistory", async (req, res) => {
     res.status(200).send({
       allRecommendations,
       unreadNotificationCount:
-        unreadNotificationCount[0].dataValues.unreadNotificationCount
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
     });
     res.end();
     return;
   } else {
     res.status(200).send({
       status: "error",
-      message: "No Record Found"
+      message: "No Record Found",
     });
     res.end();
     return;
@@ -665,7 +665,7 @@ router.get("/notification", async (req, res) => {
       "teamLead_notification_uuid",
       "notification_text",
       "isRead",
-      "createdAt"
+      "createdAt",
     ],
     include: {
       model: Database.NotificationText,
@@ -673,16 +673,16 @@ router.get("/notification", async (req, res) => {
       required: true,
       where: {
         isPaused: false,
-        deleted: false
-      }
+        deleted: false,
+      },
     },
     where: {
       isPaused: false,
       deleted: false,
-      team_L_id: req.query.team_L_id
+      team_L_id: req.query.team_L_id,
     },
-    limit: 50
-  }).then(notifications => {
+    limit: 50,
+  }).then((notifications) => {
     if (notifications) return notifications;
   });
 
@@ -690,14 +690,14 @@ router.get("/notification", async (req, res) => {
     res.status(200).send({
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      unreadNotification
+      unreadNotification,
     });
     res.end();
     return;
   } else {
     res.status(200).send({
       status: "error",
-      message: "No Notification Found"
+      message: "No Notification Found",
     });
     res.end();
     return;
@@ -734,7 +734,7 @@ router.get("/notification", async (req, res) => {
  *
  ***/
 router.post("/uploadProfilePhoto", async (req, res) => {
-  multerFile_Upload_ForAPI(req, res, err => {
+  multerFile_Upload_ForAPI(req, res, (err) => {
     if (err) {
       return res.send({ messages: err, type: "danger" });
     } else {
@@ -743,24 +743,24 @@ router.post("/uploadProfilePhoto", async (req, res) => {
 
       Database.Team_Lead.update(
         {
-          team_L_userProfilePic: filePath[1] + filename
+          team_L_userProfilePic: filePath[1] + filename,
         },
         {
           where: {
-            login_id: req.body.login_id
-          }
+            login_id: req.body.login_id,
+          },
         }
-      ).then(response => {
+      ).then((response) => {
         if (response) {
           res.send({
             type: "success",
             messages: "Profile Image Uploaded",
-            profileImage: filePath[1] + filename
+            profileImage: filePath[1] + filename,
           });
         } else {
           res.send({
             type: "danger",
-            messages: "Error! in Uploading Image! "
+            messages: "Error! in Uploading Image! ",
           });
         }
       });
@@ -776,21 +776,21 @@ router.route("/updateProfileInfo").post(async (req, res) => {
       where: {
         type_name: {
           [Op.like]: "%Team Lead%",
-          [Op.like]: "%Team%"
-        }
-      }
+          [Op.like]: "%Team%",
+        },
+      },
     },
     attributes: ["target", "commission", "salary"],
     where: {
       paused: 0,
-      deleted: 0
-    }
+      deleted: 0,
+    },
   })
-    .then(response => {
+    .then((response) => {
       if (response) return response;
       else return null;
     })
-    .catch(error => {
+    .catch((error) => {
       if (error) {
         console.error("Error! Can not Fetch Commissions and Target from DB");
         console.trace(error);
@@ -806,15 +806,15 @@ router.route("/updateProfileInfo").post(async (req, res) => {
         team_L_username: req.body.username,
         team_L_target: dbResponse.dataValues.target,
         team_L_salary: dbResponse.dataValues.salary,
-        team_L_commission: dbResponse.dataValues.commission
+        team_L_commission: dbResponse.dataValues.commission,
       },
       {
         where: {
-          login_id: req.body.login_id
-        }
+          login_id: req.body.login_id,
+        },
       }
     )
-      .then(response => {
+      .then((response) => {
         //console.(response);
         if (response) {
           return response;
@@ -822,7 +822,7 @@ router.route("/updateProfileInfo").post(async (req, res) => {
           return null;
         }
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) {
           console.error("Error Updating the Team lead Info");
           console.trace(error);
@@ -834,20 +834,20 @@ router.route("/updateProfileInfo").post(async (req, res) => {
       res.status(200).send({
         type: "success",
         messages: "Updated",
-        uuid: req.body.login_uuid
+        uuid: req.body.login_uuid,
       });
       res.end();
     } else {
       res.status(503).send({
         type: "danger",
-        messages: "Error! Internal Error! "
+        messages: "Error! Internal Error! ",
       });
       res.end();
     }
   } else {
     res.status(503).send({
       type: "danger",
-      messages: "Error! Internal Error! "
+      messages: "Error! Internal Error! ",
     });
   }
 });
@@ -860,21 +860,21 @@ router.route("/updateProfileInfo").post(async (req, res) => {
       where: {
         type_name: {
           [Op.like]: "%Team Lead%",
-          [Op.like]: "%Team%"
-        }
-      }
+          [Op.like]: "%Team%",
+        },
+      },
     },
     attributes: ["target", "commission", "salary"],
     where: {
       paused: 0,
-      deleted: 0
-    }
+      deleted: 0,
+    },
   })
-    .then(response => {
+    .then((response) => {
       if (response) return response;
       else return null;
     })
-    .catch(error => {
+    .catch((error) => {
       if (error) {
         console.error("Error! Can not Fetch Commissions and Target from DB");
         console.trace(error);
@@ -890,15 +890,15 @@ router.route("/updateProfileInfo").post(async (req, res) => {
         team_L_username: req.body.username,
         team_L_target: dbResponse.dataValues.target,
         team_L_salary: dbResponse.dataValues.salary,
-        team_L_commission: dbResponse.dataValues.commission
+        team_L_commission: dbResponse.dataValues.commission,
       },
       {
         where: {
-          login_id: req.body.login_id
-        }
+          login_id: req.body.login_id,
+        },
       }
     )
-      .then(response => {
+      .then((response) => {
         //console.(response);
         if (response) {
           return response;
@@ -906,7 +906,7 @@ router.route("/updateProfileInfo").post(async (req, res) => {
           return null;
         }
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) {
           console.error("Error Updating the Team lead Info");
           console.trace(error);
@@ -917,20 +917,20 @@ router.route("/updateProfileInfo").post(async (req, res) => {
     if (updateStatus !== null) {
       res.status(200).send({
         type: "success",
-        messages: "Updated"
+        messages: "Updated",
       });
       res.end();
     } else {
       res.status(400).send({
         type: "danger",
-        messages: "Error! Can not update the information"
+        messages: "Error! Can not update the information",
       });
       res.end();
     }
   } else {
     res.status(400).send({
       type: "danger",
-      messages: "Error! No Role Details found"
+      messages: "Error! No Role Details found",
     });
   }
 });
@@ -945,14 +945,14 @@ router.route("/updateTeamLeadProfile").post(async (req, res) => {
      */
     const emailUpdate = await Database.User_Login_Information.update(
       {
-        login_email: userReqBody.email
+        login_email: userReqBody.email,
       },
       {
         where: {
           login_id: req.body.login_id,
           paused: 0,
-          deleted: 0
-        }
+          deleted: 0,
+        },
       }
     );
 
@@ -960,12 +960,12 @@ router.route("/updateTeamLeadProfile").post(async (req, res) => {
       {
         team_L_name: userReqBody.fullname,
         team_L_contact: userReqBody.contact,
-        team_L_username: userReqBody.username
+        team_L_username: userReqBody.username,
       },
       {
         where: {
-          team_L_uuid: req.body.team_L_uuid
-        }
+          team_L_uuid: req.body.team_L_uuid,
+        },
       }
     );
     if (emailUpdate && updateExecutiveInfo) {
@@ -976,11 +976,95 @@ router.route("/updateTeamLeadProfile").post(async (req, res) => {
       );
       res.status(500).send({
         error: "error",
-        details: "Error! while updating your information."
+        details: "Error! while updating your information.",
       });
     }
   } else
     res.status(400).send({ error: "error", details: "Invalid entered data" });
+});
+
+router.route("/addMembertoTeam").post(async (req, res) => {
+  //checking the user inofrmation from the database and also getting the role and field id
+  const fieldExecutive = await Database.User_Login_Information.findOne({
+    attributes: ["login_id", "user_role_id"],
+    include: {
+      model: Database.Field_Executive,
+      required: true,
+      attributes: ["field_id"],
+      where: {
+        //using the UUID from the front end
+        field_uuid: req.body.field_uuid,
+        field_isDeleted: false,
+        field_isPaused: false,
+      },
+    },
+    where: {
+      deleted: false,
+      paused: false,
+    },
+  });
+
+  //getting the role id of the field executive  from the database so i may not be static
+  //it should be dynamic but the type must mathces Field Executive
+
+  const userRole = await Database.User_Role.findOne({
+    attributes: ["user_role_id"],
+    where: {
+      deleted: false,
+      paused: false,
+      type_name: {
+        [Op.like]: [`Field Executive`],
+        [Op.like]: [`%Field Executive%`],
+      },
+    },
+  });
+
+  //update the role of the user to Field Executive
+
+  const updateRole = await Database.User_Login_Information.update(
+    {
+      user_role_id: userRole.dataValues.user_role_id,
+    },
+    {
+      where: {
+        login_id: fieldExecutive.dataValues.login_id,
+        deleted: false,
+        paused: false,
+      },
+    }
+  );
+  //and adding the Field Executive to the Team lead
+
+  const updateExecutiveToTeam = await Database.Field_Executive.update(
+    {
+      team_L_id: req.body.team_L_id,
+    },
+    {
+      where: {
+        field_uuid: req.body.field_uuid,
+        field_id: fieldExecutive.dataValues.Field_Executive.dataValues.field_id,
+      },
+    }
+  );
+
+  // adding the role information into the roleChanged table
+  const roleChanged = await Database.changeRoleLogs.create({
+    previousRole: fieldExecutive.dataValues.user_role_id,
+    newRole: userRole.dataValues.user_role_id,
+    field_id: fieldExecutive.dataValues.Field_Executive.dataValues.field_id,
+    team_L_id: req.body.team_L_id,
+  });
+
+  //sending the response to the user
+  if ((fieldExecutive, userRole, updateExecutiveToTeam, roleChanged)) {
+    res.status(200).send({
+      status: "Done",
+    });
+  } else {
+    res.status(400).send({
+      error: "error",
+    });
+  }
 });
 
 module.exports = { router };
@@ -990,8 +1074,8 @@ module.exports = { router };
 count of the notificaiton
 
 **/
-getAuthenticateJSON = userReqBody => {
-  Object.keys(userReqBody).forEach(key => {
+getAuthenticateJSON = (userReqBody) => {
+  Object.keys(userReqBody).forEach((key) => {
     if (
       userReqBody[key] === "select" ||
       userReqBody[key] === "update" ||
@@ -1002,24 +1086,24 @@ getAuthenticateJSON = userReqBody => {
   });
   return Object.keys(userReqBody).length;
 };
-const countofNotificationOfTeamLead = async team_L_id => {
+const countofNotificationOfTeamLead = async (team_L_id) => {
   return await Database.TeamLead_Notifications.findAll({
     attributes: [
       [
         sequelize.fn("COUNT", sequelize.col("teamLead_notification_id")),
-        "unreadNotificationCount"
-      ]
+        "unreadNotificationCount",
+      ],
     ],
     where: {
       isRead: false,
-      team_L_id
-    }
+      team_L_id,
+    },
   })
-    .then(notifications => {
+    .then((notifications) => {
       if (notifications) return notifications;
       else return null;
     })
-    .catch(error => {
+    .catch((error) => {
       if (error) {
         console.error("Error Fetching Notification Count");
         console.trace(error);
