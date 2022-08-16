@@ -1086,7 +1086,7 @@ router.route("/allocateSectorToExecutive").post(async (req, res) => {
       paused: 0,
     },
   });
-  let selectedEmployee = JSON.parse(req.body.employees);
+  let selectedEmployee = req.body.employees;
 
   let executiveID = await Database.Field_Executive.findAll({
     attributes: ["field_id"],
