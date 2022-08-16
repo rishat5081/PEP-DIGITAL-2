@@ -1021,48 +1021,57 @@ router.route("/addMembertoTeam").post(async (req, res) => {
 
   //update the role of the user to Field Executive
 
-  const updateRole = await Database.User_Login_Information.update(
-    {
-      user_role_id: userRole.dataValues.user_role_id,
-    },
-    {
-      where: {
-        login_id: fieldExecutive.dataValues.login_id,
-        deleted: false,
-        paused: false,
-      },
-    }
-  );
-  //and adding the Field Executive to the Team lead
+  //update the role of the user to Field Executive
 
-  const updateExecutiveToTeam = await Database.Field_Executive.update(
-    {
+  if (fieldExecutive) {
+    const updateRole = await Database.User_Login_Information.update(
+      {
+        user_role_id: userRole.dataValues.user_role_id,
+      },
+      {
+        where: {
+          login_id: fieldExecutive.dataValues.login_id,
+          deleted: false,
+          paused: false,
+        },
+      }
+    );
+    //and adding the Field Executive to the Team lead
+
+    const updateExecutiveToTeam = await Database.Field_Executive.update(
+      {
+        team_L_id: req.body.team_L_id,
+      },
+      {
+        where: {
+          field_uuid: req.body.field_uuid,
+          field_id:
+            fieldExecutive.dataValues.Field_Executive.dataValues.field_id,
+        },
+      }
+    );
+
+    // adding the role information into the roleChanged table
+    const roleChanged = await Database.changeRoleLogs.create({
+      previousRole: fieldExecutive.dataValues.user_role_id,
+      newRole: userRole.dataValues.user_role_id,
+      field_id: fieldExecutive.dataValues.Field_Executive.dataValues.field_id,
       team_L_id: req.body.team_L_id,
-    },
-    {
-      where: {
-        field_uuid: req.body.field_uuid,
-        field_id: fieldExecutive.dataValues.Field_Executive.dataValues.field_id,
-      },
-    }
-  );
-
-  // adding the role information into the roleChanged table
-  const roleChanged = await Database.changeRoleLogs.create({
-    previousRole: fieldExecutive.dataValues.user_role_id,
-    newRole: userRole.dataValues.user_role_id,
-    field_id: fieldExecutive.dataValues.Field_Executive.dataValues.field_id,
-    team_L_id: req.body.team_L_id,
-  });
-
-  //sending the response to the user
-  if ((fieldExecutive, userRole, updateExecutiveToTeam, roleChanged)) {
-    res.status(200).send({
-      status: "Done",
     });
+
+    //sending the response to the user
+    if ((fieldExecutive, userRole, updateExecutiveToTeam, roleChanged)) {
+      res.status(200).send({
+        status: "Done",
+      });
+    } else {
+      res.status(400).send({
+        error: "error",
+      });
+    }
   } else {
     res.status(400).send({
-      error: "error",
+      error: "no field executive found",
     });
   }
 });
