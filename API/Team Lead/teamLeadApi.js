@@ -1200,6 +1200,73 @@ router.route("/removeSectorToExecutive").put(async (req, res) => {
   }
 });
 
+/**
+ * sending the message to the specific team member
+ */
+router.route("/conveyMessageToSpecific").post(async (req, res) => {
+  /**
+   * getting the team memebers from the database
+   */
+  let teamMember = await Database.Field_Executive.findAll({
+    attributes: ["field_id"],
+    where: {
+      team_L_id: req.body.team_L_id,
+      field_isDeleted: 0,
+      field_isPaused: 0,
+      field_uuid: req.body.employeeList.map((employee) => employee),
+    },
+  }).catch((error) => {
+    if (error) {
+      console.error("Error Fetching the Data of Executive");
+      console.trace(error);
+      return null;
+    }
+  });
+
+  let notificationID = await Database.NotificationText.findOne({
+    attributes: ["notification_id"],
+    where: {
+      [Op.or]: [
+        {
+          notification_title: {
+            [Op.like]: "%Team%",
+          },
+        },
+        {
+          notification_title: {
+            [Op.like]: "%Team Member%",
+          },
+        },
+      ],
+    },
+  }).catch((error) => {
+    console.error("Error in creating ExecutiveNotifications");
+    console.trace(error);
+    return null;
+  });
+
+  let messageConveyed = await Database.ExecutiveNotifications.bulkCreate(
+    teamMember.map((member) => {
+      return {
+        field_id: member.dataValues.field_id,
+        notification_text: req.body.messageText,
+        notification_id: notificationID.dataValues.notification_id,
+      };
+    })
+  ).catch((error) => {
+    console.error("Error in creating ExecutiveNotifications");
+    console.trace(error);
+    return null;
+  });
+
+  if ((teamMember, notificationID, messageConveyed === null)) {
+    res.status(500).send({ error: "Please try again" });
+    res.end();
+  } else {
+    res.status(200).send({ status: "Successfully, Message has been send" });
+  }
+});
+
 module.exports = { router };
 
 /**
