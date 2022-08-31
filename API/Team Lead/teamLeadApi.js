@@ -1119,6 +1119,87 @@ router.route("/allocateSectorToExecutive").post(async (req, res) => {
   }
 });
 
+router.route("/removeSectorToExecutive").put(async (req, res) => {
+  //getting the sector ID from the database
+  let sectorID = await Database.City_Sectors.findOne({
+    include: {
+      model: Database.Field_Executive,
+      required: true,
+      through: {
+        attributes: ["city_sector_assos_uuid"],
+      },
+      where: {
+        field_uuid: req.body.executiveUUID,
+        field_isDeleted: 0,
+        field_isPaused: 0,
+        team_L_id: req.body.team_L_id,
+      },
+    },
+    where: {
+      city_sector_uuid: req.body.selectedArea,
+      deleted: 0,
+      paused: 0,
+    },
+  })
+    .then((result) => {
+      if (result) {
+        return result.dataValues.Field_Executives[0].City_Sector_Assosiate
+          .dataValues;
+      }
+    })
+    .catch((err) => {
+      if (err) {
+        console.error("Error Fetching Remove Sector Information");
+        console.trace(err);
+        return null;
+      }
+    });
+
+  if (sectorID) {
+    let executiveID = await Database.City_Sector_Assosiate.update(
+      {
+        paused: 1,
+      },
+      {
+        where: {
+          city_sector_assos_uuid: sectorID.city_sector_assos_uuid,
+          deleted: 0,
+          paused: 0,
+        },
+      }
+    )
+      .then((result) => {
+        return result;
+      })
+      .catch((err) => {
+        if (err) {
+          console.error("Error Fetching Remove Sector Information");
+          console.trace(err);
+          return null;
+        }
+      });
+
+    if (executiveID) {
+      res.status(200).send({
+        status: "success",
+        message: "Area Removed Successfully",
+        executiveID,
+      });
+      sectorID = executiveID = null;
+      res.end();
+    } else {
+      sectorID = executiveID = null;
+      res.status(500).send({ error: "Please try again" });
+      res.end();
+    }
+  } else {
+    res
+      .status(200)
+      .send({ status: "Marked Already", message: "Area is Already Deleted" });
+    res.end();
+  }
+});
+
 module.exports = { router };
 
 /**
