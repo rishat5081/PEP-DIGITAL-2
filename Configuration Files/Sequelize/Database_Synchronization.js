@@ -27,7 +27,8 @@ let sequelize = require("./Sequelize"),
         sequelize,
         Sequelize
       ),
-    Agency_Info: require("./Sequelize Models/Agency Models/Agency_Info")(
+    Agency_Info:
+     require("./Sequelize Models/Agency Models/Agency_Info")(
       sequelize,
       Sequelize
     ),
@@ -36,11 +37,13 @@ let sequelize = require("./Sequelize"),
         sequelize,
         Sequelize
       ),
-    AgencyTypes: require("./Sequelize Models/Agency Models/AgencyTypes")(
+    AgencyTypes:
+     require("./Sequelize Models/Agency Models/AgencyTypes")(
       sequelize,
       Sequelize
     ),
-    Carriers: require("./Sequelize Models/Carrier/Carriers")(
+    Carriers:
+     require("./Sequelize Models/Carrier/Carriers")(
       sequelize,
       Sequelize
     ),
@@ -49,7 +52,8 @@ let sequelize = require("./Sequelize"),
         sequelize,
         Sequelize
       ),
-    Carriers_Services: require("./Sequelize Models/Carrier/Carriers_Services")(
+    Carriers_Services:
+     require("./Sequelize Models/Carrier/Carriers_Services")(
       sequelize,
       Sequelize
     ),
@@ -58,12 +62,15 @@ let sequelize = require("./Sequelize"),
         sequelize,
         Sequelize
       ),
-    City: require("./Sequelize Models/City/City")(sequelize, Sequelize),
-    City_Areas: require("./Sequelize Models/City/City_Areas")(
+    City:
+     require("./Sequelize Models/City/City")(sequelize, Sequelize),
+    City_Areas:
+     require("./Sequelize Models/City/City_Areas")(
       sequelize,
       Sequelize
     ),
-    City_Sectors: require("./Sequelize Models/City/City_Sectors")(
+    City_Sectors:
+     require("./Sequelize Models/City/City_Sectors")(
       sequelize,
       Sequelize
     ),
@@ -77,7 +84,8 @@ let sequelize = require("./Sequelize"),
         sequelize,
         Sequelize
       ),
-    Compaigns: require("./Sequelize Models/Compaign/Compaigns")(
+    Compaigns:
+     require("./Sequelize Models/Compaign/Compaigns")(
       sequelize,
       Sequelize
     ),
@@ -86,15 +94,18 @@ let sequelize = require("./Sequelize"),
         sequelize,
         Sequelize
       ),
-    Compaign_Sale: require("./Sequelize Models/Compaign/Compaign_Sale")(
+    Compaign_Sale:
+     require("./Sequelize Models/Compaign/Compaign_Sale")(
       sequelize,
       Sequelize
     ),
-    Companies_Access: require("./Sequelize Models/Company/Companies_Access")(
+    Companies_Access:
+     require("./Sequelize Models/Company/Companies_Access")(
       sequelize,
       Sequelize
     ),
-    Company_Promotion: require("./Sequelize Models/Company/Company_Promotion")(
+    Company_Promotion:
+     require("./Sequelize Models/Company/Company_Promotion")(
       sequelize,
       Sequelize
     ),
@@ -108,7 +119,8 @@ let sequelize = require("./Sequelize"),
         sequelize,
         Sequelize
       ),
-    Call_Receiving: require("./Sequelize Models/Customer Care/Call_Receiving")(
+    Call_Receiving:
+     require("./Sequelize Models/Customer Care/Call_Receiving")(
       sequelize,
       Sequelize
     ),
@@ -132,11 +144,13 @@ let sequelize = require("./Sequelize"),
         sequelize,
         Sequelize
       ),
-    Stock_Usage: require("./Sequelize Models/Executive/Stock_Usage")(
+    Stock_Usage:
+     require("./Sequelize Models/Executive/Stock_Usage")(
       sequelize,
       Sequelize
     ),
-    Activities: require("./Sequelize Models/Lists of Packages/Activities")(
+    Activities:
+     require("./Sequelize Models/Lists of Packages/Activities")(
       sequelize,
       Sequelize
     ),
@@ -155,11 +169,13 @@ let sequelize = require("./Sequelize"),
         sequelize,
         Sequelize
       ),
-    Carrier_Logs: require("./Sequelize Models/Logs/Carrier_Logs")(
+    Carrier_Logs:
+     require("./Sequelize Models/Logs/Carrier_Logs")(
       sequelize,
       Sequelize
     ),
-    Company_Acess_Logs: require("./Sequelize Models/Logs/Company_Acess_Logs")(
+    Company_Acess_Logs:
+     require("./Sequelize Models/Logs/Company_Acess_Logs")(
       sequelize,
       Sequelize
     ),
@@ -168,7 +184,8 @@ let sequelize = require("./Sequelize"),
         sequelize,
         Sequelize
       ),
-    Permissions: require("./Sequelize Models/Permission/Permissions")(
+    Permissions:
+     require("./Sequelize Models/Permission/Permissions")(
       sequelize,
       Sequelize
     ),
@@ -177,11 +194,13 @@ let sequelize = require("./Sequelize"),
         sequelize,
         Sequelize
       ),
-    Packages: require("./Sequelize Models/Packages of Company/Packages")(
+    Packages:
+     require("./Sequelize Models/Packages of Company/Packages")(
       sequelize,
       Sequelize
     ),
-    PEP_Agents: require("./Sequelize Models/PEP Agents/PEP_Agents")(
+    PEP_Agents:
+     require("./Sequelize Models/PEP Agents/PEP_Agents")(
       sequelize,
       Sequelize
     ),
@@ -210,15 +229,18 @@ let sequelize = require("./Sequelize"),
         sequelize,
         Sequelize
       ),
-    Field_Executive: require("./Sequelize Models/Stakeholders/Field_Executive")(
+    Field_Executive:
+     require("./Sequelize Models/Stakeholders/Field_Executive")(
       sequelize,
       Sequelize
     ),
-    GM_Company: require("./Sequelize Models/Stakeholders/GM_Company")(
+    GM_Company:
+     require("./Sequelize Models/Stakeholders/GM_Company")(
       sequelize,
       Sequelize
     ),
-    Managers: require("./Sequelize Models/Stakeholders/Manager")(
+    Managers:
+     require("./Sequelize Models/Stakeholders/Manager")(
       sequelize,
       Sequelize
     ),
@@ -257,11 +279,13 @@ let sequelize = require("./Sequelize"),
         sequelize,
         Sequelize
       ),
-    GMLogin: require("./Sequelize Models/Login Activities/GMLogin")(
+    GMLogin:
+     require("./Sequelize Models/Login Activities/GMLogin")(
       sequelize,
       Sequelize
     ),
-    ManagerLogin: require("./Sequelize Models/Login Activities/ManagerLogin")(
+    ManagerLogin:
+     require("./Sequelize Models/Login Activities/ManagerLogin")(
       sequelize,
       Sequelize
     ),
@@ -275,15 +299,18 @@ let sequelize = require("./Sequelize"),
         sequelize,
         Sequelize
       ),
-    Super_Admin: require("./Sequelize Models/Stakeholders/Super_Admin")(
+    Super_Admin:
+     require("./Sequelize Models/Stakeholders/Super_Admin")(
       sequelize,
       Sequelize
     ),
-    Supervisor: require("./Sequelize Models/Stakeholders/Supervisor")(
+    Supervisor:
+     require("./Sequelize Models/Stakeholders/Supervisor")(
       sequelize,
       Sequelize
     ),
-    Training: require("./Sequelize Models/Training/Training")(
+    Training:
+     require("./Sequelize Models/Training/Training")(
       sequelize,
       Sequelize
     ),
@@ -292,7 +319,8 @@ let sequelize = require("./Sequelize"),
         sequelize,
         Sequelize
       ),
-    Team_Lead: require("./Sequelize Models/Stakeholders/Team_Lead")(
+    Team_Lead:
+     require("./Sequelize Models/Stakeholders/Team_Lead")(
       sequelize,
       Sequelize
     ),
@@ -306,11 +334,13 @@ let sequelize = require("./Sequelize"),
         sequelize,
         Sequelize
       ),
-    User_Role: require("./Sequelize Models/Users Login/User_Role")(
+    User_Role:
+     require("./Sequelize Models/Users Login/User_Role")(
       sequelize,
       Sequelize
     ),
-    changeRoleLogs: require("./Sequelize Models/Users Login/changeRoleLogs")(
+    changeRoleLogs:
+     require("./Sequelize Models/Users Login/changeRoleLogs")(
       sequelize,
       Sequelize
     ),
@@ -324,23 +354,33 @@ let sequelize = require("./Sequelize"),
         sequelize,
         Sequelize
       ),
-    Role_ExtraInfo: require("./Sequelize Models/Users Login/Role_ExtraInfo")(
+    ChangeManagerRoleLogs:
+      require("./Sequelize Models/Users Login/changeManagerRoleLogs")(
+        sequelize,
+        Sequelize
+      ),
+    Role_ExtraInfo:
+     require("./Sequelize Models/Users Login/Role_ExtraInfo")(
       sequelize,
       Sequelize
     ),
-    Login_Page: require("./Sequelize Models/Web/loginPage")(
+    Login_Page:
+     require("./Sequelize Models/Web/loginPage")(
       sequelize,
       Sequelize
     ),
-    Banks_List: require("./Sequelize Models/Web/Banks_List")(
+    Banks_List:
+     require("./Sequelize Models/Web/Banks_List")(
       sequelize,
       Sequelize
     ),
-    PEP_Banks_Details: require("./Sequelize Models/Web/PEP_Banks_Details")(
+    PEP_Banks_Details:
+     require("./Sequelize Models/Web/PEP_Banks_Details")(
       sequelize,
       Sequelize
     ),
-    SignUp_Page: require("./Sequelize Models/Web/signUpPage")(
+    SignUp_Page:
+     require("./Sequelize Models/Web/signUpPage")(
       sequelize,
       Sequelize
     ),
@@ -349,19 +389,28 @@ let sequelize = require("./Sequelize"),
         sequelize,
         Sequelize
       ),
-    Web_Content: require("./Sequelize Models/Web/webContent")(
+    Web_Content:
+     require("./Sequelize Models/Web/webContent")(
       sequelize,
       Sequelize
     ),
-    WebAds: require("./Sequelize Models/Web/WebAds")(sequelize, Sequelize),
+    WebAds: 
+    require("./Sequelize Models/Web/WebAds")(sequelize, Sequelize),
     Pendance_Clearance_Details:
       require("./Sequelize Models/Web/Pendance_Clearance_Details")(
         sequelize,
         Sequelize
       ),
-    Department: require("./Sequelize Models/Department")(sequelize, Sequelize),
-    Zone: require("./Sequelize Models/Zone")(sequelize, Sequelize),
+
+
+    Department:
+     require("./Sequelize Models/Department")(sequelize, Sequelize),
+    Zone:
+     require("./Sequelize Models/Zone")(sequelize, Sequelize),
+
   };
+
+ 
 /**Get all the models here
  * now Synchronizing it one by one into a function
  * and then it will create all the data base
@@ -374,7 +423,7 @@ Object.keys(Models).forEach((modelName) => {
   }
 });
 
-Synchronizing = async () => {
+let Synchronizing = async () => {
   /**
    * Commented lines are used to sync the database tables
    * forcely and then check the foreign key true
@@ -415,7 +464,7 @@ Synchronizing = async () => {
   console.log("*************************************************************");
   console.log("*************************************************************");
 };
-// Synchronizing();
+//  Synchronizing();
 
 // Dropping all the Tables from the database
 let DropDatabaseTables = async () => {
