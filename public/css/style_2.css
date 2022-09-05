@@ -1,1560 +1,1405 @@
 /*------------------------------------------------------------------
   [ Header ]*/
 
-.container-profile100 {
-  width: 100%;
-  min-height: 100vh;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 15px;
-  background: #9053c7;
-  background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: linear-gradient(-135deg, #c850c0, #4158d0);
-}
-
-.container-profile100 .header {
-  width: 1300px;
-  /* height: 100vh; */
-  background: #fff;
-  border-radius: 17px;
-}
-
-.container-profile100 .header .cover-image100 {
-  background: url("");
-  background-repeat: no-repeat;
-  background-attachment: scroll;
-  height: 30px;
-  background-size: 100%;
-  border-top-left-radius: 17px;
-  border-top-right-radius: 17px;
-}
-
-.container-profile100 .header .cover-image100 .back-button {
-  color: #000;
-  font-size: 25px;
-  margin: 10px;
-  padding-left: 10px;
-  padding-top: 10px;
-  transition: all 0.1s;
-}
-
-.container-profile100 .header .cover-image100 .back-button:hover {
-  color: #9053c7;
-  font-size: 30px;
-  margin: 8px;
-  padding-left: 8px;
-  padding-top: 8px;
-}
-
-.container-profile100 .header .cover-image100 .menu-button {
-  float: right;
-  color: #000;
-  font-size: 25px;
-  margin: 10px;
-  padding-right: 20px;
-  padding-top: 10px;
-  transition: all 0.1s;
-  position: relative;
-}
-
-.container-profile100 .header .cover-image100 .menu-button:hover {
-  color: #9053c7;
-  font-size: 30px;
-  margin: 8px;
-  padding-left: 8px;
-  padding-top: 8px;
-}
-
-.container-profile100 .header .cover-image100 nav {
-  position: absolute;
-  width: 100%;
-  height: 100vh;
-  background: #9153c7ea;
-  z-index: 2;
-  top: -100vh;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  transition: 0.5s;
-}
-
-.container-profile100 .header .cover-image100 nav .close-menu {
-  position: absolute;
-  font-size: 30px !important;
-  color: #fff;
-  right: 80px;
-  top: 50px;
-  transition: all 0.1s;
-}
-
-.container-profile100 .header .cover-image100 nav .close-menu:hover {
-  color: #000;
-  font-size: 30px;
-}
-
-.container-profile100 .header .cover-image100 nav ul li {
-  margin: 35px 0px;
-  text-transform: uppercase;
-}
-
-.container-profile100 .header .cover-image100 nav ul li a {
-  font-size: 25px;
-  color: #fff;
-  padding: 10px;
-  letter-spacing: 3px;
-  position: relative;
-}
-
-.container-profile100 .header .cover-image100 nav ul li a::after {
-  content: "";
-  height: 3px;
-  width: 0%;
-  left: 0;
-  bottom: 0;
-  background: #fff;
-  position: absolute;
-  transition: width 0.5s;
-}
-
-.container-profile100 .header .cover-image100 nav ul li a:hover::after {
-  width: 100%;
-}
-
-.profile-pic-section .head-section {
-  padding-bottom: 10px;
-  border-bottom: solid 1px;
-}
-
-.profile-pic-section .head-section h2 {
-  margin-top: 80px;
-}
-
-.profile-pic-section .sub-heading {
-  font-size: 13px;
-}
-
-.profile-pic-section h5 {
-  margin: 25px;
-}
-
-.header img {
-  width: 100%;
-  border-radius: 50%;
-  height: 220px;
-}
-
-.prf-img {
-  position: relative;
-  width: 20%;
-  margin: 0 auto;
-  display: block;
-  transition: 0.4s all;
-  overflow: hidden;
-  height: 100%;
-  border-radius: 50%;
-}
-
-.edit {
-  position: absolute;
-  width: 100%;
-  height: 0%;
-  bottom: 0%;
-  text-align: center;
-  left: 0;
-  background-color: #000000a3;
-  color: white;
-  transition: 0.4s all;
-}
-
-.prf-img:hover .edit {
-  height: 20%;
-}
-
-.header .edit-button {
-  display: block;
-  margin-top: 10px;
-}
-
-.header .update-button {
-  margin-top: 10px;
-  display: none;
-}
-
-.main-content .personal-section {
-  background: #f9f9f9;
-  padding-left: 25px;
-  margin: auto;
-  padding-bottom: 25px;
-  padding-right: 25px;
-  margin-bottom: 20px;
-  border-radius: 17px;
-  margin-top: 10px;
-}
-
-#submitAgency select {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-#submitAgency input {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block !important;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-/* input[type="text"],
-select {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-input[type="email"],
-select {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-} */
-
-.main-content .personal-section .personal-data {
-  padding-bottom: 10px;
-  padding-top: 20px;
-}
-
-.activity-section .activity-div button {
-  margin-top: 20px;
-  width: 40%;
-  font-size: 30px;
-  text-transform: uppercase;
-  background-image: linear-gradient(-135deg, #c850c0, #4158d0);
-  border: none;
-}
-
-.activity-section .activity-div button:hover {
-  background-image: linear-gradient(135deg, #c850c0, #4158d0);
-}
-
-.error-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  height: 600px;
-}
-
-.error-page .error-img {
-  width: 50% !important;
-  margin-left: 130px;
-}
-
-.error-page h1 {
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-  /* font-size: 100px; */
-  color: #9153c7ea;
-}
-
-.error-page h2 {
-  font-family: Georgia, "Times New Roman", Times, serif;
-  /* font-size: 40px; */
-  text-transform: uppercase;
-  color: #4158d0;
-}
-
-.error-page button {
-  font-family: Georgia, "Times New Roman", Times, serif;
-  /* font-size: 23px; */
-  text-transform: uppercase;
-  background-image: linear-gradient(-135deg, #c850c0, #4158d0);
-  border: none;
-  margin-top: 20px;
-}
-
-.error-page button:hover {
-  background-image: linear-gradient(135deg, #c850c0, #4158d0);
-}
-
-.email-template {
-  margin: 20px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.email-template .email-body h2 {
-  /* font-size: 50px; */
-  font-family: Georgia, "Times New Roman", Times, serif;
-  text-transform: uppercase;
-  margin: 30px;
-  color: #9153c7ea;
-}
-
-.email-template .email-body p {
-  margin: 10px 180px;
-  font-size: 20px;
-  font-family: Georgia, "Times New Roman", Times, serif;
-  text-align: justify;
-}
-
-.email-template .email-button button {
-  background: #4158d0;
-  border: none;
-  width: 200px;
-  text-transform: uppercase;
-  margin: 20px 10px;
-  padding: 15px 10px;
-  transition: all 0.5s;
-}
-
-.email-template .email-button button:hover {
-  background: #9153c7ea;
-}
-
-.email-template .email-button p {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  text-transform: capitalize;
-}
-
-.email-template .email-button .url {
-  font-family: Georgia, "Times New Roman", Times, serif;
-  text-transform: none;
-  margin: 10px 20px;
-}
-
-.email-template .email-copyrights {
-  font-family: Georgia, "Times New Roman", Times, serif;
-  text-transform: capitalize;
-  margin-top: 65px;
-}
-
-/*------------------------------------------------------------------
-  [ Responsive ]*/
-
-@media (max-width: 992px) {
-  .header {
-    margin: 10px 40px;
-    height: auto;
+  .container-profile100 {
+    width: 100%;
+    min-height: 100vh;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 15px;
+    background: #9053c7;
+    background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+    background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
+    background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
+    background: linear-gradient(-135deg, #c850c0, #4158d0);
   }
-  .header .profile-img {
-    width: 20%;
-    border-radius: 200px;
+  
+  .container-profile100 .header {
+    width: 1300px;
+    /* height: 100vh; */
+    background: #fff;
+    border-radius: 17px;
   }
-  .header h5 {
-    display: block;
-    width: 150%;
-    margin-left: -170px;
+  
+  .container-profile100 .header .cover-image100 {
+    background: url("");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    height: 30px;
+    background-size: 100%;
+    border-top-left-radius: 17px;
+    border-top-right-radius: 17px;
   }
-  .header .navigation .log-btn {
-    margin-left: 0px;
-    margin-right: -50px;
+  
+  .container-profile100 .header .cover-image100 .back-button {
+    color: #000;
+    font-size: 25px;
+    margin: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+    transition: all 0.1s;
   }
-  .header .navigation button {
-    margin-top: 80px;
-    margin-left: 40px;
+  
+  .container-profile100 .header .cover-image100 .back-button:hover {
+    color: #9053c7;
+    font-size: 30px;
+    margin: 8px;
+    padding-left: 8px;
+    padding-top: 8px;
   }
-  .main-content .personal-section {
-    margin-left: 5px;
+  
+  .container-profile100 .header .cover-image100 .menu-button {
+    float: right;
+    color: #000;
+    font-size: 25px;
+    margin: 10px;
+    padding-right: 20px;
+    padding-top: 10px;
+    transition: all 0.1s;
+    position: relative;
   }
-  .error-page .error-img {
-    width: 100% !important;
-    margin-left: 120px;
+  
+  .container-profile100 .header .cover-image100 .menu-button:hover {
+    color: #9053c7;
+    font-size: 30px;
+    margin: 8px;
+    padding-left: 8px;
+    padding-top: 8px;
   }
-  .email-template .email-body p {
-    margin: 10px 80px;
-    font-size: 18px;
-    font-family: Georgia, "Times New Roman", Times, serif;
-  }
-}
-
-@media (max-width: 768px) {
-  .header {
-    margin-left: 20px;
-    margin-right: 20px;
-  }
-  .profile-pic-section .head-section {
-    margin-left: 40px;
-  }
-  .header .profile-img {
-    display: block;
-    margin-top: 15px;
-    width: 50%;
-    border-radius: 200px;
-  }
-  .header h5 {
-    display: block;
+  
+  .container-profile100 .header .cover-image100 nav {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background: #9153c7ea;
+    z-index: 2;
+    top: -120vh;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    margin-left: -52px;
+    transition: 0.5s;
   }
-  .header .navigation .log-btn {
-    margin-left: 5px;
-    float: none;
+  
+  .container-profile100 .header .cover-image100 nav .close-menu {
+    position: absolute;
+    font-size: 30px !important;
+    color: #fff;
+    right: 80px;
+    top: 50px;
+    transition: all 0.1s;
   }
-  .header .navigation button {
-    margin-left: auto;
+  
+  .container-profile100 .header .cover-image100 nav .close-menu:hover {
+    color: #000;
+    font-size: 30px;
+  }
+  
+  .container-profile100 .header .cover-image100 nav ul li {
+    margin: 35px 0px;
+    text-transform: uppercase;
+  }
+  
+  .container-profile100 .header .cover-image100 nav ul li a {
+    /* font-size: 25px; */
+    color: #fff;
+    padding: 10px;
+    letter-spacing: 3px;
+    position: relative;
+  }
+  
+  .container-profile100 .header .cover-image100 nav ul li a::after {
+    content: "";
+    height: 3px;
+    width: 0%;
+    left: 0;
+    bottom: 0;
+    background: #fff;
+    position: absolute;
+    transition: width 0.5s;
+  }
+  
+  .container-profile100 .header .cover-image100 nav ul li a:hover::after {
+    width: 100%;
+  }
+  
+  .profile-pic-section .head-section {
+    padding-bottom: 10px;
+    border-bottom: solid 1px;
+  }
+  
+  .profile-pic-section .head-section h2 {
+    margin-top: 80px;
+  }
+  
+  .profile-pic-section .sub-heading {
+    font-size: 13px;
+  }
+  
+  .profile-pic-section h5 {
+    margin: 25px;
+  }
+  
+  .header img {
+    width: 100%;
+    border-radius: 50%;
+    /* height: 220px; */
+  }
+  
+  .prf-img {
+    position: relative;
+    width: 20%;
+    margin: 0 auto;
+    display: block;
+    transition: 0.4s all;
+    overflow: hidden;
+    height: 100%;
+    border-radius: 50%;
+  }
+  
+  .edit {
+    position: absolute;
+    width: 100%;
+    height: 0%;
+    bottom: 0%;
+    text-align: center;
+    left: 0;
+    background-color: #000000a3;
+    color: white;
+    transition: 0.4s all;
+  }
+  
+  .prf-img:hover .edit {
+    height: 20%;
+  }
+  
+  .header .edit-button {
+    display: block;
     margin-top: 10px;
-    width: 100px;
-    font-size: 12px;
   }
-  .main-content {
+  
+  .header .update-button {
     margin-top: 10px;
+    display: none;
   }
+  
   .main-content .personal-section {
-    margin: 0px 10px;
+    background: #f9f9f9;
+    padding-left: 25px;
+    margin: auto;
+    padding-bottom: 25px;
+    padding-right: 25px;
+    margin-bottom: 20px;
+    border-radius: 17px;
+    margin-top: 10px;
   }
+  
+  #submitAgency select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  #submitAgency input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block !important;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  /* input[type="text"],
+  select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  input[type="email"],
+  select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  } */
+  
+  .main-content .personal-section .personal-data {
+    padding-bottom: 10px;
+    padding-top: 20px;
+  }
+  
+  .activity-section .activity-div button {
+    margin-top: 20px;
+    width: 40%;
+    font-size: 30px;
+    text-transform: uppercase;
+    background-image: linear-gradient(-135deg, #c850c0, #4158d0);
+    border: none;
+  }
+  
+  .activity-section .activity-div button:hover {
+    background-image: linear-gradient(135deg, #c850c0, #4158d0);
+  }
+  
+  .error-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 600px;
+  }
+  
   .error-page .error-img {
-    width: 100% !important;
-    margin-left: 50px;
+    width: 50% !important;
+    margin-left: 130px;
   }
+  
+  .error-page h1 {
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    /* font-size: 100px; */
+    color: #9153c7ea;
+  }
+  
   .error-page h2 {
     font-family: Georgia, "Times New Roman", Times, serif;
-    font-size: 30px;
+    /* font-size: 40px; */
     text-transform: uppercase;
     color: #4158d0;
   }
-  .email-template .email-body h2 {
-    margin: 20px;
-  }
-  .email-template .email-body p {
-    margin: 10px 10px;
-    font-size: 20px;
+  
+  .error-page button {
     font-family: Georgia, "Times New Roman", Times, serif;
-  }
-  .email-template .email-button button {
-    background: #9153c7ea;
-    border: none;
-    width: 150px;
+    /* font-size: 23px; */
     text-transform: uppercase;
-    margin: 10px 10px;
-    padding: 15px 10px;
-    transition: all 0.5s;
-  }
-  .email-template .email-logo img {
-    width: 40%;
-  }
-  .email-template .email-body h2 {
-    font-size: 30px;
-  }
-  .email-template .email-body p {
-    font-size: 15px;
-  }
-  .email-template .email-button button {
-    width: 100px;
-  }
-  .email-template .email-button p {
-    margin: 20px 0px;
-  }
-  .email-template .email-button .url {
-    font-size: 11px;
-    margin: 10px 20px;
-  }
-}
-
-@media (max-width: 576px) {
-  .wrap-login100 {
-    padding: 100px 15px 33px 15px;
-  }
-}
-
-/*------------------------------------------------------------------
-  [ Confirm Email CSS Starts ]*/
-
-.email-verify-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  height: 600px;
-}
-
-.email-verify-page h1 {
-  font-family: "Times New Roman", Times, serif;
-  font-size: 35px;
-  text-transform: uppercase;
-  color: #9153c7ea;
-}
-
-.email-verify-page h2 {
-  font-family: Georgia, "Times New Roman", Times, serif;
-  font-size: 20px;
-  text-transform: capitalize;
-  color: #4158d0;
-  margin: 40px 0px;
-}
-
-.email-verify-page button {
-  font-family: Georgia, "Times New Roman", Times, serif;
-  font-size: 23px;
-  text-transform: capitalize;
-  background-image: linear-gradient(-135deg, #c850c0, #4158d0);
-  border: none;
-  cursor: default;
-  margin-top: 20px;
-  padding: 10px 20px;
-}
-
-.email-verify-page p {
-  font-size: 24px;
-  text-transform: capitalize;
-  margin-top: 10px;
-}
-
-/*------------------------------------------------------------------
-    [ Confirm Email CSS Ends ]*/
-
-@media (max-width: 768px) {
-  /*   Verify Email    */
-  .email-verify-page h1 {
-    font-size: 27px;
-  }
-  .email-verify-page h2 {
-    font-size: 15px;
-    margin: 40px 0px;
-  }
-  .email-verify-page button {
-    font-family: Georgia, "Times New Roman", Times, serif;
-    font-size: 18px;
-    text-transform: capitalize;
     background-image: linear-gradient(-135deg, #c850c0, #4158d0);
     border: none;
     margin-top: 20px;
+  }
+  
+  .error-page button:hover {
+    background-image: linear-gradient(135deg, #c850c0, #4158d0);
+  }
+  
+  .email-template {
+    margin: 20px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .email-template .email-body h2 {
+    /* font-size: 50px; */
+    font-family: Georgia, "Times New Roman", Times, serif;
+    text-transform: uppercase;
+    margin: 30px;
+    color: #9153c7ea;
+  }
+  
+  .email-template .email-body p {
+    margin: 10px 180px;
+    font-size: 20px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    text-align: justify;
+  }
+  
+  .email-template .email-button button {
+    background: #4158d0;
+    border: none;
+    width: 200px;
+    text-transform: uppercase;
+    margin: 20px 10px;
+    padding: 15px 10px;
+    transition: all 0.5s;
+  }
+  
+  .email-template .email-button button:hover {
+    background: #9153c7ea;
+  }
+  
+  .email-template .email-button p {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-transform: capitalize;
+  }
+  
+  .email-template .email-button .url {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    text-transform: none;
+    margin: 10px 20px;
+  }
+  
+  .email-template .email-copyrights {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    text-transform: capitalize;
+    margin-top: 65px;
+  }
+  
+  /*------------------------------------------------------------------
+    [ Responsive ]*/
+  
+  @media (max-width: 992px) {
+    .header {
+      margin: 10px 40px;
+      height: auto;
+    }
+    .header .profile-img {
+      width: 20%;
+      border-radius: 200px;
+    }
+    .header h5 {
+      display: block;
+      width: 150%;
+      margin-left: -170px;
+    }
+    .header .navigation .log-btn {
+      margin-left: 0px;
+      margin-right: -50px;
+    }
+    .header .navigation button {
+      margin-top: 80px;
+      margin-left: 40px;
+    }
+    .main-content .personal-section {
+      margin-left: 5px;
+    }
+    .error-page .error-img {
+      width: 100% !important;
+      margin-left: 120px;
+    }
+    .email-template .email-body p {
+      margin: 10px 80px;
+      font-size: 18px;
+      font-family: Georgia, "Times New Roman", Times, serif;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .header {
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+    .profile-pic-section .head-section {
+      margin-left: 40px;
+    }
+    .header .profile-img {
+      display: block;
+      margin-top: 15px;
+      width: 50%;
+      border-radius: 200px;
+    }
+    .header h5 {
+      display: block;
+      text-align: center;
+      margin-left: -52px;
+    }
+    .header .navigation .log-btn {
+      margin-left: 5px;
+      float: none;
+    }
+    .header .navigation button {
+      margin-left: auto;
+      margin-top: 10px;
+      width: 100px;
+      font-size: 12px;
+    }
+    .main-content {
+      margin-top: 10px;
+    }
+    .main-content .personal-section {
+      margin: 0px 10px;
+    }
+    .error-page .error-img {
+      width: 100% !important;
+      margin-left: 50px;
+    }
+    .error-page h2 {
+      font-family: Georgia, "Times New Roman", Times, serif;
+      font-size: 30px;
+      text-transform: uppercase;
+      color: #4158d0;
+    }
+    .email-template .email-body h2 {
+      margin: 20px;
+    }
+    .email-template .email-body p {
+      margin: 10px 10px;
+      font-size: 20px;
+      font-family: Georgia, "Times New Roman", Times, serif;
+    }
+    .email-template .email-button button {
+      background: #9153c7ea;
+      border: none;
+      width: 150px;
+      text-transform: uppercase;
+      margin: 10px 10px;
+      padding: 15px 10px;
+      transition: all 0.5s;
+    }
+    .email-template .email-logo img {
+      width: 40%;
+    }
+    .email-template .email-body h2 {
+      font-size: 30px;
+    }
+    .email-template .email-body p {
+      font-size: 15px;
+    }
+    .email-template .email-button button {
+      width: 100px;
+    }
+    .email-template .email-button p {
+      margin: 20px 0px;
+    }
+    .email-template .email-button .url {
+      font-size: 11px;
+      margin: 10px 20px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .wrap-login100 {
+      padding: 100px 15px 33px 15px;
+    }
+  }
+  
+  /*------------------------------------------------------------------
+    [ Confirm Email CSS Starts ]*/
+  
+  .email-verify-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 600px;
+  }
+  
+  .email-verify-page h1 {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 35px;
+    text-transform: uppercase;
+    color: #9153c7ea;
+  }
+  
+  .email-verify-page h2 {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 20px;
+    text-transform: capitalize;
+    color: #4158d0;
+    margin: 40px 0px;
+  }
+  
+  .email-verify-page button {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 23px;
+    text-transform: capitalize;
+    background-image: linear-gradient(-135deg, #c850c0, #4158d0);
+    border: none;
+    cursor: default;
+    margin-top: 20px;
     padding: 10px 20px;
   }
-}
-
-.main-content .image-update-section {
-  background: #fff;
-  padding-left: 25px;
-  padding-bottom: 25px;
-  padding-right: 25px;
-  margin-bottom: 20px;
-  border-radius: 17px;
-  margin-top: 10px;
-}
-
-.main-content .image-update-section .image-update {
-  padding-bottom: 10px;
-  padding-top: 20px;
-}
-
-.main-content .image-update-section .image-update .img-file {
-  margin-top: 10px;
-}
-
-@media (max-width: 768px) {
+  
+  .email-verify-page p {
+    font-size: 24px;
+    text-transform: capitalize;
+    margin-top: 10px;
+  }
+  
+  /*------------------------------------------------------------------
+      [ Confirm Email CSS Ends ]*/
+  
+  @media (max-width: 768px) {
+    /*   Verify Email    */
+    .email-verify-page h1 {
+      font-size: 27px;
+    }
+    .email-verify-page h2 {
+      font-size: 15px;
+      margin: 40px 0px;
+    }
+    .email-verify-page button {
+      font-family: Georgia, "Times New Roman", Times, serif;
+      font-size: 18px;
+      text-transform: capitalize;
+      background-image: linear-gradient(-135deg, #c850c0, #4158d0);
+      border: none;
+      margin-top: 20px;
+      padding: 10px 20px;
+    }
+  }
+  
+  .main-content .image-update-section {
+    background: #fff;
+    padding-left: 25px;
+    padding-bottom: 25px;
+    padding-right: 25px;
+    margin-bottom: 20px;
+    border-radius: 17px;
+    margin-top: 10px;
+  }
+  
+  .main-content .image-update-section .image-update {
+    padding-bottom: 10px;
+    padding-top: 20px;
+  }
+  
   .main-content .image-update-section .image-update .img-file {
-    width: 100%;
+    margin-top: 10px;
   }
-}
-
-/* .cover-image100 img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 20%;
-    margin-top: 8%;
-  } */
-
-input:focus {
-  border: solid 1px #000;
-  background: #ccc;
-}
-
-/* Activity Section Starts */
-
-.pep-logo {
-  border-radius: 0px !important;
-  margin: 10px;
-  width: 180px !important;
-  padding-left: 20px;
-  padding-top: 10px;
-  height: auto !important;
-}
-
-.main-section {
-  height: 500px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.main-section p {
-  font-size: 19px;
-}
-
-.activity-right-side {
-  margin-top: 50px;
-}
-
-.activity-form {
-  width: 100%;
-  margin-top: 10px;
-  float: right;
-}
-
-.activity-section button {
-  font-family: Arial, Helvetica, sans-serif;
-  letter-spacing: 3px;
-  padding: 10px 20px;
-  font-size: 14px;
-  text-transform: uppercase;
-  background: #9153c7ea;
-  border: none;
-  transition: all 0.5s;
-  cursor: default;
-}
-
-.activity-section .fetch-Location {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: 18px;
-  display: none;
-  text-align: left;
-}
-
-.check-button {
-  margin-left: 235px;
-  margin-bottom: 20px;
-}
-
-/* Activity Section Ends */
-
-@media (max-width: 992px) {
-  .check-button {
-    margin-left: 0px !important;
+  
+  @media (max-width: 768px) {
+    .main-content .image-update-section .image-update .img-file {
+      width: 100%;
+    }
   }
-}
-
-@media (max-width: 768px) {
+  
+  /* .cover-image100 img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 20%;
+      margin-top: 8%;
+    } */
+  
+  input:focus {
+    border: solid 1px #000;
+    background: #ccc;
+  }
+  
+  /* Activity Section Starts */
+  
   .pep-logo {
-    width: 100px !important;
+    border-radius: 0px !important;
+    margin: 10px;
+    width: 180px !important;
+    padding-left: 20px;
+    padding-top: 10px;
+    height: auto !important;
   }
+  
   .main-section {
-    margin-top: 20px;
-    margin-left: 10px;
-    display: block;
-    height: auto;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
+  
+  .main-section p {
+    font-size: 19px;
+  }
+  
   .activity-right-side {
-    margin-left: -15px;
+    margin-top: 50px;
+  }
+  
+  .activity-form {
+    width: 100%;
+    margin-top: 10px;
+    float: right;
+  }
+  
+  .activity-section button {
+    font-family: Arial, Helvetica, sans-serif;
+    letter-spacing: 3px;
+    padding: 10px 20px;
+    font-size: 14px;
+    text-transform: uppercase;
+    background: #9153c7ea;
+    border: none;
+    transition: all 0.5s;
+    cursor: default;
+  }
+  
+  .activity-section .fetch-Location {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 18px;
+    display: none;
+    text-align: left;
+  }
+  
+  .check-button {
+    margin-left: 235px;
     margin-bottom: 20px;
   }
-}
-
-#submitAgency label {
-  font-family: fangsong;
-}
-
-/*------------------------------------------------------------------
-  [ SubActivity CSS Starts ]*/
-
-.sub-activity-section {
-  margin: 20px;
-}
-
-.act-name {
-  margin: 0px 0px 20px 10px;
-  color: #9053c7;
-  display: inline-flex;
-  font-weight: 600;
-  font-size: 20px !important;
-}
-
-.act-description {
-  /* margin-left: 36px; */
-  text-align: justify;
-  margin-top: 5px;
-  font-size: 18px !important;
-}
-
-.subAct-but {
-  margin-left: 0px;
-}
-
-.act-entity {
-  background: #fff;
-  padding: 15px;
-  margin: 8px 0px;
-  border-bottom: 1px solid #9053c7;
-}
-
-.act-entity i {
-  margin-top: 3px;
-  color: #9053c7;
-}
-
-.checks button {
-  font-family: Georgia, "Times New Roman", Times, serif;
-  font-size: 16px;
-  text-transform: capitalize;
-  background-image: linear-gradient(-135deg, #c850c0, #4158d0);
-  border: none;
-  padding: 10px 20px;
-}
-
-.checks button:hover {
-  background-image: linear-gradient(135deg, #c850c0, #4158d0);
-}
-
-.checks h3 {
-  font-family: "Times New Roman", Times, serif;
-  font-size: 24px;
-}
-
-.custom-checkbox {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  margin: 8px 15px 25px 80px;
-}
-
-.custom-checkbox .label {
-  font-size: 18px;
-  margin: 0 10px;
-}
-
-.custom-checkbox .checkmark {
-  width: 20px;
-  height: 20px;
-  border: 2px solid #181718;
-  display: inline-block;
-  border-radius: 3px;
-  background: #c850c0
-    url(https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/White_check.svg/1200px-White_check.svg.png)
-    center/1250% no-repeat;
-  transition: background-size 0.2s ease;
-}
-
-.custom-checkbox input:checked + .checkmark {
-  background-size: 60%;
-  transition: background-size 0.25s cubic-bezier(0.7, 0, 0.18, 1.24);
-}
-
-.custom-checkbox input {
-  display: none;
-}
-
-@media (max-width: 992px) {
-  .act-description {
-    margin-left: 150px;
-    font-size: 17px !important;
+  
+  /* Activity Section Ends */
+  
+  @media (max-width: 992px) {
+    .check-button {
+      margin-left: 0px !important;
+    }
   }
-  .custom-checkbox {
-    margin-left: 40px;
+  
+  @media (max-width: 768px) {
+    .pep-logo {
+      width: 100px !important;
+    }
+    .main-section {
+      margin-top: 20px;
+      margin-left: 10px;
+      display: block;
+      height: auto;
+    }
+    .activity-right-side {
+      margin-left: -15px;
+      margin-bottom: 20px;
+    }
   }
-  .subAct-but {
-    margin-top: 20px;
-    margin-left: 0px;
+  
+  #submitAgency label {
+    font-family: fangsong;
   }
-}
-
-@media (max-width: 768px) {
-  .checks {
-    margin-left: 0px;
+  
+  /*------------------------------------------------------------------
+    [ SubActivity CSS Starts ]*/
+  
+  .sub-activity-section {
+    margin: 20px;
   }
-  .act-entity {
-    padding: 8px 8px;
-  }
+  
   .act-name {
-    font-size: 22px !important;
-    margin-left: 15px;
-  }
-  .act-description {
-    margin-left: 0px;
-    margin-top: 15px;
+    margin: 0px 0px 20px 10px;
+    color: #9053c7;
+    display: inline-flex;
+    font-weight: 600;
     font-size: 20px !important;
   }
-  .custom-checkbox {
-    margin-left: 0px;
+  
+  .act-description {
+    /* margin-left: 36px; */
+    text-align: justify;
+    margin-top: 5px;
+    font-size: 18px !important;
   }
+  
   .subAct-but {
     margin-left: 0px;
   }
-}
-
-.search-form input {
-  padding: 8px;
-  width: 40%;
-  border: 1px solid #757575;
-}
-
-/* .profile-pic {
-  width: 150px;
-  height: 150px;
-} */
-
-.profile-pic img {
-  width: 100%;
-  height: 100%;
-}
-
-.profile-data p {
-  line-height: 2;
-  font-family: "Josefin Sans", sans-serif;
-  font-size: 17px;
-}
-
-ul.ui-autocomplete.ui-menu {
-  background-color: #ccc;
-  width: 200px;
-  max-height: 200px;
-  overflow-y: auto;
-  /* prevent horizontal scrollbar */
-  overflow-x: hidden;
-}
-
-ul.ui-autocomplete.ui-menu li {
-  padding: 10px;
-  border-bottom: 1px solid;
-}
-
-.ui-helper-hidden-accessible {
-  display: none !important;
-}
-
-/* ----------------------------------------------------Sales Page---------------------------- */
-
-.limiter {
-  width: 100%;
-  margin: auto;
-}
-
-.sales {
-  background: #9053c7;
-  background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: linear-gradient(-135deg, #c850c0, #4158d0);
-  margin-left: 3.8%;
-  margin-top: 10%;
-  width: 90%;
-}
-
-.saletitle {
-  background-color: white;
-}
-
-.flexcontainer {
-  background-color: white;
-  width: 90%;
-  margin: auto;
-}
-
-.salesTabs {
-  margin-left: 2%;
-  padding: 40px 20px;
-}
-
-.activitiesName {
-  background-color: #d6cde0 !important;
-}
-
-.viewDetailsOfActivity:hover {
-  color: #5257ce !important;
-}
-
-/* ------------------------------------ Manage Profile Page --------------------------------------------- */
-
-.detailheading {
-  font-size: 2vw;
-  margin-top: -2%;
-}
-
-.Information {
-  background-color: whitesmoke;
-  margin: -1.3%;
-  width: 90%;
-  height: auto;
-  margin-left: 4%;
-  max-width: 100%;
-  padding: 4px 0px 4px 10px;
-  text-align: start;
-}
-
-.Information i {
-  cursor: pointer;
-}
-
-.profilepicture {
-  width: 100% !important;
-  height: auto !important;
-  object-fit: contain;
-  overflow: hidden;
-}
-
-.userinfo {
-  margin-top: 1vw;
-  height: auto;
-  text-align: center;
-  width: 50%;
-  max-width: 100%;
-  margin-left: 24%;
-}
-
-.editicon {
-  position: absolute;
-  right: 10vw;
-}
-
-.userdatacard {
-  margin-top: 3%;
-  width: 90%;
-  height: auto;
-  max-width: 100%;
-  margin-left: 4%;
-}
-
-.detname {
-  background-color: white;
-  height: 40px;
-}
-
-.description {
-  background-color: white;
-  height: auto;
-  max-width: 100%;
-  margin-top: 0px;
-}
-
-.info {
-  margin-top: 3vw;
-  height: 500px;
-}
-
-.editbtn {
-  position: absolute;
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  max-height: 3vw;
-  text-align: center;
-  bottom: 0%;
-  left: 0;
-  background: rgba(0, 0, 0, 0.5);
-  transition: 0.5s all;
-  opacity: 0;
-}
-
-.piccontainer {
-  position: relative;
-  border-radius: 50%;
-  width: 12vw;
-  margin-top: 5vw;
-  height: 12vw;
-  margin-left: 40%;
-  overflow: hidden;
-  transition: 0.5s all;
-}
-
-.piccontainer:hover .editbtn {
-  opacity: 1;
-  color: white;
-  height: 20%;
-}
-
-.userdatacard input {
-  border: 1px solid #c850c0;
-}
-
-#updateProfile_Btn {
-  margin: 0% 0% 5% 36%;
-}
-
-/* ------------------------ Activity Completition Page ---------------------------- */
-
-.uppersection {
-  width: 70%;
-  height: auto;
-  max-width: 100%;
-  margin-top: 10%;
-  outline: 2px;
-  padding: 10px;
-  color: inherit;
-  margin-left: 9%;
-  border: 1px solid #3a8ffe;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.05);
-  background: transparent;
-}
-
-.amountheading {
-  font-size: 2vw;
-}
-
-.settext {
-  height: auto;
-  width: 100%;
-  max-width: 100;
-}
-
-.lowersection {
-  padding: 0px 3px opx 3px;
-  width: 100%;
-  margin-left: 0%;
-}
-
-.flexpad {
-  padding: 6px 3px opx 3px;
-  width: 100%;
-  margin-left: 0%;
-}
-
-.itemlist {
-  background: #3a8ffe;
-  height: auto;
-  width: 150vw;
-  max-width: 100%;
-  margin-left: 0%;
-  padding: 4px 0px 4px 0px;
-}
-
-.custom-btn {
-  text-align: center;
-  width: 66%;
-  height: auto;
-  max-width: 100%;
-  border: none;
-  outline: none;
-  color: #fff;
-  font-size: 14px;
-  text-transform: uppercase;
-  margin-top: 12px;
-  cursor: pointer;
-  margin-left: 8%;
+  
+  .act-entity {
+    background: #fff;
+    padding: 15px;
+    margin: 8px 0px;
+    border-bottom: 1px solid #9053c7;
+  }
+  
+  .act-entity i {
+    margin-top: 3px;
+    color: #9053c7;
+  }
+  
+  .checks button {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 16px;
+    text-transform: capitalize;
+    background-image: linear-gradient(-135deg, #c850c0, #4158d0);
+    border: none;
+    padding: 10px 20px;
+  }
+  
+  .checks button:hover {
+    background-image: linear-gradient(135deg, #c850c0, #4158d0);
+  }
+  
+  .checks h3 {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 24px;
+  }
+  
+  .custom-checkbox {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin: 8px 15px 25px 80px;
+  }
+  
+  .custom-checkbox .label {
+    font-size: 18px;
+    margin: 0 10px;
+  }
+  
+  .custom-checkbox .checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #181718;
+    display: inline-block;
+    border-radius: 3px;
+    background: #c850c0
+      url(https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/White_check.svg/1200px-White_check.svg.png)
+      center/1250% no-repeat;
+    transition: background-size 0.2s ease;
+  }
+  
+  .custom-checkbox input:checked + .checkmark {
+    background-size: 60%;
+    transition: background-size 0.25s cubic-bezier(0.7, 0, 0.18, 1.24);
+  }
+  
+  .custom-checkbox input {
+    display: none;
+  }
+  
+  @media (max-width: 992px) {
+    .act-description {
+      margin-left: 150px;
+      font-size: 17px !important;
+    }
+    .custom-checkbox {
+      margin-left: 40px;
+    }
+    .subAct-but {
+      margin-top: 20px;
+      margin-left: 0px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .checks {
+      margin-left: 0px;
+    }
+    .act-entity {
+      padding: 8px 8px;
+    }
+    .act-name {
+      font-size: 22px !important;
+      margin-left: 15px;
+    }
+    .act-description {
+      margin-left: 0px;
+      margin-top: 15px;
+      font-size: 20px !important;
+    }
+    .custom-checkbox {
+      margin-left: 0px;
+    }
+    .subAct-but {
+      margin-left: 0px;
+    }
+  }
+  
+  .search-form input {
+    padding: 8px;
+    width: 40%;
+    border: 1px solid #757575;
+  }
+  
+  /* .profile-pic {
+    width: 150px;
+    height: 150px;
+  } */
+  
+  .profile-pic img {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .profile-data p {
+    line-height: 2;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 17px;
+  }
+  
+  ul.ui-autocomplete.ui-menu {
+    background-color: #ccc;
+    width: 200px;
+    max-height: 200px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+  }
+  
+  ul.ui-autocomplete.ui-menu li {
+    padding: 10px;
+    border-bottom: 1px solid;
+  }
+  
+  .ui-helper-hidden-accessible {
+    display: none !important;
+  }
+  
+  /* ----------------------------------------------------Sales Page---------------------------- */
+  
+  
+  
+  .sales {
+    background: #9053c7;
+    background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+    background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
+    background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
+    background: linear-gradient(-135deg, #c850c0, #4158d0);
+    width: 95%;
+  }
+  
+  
+  .activitiesName {
+    width: 95%;
+  }
+  
+  .viewDetailsOfActivity:hover {
+    color: #1f204d !important;
+  }
+  
+  /* ------------------------------------ Manage Profile Page --------------------------------------------- */
+  
+  .detailheading {
+    font-size: 2vw;
+    margin-top: -2%;
+  }
+  
+  .Information {
+    background-color: whitesmoke;
+    margin: -1.3%;
+    width: 90%;
+    height: auto;
+    margin-left: 4%;
+    max-width: 100%;
+    padding: 4px 0px 4px 10px;
+    text-align: start;
+  }
+  
+  .Information i {
+    cursor: pointer;
+  }
+  
+  .profilepicture {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain;
+    overflow: hidden;
+  }
+  
+  
+  .editicon {
+    margin-top: 2px;
+  }
+  
+  .userdatacard {
+    margin-top: 3%;
+    width: 90%;
+    height: auto;
+    max-width: 100%;
+    margin-left: 4%;
+  }
+  .profile_heading{
+    width: 90%;
+    max-width: 100%;
+    margin-left: 4%;
+  
+  }
+  
+  .detname {
+    background-color: white;
+    height: 40px;
+  }
+  
+  .description {
+    background-color: white;
+    height: auto;
+    max-width: 100%;
+    margin-top: 0px;
+  }
+  
+  
+  .editbtn {
+    position: absolute;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    text-align: center;
+    bottom: 0%;
+    left: 0;
+    transition: 0.5s all;
+    opacity: 0;
+  }
+  
+  .piccontainer {
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    transition: 0.5s all;
+    height: 250px;
+    width: 250px;
+    margin: auto;
+  }
+  
+  .piccontainer:hover .editbtn {
+    opacity: 1;
+    color: white;
+    height: 20%;
+  }
+  
+  .userdatacard input {
+    border: 1px solid #c850c0;
+  }
+  
+  
+  
+  /* ------------------------ Activity Completition Page ---------------------------- */
+  
+  
+  .background{
   background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
-}
-
-.cardcss {
-  width: 84%;
-  margin-top: 10%;
-  border-color: #3a8ffe;
-}
-
-.cardcss h3 {
-  color: #9658fe;
-  font-size: larger;
-}
-
-.hr {
-  background: #9053c7;
-  background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: linear-gradient(-135deg, #c850c0, #4158d0);
-  width: 100%;
-  height: auto;
-  margin: 0%;
-}
-
-.congrats {
-  position: absolute;
-  top: 6vw;
-  margin-top: 6vw;
-  width: 24%;
-  height: auto;
-  padding: 20px 10px;
-  text-align: center;
-  left: 0;
-  right: 0;
-  margin-left: 28%;
-  max-width: 100%;
-}
-
-#amount_earned {
-  margin-left: 20px;
-}
-
-.congrats h1 {
-  margin-left: 21%;
-  padding: 2px 2px 2px 2px;
-  color: green;
-  transform-origin: 50% 50%;
-  font-size: 2vw;
-  font-family: "Sigmar One", cursive;
-  cursor: pointer;
-  position: absolute;
-  top: 0;
-  text-align: center;
-  width: 100%;
-  margin-top: -3vw;
-}
-
-.blob {
-  margin-top: -5vw;
-  height: 50px;
-  width: 50px;
-  color: yellowgreen;
-  position: absolute;
-  top: 45%;
-  left: 45%;
-  z-index: 4;
-  font-size: 30px;
-  display: none;
-}
-
-.setupprow {
-  margin: 0 auto;
-  top: 0;
-  position: relative;
-}
-
-.setrows {
-  padding: 4px 0px 4px 6px;
-}
-
-.button__badge {
-  background-color: #6c55ca;
-  border-radius: 2px;
-  color: white;
-  padding: 1px 3px;
-  font-size: 13px;
-  position: absolute;
-  top: 5px;
-  right: 36px;
-}
-
-/* --------------------------- Notifications ----------------------------- */
-
-.notify p {
-  font-size: x-small;
-  margin-left: 6.5vw;
-  margin-top: -1vw;
-}
-
-.notifytitle {
-  height: 4.6vw;
-  width: 74%;
-  margin-top: 5vw;
-  margin-left: 10vw;
-  padding: 1.2vw 0vw 0vw 1vw;
-}
-
-.notificationtitle {
-  background-color: whitesmoke;
-  height: 5vw;
-  max-width: 100%;
-  margin-bottom: 1vw;
-  padding: 1vw;
-  width: 70%;
-  max-width: 100%;
-  margin-left: 11vw;
-  border: 1px solid rgb(205, 205, 211);
-}
-
-.notify {
-  background: linear-gradient(-135deg, #d0e7f5, whitesmoke);
-  background-color: #d0e7f5;
-  width: 70%;
-  border: 1px solid rgb(194, 193, 193);
-  max-width: 100%;
-  margin-left: 11vw;
-  margin-top: 0.5vw;
-}
-
-.line {
-  background-color: gray;
-  height: 0.2vw;
-  margin-top: -1vw;
-  margin-bottom: 0%;
-  width: 70%;
-  max-width: 100%;
-  margin-left: 11vw;
-}
-
-.imgtext {
-  margin-left: 6.5vw;
-  margin-top: -4vw;
-}
-
-.profilepic {
-  border-radius: 50% !important;
-  height: auto !important;
-}
-
-.notificationIcons {
-  width: 4%;
-}
-
-/* ----------------------------------------- Bank Deposit Page --------------------------------------------- */
-
-.companybank {
-  border: 1px solid #3a8ffe;
-  width: 63%;
-  height: auto;
-  margin-left: 14%;
-  margin-top: 9vw;
-  margin-bottom: 1vw;
-  padding: 2vw 2vw 2vw 4vw;
-}
-
-.companybank h1 {
-  margin-left: 6%;
-}
-
-.companybankdetails {
-  height: auto;
-  padding: 2vw;
-}
-
-.userbank {
-  border: 1px solid #3a8ffe;
-  width: 63%;
-  height: auto;
-  margin-left: 14%;
-  margin-top: 0.5vw;
-  margin-bottom: 1vw;
-  padding: 2vw 2vw 2vw 7vw;
-}
-
-.content {
-  letter-spacing: 1px;
-  background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
-  color: black;
-  height: auto;
-  padding: 8px;
-  font-size: 16px;
-  border: none;
-  border-radius: 4px;
-}
-
-.usertransaction {
-  margin-top: 1vw;
-  width: 100%;
-  height: auto;
-}
-
-.slider {
-  margin-top: 1vw;
-  margin-left: 5%;
-  background-color: whitesmoke;
-  height: auto;
-  width: 90%;
-  margin-bottom: 2vw;
-}
-
-.bankimgs {
-  border: 2px solid #3a8ffe !important;
-  width: 220px !important;
-  height: 100px !important;
-  object-fit: cover !important;
-}
-
-/* -------------------------------------------- Withdraw Page ----------------------------------------------- */
-
-.withdraw {
-  background: linear-gradient(-135deg, #c850c0, #4158d0);
-  margin-left: 2vw;
-  margin-bottom: 1vw;
-  height: auto;
-  width: 95%;
-  max-width: 100%;
-}
-
-.withdraw_with {
-  padding: 1vw;
-  height: auto;
-  width: 95%;
-  max-width: 100%;
-  margin-left: 2vw;
-  margin-bottom: 2vw;
-  margin-top: 2vw;
-  border: 2px solid #3a8ffe;
-}
-
-.toast {
-  margin-top: 0%;
-  background-color: blanchedalmond;
-  height: 20%;
-}
-
-.cardcontainer {
-  margin-top: 14%;
-  padding: 10px 10px;
-}
-
-.cardsize {
-  height: auto;
-  max-width: 100%;
-}
-
-.activitydata {
-  width: 95%;
-  height: auto;
-  max-width: 100%;
-  margin-left: 2vw;
-  margin-bottom: 2vw;
-}
-
-.act_title {
-  width: 100%;
-  height: auto;
-  background: #3a8ffe;
-  margin-bottom: 0.5vw;
-  border: 1px solid rgba(86, 61, 124, 0.15);
-}
-
-.activity_record {
-  background-color: whitesmoke;
-  border: 1px solid rgba(86, 61, 124, 0.15);
-  margin-bottom: 0.3vw;
-}
-
-.Appimg {
-  height: 2vw !important;
-  width: 2vw !important;
-  float: left;
-  border-radius: 0px !important;
-}
-
-.activitydata button {
-  border: none;
-  text-decoration: underline;
-  background-color: whitesmoke;
-}
-
-.withdraw_with button {
-  color: white !important;
-  font-weight: 600;
-  font-size: medium;
-  line-height: 36px;
-}
-
-/* -------------------------------- Deposit Slip ------------------------------- */
-
-.deposittitle {
-  background-color: #d0e7f5;
-  max-width: 100%;
-  padding: 1vw;
-  width: 70%;
-  max-width: 100%;
-}
-
-.depositsection {
-  margin-top: 9vw;
-  width: 70%;
-  margin-bottom: 2vw;
-  margin-left: 15%;
-}
-
-.back-button {
-  margin-left: 39%;
-}
-
-/* ----------------------------- progress anaylytics ------------------------------- */
-
-.saleup {
-  margin-top: 6vw;
-}
-
-canvas {
-  margin-bottom: 2vw;
-  color: rgb(211, 83, 250);
-}
+  }
+  
+  
+  .background-border{
+    border: 2px solid #a66cda; 
+  }
+  
+  
+  .congrats {
+    /* position: absolute; */
+top:80px;
+    width: 24%;
+    height: auto;
+    padding: 20px 10px;
+    text-align: center;
+    left: 0;
+    right: 0;
+    /* margin-left: 28%; */
+    max-width: 100%;
+  }
+  
+  
+  .congrats h1 {
+    padding: 2px 2px 2px 2px;
+    color: green;
+    transform-origin: 50% 50%;
+    font-size: 2vw;
+    font-family: "Sigmar One", cursive;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .blob {
+    margin-top: 0vw;
+    height: 50px;
+    width: 50px;
+    color: yellowgreen;
+    position: absolute;
+    top: 10%;
+    left:15%;
+    z-index: 4;
+    font-size: 30px;
+    display: none;
+  }
+   
+  .button__badge {
+    background-color: #6c55ca;
+    border-radius: 2px;
+    color: white;
+    padding: 1px 3px;
+    font-size: 13px;
+    position: absolute;
+    top: 5px;
+    right: 36px;
+  }
+  
+  /* --------------------------- Notifications ----------------------------- */
+  
+   .notificationIcons {
+    width: 4%;
+  }
+  /* ----------------------------------------- Bank Deposit Page --------------------------------------------- */
+  
+  
+  
+  /* -------------------------------------------- Withdraw Page ----------------------------------------------- */
+  
+  .withdraw, .withdraw_with {
+    height: auto;
+    width: 95%;
+    max-width: 100%;
+  }
+  
+  .withdraw_with {
+   
+    border: 2px solid #3a8ffe;
+  }
+  .withdraw{
+    background: linear-gradient(-135deg, #c850c0, #4158d0);
+  
+  }
+  
+  
+  
+  .toast {
+    margin-top: 0%;
+    background-color: blanchedalmond;
+    height: 20%;
+  }
+  
+  
+  .Appimg {
+    height: 2vw !important;
+    width: 2vw !important;
+    float: left;
+    border-radius: 0px !important;
+  }
+  
+  .activitydata button {
+    border: none;
+    text-decoration: underline;
+    background-color: whitesmoke;
+  }
+  
+  .withdraw_with button {
+    color: white !important;
+    background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
+  
+  }
+  
+  /* -------------------------------- Deposit Slip ------------------------------- */
+  
+  
+  .overflow{
+    overflow: auto !important;
+  }
+  
+  
+  
+  /* ----------------------------- progress anaylytics ------------------------------- */
+  
+  
+  .salesup{
+    margin-top: 8vw;
+  
+  }
+  
 
 /* ---------------------------------------- Dashboard ----------------------------------------------- */
 
-.carouselimg img {
-  height: 34vw;
-  border-radius: 0% !important;
-}
+@media (min-width: 320px) and (max-width:374px) {
 
-.dashboardarea {
-  margin-top: 9vw;
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  margin: 01%;
-  padding: 15px;
-  margin-bottom: 5vw;
-}
-
-.profilearea {
-  height: 42vw;
-  width: 100%;
-  text-align: center;
-}
-
-.profile_uppersection {
-  padding: 2vw;
-}
-
-.profile_belowsection {
-  height: 40%;
-}
-
-.profile_uppersection,
-.profile_belowsection {
-  border: 2px solid #23aed1;
-}
-
-/* ---------------------------------------- Contact US ----------------------------------------------- */
-
-.con_line {
-  margin-left: 7vw;
-  width: 85%;
-  height: 0.1vw;
-  background: #3a8ffe;
-}
-
-.smile {
-  font-size: 38px;
-  margin-left: 0.4vw;
-  margin-top: 0.3vw;
-}
-
-.formstyle {
-  text-align: center;
-  align-items: center;
-  margin-top: 3vw;
-  width: 70%;
-  max-width: 100%;
-  height: auto;
-  min-height: 25vw;
-  margin-left: 7vw;
-  /* background-color: whitesmoke; */
-  border: 2px solid #3a8ffe;
-  border-radius: 10px;
-}
-
-.contact_btn {
-  border-radius: 6px;
-  text-align: center;
-  padding: 1px;
-  height: 2vw;
-  width: 50%;
-  max-width: 100%;
-  border: 1px solid #3a8ffe;
-  margin-left: 23%;
-  outline: none;
-  font-size: 14px;
-  text-transform: uppercase;
-  cursor: pointer;
-  background-color: white;
-  /* background-color: #ffbd5d; */
-  color: black;
-  background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
-}
-
-.addressend {
-  list-style: none;
-  width: 80%;
-  max-width: 100%;
-  height: auto;
-  margin-top: 2.85vw;
-  padding-top: 3vw;
-}
-
-.addressend p {
-  margin-bottom: 2vw;
-  margin-left: 2vw;
-  font-size: 17px;
-}
-
-.addressend i {
-  margin-right: 1vw;
-}
-
-.textbox {
-  height: 10vw;
-}
-
-/* ------------------------------------------- Team Lead --------------------------------------------- */
-
-/* ------------------------------------------- Team Lead Add Freelancer to Team  --------------------------------------------- */
-
-.topmargin {
-  margin-top: 9vw;
-}
-
-/* ------------------------------------------- Convery Message to Team  --------------------------------------------- */
-
-.empnames {
-  letter-spacing: 1px;
-  background: #d0e7f5;
-  color: black;
-  width: 15vw;
-  height: auto;
-  padding: 8px;
-  font-size: 16px;
-  border-radius: 4px;
-  margin-left: 6vw;
-}
-
-.executive_btn {
-  border-radius: 6px;
-  text-align: center;
-  padding: 1px;
-  height: 3vw;
-  max-width: 100%;
-  outline: none;
-  font-size: 14px;
-  text-transform: uppercase;
-  cursor: pointer;
-  margin-left: 58%;
-  color: white;
-  border: 1px solid #64b9ee;
-  background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
-  margin-bottom: 2vw;
-}
-
-.allot_btn {
-  background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
-  padding: 1px;
-  border-radius: 6px;
-  border: 1px solid #64b9ee;
-  margin-left: 40%;
-  margin-top: 1vw;
-  height: 3vw;
-}
-/* ------------------------------------------- Super visor Team Progress --------------------------------------------- */
-.teaminfo {
-  border-radius: 50%;
-  width: 6vw;
-  height: 6vw;
-  overflow: hidden;
-  margin-left: 46%;
-}
-
-.teampic {
-  height: 100%;
-  width: unset !important;
-  object-fit: contain;
-  overflow: hidden;
-}
-.cardsection {
-  border: 2px solid #3a8ffe;
-}
-
-.linear_bg {
-  background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: linear-gradient(-135deg, #c850c0, #4158d0);
-}
+  .carouselimg img {
+    height:380px;}
+  
+  
+  .carouselimg_team img {
+    height: 618px;
+    margin-top: 8px;
+  }
+  .carouselimg_sup img{
+    height: 596px;
+  
+  }
+  .carouselimg_man img{
+    height: 550px;
+  
+  }
+  .carouselimg_gm img{
+    height: 520px;
+  
+  }
+  
+  }
+  @media (min-width: 375px) and (max-width:424px){
+  
+    .carouselimg img {
+      height:380px;
+    }
+  
+      .carouselimg_team img {
+      height: 542px;
+        margin-top: 8px;
+      }
+    .carouselimg_sup img{
+      height: 574px;
+  
+    }
+    .carouselimg_man img{
+      height: 568px;
+    
+    }
+    .carouselimg_gm img{
+      height: 499px;
+    
+    }
+  }
+  @media (min-width: 425px) and (max-width: 767px) {
+  
+      .carouselimg img {
+        height:400px;
+      }
+        .carouselimg_team img {
+          height: 510px;
+            margin-top: 8px;
+          }
+          .carouselimg_sup img{
+            height: 544px;
+        
+          }
+          .carouselimg_man img{
+            height: 535px;
+          
+          }
+          .carouselimg_gm img{
+            height: 499px;
+          
+          }
+     }
+  @media (min-width: 768px) and (max-width: 1339px) {
+  
+        .carouselimg img {
+          height:462px;}
+  
+          .carouselimg_team img {
+            height: 510px;
+              margin-top: 8px;
+            }
+            .carouselimg_sup img{
+              height: 497px;
+          
+            }
+            .carouselimg_man img{
+              height: 477px;
+            
+            }
+            .carouselimg_gm img{
+              height: 510px;
+            
+            }
+        } 
+        
+  
+  @media (min-width: 1024px) and (max-width: 1339px) {
+  
+          .carouselimg img {
+            height:620px;
+          }
+  
+            .carouselimg_team img {
+              height: 538px;
+                margin-top: 8px;
+              }
+              .carouselimg_sup img{
+                height: 547px;
+            
+              }
+              .carouselimg_man img{
+                height: 518px;
+              
+              }
+              .carouselimg_gm img{
+                height: 583px;
+              
+              }
+             
+          
+          } 
+  @media (min-width: 1440px) and (max-width: 2559px) {
+  
+            .carouselimg img {
+              height:763px;
+            }
+              .carouselimg_team img {
+                height: 615px;
+                  margin-top: 8px;
+                }
+                .carouselimg_sup img{
+                  height: 625px;
+              
+                }
+                .carouselimg_man img{
+                  height: 585px;
+                
+                }
+                .carouselimg_gm img{
+                  height: 685px;
+                
+                }
+            } 
+  @media (min-width: 2560px)  {
+  
+              .carouselimg img {
+                height:763px;
+              }
+                .carouselimg_team img {
+                  height: 615px;
+                    margin-top: 8px;
+                  }
+                  .carouselimg_sup img{
+                    height: 625px;
+                
+                  }
+                  .carouselimg_man img{
+                    height: 585px;
+                  
+                  }
+                  .carouselimg_gm img{
+                    height: 685px;
+                  
+                  }
+              } 
+  
+  .carouselimg img, .carouselimg_sup img, .carouselimg_team img, .carouselimg_man img, .crouselimg_gift img, .carouselimg_gm img
+  {
+    border-radius: 0% !important;
+    /* height:380px; */
+  }
+  
+  
+  /* ---------------------------------------- Contact US ----------------------------------------------- */
+  
+  .con_line {
+    margin-left: 7vw;
+    width: 85%;
+    height: 0.1vw;
+    background: #3a8ffe;
+  }
+  
+  .smile {
+    font-size: 38px;
+    margin-left: 0.4vw;
+    margin-top: 0.3vw;
+  }
+  
+  .formstyle {
+    text-align: center;
+    align-items: center;
+    margin-top: 3vw;
+    width: 70%;
+    max-width: 100%;
+    height: auto;
+    min-height: 25vw;
+    margin-left: 7vw;
+    /* background-color: whitesmoke; */
+    border: 2px solid #3a8ffe;
+    border-radius: 10px;
+  }
+  
+  .contact_btn {
+    border-radius: 6px;
+    text-align: center;
+    padding: 1px;
+    height: 2vw;
+    width: 50%;
+    max-width: 100%;
+    border: 1px solid #3a8ffe;
+    margin-left: 23%;
+    outline: none;
+    font-size: 14px;
+    text-transform: uppercase;
+    cursor: pointer;
+    background-color: white;
+    /* background-color: #ffbd5d; */
+    color: black;
+    background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
+  }
+  
+  .addressend {
+    list-style: none;
+    width: 80%;
+    max-width: 100%;
+    height: auto;
+    margin-top: 2.85vw;
+    padding-top: 3vw;
+  }
+  
+  .addressend p {
+    margin-bottom: 2vw;
+    margin-left: 2vw;
+    font-size: 17px;
+  }
+  
+  .addressend i {
+    margin-right: 1vw;
+  }
+  
+  .textbox {
+    height: 10vw;
+  }
+  
+  /* ------------------------------------------- Team Lead --------------------------------------------- */
+  
+  /* ------------------------------------------- Team Lead Add Freelancer to Team  --------------------------------------------- */
+  
+  .topmargin {
+    margin-top: 20%;
+  }
+  
+  /* ------------------------------------------- Convery Message to Team  --------------------------------------------- */
+  
+  .empnames {
+    letter-spacing: 1px;
+    background: #d0e7f5;
+    color: black;
+    width: 15vw;
+    height: auto;
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 4px;
+    margin-left: 6vw;
+  }
+  
+  .executive_btn {
+    border-radius: 6px;
+    text-align: center;
+    padding: 1px;
+    height: 3vw;
+    max-width: 100%;
+    outline: none;
+    font-size: 14px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-left: 58%;
+    color: white;
+    border: 1px solid #64b9ee;
+    background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
+    margin-bottom: 2vw;
+  }
+  
+  .allot_btn {
+    background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
+    padding: 1px;
+    border-radius: 6px;
+    border: 1px solid #64b9ee;
+    margin-left: 40%;
+    margin-top: 1vw;
+    height: 3vw;
+  }
+  /* ------------------------------------------- Super visor Team Progress --------------------------------------------- */
+  .teaminfo {
+    border-radius: 50%;
+    width: 6vw;
+    height: 6vw;
+    overflow: hidden;
+    margin-left: 46%;
+  }
+  
+  .teampic {
+    height: 100%;
+    width: unset !important;
+    object-fit: contain;
+    overflow: hidden;
+  }
+  .cardsection {
+    border: 2px solid #3a8ffe;
+  }
+  
+  
+  
