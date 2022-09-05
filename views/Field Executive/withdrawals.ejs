@@ -22,7 +22,7 @@
     <body>
         <div class="limiter">
             <div class="container-profile100">
-                <div class="header">
+                <div class="header w-100">
                     <div class="cover-image100">
                         <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
                         <a href="#">
@@ -52,15 +52,18 @@
                         </nav>
                     </div>
 
+                    
+                    <div class="container salesup">
+                        <h3 class="col-12 text-center m-auto">Withdrawals</h3>
+                            </div>
+                            <div class="mt-3"></div>
 
-                    <div class="withdraw " id="withdraw ">
-
-                        <div class="row cardcontainer">
-                            <div class="col-sm  ml-4 mr-1 p-2">
-                                <div class="card cardsize">
+                        <div class="row sales p-3 col-12 text-center m-auto" id="withdraw ">
+                            <div class="col-sm mb-2">
+                                <div class="card ">
                                     <div class="card-body ">
-                                        <h5 class="card-title ">Total Income</h5>
-                                        <h6 class="card-subtitle mb-2 text-muted " id="totalIncome">
+                                        <h4 class="card-title ">Total Income</h4>
+                                        <h6 class="card-subtitle text-muted " id="totalIncome">
 
                                         </h6>
 
@@ -68,11 +71,11 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm  ml-4 mr-1 p-2">
-                                <div class="card cardsize">
+                            <div class="col-sm mb-2">
+                                <div class="card ">
                                     <div class="card-body ">
-                                        <h5 class="card-title ">Total Commission</h5>
-                                        <h6 class="card-subtitle mb-2 text-muted " id="totalCommission">
+                                        <h4 class="card-title ">Total Commission</h4>
+                                        <h6 class="card-subtitle text-muted " id="totalCommission">
 
                                         </h6>
 
@@ -82,11 +85,11 @@
 
 
 
-                            <div class="col-sm  ml-4 mr-1 p-2">
-                                <div class="card cardsize">
+                            <div class="col-sm mb-2">
+                                <div class="card">
                                     <div class="card-body ">
-                                        <h5 class="card-title ">Available Amount</h5>
-                                        <h6 class="card-subtitle mb-2 text-muted font-weight-bold" id="availableAmount">
+                                        <h4 class="card-title ">Available Amount</h4>
+                                        <h6 class="card-subtitle  text-muted font-weight-bold" id="availableAmount">
 
                                         </h6>
 
@@ -94,33 +97,33 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm ml-2 mr-1  p-2 ">
-                                <div class="card cardsize">
+                            <div class="col-sm mb-2 ">
+                                <div class="card">
                                     <div class="card-body ">
-                                        <h5 class="card-title ">Total Activties</h5>
-                                        <h6 class="card-subtitle mb-2 text-muted " id="totalActivties">
+                                        <h4 class="card-title ">Total Activties</h4>
+                                        <h6 class="card-subtitle text-muted " id="totalActivties">
 
                                         </h6>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm ml-2 mr-4 p-2">
+                            <div class="col-sm mb-2">
                                 <div class="card cardsize">
                                     <div class="card-body ">
-                                        <h5 class="card-title ">Total Withdrawed </h5>
-                                        <h6 class="card-subtitle mb-2 text-muted" id="totalWithdraws">
+                                        <h4 class="card-title ">Total Withdrawed </h4>
+                                        <h6 class="card-subtitle text-muted" id="totalWithdraws">
                                         </h6>
                                     </div>
                                 </div>
                             </div>
 
                         </div>
-                    </div>
-                    <div class="withdraw_with">
+                        <div class="mt-3"></div>
+                    <div class="background-border activitiesName p-3 col-12 text-center m-auto">
                         <h5>Withdraw Amount with</h5>
-                        <div class="row p-3 mt-4 ml-5">
-                            <div class="col-4 ">
-                                <button disabled class="custom-btn" value="Easypaisa" id="Easypaisa"
+                        <div class="row p-3">
+                            <div class="col-6 ">
+                                <button disabled class="btn background background-border" value="Easypaisa" id="Easypaisa"
                                     onclick="Withdraw_confirm(this.value)">
                                     Easypaisa
                                     <img class="Appimg p-1" src="<%=url%>/img/easypaisa.png">
@@ -128,8 +131,8 @@
                                 </button>
 
                             </div>
-                            <div class=" col-4 ">
-                                <button disabled class="custom-btn" value="JazzCash" id="JazzCash"
+                            <div class="col-6 ">
+                                <button disabled class="btn background background-border" value="JazzCash" id="JazzCash"
                                     onclick="Withdraw_confirm(this.value) ">
                                     JazzCash
                                     <img class="Appimg" src="<%=url%>/img/jazzcash.png">
@@ -139,78 +142,83 @@
 
                         </div>
                     </div>
-                    <div class="activitydata ">
+<div class="mt-3"></div>
+                    <div class="table-responsive overflow col-12 text-center m-auto " >
+                        <table class="table text-nowrap " id="depositedSlipTable" name="table">
+                          <thead class="background">
+                          <tr>
+                            <th scope="col">Activity Name</th>
+                            <th scope="col">Bank Sale</th>
+                            <!-- <th scope="col">Commission</th> -->
+                            <th scope="col">Status</th>
+                            <th scope="col">Status</th>
+                            <th scope="col" class="text-center">Clearance Data</th>
+                            <th scope="col">Transaction Details</th>
+                          </tr>
+                        </thead>
+                        <tbody>
 
-                        <div class="act_title ">
-                            <div class="d-flex flex-row ">
-                                <div class="p-2 w-50 font-weight-bold ">Activity Name</div>
-                                <div class="p-2 w-25 font-weight-bold ">Bank Sale</div>
-                                <!-- <div class="p-2 w-25 font-weight-bold ">Commission</div> -->
-                                <div class="p-2 w-25 font-weight-bold ">Status</div>
-                                <div class="p-2 w-50 font-weight-bold text-center ">Clearance Date</div>
-                                <div class="p-2 w-25 font-weight-bold text-center">Transaction Details</div>
-                            </div>
-                        </div>
 
 
                         <%PendingClearanceObject.map(obejct=>{%>
-                            <div class="d-flex flex-row activity_record ">
-                                <div class="p-2 w-50 ">
+                                <td>
                                     <%=obejct.Activity.Agency_Info.agency_name %>
-                                </div>
+                                <td>
                                 <!-- --------------------------------------------------------------------------------------------------------------- -->
 
                                 <% if(obejct.bank_sale){ %>
-                                    <div class="p-2 w-25 text-success font-weight-bold">
+                                    <td class="text-success font-weight-bold">
                                         Yes
-                                    </div>
+                                    </td>
                                     <% }else{ %>
-                                        <div class="p-2 w-25 text-danger">
+                                        <td class="text-danger">
                                             No
-                                        </div>
+                                        </td>
                                         <% } %>
                                             <!-- --------------------------------------------------------------------------------------------------------------- -->
-                                            <!-- <div class="p-2 w-25 ">Clear</div> -->
+                                            <!-- <td class="">Clear</td> -->
                                             <!-- --------------------------------------------------------------------------------------------------------------- -->
 
                                             <% if(obejct.accountant_approve){ %>
 
                                                 <% if(obejct.withdrawed){ %>
-                                                    <div class="p-2 w-25 text-success font-weight-bold">
+                                                    <td class="text-success font-weight-bold">
                                                         Withdrawed
-                                                    </div>
+                                                    </>
                                                     <% }else{%>
-                                                        <div class="p-2 w-25 text-success font-weight-bold">
+                                                        <td class="text-success font-weight-bold">
                                                             Approved
-                                                        </div>
+                                                        </td>
                                                         <% }%>
 
                                                             <% }else if(obejct.account_decline){ %>
-                                                                <div class="p-2 w-25 text-danger">
+                                                                <td class="text-danger">
                                                                     Declined
-                                                                </div>
+                                                                </td>
                                                                 <% }else{ %>
-                                                                    <div class="p-2 w-25 text-secondary">
+                                                                    <td class="text-secondary">
                                                                         Pending
-                                                                    </div>
+                                                                    </td>
                                                                     <% } %>
                                                                         <!-- --------------------------------------------------------------------------------------------------------------- -->
 
-                                                                        <div class="p-2 w-50 text-center ">
+                                                                        <td class=" text-center ">
                                                                             <%=obejct.clearanceDateTime %>
-                                                                        </div>
+                                                                        </>
                                                                         <!-- --------------------------------------------------------------------------------------------------------------- -->
                                                                         <% if(obejct.bank_sale){ %>
 
-                                                                            <div class="p-2 w-25 text-center ">
+                                                                            <td class="text-center ">
                                                                                 <a href="<%=url%>/user/depositslip/<%=obejct.field_exe_earn_uuid %>"
                                                                                     target="_blank">View</a>
-                                                                            </div>
+                                                                            </td>
                                                                             <% }else{ %>
-                                                                                <div class="p-2 w-25 text-center">
+                                                                                <td class="text-center">
                                                                                     --
-                                                                                </div>
+                                                                                </td>
                                                                                 <% } %>
+                                                                                </tbody>
+                                                                            </table>
 
 
                             </div>

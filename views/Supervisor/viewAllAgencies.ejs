@@ -33,7 +33,7 @@
     <!--  Navigation-->
     <div class="limiter">
       <div class="container-profile100">
-        <div class="header">
+        <div class="header w-100">
           <div class="cover-image100">
             <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
             <a href="#">
@@ -69,13 +69,12 @@
           <!-- advertisment,
         cityNames, -->
           <!-- --------------------------- -->
-          <div class="container saleup">
-            <br />
-            <h4 class="areaheading mb-3 font-weight-bold">List Of Agencies</h4>
-            <div class="row">
-              <div class="col-md-6">
+          <div class="container salesup">
+            <h3 class="col-12 text-center m-auto">List Of Agencies</h3>
+            <div class="row mt-4">
+              <div class="col-6">
                 <select
-                  class="form-control mt-2 mb-3 w-75 h-75 pt-0 pt-lg-0"
+                  class="form-control w-75 "
                   name="selectBox"
                   id="selectCity"
                 >
@@ -89,9 +88,9 @@
                   <% }) %>
                 </select>
               </div>
-              <div class="col-md-6" style="display: none" id="cityAreaDiv">
+              <div class="col-6 mt-3" style="display: none" id="cityAreaDiv">
                 <select
-                  class="form-control mt-2 mb-3 w-75 h-75 pt-0 pt-lg-0"
+                  class="form-control w-75  "
                   name="selectBox"
                   id="selectCityArea"
                 >
@@ -99,8 +98,8 @@
                 </select>
               </div>
             </div>
-            <div class="table-responsive-lg mt-4 mb-5">
-              <table class="table" id="data">
+            <div class="table-responsive overflow my-4" >
+              <table class="table text-nowrap " id="depositedSlipTable" name="table">
                 <thead class="table-primary">
                   <tr>
                     <th scope="col">#</th>
@@ -135,12 +134,12 @@
     <script src="<%=url%>/toastr/toastr.min.js"></script>
     <script>
       var notificationCount = JSON.parse(
-        "<%-JSON.stringify(unreadNotificationCount)%>"
+        `<%-JSON.stringify(unreadNotificationCount)%>`
       );
       if (notificationCount) {
         $(".button__badge").css("display", "block");
         $(".button__badge").html(
-          JSON.parse("<%-JSON.stringify(unreadNotificationCount)%>")
+          JSON.parse(`<%-JSON.stringify(unreadNotificationCount)%>`)
         );
       }
       $(".js-tilt").tilt({

@@ -24,6 +24,7 @@
             <div class="container-profile100">
                 <div class="header">
                     <div class="cover-image100">
+                        <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
                         <a href="#">
                             <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
                         </a>
@@ -48,55 +49,46 @@
                             <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
                         </nav>
                     </div>
-                    <div class="container profile-pic-section">
-                        <div class="row head-section">
-                            <div class="col-md-12" align="center">
-                                <h2>Dashboard</h2>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row dashboardarea">
-                        <div class="col-3 profilearea  mt-3 ">
-                            <div class="row  mt-1  profile_uppersection ">
+                    <div class="container salesup">
+                        <h2 class="col-12 text-center m-auto">Dashboard</h2></div>
+                        
+                        <div class="row col-12 text-center m-auto ">
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4 mt-3  ">
+                                <div class="row mb-2">
+                                <div class="col-12 text-center m-auto p-1  cardsection ">
                                 <%if(profileData.team_L_userProfilePic!== null){%>
-                                    <div class="container_pic ">
                                         <img class="font-size-sm" src="<%=url%>/<%=profileData.team_L_userProfilePic%>">
-                                    </div>
                                     <% }else{ %>
-                                        <div class="container_pic ">
                                             <img class="font-size-sm" src="<%=url%>/img/Team Lead.jpg">
-                                        </div>
                                         <% } %>
-                                            <div class=" ml-4 p-1 mt-1">
-                                                <h4 class="font-size-sm">
-                                                    <%=profileData.team_L_name%>
-                                                </h4>
-                                                <h4 class="mt-2 badge badge-info mb-1 " style="font-size: large;">
-                                                    <%=user_role.type_name%>
-                                                </h4>
-                                                <p class=" mt-2mb-1 font-size-sm">
-                                                    <b>Contact:</b>
-                                                    <%=profileData.team_L_contact%>
-                                                </p>
+                                        <h4 class="font-size-sm col-12 text-center m-auto p-0">
+                                            <%=profileData.team_L_name%>
+                                        </h4>
+                                     
+                                        <h4 class="mt-2 badge badge-info mb-1 p-2" >
+                                            <%=user_role.type_name%>
+                                        </h4>
+                                        <p class=" mt-2 mb-1 font-size-sm">
+                                            <b>Contact:</b>
+                                            <%=profileData.team_L_contact%>
+                                        </p>
 
-                                                <p class="mb-1 font-size-sm">
-                                                    <b>Username:</b>
-                                                    <%=profileData.team_L_username%>
-                                                </p>
-                                                <p class="mb-1 font-size-sm">
-                                                    <b>Salary:</b>
-                                                    <%=profileData.team_L_salary%>
-                                                </p>
-                                                <p class=" mt-1 font-size-sm text-center" id="memberSince">
+                                        <p class="mb-1 font-size-sm">
+                                            <b>Username:</b>
+                                            <%=profileData.team_L_username%>
+                                        </p>
+                                        <p class="mb-1 font-size-sm">
+                                            <b>Salary:</b>
+                                            <%=profileData.team_L_salary%>
+                                        </p>
+                                        <p class=" mt-1 font-size-sm text-center" id="memberSince">
 
-                                                </p>
-                                            </div>
+                                        </p>        
                             </div>
-
-                            <div class="row  mt-1  profile_uppersection ">
-                                <div>
-                                    <strong class="font-size-sm">
+                            </div>
+                            <div class="row mt-2  mb-3 cardsection">
+                                <div class="col-12 text-center m-auto p-1  ">
+                                    <strong class="font-size-sm p-0">
                                         Company Relevant Information
                                     </strong>
                                     <p class="mb-1 font-size-sm">
@@ -107,14 +99,14 @@
                                         <b>City Area:</b>
                                         <%=profileData.city_name%>
                                     </p>
-
-
+        
                                 </div>
                             </div>
-                        </div>
+                        </div> 
 
-                        <div class="col-9">
-                            <div id="carouselExampleCaptions" class="carousel slide mt-2 carouselimg"
+
+                        <div class="col-6 col-sm-6 col-md-8 col-lg-8 col-xl-8 ">
+                            <div id="carouselExampleCaptions" class="carousel slide carouselimg_team"
                                 data-ride="carousel">
                                 <ol class="carousel-indicators">
                                     <% webAds.map((data,index)=>{ %>
@@ -171,11 +163,11 @@
                             </div>
                         </div>
 
-                    </div>
-                </div>
             </div>
         </div>
-        </div>
+    </div>
+    </div>
+    </div>
         <!--===============================================================================================-->
         <script src="<%=url%>/vendor/jquery/jquery-3.2.1.min.js"></script>
         <!--===============================================================================================-->

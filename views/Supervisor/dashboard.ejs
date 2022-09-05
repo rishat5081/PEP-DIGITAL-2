@@ -51,55 +51,45 @@
                         <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
                     </nav>
                 </div>
-                    <div class="container profile-pic-section">
-                        <div class="row head-section">
-                            <div class="col-md-12" align="center">
-                                <h2>Dashboard</h2>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row dashboardarea">
-                        <div class="col-3 profilearea  mt-3 ">
-                            <div class="row  mt-1  profile_uppersection ">
+                <div class="container salesup">
+                            <h2 class="col-12 text-center m-auto">Dashboard</h2></div>
+                <div class="row col-12 text-center m-auto ">
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4 mt-3  ">
+                        <div class="row mb-2">
+                        <div class="col-12 text-center m-auto p-1  cardsection ">
                                 <%if(profileData.man_userProfilePic!== null){%>
-                                    <div class="container_pic ">
-                                        <img class="font-size-sm" src="<%=url%>/<%=profileData.sup_userProfilePic%>">
-                                    </div>
+                                        <img class="font-size-sm mb-1" src="<%=url%>/<%=profileData.sup_userProfilePic%>">
                                     <% }else{ %>
-                                        <div class="container_pic ">
-                                            <img class="font-size-sm" src="<%=url%>/img/Team Lead.jpg">
-                                        </div>
+                                            <img class="font-size-sm mb-1" src="<%=url%>/img/Team Lead.jpg">
                                         <% } %>
-                                            <div class=" ml-4 p-1 mt-1">
-                                                <h4 class="font-size-sm">
-                                                    <%=profileData.sup_name%>
-                                                </h4>
-                                                <h4 class="mt-2 badge badge-info mb-1 " style="font-size: large;">
-                                                    <%=user_role.type_name%>
-                                                </h4>
-                                                <p class=" mt-2mb-1 font-size-sm">
-                                                    <b>Contact:</b>
-                                                    <%=profileData.sup_contact%>
-                                                </p>
+                                        <h4 class="font-size-sm col-12 text-center m-auto p-0">
+                                            <%=profileData.sup_name%>
+                                        </h4>
+                                     
+                                        <h4 class="mt-2 badge badge-info mb-1 p-2" >
+                                            <%=user_role.type_name%>
+                                        </h4>
+                                        <p class=" mt-2 mb-1 font-size-sm">
+                                            <b>Contact:</b>
+                                            <%=profileData.sup_contact%>
+                                        </p>
 
-                                                <p class="mb-1 font-size-sm">
-                                                    <b>Username:</b>
-                                                    <%=profileData.sup_username%>
-                                                </p>
-                                                <p class="mb-1 font-size-sm">
-                                                    <b>Salary:</b>
-                                                    <%=profileData.sup_salary%>
-                                                </p>
-                                                <p class=" mt-1 font-size-sm text-center" id="memberSince">
+                                        <p class="mb-1 font-size-sm">
+                                            <b>Username:</b>
+                                            <%=profileData.sup_username%>
+                                        </p>
+                                        <p class="mb-1 font-size-sm">
+                                            <b>Salary:</b>
+                                            <%=profileData.sup_salary%>
+                                        </p>
+                                        <p class=" mt-1 font-size-sm text-center" id="memberSince">
 
-                                                </p>
-                                            </div>
+                                        </p>        
                             </div>
-
-                            <div class="row  mt-1  profile_uppersection ">
-                                <div>
-                                    <strong class="font-size-sm">
+                            </div>
+                            <div class="row mt-2  mb-3 cardsection">
+                                <div class="col-12 text-center m-auto p-1  ">
+                                    <strong class="font-size-sm p-0">
                                         Company Relevant Information
                                     </strong>
                                     <p class="mb-1 font-size-sm">
@@ -113,75 +103,76 @@
                                         <% }) %>
                                       
                                     </p>
-
-
+                                  
+        
                                 </div>
                             </div>
-                        </div>
+                        </div> 
 
-                        <div class="col-9">
-                            <div id="carouselExampleCaptions" class="carousel slide mt-2 carouselimg"
+                        <div class="col-6 col-sm-6 col-md-8 col-lg-8 col-xl-8 ">
+                            <div id="carouselExampleCaptions" class="carousel slide mt-2 carouselimg_sup "
                                 data-ride="carousel">
                                 <ol class="carousel-indicators">
-                                    <% webAds.map((data,index)=>{ %>
-                                        <%if(index==0) {%>
-                                            <li data-target="#carouselExampleCaptions" data-slide-to="<% index %> "
-                                                class="active">
-                                            </li>
-                                            <% }else{ %>
-                                                <li data-target="#carouselExampleCaptions" data-slide-to="<% index %>">
-                                                </li>
-                                                <% }}) %>
-
-                                </ol>
-                                <div class="carousel-inner">
-                                    <% webAds.map((data,index)=>{ %>
-                                        <%if(index==0) {%>
-                                            <div class="carousel-item active p-2">
-                                                <img src="<%=url%>/<%=data.picPath%>" class="d-block w-100"
-                                                    alt="<%= data.title %>">
-                                                <div class="carousel-caption d-none d-md-block">
-                                                    <h5 class="font-weight-bolder text-danger">
-                                                        <%=data.title %>
-                                                    </h5>
-                                                    <p class="text-danger">
-                                                        <%= data.description %>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <% }else{ %>
-                                                <div class="carousel-item p-2">
-                                                    <img src="<%=url%>/<%=data.picPath%>" class="d-block w-100"
-                                                        alt="<%= data.title %>">
-                                                    <div class="carousel-caption d-none d-md-block">
-                                                        <h5 class="font-weight-bolder text-danger">
-                                                            <%= data.title %>
-                                                        </h5>
-                                                        <p class="text-danger">
-                                                            <%= data.description %>
-                                                        </p>
+                                            <% webAds.map((data,index)=>{ %>
+                                                <%if(index==0) {%>
+                                                    <li data-target="#carouselExampleCaptions" data-slide-to="<% index %> "
+                                                        class="active">
+                                                    </li>
+                                                    <% }else{ %>
+                                                        <li data-target="#carouselExampleCaptions" data-slide-to="<% index %>">
+                                                        </li>
+                                                        <% }}) %>
+        
+                                        </ol>
+                                        <div class="carousel-inner">
+                                            <% webAds.map((data,index)=>{ %>
+                                                <%if(index==0) {%>
+                                                    <div class="carousel-item active p-2">
+                                                        <img src="<%=url%>/<%=data.picPath%>" class="d-block w-100"
+                                                            alt="<%= data.title %>">
+                                                        <div class="carousel-caption d-none d-md-block">
+                                                            <h5 class="font-weight-bolder text-danger">
+                                                                <%=data.title %>
+                                                            </h5>
+                                                            <p class="text-danger">
+                                                                <%= data.description %>
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <% }}) %>
+                                                    <% }else{ %>
+                                                        <div class="carousel-item p-2">
+                                                            <img src="<%=url%>/<%=data.picPath%>" class="d-block w-100"
+                                                                alt="<%= data.title %>">
+                                                            <div class="carousel-caption d-none d-md-block">
+                                                                <h5 class="font-weight-bolder text-danger">
+                                                                    <%= data.title %>
+                                                                </h5>
+                                                                <p class="text-danger">
+                                                                    <%= data.description %>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <% }}) %>
+                                        </div>
+                                        <a class="carousel-control-prev text-dark" href="#carouselExampleCaptions" role="button"
+                                            data-slide="prev">
+                                            <span class="carousel-control-prev-icon bg-dark" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next " href="#carouselExampleCaptions" role="button"
+                                            data-slide="next">
+                                            <span class="carousel-control-next-icon bg-dark" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
                                 </div>
-                                <a class="carousel-control-prev text-dark" href="#carouselExampleCaptions" role="button"
-                                    data-slide="prev">
-                                    <span class="carousel-control-prev-icon bg-dark" aria-hidden="true"></span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                                <a class="carousel-control-next " href="#carouselExampleCaptions" role="button"
-                                    data-slide="next">
-                                    <span class="carousel-control-next-icon bg-dark" aria-hidden="true"></span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </div>
-                        </div>
 
                     </div>
                 </div>
             </div>
-        </div>
-        </div>
+            </div>
+            </div>
+       
         <!--===============================================================================================-->
         <script src="<%=url%>/vendor/jquery/jquery-3.2.1.min.js"></script>
         <!--===============================================================================================-->

@@ -40,7 +40,7 @@
   <body>
     <div class="limiter">
       <div class="container-profile100">
-        <div class="header">
+        <div class="header w-100">
           <div class="cover-image100">
             <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
             <a href="#">
@@ -74,70 +74,63 @@
           </div>
 
           <!-- --------------------- -->
-          <div class="container saleup">
-            <h4 class="areaheading mb-3 text-center">Progress Analytics</h4>
-            <p>The Team progress, sales, revenue will be shown below.</p>
+          <div class="container salesup">
+            <h4 class="col-12 text-center m-auto">Progress Analytics</h4>
+            <p class="col-12 text-center m-auto">The Team progress, sales, revenue will be shown below.</p>
 
-            <div class="text-center m-4 d-flex flex-row">
-              <div class="input-group flex-row m-2 p-2">
-                <div class="input-group-prepend">
-                  <div class="input-group-text">
+            <div class="row mt-3 mx-1 ">
+              <div class="col">
+                <div class="row">
+                  <div class="col col-md-4 col-lg-4 col-xl-4">
                     <input
-                      type="radio"
-                      id="progress_byCity"
-                      name="searchType"
-                      aria-label="Radio button for following text input"
-                    />
-                    <label for="">Show Progress by City</label>
-                  </div>
-                </div>
-              </div>
-
-              <div class="input-group flex-row m-2 p-2">
-                <div class="input-group-prepend">
-                  <div class="input-group-text"></div>
-                  <input
                     type="radio"
-                    id="progress_byTeamLead"
+                    id="progress_byCity"
                     name="searchType"
                     aria-label="Radio button for following text input"
                   />
-                  <label for=""> Show Progress by Team Lead</label>
-                </div>
-              </div>
-            </div>
-
-            <div class="d-flex flex-row w-100">
-              <div class="p-2 bd-highlight">
-                <select
-                  class="empnames ml-1 mt-2 mb-3 text-right"
+                  Show Progress by City
+                  </div>
+               
+                  <select
+                  class="col col-md-4 col-lg-8 col-xl-8 form-control cardsection"
                   id="selectCity"
                   name="selectBox"
                   style="display: none"
                 >
-                  <option disabled selected value="null">Select City</option>
+                  <option disabled selected value="null">City</option>
                   <% cityNames.forEach(city => { %>
                   <option value="<%= city.city_uuid %>">
                     <%= city.city_name %>
                   </option>
                   <% }) %>
                 </select>
-                <!-- --------------Spinner for loading of the data ------------------ -->
-              </div>
-
-              <div class="p-2 bd-highlight">
-                <select
-                  class="empnames ml-1 mt-2 mb-3 text-right"
-                  id="selectTeamLead"
-                  name="selectBox"
-                  style="display: none"
-                >
-                  <option disabled selected value="null">
-                    Select Team Member
-                  </option>
-                </select>
               </div>
             </div>
+              <div class="col">
+                <div class="row">
+                  <div class="col col-md-4 col-lg-4 col-xl-4">
+                    <input
+                    type="radio"
+                    id="progress_byTeamLead"
+                    name="searchType"
+                    aria-label="Radio button for following text input"
+                  />
+                  Show Progress by Team Lead
+                </div>
+                <select
+                class="col col-md-4 col-lg-8 col-xl-8 form-control cardsection"
+                id="selectTeamLead"
+                name="selectBox"
+                style="display: none"
+              >
+                <option disabled selected value="null">
+                Team Member
+                </option>
+              </select>
+              </div>
+            </div>
+            </div>
+
             <div class="row mb-2 mt-5">
               <div class="col">
                 <div>

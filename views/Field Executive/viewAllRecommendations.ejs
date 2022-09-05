@@ -33,7 +33,7 @@
     <!--  Navigation-->
     <div class="limiter">
       <div class="container-profile100">
-        <div class="header">
+        <div class="header w-100">
           <div class="cover-image100">
             <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
             <a href="#">
@@ -49,7 +49,7 @@
                 <% permissions.forEach(element=> { %>
                 <li>
                   <a
-                    href="<%=url%>/user<%= element.controller%>/<%=info.uuid%>"
+                    href="<%=url%>/user<%= element.controller %>/<%=info.uuid%>"
                   >
                     <span class="<%= element.icon%>"></span>
                     <%= element.permission_name %>
@@ -69,12 +69,12 @@
           <!-- advertisment,
         cityNames, -->
           <!-- --------------------------- -->
-          <div class="container saleup">
+          <div class="container salesup">
             <br />
-            <h3 class="areaheading">All Assigned Gifts</h3>
+            <h3 class="">All Assigned Gifts</h3>
 
-            <div class="table-responsive-lg mt-4 mb-5">
-              <table class="table" id="depositedSlipTable" name="table">
+            <div class="table-responsive overflow my-4">
+              <table class="table text-nowrap" id="depositedSlipTable" name="table">
                 <thead class="table-primary">
                   <tr>
                     <th scope="col">#</th>
@@ -124,7 +124,7 @@
     <script src="<%=url%>/toastr/toastr.min.js"></script>
     <script>
       var notificationCount = JSON.parse(
-        "<%-JSON.stringify(unreadNotificationCount)%>"
+        `<%-JSON.stringify(unreadNotificationCount)%>`
       );
 
       console.log(JSON.parse(`<%-JSON.stringify(allRecommendations)%>`));
@@ -170,14 +170,13 @@
       if (notificationCount) {
         $(".button__badge").css("display", "block");
         $(".button__badge").html(
-          JSON.parse("<%-JSON.stringify(unreadNotificationCount)%>")
+          JSON.parse(`<%-JSON.stringify(unreadNotificationCount)%>`)
         );
       }
       $(".js-tilt").tilt({
         scale: 1.1,
       });
 
-      // console.log(JSON.parse(`%-JSON.stringify(advertisment)%>`));
       var menu = document.getElementById("menu");
 
       function openMenu() {

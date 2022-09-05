@@ -52,77 +52,70 @@
                         <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
                     </nav>
                 </div>
-                    <div class="container profile-pic-section">
-                        <div class="row head-section">
-                            <div class="col-md-12" align="center">
-                                <h2>Dashboard</h2>
-                            </div>
-                        </div>
-
+                <div class="container profile-pic-section salesup">
+                    <div class="row head-section">
+                            <h2 class="col-12 text-center m-auto">Dashboard</h2>
                     </div>
-                    <div class="row dashboardarea">
-                        <div class="col-3 profilearea  mt-3 ">
-                            <div class="row  mt-1  profile_uppersection ">
+
+                </div>
+                <div class="row col-12 text-center m-auto ">
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4 mt-3  ">
+                        <div class="row mb-2">
+                        <div class="col-12 text-center m-auto p-1  cardsection ">
                                 <%if(profileData.man_userProfilePic!== null){%>
-                                    <div class="container_pic ">
-                                        <img class="font-size-sm" src="<%=url%><%=profileData.man_userProfilePic%>">
-                                    </div>
+
+                                        <img class="font-size-sm mb-1" src="<%=url%><%=profileData.man_userProfilePic%>">
                                     <% }else{ %>
-                                        <div class="container_pic ">
-                                            <img class="font-size-sm" src="<%=url%>/img/jazzcash.png">
-                                        </div>
+                                            <img class="font-size-sm mb-1" src="<%=url%>/img/jazzcash.png">
                                         <% } %>
-                                            <div class=" ml-4 p-1 mt-1">
-                                                <h4 class="font-size-sm">
-                                                    <%=profileData.man_name%>
-                                                </h4>
-                                             
-                                                <h4 class="mt-2 badge badge-info mb-1 " style="font-size: large;">
-                                                    <%=user_role.type_name%>
-                                                </h4>
-                                                <p class=" mt-2mb-1 font-size-sm">
-                                                    <b>Contact:</b>
-                                                    <%=profileData.man_contact%>
-                                                </p>
+                                        <h4 class="font-size-sm col-12 text-center m-auto p-0">
+                                            <%=profileData.man_name%>
+                                        </h4>
+                                     
+                                        <h4 class="mt-2 badge badge-info mb-1 p-2" >
+                                            <%=user_role.type_name%>
+                                        </h4>
+                                        <p class=" mt-2 mb-1 font-size-sm">
+                                            <b>Contact:</b><%=profileData.man_contact%>
+                                        </p>
 
-                                                <p class="mb-1 font-size-sm">
-                                                    <b>Username:</b>
-                                                    <%=profileData.man_username%>
-                                                </p>
-                                                <p class="mb-1 font-size-sm">
-                                                    <b>Salary:</b>
-                                                    <%=profileData.man_salary%>
-                                                </p>
-                                                <p class=" mt-1 font-size-sm text-center" id="memberSince">
+                                        <p class="mb-1 font-size-sm">
+                                            <b>Username:</b>
+                                            <%=profileData.man_username%>
+                                        </p>
+                                        <p class="mb-1 font-size-sm">
+                                            <b>Salary:</b>
+                                            <%=profileData.man_salary%>
+                                        </p>
+                                        <p class=" mt-1 font-size-sm text-center" id="memberSince">
 
-                                                </p>
-                                            </div>
-                            </div>
-
-                            <div class="row  mt-1  profile_uppersection ">
-                                <div>
-                                    <strong class="font-size-sm">
-                                        Company Relevant Information
-                                    </strong>
-                                    <p class="mb-1 font-size-sm">
-                                        <b>Department Name:</b>
-                                        <%=profileData.d_name%>
-                                    </p>
-                                    <p class="mb-1 font-size-sm">
-                                        <b>Zone:</b>
-                                        <%=profileData.zone_name%>
-                                      
-                                    </p>
+                                        </p>
+                                    </div>
+                    </div>
 
 
-                                </div>
-                            </div>
+                    <div class="row mt-2 cardsection mb-3">
+                        <div class="col-12 text-center m-auto p-1 my-3 ">
+                            <strong class="font-size-sm p-0">
+                                Company Relevant Information
+                            </strong>
+                            <p class="mb-1 font-size-sm">
+                                <b>Department Name:</b><%=profileData.d_name%>
+                            </p>
+                            <p class="mb-1 font-size-sm">
+                                <b>Zone:</b>
+                                <%=profileData.zone_name%>
+                            </p>
+                          
+
                         </div>
+                    </div>
+                </div>                      
 
-                        <div class="col-9">
-                            <div id="carouselExampleCaptions" class="carousel slide mt-2 carouselimg"
-                                data-ride="carousel">
-                                <ol class="carousel-indicators">
+                <div class="col-6 col-sm-6 col-md-8 col-lg-8 col-xl-8 ">
+                    <div id="carouselExampleCaptions" class="carousel slide mt-2 carouselimg_man "
+                        data-ride="carousel">
+                        <ol class="carousel-indicators">
                                     <% webAds.map((data,index)=>{ %>
                                         <%if(index==0) {%>
                                             <li data-target="#carouselExampleCaptions" data-slide-to="<% index %> "
@@ -177,7 +170,7 @@
                             </div>
                         </div>
 
-                    </div>
+                   
                 </div>
             </div>
         </div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Activity</title>
+    <title>Dashboard</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!--===============================================================================================-->
@@ -28,8 +28,10 @@
   <body>
     <div class="limiter">
       <div class="container-profile100">
-        <div class="header">
+        <div class="header ">
           <div class="cover-image100">
+            <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
+
             <a href="#">
               <span class="fa fa-bars menu-button" onclick="openMenu()"></span>
             </a>
@@ -59,17 +61,14 @@
               <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
             </nav>
           </div>
-          <div class="container profile-pic-section">
-            <div class="row head-section">
-              <div class="col-md-12" align="center">
+          <div class="container salesup">
+              <div class="col-md-12 text-center m-auto">
                 <h2>Dashboard</h2>
-              </div>
             </div>
-          </div>
-          <div class="row dashboardarea">
-            <div class="col-3 profilearea mt-3">
-              <div class="row mt-1 profile_uppersection">
-                <div class="container_pic">
+            <hr/>
+            <div class="row col-12 text-center m-auto ">
+              <div class="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4 mt-3 background-border">
+                <div class="font-size-sm my-5">
                   <% if (profileData.field_userProfilePic) { %>
                   <img
                     class="font-size-sm"
@@ -79,20 +78,18 @@
                   <img class="font-size-sm" src="<%=url%>/img/no image.png" />
                   <% } %>
                 </div>
-                <div class="ml-3 p-1 mt-1">
-                  <h4 class="font-size-sm"><%=profileData.field_name%></h4>
-                  <p class="mt-1 text-secondary mb-1 font-size-sm">
+                  <h6 class="font-size-sm col-12 text-center m-auto "><%=profileData.field_name%></h6>
+                  <p class="mt-2 mb-1 font-size-sm">
                     <b>Date of Birth:</b>
                     <%=profileData.field_DOB%>
                   </p>
                   <p
-                    class="mt-1 text-muted font-size-sm text-center"
+                    class="mt-2 mb-1 font-size-sm"
                     id="memberSince"
                   ></p>
                 </div>
-              </div>
-            </div>
-            <div class="col-9">
+
+                <div class="col-6 col-sm-6 col-md-8 col-lg-8 col-xl-8  ">
               <div
                 id="carouselExampleCaptions"
                 class="carousel slide mt-2 carouselimg"
@@ -117,7 +114,7 @@
                   <div class="carousel-item active p-2">
                     <img
                       src="<%=url%>/<%=data.picPath%>"
-                      class="d-block w-100"
+                      class="d-block w-100 "
                       alt="<%= data.title %>"
                     />
                     <div class="carousel-caption d-none d-md-block">

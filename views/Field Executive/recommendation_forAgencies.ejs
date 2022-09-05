@@ -70,26 +70,22 @@
               <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
             </nav>
           </div>
-          <div class="container saleup">
-            <div class="container">
-              <div class="gifts_box p-5">
-                <h3 class="areaheading text-center">
+          <div class="container salesup">
+                <h3 class="col-12 text-center m-auto">
                   Promotional Gifts to Agencies.
                 </h3>
 
-                <div class="d-flex flex-row-reverse bd-highlight">
-                  <div class="p-2 bd-highlight">
-                    <a href="<%=url%>/user/viewAllRecommendations/<%=info.uuid%>"
+                <div class="col-12 text-right m-auto pt-4">
+                  <a href="<%=url%>/user/viewAllRecommendations/<%=info.uuid%>"
                       >View All Promotional Gift</a
                     >
-                  </div>
                 </div>
                 <div
-                  class="alert alert-info mt-2 mb-2 p-2 mx-5"
+                  class="alert alert-info p-5 border border-info"
                   role=" alert "
                   id="RecordAdded"
                 >
-                  <div class="row mb-4">
+                  <div class="row mb-2">
                     <div class="col-sm-3 font-weight-bold text-left mt-1 ml-1">
                       Select Agency
                     </div>
@@ -147,8 +143,7 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
+   
     <script src="<%=url%>/js/jquery.min.js"></script>
     <script src="<%=url%>/bootstrap/js/bootstrap.min.js"></script>
     <!-- Toastr -->

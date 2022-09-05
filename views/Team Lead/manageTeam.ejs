@@ -54,7 +54,7 @@
   <body>
     <div class="limiter">
       <div class="container-profile100">
-        <div class="header">
+        <div class="header w-100">
           <div class="cover-image100">
             <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
             <a href="#">
@@ -88,55 +88,57 @@
           </div>
 
           <!-- --------------------------- -->
-          <div class="container topmargin">
-            <div class="text-center m-4 p-4">
-              <h4 class="ml-1 mb-3">Team Member</h4>
-            </div>
-            <div class="text-center m-4 d-flex flex-row">
-              <div class="input-group flex-row m-2 p-2">
-                <div class="input-group-prepend p-2">
-                  <div class="input-group-text">
-                    <input
-                      type="radio"
-                      id="name"
-                      name="searchType"
-                      aria-label="Radio button for following text input"
-                    />
-                    <label for=""> Search By Name </label>
-                  </div>
-                </div>
-                <input
-                  id="nameInput"
-                  type="text"
-                  onkeyup="searchMember()"
-                  class="form-control border-dark"
-                  aria-label="Text input with checkbox"
-                />
-              </div>
+          <div class="container salesup">
+            <h4 class="col-12 text-center m-auto">Manage Teamlead</h4>
 
-              <div class="input-group flex-row m-2 p-2">
-                <div class="input-group-prepend p-2">
-                  <div class="input-group-text"></div>
+           <div class="row mt-3 mx-1 ">
+            <div class="col">
+              <div class="row">
+                <div class="col col-md-4 col-lg-4 col-xl-4">
                   <input
                     type="radio"
-                    id="email"
+                    id="name"
                     name="searchType"
                     aria-label="Radio button for following text input"
                   />
-                  <label for=""> Search By Email </label>
+                  <label for=""> Search By Name </label>
                 </div>
-                <input
-                  id="emailInput"
-                  type="text"
-                  onkeyup="searchMember()"
-                  class="form-control border-dark"
-                  aria-label="Text input with checkbox"
-                />
-              </div>
+             
+              <input
+                id="nameInput"
+                type="text"
+                onkeyup="searchMember()"
+                class="col col-md-4=8 col-lg-8 col-xl-8 form-control cardsection"
+                aria-label="Text input with checkbox"
+              />
             </div>
+          </div>
+            <div class="col">
+              <div class="row">
+                <div class="col col-md-4 col-lg-4 col-xl-4">
+                <input 
+                  type="radio"
+                  id="email"
+                  name="searchType"
+                  aria-label="Radio button for following text input"
+                />
+                <label for=""> Search By Email </label>
+              </div>
+              <input
+              
+                id="emailInput"
+                type="text"
+                onkeyup="searchMember()"
+                class="col col-md-4=8 col-lg-8 col-xl-8 form-control cardsection"
+                aria-label="Text input with checkbox"
+              />
+            </div>
+          </div>
+          </div>
 
-            <table class="table" id="executiveTable" cellspacing="1">
-              <thead class="thead-dark">
+          <div class="table-responsive my-4">
+            <table class="table text-nowrap" id="executiveTable" cellspacing="1">
+              <thead class="table-primary">
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Name</th>

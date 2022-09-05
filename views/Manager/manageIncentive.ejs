@@ -188,27 +188,24 @@
           <!-- advertisment,
           cityNames, -->
           <!-- --------------------------- -->
-          <div class="container saleup">
-            <div class="d-flex justify-content-between">
-              <div class="text-center align-items-center">
-                <h4 class="areaheading text-center">
-                  Giving Away Gifts to Agencies
-                  <i class="ml-2 fa fa-gift" aria-hidden="true"></i>
-                </h4>
-              </div>
-              <div class="align-items-end">
-                <a href="<%=url%>/manager/viewAllAssginedGifts/<%=info.uuid%>">
-                  <i class="fa fa-list" aria-hidden="true"></i>
-                  <span>View Gift Assigned History </span>
-                </a>
-              </div>
-            </div>
-            <div
-              id="carouselExampleCaptions"
-              class="carousel slide mt-2 carouselimg"
-              data-ride="carousel"
-            >
-              <ol class="carousel-indicators">
+          <div class="container salesup">
+            <h4 class="col-12 text-center m-auto">
+              Giving Away Gifts to Agencies
+              <i class="ml-2 fa fa-gift" aria-hidden="true"></i>
+            </h4>
+          <div class="col-12 text-right m-auto">
+            <a href="<%=url%>/manager/viewAllAssginedGifts/<%=info.uuid%>">
+              <i class="fa fa-list" aria-hidden="true"></i>
+              <span>View Gift Assigned History </span>
+            </a>
+          </div>
+        
+        <div
+          id="carouselExampleCaptions"
+          class="carousel slide mt-2 carouselimg"
+          data-ride="carousel"
+        >
+          <ol class="carousel-indicators">
                 <% advertisment.map((data,index)=>{ %> <%if(index==0) {%>
                 <li
                   data-target="#carouselExampleCaptions"
@@ -305,7 +302,7 @@
               </div>
               <div class="col-6">
                 <select
-                  class="area w-100 h-100 col-md-12 text-center"
+                  class="cardsection w-100 h-100 col-md-12 text-center"
                   id="selectGift"
                 >
                   <option selected disabled>Choose Gift</option>
@@ -320,7 +317,7 @@
               </div>
               <div class="col-6">
                 <input
-                  class="border border-dark w-100 h-100 col-md-12"
+                  class="cardsection form-control w-100 h-100   col-md-12"
                   type="number"
                   id="giftInput"
                 />
@@ -338,7 +335,7 @@
               </div>
               <div class="col-6">
                 <select
-                  class="area w-100 h-100 col-md-12 text-center"
+                  class="cardsection form-control w-100 h-100 col-md-12 text-center"
                   id="selectSupervisor"
                 >
                   <!-- here we are going to have three for each loop, 
@@ -375,7 +372,7 @@
           </div>
         </div>
       </div>
-    </div>
+
 
     <script src="<%=url%>/vendor/jquery/jquery-3.2.1.min.js"></script>
     <!--===============================================================================================-->
@@ -394,12 +391,12 @@
 
       console.log(JSON.parse(`<%-JSON.stringify(superVisorsInfo)%>`));
       var notificationCount = JSON.parse(
-        "<%-JSON.stringify(unreadNotificationCount)%>"
+        `<%-JSON.stringify(unreadNotificationCount)%>`
       );
       if (notificationCount) {
         $(".button__badge").css("display", "block");
         $(".button__badge").html(
-          JSON.parse("<%-JSON.stringify(unreadNotificationCount)%>")
+          JSON.parse(`<%-JSON.stringify(unreadNotificationCount)%>`)
         );
       }
       $(".js-tilt").tilt({
@@ -498,32 +495,6 @@
           return;
         }
       });
-
-      /**
-       * send to ALl button on click button
-       *
-       *
-       *
-       *
-       * */
-
-      // $("#givetoAllBTN").on("click", (e) => {
-      //   const status = validateQuantity(
-      //     JSON.parse(`%-JSON.stringify(advertisment)%>`),
-      //     +$("#selectGift").find(":selected").attr("id"),
-      //     +$("#giftInput").val()
-      //   );
-
-      //   // console.log(status);
-
-      //   // $.ajax({
-      //   //   type: "POST",
-      //   //   url: `${window.location.origin}/assign`,
-      //   //   data: "data",
-      //   //   dataType: "dataType",
-      //   //   success: function (response) {}
-      //   // });
-      // });
 
       const validateQuantity = (data, adverStock_ID, enteredValue) => {
         var status = false;

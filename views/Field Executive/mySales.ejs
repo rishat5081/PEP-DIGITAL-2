@@ -55,78 +55,69 @@
                             <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
                         </nav>
                     </div>
-                    <div class="sales" id="sales">
-                        <div class="saletitle text-center p-3 ">
-                            <h3>SALES</h3>
-                        </div>
-                        <div class="row allSales">
-                            <div class="col-sm salesTabs" style="margin-left: 2%;">
-                                <div class="card" style="width: 18rem;">
 
+                    <div class="container salesup">
+                        <h3 class="col-12 text-center m-auto">Sales</h3>
+                            </div>
+                            <div class="mt-3"></div>
+
+                        <div class="row sales p-3 col-12 text-center m-auto ">
+                            <div class="col-sm mb-2 ">
+                                <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Total Income</h5>
-                                        <h6 class="card-subtitle mb-2 text-muted" id="totalIncome">
+                                        <h6 class="card-subtitle text-muted" id="totalIncome">
 
                                         </h6>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm salesTabs">
-                                <div class="card" style="width: 18rem;">
+                            <div class="col-sm mb-2">
+                                <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Commission</h5>
-                                        <h6 class="card-subtitle mb-2 text-muted" id="totalCommission">
+                                        <h5 class="card-title text-center">Commission</h5>
+                                        <h6 class="card-subtitle text-muted" id="totalCommission">
 
                                         </h6>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm salesTabs">
-
-                                <div class="card" style="width: 18rem;">
+                            <div class="col-sm mb-2">
+                                <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Total Acitivities</h5>
-                                        <h6 class="card-subtitle mb-2 text-muted">
+                                        <h6 class="card-subtitle text-muted">
                                             <%= totalActivities %>
                                         </h6>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-
-                    <div class="flexcontainer">
-                        <div class="d-flex flex-column mb-4 mt-3">
+                    
                             <%for(const subActivity of subActivities){ %>
-                                <div class="row mt-2 mb-2 activitiesName w-100">
+                                <div class="mt-3"></div>
+                                <div class="row col-12 text-center background activitiesName m-auto p-2">
                                     <%for(const agencyName of dbResponse){ %>
                                         <% if(subActivity.list_act_id===agencyName.list_act_id) {%>
-                                            <div class="col-sm-3">
-                                                <div class="p-2">
+                                            <div class="col-8 text-left">
                                                     <%=agencyName.Agency_Info.agency_name %>
                                                 </div>
-                                            </div>
-                                            <div class="col-sm-7">
-                                                <div class="p-2"></div>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <div class="p-2 float-right">
-                                                    <a class=" viewDetailsOfActivity"
+
+                                            <div class="col-4 text-right" >
+                                                    <a class=" viewDetailsOfActivity text-white""
                                                         href="<%=url%>/user/completedActivity/<%=agencyName.list_act_uuid %>">View
                                                         details</a>
-                                                </div>
                                             </div>
+                                        </div>
+
                                             <% break %>
                                                 <% } %>
                                                     <% } %>
-                                </div>
                                 <% } %>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            
         <!--===============================================================================================-->
         <script src="<%=url%>/vendor/jquery/jquery-3.2.1.min.js"></script>
         <!--===============================================================================================-->

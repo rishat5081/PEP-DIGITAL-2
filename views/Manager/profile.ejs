@@ -105,15 +105,15 @@
                         </nav>
                     </div>
                     <!-- Profile -->
-                    <!-- Profile -->
-                    <div class="piccontainer">
-                        <img class="" id="profileImage" src="<%=url%>/<%=managerData.man_userProfilePic%>">
-                        <button type="button" class="editbtn" data-toggle="modal" data-target="#uploadImageModal">Upload
+                    <div class="piccontainer salesup">
+                        <img class="h-100 " id="profileImage" src="<%=url%>/<%=managerData.man_userProfilePic%>">
+                        <button type="button" class="editbtn bg-secondary" data-toggle="modal" data-target="#uploadImageModal">Upload
                             Pic
                         </button>
                     </div>
-                    <div class="userinfo">
-                        <h4 class="m-2">
+                   
+                    <div class="text-center my-2">
+                        <h4 >
                             <%=managerData.man_name%>
                         </h4>
 
@@ -125,74 +125,76 @@
                         <h4 class="m-2">
                             Zone: <%=managerData.Zone.zone_name%>
                         </h4>
-                        <h4 class="m-2">
-                            Department: <%=managerData.Department.d_name%>
-                        </h4>
-                    
-
+                        <h4 class="m-2"></h4>
+                        Department: <%=managerData.Department.d_name%>
+                    </h4>
                     </div>
-                    <div class="col info ">
-                        <div class="d-flex flex-row bd-highlight mb-3 Information">
-                            <div class="p-2 bd-highlight">
+                    <div class="row bg-light profile_heading mt-5">
+                        <div class="col-6 form-control-sm">
+                           
                                 <b>Update Information</b>
                             </div>
-                            <div class="p-2 bd-highlight float-right">
-                                <i class="fa editicon " onclick="allowUsertoUpdate()">
+                            <div class="col-6 form-control-sm text-right ">
+                                <i class="fa editicon " style="cursor: pointer;" onclick="allowUsertoUpdate()">
                                     Click Here to Update &#xf044;</i>
                             </div>
+                       
                         </div>
-
-                        <div class="userdata">
-                            <div class="card userdatacard mb-4">
-                                <div class="card-body ">
-                                    <div class="row ">
-                                        <div class="col-sm-3 p-2">
-                                            <h6 class="mb-0 ">Full Name</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary ">
-                                            <input disabled type="text" class="form-control" id="fullname"
-                                                value="<%=managerData.man_name%>">
-                                        </div>
+                        <div class="card userdatacard mb-4">
+                            <div class="card-body ">
+                                <div class="row ">
+                                    <div class="col-sm-3 p-2">
+                                        <h6 class="mb-0 ">Full Name</h6>
                                     </div>
-                                    <hr>
-                                    <div class="row ">
-                                        <div class="col-sm-3 p-2">
-                                            <h6 class="mb-0 ">Email</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary ">
-                                            <input disabled type="email" class="form-control" id="email"
-                                                value="<%=LoginEmail.login_email%>">
-                                        </div>
+                                    <div class="col-sm-9 text-secondary ">
+                                        <input disabled type="text" class="form-control" id="fullname"
+                                        value="<%=managerData.man_name%>">
                                     </div>
-                                    <hr>
-                                    <div class="row ">
-                                        <div class="col-sm-3 p-2">
-                                            <h6 class="mb-0 ">Username</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary ">
-                                            <input disabled type="text" class="form-control" id="username"
-                                                value="<%=managerData.man_username%>">
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row ">
-                                        <div class="col-sm-3 p-2">
-                                            <h6 class="mb-0 ">Phone</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary ">
-                                            <input disabled type="text" class="form-control" id="contact"
-                                                value="<%=managerData.man_contact%>">
-                                        </div>
-                                    </div>
-                                    <hr>
-
                                 </div>
+                                <hr>
+                                <div class="row ">
+                                    <div class="col-sm-3 p-2">
+                                        <h6 class="mb-0 ">Email</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary ">
+                                        <input disabled type="email" class="form-control" id="email"
+                                        value="<%=LoginEmail.login_email%>">
+
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row ">
+                                    <div class="col-sm-3 p-2">
+                                        <h6 class="mb-0 ">Username</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary ">
+                                        <input disabled type="text" class="form-control" id="username"
+                                        value="<%=managerData.man_username%>">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row ">
+                                    <div class="col-sm-3 p-2">
+                                        <h6 class="mb-0 ">Phone</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary ">
+                                        <input disabled type="text" class="form-control" id="contact"
+                                        value="<%=managerData.man_contact%>">
+                                    </div>
+                                </div>
+                         
 
                             </div>
+
                         </div>
+
+                            <div class="col-12 text-center m-auto">
+                                <button type="submit" class="btn btn-success mb-3 text-center"
+                            id="updateProfile_Btn">Update</button>
+                            </div>
+
                     </div>
-                    <button type="submit" class="btn btn-success w-25 text-center"
-                        id="updateProfile_Btn">Update</button>
+                    
                 </div>
             </div>
 

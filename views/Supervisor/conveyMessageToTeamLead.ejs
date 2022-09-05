@@ -75,33 +75,33 @@
           <!-- advertisment,
             cityNames, -->
           <!-- --------------------------- -->
-          <div class="p-3 saleup">
-            <h3 class="text-center mt-4">Convey Message to Your Team Lead</h3>
-            <div class="pt-5 pl-5 pb-3 mb-4">
-              <div class="form-check-inline">
-                <label class="form-check-label">
-                  <input
-                    type="radio"
-                    class="form-check-input"
-                    name="optradio"
-                    id="sendall"
-                  />Send to All
-                </label>
-              </div>
-              <div class="form-check-inline">
-                <label class="form-check-label">
-                  <input
-                    type="radio"
-                    class="form-check-input"
-                    name="optradio"
-                    id="list_emp"
-                  />Specify
-                </label>
-              </div>
+          <div class="container salesup">
+            <h3 class="col-12 text-center m-auto">Convey Message to Teamlead</h3>
+
+           <div class="row mt-3 mb-2">
+            <div class="col form-check-inline ">
+              <label class="form-check-label">
+                <input
+                  type="radio"
+                  class="form-check-input mr-1"
+                  name="optradio"
+                  id="sendall"
+                />Send to All
+              </label>
             </div>
-            <div class="pr-5 pl-5">
-              <div class="col-10" id="selectemp">
-                <div class="col-md-6 p-2 mt-2 mb-4">
+            <div class="col">
+              <div class="row">
+            <div class="col col-md-3 col-lg-2 col-xl-2 form-check-inline ">
+              <label class="form-check-label">
+                <input
+                  type="radio"
+                  class="form-check-input mr-1"
+                  name="optradio"
+                  id="list_emp"
+                />Specify
+              </label>
+            </div>
+            <div class="col col-md-9 col-lg-10 col-xl-10" id="selectemp">
                   <select
                     id="choices-multiple-remove-button"
                     placeholder="Select Employees"
@@ -113,26 +113,28 @@
                     </option>
                     <% }) %>
                   </select>
-                </div>
-              </div>
-              <textarea
-                class="form-control mb-3 border border-dark"
-                id="messageTextArea"
-                placeholder="Write your message here."
-                rows="8"
-              ></textarea>
-              <div class="d-flex justify-content-center">
-                <input
-                  class="btn btn-success"
-                  id="executivebtn"
-                  value="Submit"
-                />
+               
               </div>
             </div>
-          </div>
+            </div>
+            </div>
+            <textarea
+              class="form-control  mt-3 cardsection"
+              id="messageTextArea"
+              placeholder="Write your message here."
+              rows="8"
+            ></textarea>
+            <div class="d-flex justify-content-center ">
+              <button
+                class="btn btn-success my-3"
+                id="executivebtn"
+              >Submit</button>
+            </div>
+          
         </div>
       </div>
     </div>
+  </div>
 
     <!--===============================================================================================-->
     <script src="<%=url%>/js/jquery.min.js"></script>

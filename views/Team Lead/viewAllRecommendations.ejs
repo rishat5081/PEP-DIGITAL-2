@@ -79,7 +79,7 @@
     <!--  Navigation-->
     <div class="limiter">
       <div class="container-profile100">
-        <div class="header">
+        <div class="header w-100">
           <div class="cover-image100">
             <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
             <a href="#">
@@ -115,21 +115,19 @@
           <!-- advertisment,
         cityNames, -->
           <!-- --------------------------- -->
-          <div class="container saleup">
-            <h3 class="areaheading text-center">Pending Recommendations</h3>
+          <div class="container salesup">
+            <h3 class="col-12 text-center m-auto">Recommendations</h3>
 
-            <div class="d-flex flex-row-reverse bd-highlight">
-              <div class="p-2 bd-highlight">
+              <div class="col-12 text-right m-auto pt-4">
                 <a
                   href="<%=url%>/teamlead/viewRecommendationsHistory/<%=info.uuid %> "
                   >View Recommendation History</a
                 >
               </div>
-            </div>
 
-            <div class="table-responsive-lg mt-4 mb-5">
-              <table class="table" id="depositedSlipTable" name="table">
-                <thead class="table-primary">
+              <div class="table-responsive overflow my-4" >
+                <table class="table text-nowrap " id="depositedSlipTable" name="table">
+                  <thead class="table-primary">
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Executive Name</th>

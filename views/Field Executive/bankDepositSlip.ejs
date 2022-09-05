@@ -55,13 +55,13 @@
               <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
             </nav>
           </div>
-          <div class="align-items-center justify-content-center">
-            <div class="card depositsection">
-              <div class="deposittitle w-100 m-0">
-                <h5>Bank Deposit Details</h5>
-              </div>
+          <div class="topmargin">
+            <div class="col-12 text-center m-auto  w-75">
+              <h4 class="background w-100 text-left p-3" >Bank Deposit Details</h4>
+              <div class="card background-border">
               <div class="card-body">
-                <div class="row">
+
+                <div class="row text-left">
                   <div class="col-sm-3">
                     <h6 class="mb-0">Bank Name</h6>
                   </div>
@@ -69,8 +69,8 @@
                     <%= bankDetails.bankName %>
                   </div>
                 </div>
-                <hr />
-                <div class="row">
+                <hr class="bg-primary"/>
+                <div class="row text-left">
                   <div class="col-sm-3">
                     <h6 class="mb-0">Agency Name</h6>
                   </div>
@@ -78,8 +78,8 @@
                     <%= bankDetails.Activity.Agency_Info.agency_name %>
                   </div>
                 </div>
-                <hr />
-                <div class="row">
+                <hr class="bg-primary"/>
+                <div class="row text-left">
                   <div class="col-sm-3">
                     <h6 class="mb-0">Activity Id</h6>
                   </div>
@@ -87,9 +87,8 @@
                     <%= bankDetails.Activity.list_act_uuid %>
                   </div>
                 </div>
-                <hr />
-
-                <div class="row">
+                <hr class="bg-primary">
+                <div class="row text-left">
                   <div class="col-sm-3">
                     <h6 class="mb-0">Transaction Number</h6>
                   </div>
@@ -97,8 +96,8 @@
                     <%= bankDetails.bank_deposited_referenceNumber %>
                   </div>
                 </div>
-                <hr />
-                <div class="row">
+                <hr class="bg-primary"/>
+                <div class="row text-left">
                   <div class="col-sm-3">
                     <h6 class="mb-0">Total Amount</h6>
                   </div>
@@ -106,9 +105,9 @@
                     <%= bankDetails.totalAmount %>
                   </div>
                 </div>
-                <hr />
+                <hr class="bg-primary"/>
 
-                <div class="row">
+                <div class="row text-left">
                   <div class="col-sm-3">
                     <h6 class="mb-0">Deposit Amount</h6>
                   </div>
@@ -116,9 +115,9 @@
                     <%= bankDetails.depositedAmount %>
                   </div>
                 </div>
-                <hr />
+                <hr class="bg-primary" />
 
-                <div class="row">
+                <div class="row text-left">
                   <div class="col-sm-3">
                     <h6 class="mb-0">Transaction Number</h6>
                   </div>
@@ -128,11 +127,11 @@
                 </div>
               </div>
             </div>
-            <div class="w-25 back-button">
+            <div class="col-12 text-center m-auto  back-button">
               <a
                 type="button"
                 href="<%=url%>/user/withdraws/<%=uuid%>"
-                class="btn custom-btn"
+                class="btn btn-primary my-3 text-right"
                 >Back</a
               >
             </div>
@@ -156,7 +155,7 @@
       function closeMenu() {
         menu.style.top = "-100vh";
       }
-      console.log(JSON.parse("<%-JSON.stringify(bankDetails)%>"));
+      console.log(JSON.parse(`<%-JSON.stringify(bankDetails)%>`));
     </script>
   </body>
 </html>

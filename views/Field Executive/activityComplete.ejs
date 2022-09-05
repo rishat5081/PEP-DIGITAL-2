@@ -25,7 +25,7 @@
     <body>
         <div class="limiter">
             <div class="container-profile100">
-                <div class="header">
+                <div class="header w-100">
                     <div class="cover-image100">
                         <img src="<%=url%>/logo/logo.png" class="pep-logo" alt="" />
                         <a href="#">
@@ -52,15 +52,16 @@
                             <span class="fa fa-times close-menu" onclick="closeMenu()"></span>
                         </nav>
                     </div>
-                    <div class="congrats">
-                        <h1>Congragulations!</h1>
-                    </div>
-                    <div class="row mt-5 m-0">
-                        <div class="col  mb-5 uppersection ">
-
-                            <div class="row setupprow">
-                                <div class="col-9 float-left">
-
+                    <div class="col-12  salesup">
+                    
+                    <div class="row">
+                       
+                        <div class="col-6 col-sm-6 col-md-8 col-lg-9 col-xl-9">
+                            <div class="congrats">
+                                <h1>Congragulations!</h1>
+                            </div>
+                            <div class="row">
+                                <div class="col-8">
                                     <h4 id="order number"> Activity ID# <%=Activity_Info.list_act_uuid %>
                                     </h4>
                                     <h6 class="mt-3">Agency Name :<b>
@@ -72,137 +73,86 @@
                                         </b>
                                     </h6>
                                 </div>
-                                <div class="col-3 settext">
-
+                                <div class="col-4">
                                     <h4 id="amount_earned" class="amountheading">
-
                                     </h4>
                                 </div>
                             </div>
-                            <hr>
-                            <div class="row itemlist">
-                                <div class="col-1 "><b>#</b></div>
-                                <div class="col-4 "><b>List Name</b></div>
-                                <div class="col-1 settext"><b>Bank</b></div>
-                                <div class="col-2 settext"><b>Commission</b></div>
-                                <div class="col-2 settext float-right"><b>Bank Amount</b></div>
-                                <div class="col-2 settext float-right"><b>Amount</b></div>
-                            </div>
-                            <div class="flexcontainer flexpad">
-                                <div class="d-flex flex-column">
+                            <div class="table-responsive overflow my-4" >
+                                <table class="table text-nowrap " id="depositedSlipTable" name="table">
+                                  <thead class="table-primary">
+                                  <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">List Name</th>
+                                    <th scope="col">Bank</th>
+                                    <th scope="col">Commission</th>
+                                    <th scope="col">Bank Amount</th>
+                                    <th scope="col">Amount</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
                                     <% subActivities.forEach((element,index)=> {%>
-                                        <div class="row setrows">
-                                            <div class="col-1 pr-2">
-                                                <div class="project_title">
-                                                    <%=++index %>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="project_title">
-                                                    <%=element.List_of_Package.list_name %>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-2">
-                                                <div class="days">
-                                                    <% if(element.List_of_Package.isBank===true){ %>
-                                                        <b>Yes</b>
-                                                        <%}else{%>
-                                                            No
+                                        <td>
+                                            <%=++index %>
+                                        </td>
+                                        <td><%=element.List_of_Package.list_name %>
+                                        </td>
+                                        <% if(element.List_of_Package.isBank===true){ %>
+                                            <td>Yes</td>
+                                            <%}else{%>
+                                                <td>No</td>
+                                                <%}%>
+                                                <% if(element.List_of_Package.commissionAmount===0){ %>
+                                                    <td>--</td>
+                                                    <%}else{%>
+                                                        <td><%=element.List_of_Package.commissionAmount%> %</td>
                                                             <%}%>
-                                                </div>
-                                            </div>
-                                            <div class="col-1">
-                                                <div class="days">
-                                                    <% if(element.List_of_Package.commissionAmount===0){ %>
-                                                        <b>--</b>
-                                                        <%}else{%>
-                                                            <%=element.List_of_Package.commissionAmount%> %
-                                                                <%}%>
-                                                </div>
-                                            </div>
-                                            <div class="col-2">
-                                                <div class="project_amount">
-                                                    <% if(element.List_of_Package.bankAmount===null){ %>
-                                                        --
-                                                        <%}else{%>
-                                                            <b>
-                                                                <%=element.List_of_Package.bankAmount %> PKR
-                                                            </b>
-                                                            <%}%>
-                                                </div>
-                                            </div>
-                                            <div class="col-2">
-                                                <div class="project_amount">
-                                                    <%=element.List_of_Package.list_amount %> PKR
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <% }); %>
-                                </div>
-                            </div>
-                            <div class="row setrows mt-3">
-                                <div class="col-8"></div>
-                                <div class="col-2 "><b>Activties Total</b></div>
-                                <div class="col-2 ">
-                                    <b>
-                                        <%=sumOf_Activities.SumofValues %> PKR
-                                    </b>
-                                </div>
-                            </div>
-                            <div class="row setrows mt-3">
-                                <div class="col-8"></div>
+                                                            <% if(element.List_of_Package.bankAmount===null){ %>
+                                                                <td>--</td>
+                                                                <%}else{%>
+                                                                    <td><%=element.List_of_Package.bankAmount %> PKR</td>
+                                                                    <%}%>
+                                        <td><%=element.List_of_Package.list_amount %> PKR</td>
 
-                                <div class="col-2 "><b>Commission</b></div>
-                                <div class="col-2 ">
-                                    <b id="commissionEarned">
+                                        <%})%>
+                                        </table>
 
-                                    </b>
-                                </div>
-                            </div>
-                            <div class="row setrows mt-3">
-                                <div class="col-8"></div>
-
-                                <div class="col-2 "><b>Bank Deposit</b></div>
-                                <div class="col-2 ">
-                                    <b id="bankdepositAmount">
-
-                                    </b>
-                                </div>
-                            </div>
-                            <div class="row setrows mt-3">
-                                <div class="col-8"></div>
-
-                                <div class="col-2 "><b>Total</b></div>
-                                <div class="col-2 ">
-                                    <b id="totalamount_earned">
-
-                                    </b>
-                                </div>
-                            </div>
 
                         </div>
-                        <div class="col float-right  cardcss ">
-                            <div class="card cardcss">
-                                <div class="card-body">
+                          </div>
+                        
+                        <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-3 ">
+
+                            <div class="card text-center p-0">
+                                <div class="card-body background-border">
                                     <p class="card-text"> Need to contact customer support service??</p>
-                                    <button id="contactUS" class="btn custom-btn">Contact</button>
+                                    <button id="contactUS" class="btn btn-primary p-1 ">Contact</button>
                                 </div>
                             </div>
-                            <div class="card cardcss" id="bankDepositSection" style="display: none;">
-                                <div class="card-body">
-                                    <h3 class="card-text"> Bank Deposit</h3>
-                                    <button id="bankDepositBTN" class="btn custom-btn">Click Here</button>
+                            <div class="card text-center background-border p-0" id="bankDepositSection" style="display: none;"  >
+                                <div class="card-body text-center">
+                                    <p class="card-text font-weight-bold "> Bank Deposit</p>
+                                    <button id="bankDepositBTN" class="btn btn-primary p-1">Click <i class="fa fa-arrow-up" aria-hidden="true"></i></button>
                                 </div>
                             </div>
 
                         </div>
+                      
+
 
                     </div>
-                </div>
-            </div>
-        </div>
+                    </div>
+                    </div>
+                    </div>
+                    
 
+
+
+
+
+
+
+                 
         <!--===============================================================================================-->
         <script src="<%=url%>/vendor/jquery/jquery-3.2.1.min.js"></script>
         <!--===============================================================================================-->
