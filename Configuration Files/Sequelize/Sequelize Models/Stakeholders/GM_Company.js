@@ -4,9 +4,10 @@
 //   Companies_Access = require("../Company/Companies_Access"),
 //   Zone = require("../Zone");
 "use strict";
-module.exports = (sequelize, { DataTypes,  UUIDV4 }) => {
-  const GM_Company = sequelize.define(
-    "GM_Company",
+module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {  
+  class GM_Company extends Model {}
+
+  GM_Company.init(
     {
       gm_id: {
         type: DataTypes.INTEGER,
@@ -83,7 +84,12 @@ module.exports = (sequelize, { DataTypes,  UUIDV4 }) => {
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE"
-      }
+      },
+      gm_username: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+
     },
     {
       sequelize,

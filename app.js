@@ -16,6 +16,7 @@ const Sequelize = require("sequelize"),
   io = require("socket.io")(server),
   passportJs_File = require("./Configuration Files/Passport Js/passport"),
   {
+    Synchronizing,
     User_Role,
     Supervisor,
     Team_Lead,
@@ -26,9 +27,8 @@ const Sequelize = require("sequelize"),
     Managers,
     ManagerLogin,
     TeamLead_Login,
-  } = require("./Configuration Files/Sequelize/Database_Synchronization"),
-  {
-    Synchronizing,
+    GM_Company,
+    GMLogin,
   } = require("./Configuration Files/Sequelize/Database_Synchronization"),
   { corsOptionsDelegate } = require("./additional");
 //setting the .env file to read the server port and database ports
@@ -68,7 +68,7 @@ app.use(express.static(__dirname + "/public"));
 // );
 /**
  * https://github.com/expressjs/session#user-content-cookiesecure:~:text=For%20using%20secure%20cookies%20in%20production%2C,setup%20based%20on%20NODE_ENV%20in%20express%3A
- * set the process.env.NODE_ENV to production when all the code is complete and read this
+ * set the process.env.NODE_ENV to production when all the code is complete and read this 
  * resave for the cookies it is confusing right now
 
 */
@@ -148,7 +148,7 @@ app.use(require("./routes/Web_Pages/users").router);
 /**
  * This one is for General Manager
  */
-app.use("/gm", require("./routes/General Manager/generalManager").router);
+app.use("/generalManager", require("./routes/General Manager/generalManager").router);
 
 /**
  * This one is for Manager
@@ -196,6 +196,9 @@ app.use(require("./Controller/Supervisor/SupervisorController").router);
 
 // ------------------------------Controller for Manager-------------------------------
 app.use(require("./Controller/Manager/managerController").router);
+
+// ------------------------------Controller for General Manager-------------------------------
+app.use(require("./Controller/General Manager/gmController").router);
 /****************************** Connecting to the Database ****************************************/
 /**Sequelize is using here
  * the Connect to DB is the async function
@@ -208,6 +211,7 @@ require("./Configuration Files/Sequelize/DBConnection").connectionTo_DB();
  *                          read the Important Note first
  * ------------------------------ IMPORTANNT ------------------------------
  */
+//Synchronizing();
 
 //DevelopmentDatabase()
 
@@ -242,9 +246,9 @@ app.post(
       if (req.user.userInfo.paused) {
         res.status(200).render("Web Appendage Pages/error", {
           errorStatus: "Temparary Block",
-          errorHeading: `You have been temporarily block.
-                         In order to get your profile back.
-                         Contact your superiors.
+          errorHeading: `You have been temporarily block. 
+                         In order to get your profile back. 
+                         Contact your superiors. 
                          `,
         });
       }
@@ -295,9 +299,8 @@ app.post("/LoginForm", async (req, res) => {
        * so eliminating the User Role
        */
 
-      console.log("profileInfo :::", profileInfo);
       var permissionObject = [];
-      profileInfo.menuData.forEach((element, index) => {
+      profileInfo.menuData.forEach((element, index) => { 
         let breakPermissions = {
           permmission_uuid: element.dataValues.permmission_uuid,
           permission_name: element.dataValues.permission_name,
@@ -323,6 +326,27 @@ app.post("/LoginForm", async (req, res) => {
       req.session.permissions = { permissionObject };
       req.session.profileData =
         profileInfo.userInfo !== null ? profileInfo.userInfo : null;
+        
+        if (req.user.userRole.type_name === "GM Company") {
+          //creating the login information of the Supervisor
+          GMLogin.create({
+            ipAddress: req.ip,
+            gm_id: profileInfo.userInfo.dataValues.gm_id,
+          });
+          if (profileInfo.userInfo.dataValues.gm_name !== null || "")
+            res
+              .status(200)
+              .redirect(
+                `/generalManager/dashboard/${profileInfo.userInfo.dataValues.gm_uuid}`
+              );
+          else
+            res
+              .status(200)
+              .redirect(
+                `/generalManager/completeProfile/${profileInfo.userInfo.dataValues.gm_uuid}`
+              );
+        }
+  
 
       if (req.user.userRole.type_name === "Manager") {
         //creating the login information of the Supervisor
@@ -435,6 +459,37 @@ function rememberMe_Cookies(res, uuid) {
 }
 
 async function checkRole_GetData_FromDB(userRole, login_id) {
+  if (userRole.type_name === "GM Company") {
+    const menuData = await getMenu(userRole.type_name);
+    const userInfo = await GM_Company.findOne({
+      attributes: {
+        exclude: [
+          "gm_isDeleted",
+          "gm_isPaused",
+          "login_id",
+          "updateTimestamp",
+        ],
+      },
+      where: {
+        login_id,
+        gm_isDeleted: 0,
+        gm_isPaused: 0,
+      },
+    })
+      .then((response) => {
+        if (response) return response;
+        else return null;
+        
+      })
+      .catch((error) => {
+        if (error) {
+          console.error("Error fetching General Manager Data");
+          console.trace(error);
+          return null;
+        }
+      });
+    return { menuData, userInfo };
+  }
   // console.log(req);
   if (userRole.type_name === "Manager") {
     const menuData = await getMenu(userRole.type_name);
@@ -599,8 +654,8 @@ const getMenu = async (roleName) => {
       },
     },
     where: {
-      paused: 0,
-      d_deleted: 0,
+      // paused: 0,
+      // d_deleted: 0,
     },
   }).catch((error) => {
     if (error) {
@@ -611,9 +666,11 @@ const getMenu = async (roleName) => {
   });
 };
 
-server.listen(3000, () => {
+server.listen(process.env.server_PORT, () => {
   console.log(`\x1b[42m--------------------------------------\x1b[0m`);
-  console.log(`\n \x1b[32m Node Server Listening at: 3000 \n \x1b[0m`);
+  console.log(
+    `\n \x1b[32m Node Server Listening at: ${process.env.server_PORT}\n \x1b[0m`
+  );
   console.log(`\x1b[42m--------------------------------------\x1b[0m\n`);
   console.log("Node Memory Status: ", process.memoryUsage());
 });
@@ -630,14 +687,12 @@ app.use(
   cors(corsOptionsDelegate),
   require("./API/Field Executive/field_API").router
 );
-app.use(
-  "/api/teamlead",
-  cors(corsOptionsDelegate),
-  require("./API/Team Lead/teamLeadApi").router
-);
 
 // ------------------------------------ Redirecting if route does not found -----------------------------------
 
 app.get("*", (req, res) => {
   res.redirect("/");
 });
+
+
+
