@@ -1193,9 +1193,7 @@ router.route("/removeSectorToExecutive").put(async (req, res) => {
       res.end();
     }
   } else {
-    res
-      .status(200)
-      .send({ status: "Marked Already", message: "Area is Already Deleted" });
+    res.status(400).send({ status: false, message: "Area not found" });
     res.end();
   }
 });
@@ -1259,8 +1257,8 @@ router.route("/conveyMessageToSpecific").post(async (req, res) => {
     return null;
   });
 
-  if ((teamMember, notificationID, messageConveyed === null)) {
-    res.status(500).send({ error: "Please try again" });
+  if (teamMember || notificationID || messageConveyed) {
+    res.status(400).send({ error: "Please try again" });
     res.end();
   } else {
     res.status(200).send({ status: "Successfully, Message has been send" });
