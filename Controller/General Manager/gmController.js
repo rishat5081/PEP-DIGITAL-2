@@ -138,6 +138,30 @@ router
   }
 });
 
+ /**
+ * reading all the notification to isRead to true
+ * so it will make the notification is read
+ */
+  router.route("/readAllGMNotifications").post(async (req, res) => {
+    const Notifications = await Database.GMNotifications.update(
+      {
+        isRead: true,
+      },
+      {
+        where: {
+          gm_id: req.session.profileData.gm_id,
+          isRead: false,
+        },
+      }
+    ).then((response) => {
+      if (response) return response;
+    });
+  
+    if (Notifications) res.status(200).send({ status: "Updated" });
+  });
+  
+  
+
 
 
 
