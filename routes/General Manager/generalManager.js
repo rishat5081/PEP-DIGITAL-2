@@ -124,6 +124,109 @@ const isGMAuthentic = (req, res, next) => {
 }
 );
 
+/**
+ * getting the dashboard details of the General Manager
+ */
+
+ router.get( 
+  "/dashboard/:gm_uuid",
+  isUser_Login,
+  isGMAuthentic,
+  async (req, res) => {
+    //getting the count of the notificaiton
+    let unreadNotificationCount = await countofNotificationOfGM (
+      req.session.profileData.gm_id
+    );
+
+    /**
+     * getting the web ADS from the DB to display the user company information
+     */
+    let webAds = await Database.WebAds.findAll({
+      attributes: ["title", "description", "picPath"],
+      where: {
+        paused: 0,
+        deleted: 0,
+        user_role_id: req.session.passport.user.userRole.user_role_id,
+      },
+    });
+
+    /**
+     * getting companies access of the selected user who is currently
+     * in the session
+     */
+    let GMDashboard = await Database.GM_Company.findOne({
+      attributes: [],
+      include: [
+        {
+          model: Database.Companies_Access,
+          required: true,
+          attributes: ["comp_name"],
+          where: {
+          },
+        },
+      
+      ],
+      where: {
+        gm_id: req.session.profileData.gm_id,
+        gm_isDeleted: 0,
+        gm_isPaused: 0,
+      },
+    })
+      .then((data) => {
+        if (data) return data;
+        else return null;
+      })
+      .catch((error) => {
+        if (error) {
+          console.error("Error Fetching Dashboard Data of General Manager");
+          console.trace(error);
+          return null;
+        }
+      }); 
+
+    let profileData = Object.assign(
+      {},
+      {
+        gm_name: req.session.profileData.gm_name,
+        gm_profile_pic: req.session.profileData.gm_profile_pic,
+        gm_username: req.session.profileData.gm_username,
+        gm_contact: req.session.profileData.gm_contact,
+        createdAt: req.session.profileData.createdAt,
+        gm_salary: req.session.profileData.gm_salary,
+        comp_name: GMDashboard.dataValues.Companies_Access.dataValues.comp_name,
+      }
+    );
+
+
+      if (req.session.profileData.gm_name !== null) {
+
+    res.status(200).render("General Manager/dashboard", {
+      info: {
+        id: req.session.passport.user.userInfo.login_id,
+        uuid: req.session.profileData.gm_uuid,
+      },
+      url: req.protocol + "://" + req.get("host"),
+      user_role: req.session.passport.user.userRole,
+      profileData,
+      webAds,
+      unreadNotificationCount:
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      permissions: req.session.permissions.permissionObject,
+    });
+
+    unreadNotificationCount = null;
+    profileData = null;
+    webAds = null;
+    res.end();
+     }
+     else {
+      res
+        .status(200)
+        .redirect(`/generalManager/dashboard/${req.session.profileData.gm_uuid}`);
+    }
+  } 
+);
+
 
 /**
  * if the user tries to get on the invalid route
