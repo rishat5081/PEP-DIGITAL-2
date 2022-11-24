@@ -227,6 +227,58 @@ const isGMAuthentic = (req, res, next) => {
   } 
 );
 
+/**
+ * displaying the all the notifications
+ *  Getting all the notificaitons
+ */
+ router.get("/notification", isUser_Login, async (req, res) => {
+  /**
+   * getting the count of the unread notifications
+   */
+  const unreadNotificationCount = await countofNotificationOfGM(
+    req.session.profileData.gm_id
+  );
+  const unreadNotification = await Database.GMNotifications.findAll({
+    attributes: [
+      "gm_Company_notification_uuid",
+      "notification_text",
+      "isRead",
+      "createdAt",
+    ],
+    include: {
+      model: Database.NotificationText,
+      attributes: ["notification_title", "notification_icon"],
+      required: true,
+      where: {
+        isPaused: false,
+        deleted: false,
+      },
+    },
+    where: {
+      isPaused: false,
+      deleted: false,
+      gm_id: req.session.profileData.gm_id,
+    },
+    limit: 50,
+  }).then((notifications) => {
+    if (notifications) return notifications;
+  });
+  if(unreadNotification !== null){
+  res.render("General Manager/notification", {
+    unreadNotificationCount:
+      unreadNotificationCount[0].dataValues.unreadNotificationCount,
+    unreadNotification,
+    url: req.protocol + "://" + req.get("host"),
+    info: {
+      id: req.session.passport.user.userInfo.login_id,
+      uuid: req.session.profileData.gm_uuid,
+    },
+    permissions: req.session.permissions.permissionObject,
+  });
+}else {
+  res.redirect(`/generalManager/dashboard/${req.session.profileData.gm_id}`); 
+}
+});
 
 /**
  * if the user tries to get on the invalid route
