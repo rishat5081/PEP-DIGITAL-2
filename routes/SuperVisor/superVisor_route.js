@@ -743,8 +743,8 @@ router.get(
 
     //getting the recommendation list from the data
 
-    let allRecommendations =
-      await Database.Advertisement_Recommendation.findAll({
+    let allRecommendations = await Database.Advertisement_Recommendation.findAll(
+      {
         attributes: [
           "team_lead_forward_status",
           "team_lead_dateTime",
@@ -786,18 +786,19 @@ router.get(
           sup_dateTime: null,
           deleted: 0,
         },
+      }
+    )
+      .then((result) => {
+        if (result) return result;
+        else return null;
       })
-        .then((result) => {
-          if (result) return result;
-          else return null;
-        })
-        .catch((err) => {
-          if (err) {
-            console.log("Error Getting all the recommendation");
-            console.trace(err);
-            return null;
-          }
-        });
+      .catch((err) => {
+        if (err) {
+          console.log("Error Getting all the recommendation");
+          console.trace(err);
+          return null;
+        }
+      });
 
     res.status(200).render("Supervisor/viewAllRecommendations", {
       url: req.protocol + "://" + req.get("host"),
@@ -826,8 +827,8 @@ router.get(
 
     //getting the recommendation list from the data
 
-    let allRecommendations =
-      await Database.Advertisement_Recommendation.findAll({
+    let allRecommendations = await Database.Advertisement_Recommendation.findAll(
+      {
         attributes: [
           "sup_forward_status",
           "sup_decline_status",
@@ -877,18 +878,19 @@ router.get(
           ],
           deleted: 0,
         },
+      }
+    )
+      .then((result) => {
+        if (result) return result;
+        else return null;
       })
-        .then((result) => {
-          if (result) return result;
-          else return null;
-        })
-        .catch((err) => {
-          if (err) {
-            console.log("Error Getting all the recommendation");
-            console.trace(err);
-            return null;
-          }
-        });
+      .catch((err) => {
+        if (err) {
+          console.log("Error Getting all the recommendation");
+          console.trace(err);
+          return null;
+        }
+      });
 
     res.status(200).render("Supervisor/viewRecommendationsHistory", {
       url: req.protocol + "://" + req.get("host"),
@@ -1051,249 +1053,3 @@ const countofNotificationOfSuperVisor = async (sup_id) => {
       }
     });
 };
-
-// (async function () {
-// let cityNameData = await Database.City.findAll({
-//   attributes: ["city_id", "city_uuid", "city_name"],
-//   where: {
-//     paused: 0,
-//     deleted: 0
-//   },
-//   include: {
-//     model: Database.Supervisor,
-//     required: true,
-//     attributes: ["sup_id"],
-//     // through: {
-//     //   attributes: ["city_supp_assos_id", "city_id"]
-//     // },
-//     where: {
-//       sup_isPaused: 0,
-//       sup_isDeleted: 0,
-//       sup_id: 1
-//     }
-//   }
-// });
-
-// let getCityArea = await Database.City_and_Supervisor_associate.findAll({
-//   attributes: [
-//     "city_supp_assos_id",
-//     "city_id",
-//     "sup_id",
-//     "city_and_sup_asso_uuid"
-//   ],
-//   where: {
-//     paused: 0,
-//     deleted: 0,
-//     sup_id: 1,
-//     city_id: cityNameData.map((city) => city.city_id)
-//   },
-//   include: {
-//     model: Database.City_Areas,
-//     required: true,
-//     attributes: [
-//       "city_area_id",
-//       "city_area_uuid",
-//       "city_name",
-//       "city_code",
-//       "city_supp_assos_id"
-//     ],
-//     where: {
-//       paused: 0,
-//       deleted: 0
-//     }
-//   }
-// });
-
-// await Database.Permissions.findAll({
-//   include: {
-//     model: Database.User_Role,
-//     through: {
-//       attributes: []
-//     }
-//   }
-// }).then((data) => {
-//   console.log(data.length);
-// });
-// })();
-
-// (async function () {
-//   // let advertisment = await Database.Advertising_Stock_Allocation.findAll({
-//   //   attributes: [
-//   //     "adver_stock_alloc_uuid",
-//   //     "adver_stock_allocated_Quantity",
-//   //     "adver_stock_id"
-//   //   ],
-//   //   where: {
-//   //     sup_id: 1,
-//   //     paused: 0,
-//   //     deleted: 0
-//   //   },
-//   //   include: {
-//   //     model: Database.Advertisement_Stock,
-//   //     required: true,
-//   //     attributes: [
-//   //       "advert_stock_uuid",
-//   //       "adver_stock_name",
-//   //       "adver_stock_descritpion",
-//   //       "adver_stock_image"
-//   //     ],
-//   //     where: {
-//   //       paused: 0,
-//   //       deleted: 0
-//   //     }
-//   //   },
-//   // });
-//   // advertisment.forEach((ad) => {
-//   //   console.log(ad.dataValues);
-//   // });
-
-//   let aa = await Database.Advertising_Stock_Allocation.create({
-//     adver_stock_allocated_Quantity: 1,
-//     sup_id: 1,
-//     man_id: 1,
-//     adver_stock_id: 1,
-//   });
-// })();
-
-// (async function () {
-//   const clientData = {
-//     cityArea: "8c27807b-a7ac-40b5-a58f-24b9eb3bfa93",
-//     teamLead: "1c9741c6-492f-417c-a902-3459e1c374b9",
-//     giftAssigned: "1001",
-//     gift: "984587c5-7ed2-45b7-877c-b71a17eb768f"
-//   };
-
-//   let getGiftData = await Database.Advertising_Stock_Allocation.findAll({
-//     attributes: [
-//       "adver_stock_act_id",
-//       "adver_stock_id",
-//       "adver_stock_allocated_Quantity",
-//       "used"
-//     ],
-//     include: {
-//       model: Database.Advertisement_Stock,
-//       required: true,
-//       attributes: ["adver_stock_name"],
-//       where: {
-//         advert_stock_uuid: clientData.gift,
-//         paused: 0,
-//         deleted: 0
-//       }
-//     },
-//     where: {
-//       isConsumed: 0,
-//       paused: 0,
-//       deleted: 0
-//     }
-//   });
-
-//   if (getGiftData.length > 0) {
-//     let sum = 0,
-//       temp = 0,
-//       newObject = [];
-//     getGiftData.some((data) => {
-//       // console.log(
-//       //   data.adver_stock_act_id,
-//       //   "   ",
-//       //   data.adver_stock_allocated_Quantity
-//       // );
-//       if (data.adver_stock_allocated_Quantity > +clientData.giftAssigned) {
-//         temp = data.adver_stock_allocated_Quantity - clientData.giftAssigned;
-//         data.adver_stock_allocated_Quantity = temp;
-//         data.used = clientData.giftAssigned;
-//         // console.log("temp --", temp);
-
-//         newObject.push({
-//           quantity: data.adver_stock_allocated_Quantity,
-//           used: +data.used,
-//           isConsumed:  data.adver_stock_allocated_Quantity === 0 ? true : false,// : true ? false,
-//           adver_stock_act_id: data.adver_stock_act_id
-//         });
-//         return true;
-//       } else {
-//         if (sum !== +clientData.giftAssigned) {
-//           if (temp === 0) {
-//             console.log('running');
-//             temp =
-//               data.adver_stock_allocated_Quantity - clientData.giftAssigned;
-//             sum += data.adver_stock_allocated_Quantity;
-
-//             data.adver_stock_allocated_Quantity -= sum;
-//             data.used = data.adver_stock_allocated_Quantity;
-//             newObject.push({
-//               quantity: data.adver_stock_allocated_Quantity,
-//               used: sum,
-//               isConsumed:  data.adver_stock_allocated_Quantity === 0 ? true : false,// : true ? false,
-//               adver_stock_act_id: data.adver_stock_act_id
-//             });
-//           } else {
-//             sum += -temp;
-//             data.used = -temp;
-//             temp = data.adver_stock_allocated_Quantity - -temp;
-//             data.adver_stock_allocated_Quantity = temp;
-//             newObject.push({
-//               quantity: data.adver_stock_allocated_Quantity,
-//               used: +data.used,
-//               isConsumed:  data.adver_stock_allocated_Quantity === 0 ? true : false,// : true ? false,
-//               adver_stock_act_id: data.adver_stock_act_id
-//             });
-//           }
-//         }
-//       }
-//     });
-
-//     newObject.some((data) => {
-//       console.log(data);
-//     });
-//   }
-// })();
-
-// (async function () {
-//   let cityNames = await Database.City.findAll({
-//     attributes: ["city_id", "city_name", "city_uuid"],
-//     include: {
-//       model: Database.Supervisor,
-//       attributes: ["sup_id", "sup_uuid", "sup_name"],
-//       required: true,
-//       through: {
-//         attributes: ["sup_id", "city_id"]
-//       },
-//       where: {
-//         man_id: 1,
-//         sup_isDeleted: 0,
-//         sup_isPaused: 0
-//       }
-//     },
-//     where: {
-//       paused: 0,
-//       deleted: 0
-//     }
-//   });
-
-//   /**
-//    * Getting the advertisment which are allocated to the supervisor
-//    */
-
-//   let advertisment = await Database.Advertisement_Stock.findAll({
-//     attributes: [
-//       [
-//         sequelize.fn("SUM", sequelize.col("adver_stock_total_Quantity")),
-//         "sumofQuantity"
-//       ],
-//       "advert_stock_uuid",
-//       "adver_stock_name",
-//       "adver_stock_descritpion",
-//       "adver_stock_image"
-//     ],
-
-//     where: {
-//       man_id: 1,
-//       paused: 0,
-//       deleted: 0
-//     },
-//     group: ["adver_stock_id"]
-//   });
-
-//   console.log(advertisment);
-//   console.log(cityNames);
-// })();

@@ -688,6 +688,11 @@ app.use(
   cors(corsOptionsDelegate),
   require("./API/Team Lead/teamLeadApi").router
 );
+app.use(
+  "/api/supervisor",
+  cors(corsOptionsDelegate),
+  require("./API/Supervisor/supervisorAPI").router
+);
 // ------------------------------------ Redirecting if route does not found -----------------------------------
 
 app.get("*", (req, res) => {
