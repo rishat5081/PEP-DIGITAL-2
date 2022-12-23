@@ -678,15 +678,34 @@ server.listen(process.env.server_PORT, () => {
 // ------------------------------------ API's -----------------------------------
 
 app.use("/api", cors(corsOptionsDelegate), require("./API/Web/webAPI").router);
+// API  for field executives
 app.use(
   "/api/field",
   cors(corsOptionsDelegate),
   require("./API/Field Executive/field_API").router
 );
+
+
+// Api for teamlead
 app.use(
   "/api/teamlead",
   cors(corsOptionsDelegate),
   require("./API/Team Lead/teamLeadApi").router
+);
+
+// API for supervisor
+
+app.use(
+  "/api/supervisor",
+  cors(corsOptionsDelegate),
+  require("./API/Supervisor/supervisorAPI").router
+);
+
+//API for Manager
+app.use(
+  "/api/manager",
+  cors(corsOptionsDelegate),
+  require("./API/Manager/managerAPI").router
 );
 // ------------------------------------ Redirecting if route does not found -----------------------------------
 
