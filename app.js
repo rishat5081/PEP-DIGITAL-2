@@ -693,6 +693,20 @@ app.use(
   cors(corsOptionsDelegate),
   require("./API/Supervisor/supervisorAPI").router
 );
+//API for Manager
+app.use(
+  "/api/manager",
+  cors(corsOptionsDelegate),
+  require("./API/Manager/managerAPI").router
+);
+
+//API  for GM
+app.use(
+  "/api/GM",
+  cors(corsOptionsDelegate),
+  require("./API/General Manager/GM_API").router
+);
+
 // ------------------------------------ Redirecting if route does not found -----------------------------------
 
 app.get("*", (req, res) => {
