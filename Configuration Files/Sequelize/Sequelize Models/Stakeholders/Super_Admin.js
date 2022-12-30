@@ -3,9 +3,10 @@
 // const sequelize = require('../../Sequelize')
 
 "use strict";
-module.exports = (sequelize, { DataTypes, UUIDV4 }) => {
-  const Super_Admin = sequelize.define(
-    "Super_Admin",
+module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
+  class Super_Admin extends Model {}
+
+  Super_Admin.init(
     {
       sa_id: {
         type: DataTypes.INTEGER,

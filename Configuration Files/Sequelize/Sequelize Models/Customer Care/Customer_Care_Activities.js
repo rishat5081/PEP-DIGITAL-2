@@ -5,9 +5,10 @@
 //   Agency_Info = require("../Agency Models/Agency_Info");
 
 "use strict";
-module.exports = (sequelize, { DataTypes, UUIDV4 }) => {
-  const Customer_Care_Activities = sequelize.define(
-    "Customer_Care_Activities",
+module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
+  class Customer_Care_Activities extends Model {}
+
+  Customer_Care_Activities.init(
     {
       cust_c_act_id: {
         type: DataTypes.INTEGER,

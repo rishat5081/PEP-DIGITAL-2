@@ -73,7 +73,20 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
       targetKey: "gm_id",
       foreignKey: "gm_id",
     });
-  };
+
+
+  /**
+  * One GM table will have many notifications
+  */
+ models.NotificationText.hasMany(GM_Notifications, {
+   foreignKey: "notification_id",
+ });
+
+ GM_Notifications.belongsTo(models.NotificationText, {
+   targetKey: "notification_id",
+   foreignKey: "notification_id",
+ });
+};
 
   // /**
   //  * One Manager table will have many notifications
