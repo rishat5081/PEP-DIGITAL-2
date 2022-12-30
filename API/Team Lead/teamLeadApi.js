@@ -1,3 +1,4 @@
+const { Router } = require("express");
 const {
   multerFile_Upload_ForAPI,
 } = require("../../Configuration Files/Multer Js/multer");
@@ -703,11 +704,9 @@ router.get("/notification", async (req, res) => {
     return;
   }
 });
-
 // view progress report page
-router.get(
-  "/progressReport",
-  async (req, res) => {
+router.get("/progressReport",
+async (req, res) => {
     /**
      * getting the team lead notification
      */
@@ -848,6 +847,7 @@ router.get(
     res.end();
   }
 );
+
 
 /**
  *
@@ -1221,50 +1221,14 @@ router.route("/addMembertoTeam").post(async (req, res) => {
   }
 });
 
-router.route("/allocateSectorToExecutive").post(async (req, res) => {
-  //getting the sector ID from the database
-  let sectorID = await Database.City_Sectors.findOne({
-    attributes: ["city_sector_id"],
-    where: {
-      city_sector_uuid: req.body.selectedArea,
-      deleted: 0,
-      paused: 0,
-    },
-  });
-  let selectedEmployee = req.body.employees;
 
-  let executiveID = await Database.Field_Executive.findAll({
-    attributes: ["field_id"],
-    where: {
-      field_uuid: selectedEmployee.map((uuid) => uuid),
-      field_isDeleted: 0,
-      field_isPaused: 0,
-    },
-  });
 
-  //console.(sectorID);
-  //console.(selectedEmployee);
-  //console.(executiveID);
+//API for ALLOCATE AREA page
+ /**
+   * here is the removing the area from the executive
+   */
 
-  let assignArea = await Database.City_Sector_Assosiate.bulkCreate(
-    executiveID.map((employee) => {
-      return {
-        field_id: employee.field_id,
-        city_sector_id: sectorID.city_sector_id,
-      };
-    })
-  );
-
-  if ((sectorID, selectedEmployee, executiveID, assignArea !== null)) {
-    res.status(200).send({ status: "Area Assigned Successfully" });
-    res.end();
-  } else {
-    res.status(500).send({ error: "Please try again" });
-    res.end();
-  }
-});
-
-router.route("/removeSectorToExecutive").put(async (req, res) => {
+ router.route("/teamlead/removeSectorToExecutive").put(async (req, res) => {
   //getting the sector ID from the database
   let sectorID = await Database.City_Sectors.findOne({
     include: {
@@ -1274,10 +1238,10 @@ router.route("/removeSectorToExecutive").put(async (req, res) => {
         attributes: ["city_sector_assos_uuid"],
       },
       where: {
-        field_uuid: req.body.executiveUUID,
+        field_uuid: req.body.executiveUUID, 
         field_isDeleted: 0,
         field_isPaused: 0,
-        team_L_id: req.body.team_L_id,
+        team_L_id: req.query.team_L_id,
       },
     },
     where: {
@@ -1330,85 +1294,79 @@ router.route("/removeSectorToExecutive").put(async (req, res) => {
         message: "Area Removed Successfully",
         executiveID,
       });
-      sectorID = executiveID = null;
       res.end();
     } else {
-      sectorID = executiveID = null;
       res.status(500).send({ error: "Please try again" });
       res.end();
     }
   } else {
-    res.status(400).send({ status: false, message: "Area not found" });
+    res
+      .status(200)
+      .send({ status: "Marked Already", message: "Area is Already Deleted" });
     res.end();
   }
 });
 
 /**
- * sending the message to the specific team member
- */
-router.route("/conveyMessageToSpecific").post(async (req, res) => {
-  /**
-   * getting the team memebers from the database
+   * assigning the area to the field executive
+ e
    */
-  let teamMember = await Database.Field_Executive.findAll({
+
+router.route("/allocateSectorToExecutive").post(async (req, res) => {
+ 
+
+  //getting the sector ID from the database
+  let sectorID = await Database.City_Sectors.findOne({
+    attributes: ["city_sector_id"],
+    where: {
+      city_sector_uuid: req.body.selectedArea,
+      deleted: 0,
+      paused: 0,
+    },
+  }); 
+  let selectedEmployee = req.body.employees;
+  let executiveID = await Database.Field_Executive.findAll({
     attributes: ["field_id"],
     where: {
-      team_L_id: req.body.team_L_id,
+      field_uuid: selectedEmployee.map((uuid) => uuid),
       field_isDeleted: 0,
       field_isPaused: 0,
-      field_uuid: req.body.employeeList.map((employee) => employee),
     },
-  }).catch((error) => {
-    if (error) {
-      console.error("Error Fetching the Data of Executive");
-      console.trace(error);
-      return null;
-    }
   });
-
-  let notificationID = await Database.NotificationText.findOne({
-    attributes: ["notification_id"],
-    where: {
-      [Op.or]: [
-        {
-          notification_title: {
-            [Op.like]: "%Team%",
-          },
-        },
-        {
-          notification_title: {
-            [Op.like]: "%Team Member%",
-          },
-        },
-      ],
-    },
-  }).catch((error) => {
-    console.error("Error in creating ExecutiveNotifications");
-    console.trace(error);
-    return null;
-  });
-
-  let messageConveyed = await Database.ExecutiveNotifications.bulkCreate(
-    teamMember.map((member) => {
+// check if city is not already associated with same employee
+  let cityAssosiate= await Database.City_Sector_Assosiate.findOne({
+  attributes:["city_sector_assos_uuid"],
+  
+  where:{
+    field_id: executiveID.map((employee) => employee.field_id),
+  city_sector_id: sectorID.city_sector_id,
+  }
+  
+});
+if(cityAssosiate==null){
+  let assignArea = await Database.City_Sector_Assosiate.bulkCreate(
+    executiveID.map((employee) => {
       return {
-        field_id: member.dataValues.field_id,
-        notification_text: req.body.messageText,
-        notification_id: notificationID.dataValues.notification_id,
+        field_id: employee.field_id,
+        city_sector_id: sectorID.city_sector_id,
       };
     })
-  ).catch((error) => {
-    console.error("Error in creating ExecutiveNotifications");
-    console.trace(error);
-    return null;
-  });
-
-  if (teamMember || notificationID || messageConveyed) {
-    res.status(400).send({ error: "Please try again" });
+  );
+    res.status(200).send({ status: "Area Assigned Successfully" });
     res.end();
-  } else {
-    res.status(200).send({ status: "Successfully, Message has been send" });
+}
+else {
+    res.status(400).send({ error: "Area already Assigned" });
+    res.end();
   }
-});
+
+  if ((sectorID, selectedEmployee, executiveID === null)) {
+ 
+    res.status(500).send({ error: "Please try again" });
+    res.end();
+  }
+  
+}); 
 
 //APIs FOR CONVEY MESSAGE PAGE
 /**
@@ -1474,7 +1432,78 @@ router.route("/conveyMessageToAll").post(async (req, res) => {
   }
 });
 
-//APIs for MANAGE INCENTIVE PAGE
+
+  /**
+   * sending the message to the specific team member
+   */
+  router.route("/conveyMessageToSpecific").post(async (req, res) => {
+    /**
+     * getting the team memebers from the database
+     */
+    let selectedEmployee=req.body.employeeList
+    let teamMember = await Database.Field_Executive.findAll({
+      attributes: ["field_id"],
+      where: {
+        team_L_id: req.query.team_L_id,
+        field_isDeleted: 0,
+        field_isPaused: 0,
+        field_uuid: selectedEmployee.map(
+          (employee) => employee
+        ),
+      },
+    }).catch((error) => {
+      if (error) {
+        console.error("Error Fetching the Data of Executive");
+        console.trace(error);
+        return null;
+      }
+    });
+
+    let notificationID = await Database.NotificationText.findOne({
+      attributes: ["notification_id"],
+      where: {
+        [Op.or]: [
+          {
+            notification_title: {
+              [Op.like]: "%Team%",
+            },
+          },
+          {
+            notification_title: {
+              [Op.like]: "%Team Member%",
+            },
+          },
+        ],
+      },
+    }).catch((error) => {
+      console.error("Error in creating ExecutiveNotifications");
+      console.trace(error);
+      return null;
+    });
+
+    let messageConveyed = await Database.ExecutiveNotifications.bulkCreate(
+      teamMember.map((member) => {
+        return {
+          field_id: member.dataValues.field_id,
+          notification_text: req.body.messageText,
+          notification_id: notificationID.dataValues.notification_id,
+        };
+      })
+    ).catch((error) => {
+      console.error("Error in creating ExecutiveNotifications");
+      console.trace(error);
+      return null;
+    });
+
+    if ((teamMember, notificationID, messageConveyed === null)) {
+      res.status(400).send({ error: "Please try again" });
+      res.end();
+    } else {
+      res.status(200).send({ status: "Successfully, Message has been send" });
+    }
+  });
+
+  //APIs for MANAGE INCENTIVE PAGE
   //submitting the recommendation to
   router.route("/submitRecommendation").post(async (req, res) => {
     //getting the recommendation ID from the database
@@ -1521,6 +1550,7 @@ router.route("/conveyMessageToAll").post(async (req, res) => {
       res.status(400).send({ error: "Please try again" });
       res.end();
     }
+    ////console.(req.body);
   });
 
   //apis for manage TEAM PAGE
@@ -1774,13 +1804,17 @@ router.route("/conveyMessageToAll").post(async (req, res) => {
       });
       res.end();
     }
+    ////console.(req.body);
   });
+
+
+
 
 
 module.exports = { router };
 
 /**
-
+ 
 count of the notificaiton
 
 **/
