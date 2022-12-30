@@ -34,7 +34,9 @@ router.get(
           deleted: 0,
           user_role_id: req.query.user_role_id,
         },
-      });
+      })
+
+      
   
       /**
        * getting manager and department name of the selected user who is currently
