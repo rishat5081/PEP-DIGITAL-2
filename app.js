@@ -68,7 +68,7 @@ app.use(express.static(__dirname + "/public"));
 // );
 /**
  * https://github.com/expressjs/session#user-content-cookiesecure:~:text=For%20using%20secure%20cookies%20in%20production%2C,setup%20based%20on%20NODE_ENV%20in%20express%3A
- * set the process.env.NODE_ENV to production when all the code is complete and read this
+ * set the process.env.NODE_ENV to production when all the code is complete and read this 
  * resave for the cookies it is confusing right now
 
 */
@@ -148,10 +148,7 @@ app.use(require("./routes/Web_Pages/users").router);
 /**
  * This one is for General Manager
  */
-app.use(
-  "/generalManager",
-  require("./routes/General Manager/generalManager").router
-);
+app.use("/generalManager", require("./routes/General Manager/generalManager").router);
 
 /**
  * This one is for Manager
@@ -249,9 +246,9 @@ app.post(
       if (req.user.userInfo.paused) {
         res.status(200).render("Web Appendage Pages/error", {
           errorStatus: "Temparary Block",
-          errorHeading: `You have been temporarily block.
-                         In order to get your profile back.
-                         Contact your superiors.
+          errorHeading: `You have been temporarily block. 
+                         In order to get your profile back. 
+                         Contact your superiors. 
                          `,
         });
       }
@@ -303,7 +300,7 @@ app.post("/LoginForm", async (req, res) => {
        */
 
       var permissionObject = [];
-      profileInfo.menuData.forEach((element, index) => {
+      profileInfo.menuData.forEach((element, index) => { 
         let breakPermissions = {
           permmission_uuid: element.dataValues.permmission_uuid,
           permission_name: element.dataValues.permission_name,
@@ -329,26 +326,27 @@ app.post("/LoginForm", async (req, res) => {
       req.session.permissions = { permissionObject };
       req.session.profileData =
         profileInfo.userInfo !== null ? profileInfo.userInfo : null;
-
-      if (req.user.userRole.type_name === "GM Company") {
-        //creating the login information of the Supervisor
-        GMLogin.create({
-          ipAddress: req.ip,
-          gm_id: profileInfo.userInfo.dataValues.gm_id,
-        });
-        if (profileInfo.userInfo.dataValues.gm_name !== null || "")
-          res
-            .status(200)
-            .redirect(
-              `/generalManager/dashboard/${profileInfo.userInfo.dataValues.gm_uuid}`
-            );
-        else
-          res
-            .status(200)
-            .redirect(
-              `/generalManager/completeProfile/${profileInfo.userInfo.dataValues.gm_uuid}`
-            );
-      }
+        
+        if (req.user.userRole.type_name === "GM Company") {
+          //creating the login information of the Supervisor
+          GMLogin.create({
+            ipAddress: req.ip,
+            gm_id: profileInfo.userInfo.dataValues.gm_id,
+          });
+          if (profileInfo.userInfo.dataValues.gm_name !== null || "")
+            res
+              .status(200)
+              .redirect(
+                `/generalManager/dashboard/${profileInfo.userInfo.dataValues.gm_uuid}`
+              );
+          else
+            res
+              .status(200)
+              .redirect(
+                `/generalManager/completeProfile/${profileInfo.userInfo.dataValues.gm_uuid}`
+              );
+        }
+  
 
       if (req.user.userRole.type_name === "Manager") {
         //creating the login information of the Supervisor
@@ -465,7 +463,12 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
     const menuData = await getMenu(userRole.type_name);
     const userInfo = await GM_Company.findOne({
       attributes: {
-        exclude: ["gm_isDeleted", "gm_isPaused", "login_id", "updateTimestamp"],
+        exclude: [
+          "gm_isDeleted",
+          "gm_isPaused",
+          "login_id",
+          "updateTimestamp",
+        ],
       },
       where: {
         login_id,
@@ -476,6 +479,7 @@ async function checkRole_GetData_FromDB(userRole, login_id) {
       .then((response) => {
         if (response) return response;
         else return null;
+        
       })
       .catch((error) => {
         if (error) {
@@ -678,6 +682,7 @@ server.listen(process.env.server_PORT, () => {
 // ------------------------------------ API's -----------------------------------
 
 app.use("/api", cors(corsOptionsDelegate), require("./API/Web/webAPI").router);
+
 // API  for field executives
 app.use(
   "/api/field",
@@ -707,8 +712,20 @@ app.use(
   cors(corsOptionsDelegate),
   require("./API/Manager/managerAPI").router
 );
+
+//API  for GM
+app.use(
+  "/api/GM",
+  cors(corsOptionsDelegate),
+  require("./API/General Manager/GM_API").router
+);
+
+
 // ------------------------------------ Redirecting if route does not found -----------------------------------
 
 app.get("*", (req, res) => {
   res.redirect("/");
 });
+
+
+
