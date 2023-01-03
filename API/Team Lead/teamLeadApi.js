@@ -1222,8 +1222,6 @@ router.route("/addMembertoTeam").post(async (req, res) => {
 });
 
 router.route("/allocateSectorToExecutive").post(async (req, res) => {
- 
-
   //getting the sector ID from the database
   let sectorID = await Database.City_Sectors.findOne({
     attributes: ["city_sector_id"],
@@ -1244,26 +1242,54 @@ router.route("/allocateSectorToExecutive").post(async (req, res) => {
   });
 // check if city is not already associated with same employee
   let cityAssosiate= await Database.City_Sector_Assosiate.findOne({
-  attributes:["city_sector_assos_uuid"],
+  attributes:["paused"],
   
   where:{
     field_id: executiveID.map((employee) => employee.field_id),
   city_sector_id: sectorID.city_sector_id,
+
   }
   
 });
+// if no duplicate record found add it
 if(cityAssosiate==null){
   let assignArea = await Database.City_Sector_Assosiate.bulkCreate(
     executiveID.map((employee) => {
       return {
         field_id: employee.field_id,
         city_sector_id: sectorID.city_sector_id,
+        
       };
     })
   );
     res.status(200).send({ status: "Area Assigned Successfully" });
     res.end();
+    
 }
+// if record already exists but paused update it
+else if(cityAssosiate.dataValues.paused== 1){
+  let changeStatus= await Database.City_Sector_Assosiate.update(
+    {
+    paused:0,
+    },
+    {
+    where:{
+      field_id: executiveID.map((employee) => employee.field_id),
+      city_sector_id: sectorID.city_sector_id,
+    }
+  }).catch((err) => {
+      if (err) {
+        console.log("Error Updating the User Role Info");
+        console.trace(err);
+        return null;
+      }
+
+  });
+  res.status(200).send({ status: "Area Assigned Successfully" });
+  res.end();
+
+}
+
 else {
     res.status(400).send({ error: "Area already Assigned" });
     res.end();
