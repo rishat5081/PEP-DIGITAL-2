@@ -94,7 +94,7 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
       },
       sup_id: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
         primaryKey: false,
         autoIncrement: false,
         references: {
@@ -118,7 +118,7 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
       },
       man_id: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
         primaryKey: false,
         autoIncrement: false,
         references: {

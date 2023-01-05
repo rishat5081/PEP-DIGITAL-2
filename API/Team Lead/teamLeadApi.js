@@ -1525,6 +1525,7 @@ router.route("/conveyMessageToAll").post(async (req, res) => {
         paused: 0,
       },
     });
+    // console.log(req.body.selectedRecommendation,"",req.body.employeeList,"",req.query.team_L_id,"",req.body.recommendationText)
     let selectedEmployee = req.body.employeeList;
 
     let executiveID = await Database.Field_Executive.findAll({
@@ -1535,7 +1536,21 @@ router.route("/conveyMessageToAll").post(async (req, res) => {
         field_isPaused: 0,
       },
     });
-
+// getiing supvisor id from db
+    let supervisorID = await Database.Team_Lead.findOne({
+      attributes:["sup_id"],
+        where :{
+          team_L_id: req.query.team_L_id,
+        }
+      })
+      // getting manager id from db
+      let managerID= await Database.Supervisor.findOne({
+        attributes:["man_id"],
+        where :{
+          sup_id : supervisorID.dataValues.sup_id,
+        }
+      })      
+ 
     let addRecommendation = await Database.Recommendation_for_Executive.bulkCreate(
       executiveID.map((employee) => {
         return {
@@ -1544,9 +1559,12 @@ router.route("/conveyMessageToAll").post(async (req, res) => {
           exec_recomm_id: recommendationID.exec_recomm_id,
           recommendationDetails: req.body.recommendationText,
           recommendationTitle: req.body.title,
+          sup_id:supervisorID.dataValues.sup_id,
+          man_id : managerID.dataValues.man_id,
         };
       })
     );
+   
 
     if (
       (recommendationID,
@@ -1560,6 +1578,7 @@ router.route("/conveyMessageToAll").post(async (req, res) => {
       res.status(400).send({ error: "Please try again" });
       res.end();
     }
+    ////console.(req.body);
   });
 
   //apis for manage TEAM PAGE
