@@ -82,7 +82,17 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
           key: "man_id",
         },
       },
-      
+        gm_id: {
+          type: DataTypes.INTEGER,
+          allowNull: true,
+          primaryKey: false,
+          autoIncrement: false,
+          references: {
+            model: "GM_Company",
+            key: "company_gm_info",
+          },
+     },
+
     },
     {
       hooks: {
