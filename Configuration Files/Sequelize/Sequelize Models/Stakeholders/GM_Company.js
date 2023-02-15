@@ -85,10 +85,15 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         onUpdate: "CASCADE",
         onDelete: "CASCADE"
       },
-      gm_username: {
-        type: DataTypes.TEXT,
-        allowNull: true
+      login_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
       },
+      // gm_username: {
+      //   type: DataTypes.TEXT,
+      //   allowNull: true
+      // },
 
     },
     {

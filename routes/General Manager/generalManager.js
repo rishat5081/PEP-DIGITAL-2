@@ -57,8 +57,7 @@ router.get(
       ],
       where: {
         gm_id: req.session.profileData.gm_id,
-        gm_isDeleted: 0,
-        gm_isPaused: 0,
+    
       },
     })
       .then((data) => {
@@ -78,7 +77,7 @@ router.get(
       {
         gm_name: req.session.profileData.gm_name,
         gm_profile_pic: req.session.profileData.gm_profile_pic,
-        gm_username: req.session.profileData.gm_username,
+        // gm_username: req.session.profileData.gm_username,
         gm_contact: req.session.profileData.gm_contact,
         createdAt: req.session.profileData.createdAt,
         gm_salary: req.session.profileData.gm_salary,
@@ -161,8 +160,7 @@ router.get(
     let GMData = await Database.GM_Company.findOne({
       attributes: {
         exclude: [
-          "gm_isDeleted",
-          "gm_isPaused",
+        
           "login_id",
           "createdAt",
           "updateTimestamp",
@@ -183,8 +181,7 @@ router.get(
       ],
       where: {
         gm_uuid: req.session.profileData.gm_uuid,
-        gm_isDeleted: 0,
-        gm_isPaused: 0,
+    
       },
     });
 

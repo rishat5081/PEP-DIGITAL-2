@@ -59,8 +59,8 @@ router.get( "/dashboard",
         ],
         where: {
           gm_id: req.query.gm_id,
-          gm_isDeleted: 0,
-          gm_isPaused: 0,
+          // gm_isDeleted: 0,
+          // gm_isPaused: 0,
         },
       })
         .then((data) => {
@@ -80,7 +80,7 @@ router.get( "/dashboard",
         {
           gm_name: GMDashboard.dataValues.gm_name,
           gm_profile_pic: GMDashboard.dataValues.gm_profile_pic,
-          gm_username: GMDashboard.dataValues.gm_username,
+          // gm_username: GMDashboard.dataValues.gm_username,
           gm_contact: GMDashboard.dataValues.gm_contact,
           createdAt: GMDashboard.dataValues.createdAt,
           gm_salary: GMDashboard.dataValues.gm_salary,
@@ -482,8 +482,7 @@ router.get( "/dashboard",
       let GMData = await Database.GM_Company.findOne({
         attributes: {
           exclude: [
-            "gm_isDeleted",
-            "gm_isPaused",
+         
             "login_id",
             "createdAt",
             "updateTimestamp",
@@ -504,8 +503,7 @@ router.get( "/dashboard",
         ],
         where: {
           gm_uuid: req.query.gm_uuid,
-          gm_isDeleted: 0,
-          gm_isPaused: 0,
+     
         },
       });
   
@@ -1410,6 +1408,7 @@ router
   router
   .route("/generalManager/updateProfileInfo")
   .put(async (req, res) => {
+    console.log(req.query.type_name,req.query.login_id,req.body.name,req.query.gm_uuid)
     const dbResponse = await Database.Role_ExtraInfo.findOne({
       attributes: ["salary"],
       include: {
@@ -1436,7 +1435,7 @@ router
   
     if (dbResponse === null) {
       res
-        .status(500)
+        .status(400)
         .send({
           type: "danger",
           messages: "Error! Please try Again! ",
@@ -1447,7 +1446,7 @@ router
         {
           gm_name: req.body.name,
           gm_contact: req.body.contact,
-          gm_username: req.body.username,
+          // gm_username: req.body.username,
           gm_salary: dbResponse.dataValues.salary,
         },
         {
@@ -1467,7 +1466,7 @@ router
         })
         .catch((error) => {
           console.error(error);
-          res.status(500).send({
+          res.status(400).send({
             type: "danger",
             messages: "Error! Can not update the Profile. Please Try Again! ",
           });
