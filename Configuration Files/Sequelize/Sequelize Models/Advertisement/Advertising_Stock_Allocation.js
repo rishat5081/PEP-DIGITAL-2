@@ -92,7 +92,6 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
             key: "company_gm_info",
           },
      },
-
     },
     {
       hooks: {
