@@ -6,8 +6,9 @@
 //   Agency_Info = require("../Agency Models/Agency_Info"),
 "use strict";
 module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
-  const Compaign_Sale = sequelize.define(
-    "Compaign_Sale",
+    class Compaign_Sale extends Model {}
+  
+    Compaign_Sale.init(
     {
       comp_sale_id: {
         type: DataTypes.INTEGER,

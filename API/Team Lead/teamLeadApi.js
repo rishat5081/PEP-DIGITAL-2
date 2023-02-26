@@ -1230,9 +1230,8 @@ router.route("/allocateSectorToExecutive").post(async (req, res) => {
       deleted: 0,
       paused: 0,
     },
-  });
+  }); 
   let selectedEmployee = req.body.employees;
-
   let executiveID = await Database.Field_Executive.findAll({
     attributes: ["field_id"],
     where: {
@@ -1241,28 +1240,68 @@ router.route("/allocateSectorToExecutive").post(async (req, res) => {
       field_isPaused: 0,
     },
   });
+// check if city is not already associated with same employee
+  let cityAssosiate= await Database.City_Sector_Assosiate.findOne({
+  attributes:["paused"],
+  
+  where:{
+    field_id: executiveID.map((employee) => employee.field_id),
+  city_sector_id: sectorID.city_sector_id,
 
-  //console.(sectorID);
-  //console.(selectedEmployee);
-  //console.(executiveID);
-
+  }
+  
+});
+// if no duplicate record found add it
+if(cityAssosiate==null){
   let assignArea = await Database.City_Sector_Assosiate.bulkCreate(
     executiveID.map((employee) => {
       return {
         field_id: employee.field_id,
         city_sector_id: sectorID.city_sector_id,
+        
       };
     })
   );
-
-  if ((sectorID, selectedEmployee, executiveID, assignArea !== null)) {
     res.status(200).send({ status: "Area Assigned Successfully" });
     res.end();
-  } else {
+    
+}
+// if record already exists but paused update it
+else if(cityAssosiate.dataValues.paused== 1){
+  let changeStatus= await Database.City_Sector_Assosiate.update(
+    {
+    paused:0,
+    },
+    {
+    where:{
+      field_id: executiveID.map((employee) => employee.field_id),
+      city_sector_id: sectorID.city_sector_id,
+    }
+  }).catch((err) => {
+      if (err) {
+        console.log("Error Updating the User Role Info");
+        console.trace(err);
+        return null;
+      }
+
+  });
+  res.status(200).send({ status: "Area Assigned Successfully" });
+  res.end();
+
+}
+
+else {
+    res.status(400).send({ error: "Area already Assigned" });
+    res.end();
+  }
+
+  if ((sectorID, selectedEmployee, executiveID === null)) {
+ 
     res.status(500).send({ error: "Please try again" });
     res.end();
   }
-});
+  
+}); 
 
 router.route("/removeSectorToExecutive").put(async (req, res) => {
   //getting the sector ID from the database
@@ -1486,6 +1525,7 @@ router.route("/conveyMessageToAll").post(async (req, res) => {
         paused: 0,
       },
     });
+    // console.log(req.body.selectedRecommendation,"",req.body.employeeList,"",req.query.team_L_id,"",req.body.recommendationText)
     let selectedEmployee = req.body.employeeList;
 
     let executiveID = await Database.Field_Executive.findAll({
@@ -1496,7 +1536,21 @@ router.route("/conveyMessageToAll").post(async (req, res) => {
         field_isPaused: 0,
       },
     });
-
+// getiing supvisor id from db
+    let supervisorID = await Database.Team_Lead.findOne({
+      attributes:["sup_id"],
+        where :{
+          team_L_id: req.query.team_L_id,
+        }
+      })
+      // getting manager id from db
+      let managerID= await Database.Supervisor.findOne({
+        attributes:["man_id"],
+        where :{
+          sup_id : supervisorID.dataValues.sup_id,
+        }
+      })      
+ 
     let addRecommendation = await Database.Recommendation_for_Executive.bulkCreate(
       executiveID.map((employee) => {
         return {
@@ -1505,9 +1559,12 @@ router.route("/conveyMessageToAll").post(async (req, res) => {
           exec_recomm_id: recommendationID.exec_recomm_id,
           recommendationDetails: req.body.recommendationText,
           recommendationTitle: req.body.title,
+          sup_id:supervisorID.dataValues.sup_id,
+          man_id : managerID.dataValues.man_id,
         };
       })
     );
+   
 
     if (
       (recommendationID,
@@ -1521,6 +1578,7 @@ router.route("/conveyMessageToAll").post(async (req, res) => {
       res.status(400).send({ error: "Please try again" });
       res.end();
     }
+    ////console.(req.body);
   });
 
   //apis for manage TEAM PAGE

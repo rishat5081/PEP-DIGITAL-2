@@ -1,13 +1,10 @@
 ("use strict");
 module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
-  // const { DataTypes, Model, UUIDV4 } = require("sequelize"),
-  //   sequelize = require("../../Sequelize"),
-  //   Field_Executive = require("../Stakeholders/Field_Executive"),
-  //   Managers = require("../Stakeholders/Managers");
 
-  class ChangeSupervisorRoleLogs extends Model {}
 
-  ChangeSupervisorRoleLogs.init(
+  class ChangeManagerRoleLogs extends Model {}
+
+  ChangeManagerRoleLogs.init(
     {
       changeRole_id: {
         type: DataTypes.INTEGER,
@@ -39,18 +36,7 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      sup_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: false,
-        autoIncrement: false,
-        references: {
-          model: "supervisor",
-          key: "sup_id",
-        },
-        onDelete: "CASCADE",
-        onUpdate: "CASCADE",
-      },
+    
       man_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -63,40 +49,50 @@ module.exports = (sequelize, { DataTypes, Model, UUIDV4 }) => {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       },
+      gm_id: {  
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: false,
+        autoIncrement: false,
+        references: {
+          model: "GM_Company",
+          key: "gm_id",
+        },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+      },
     },
     {
       sequelize,
       // We need to pass the connection instance
-      modelName: "ChangeSupervisorRoleLogs",
-      tableName: "changesupervisorrolelogs",
+      modelName: "ChangeManagerRoleLogs",
+      tableName: "changemanagerrolelogs",
     }
   );
 
-  /**one Field_Executive can have many role change  */
+  /**one manager can have many role change  */
 
-  ChangeSupervisorRoleLogs.associate = (models) => {
-    models.Supervisor.hasMany(ChangeSupervisorRoleLogs, {
-      foreignKey: "sup_id",
-    });
-
-    ChangeSupervisorRoleLogs.belongsTo(models.Supervisor, {
-      targetKey: "sup_id",
-      foreignKey: "sup_id",
-    });
-
-    /**one Field_Executive can have many role change  */
-    models.Managers.hasMany(ChangeSupervisorRoleLogs, {
+  ChangeManagerRoleLogs.associate = (models) => {
+    models.Managers.hasMany(ChangeManagerRoleLogs, {
       foreignKey: "man_id",
     });
 
-    ChangeSupervisorRoleLogs.belongsTo(models.Managers, {
+    ChangeManagerRoleLogs.belongsTo(models.Managers, {
       targetKey: "man_id",
       foreignKey: "man_id",
     });
+
+    /**one gm can have many role change  */
+    models.GM_Company.hasMany(ChangeManagerRoleLogs, {
+      foreignKey: "gm_id",
+    });
+
+    ChangeManagerRoleLogs.belongsTo(models.GM_Company, {
+      targetKey: "gm_id",
+      foreignKey: "gm_id",
+    });
   };
 
-  // module.exports = ChangeSupervisorRoleLogs;
 
-  return ChangeSupervisorRoleLogs;
+  return ChangeManagerRoleLogs;
 };
-// ChangeTeamLeadRoleLogs.sync({ force: true }).then((d) => console.log(d));
