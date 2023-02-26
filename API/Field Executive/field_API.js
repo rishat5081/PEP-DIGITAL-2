@@ -1,5 +1,5 @@
 const {
-  multerFile_Upload_ForAPI
+  multerFile_Upload_ForAPI,
 } = require("../../Configuration Files/Multer Js/multer");
 
 const router = require("express").Router(),
@@ -27,29 +27,32 @@ router.get(
       where: {
         paused: 0,
         deleted: 0,
-        user_role_id: req.query.user_role_id
-      }
+        user_role_id: req.query.user_role_id,
+      },
     });
     let profileData = await Database.Field_Executive.findOne({
       attributes: [
         "field_name",
         "field_userProfilePic",
         "createdAt",
-        "field_DOB"
+        "field_DOB",
       ],
       where: {
-        field_uuid: req.query.field_uuid
-      }
+        field_uuid: req.query.field_uuid,
+      },
     });
 
-    res.status(200).send({
-      url: req.protocol + "://" + req.get("host"),
-      profileData,
-      webAds,
-      unreadNotificationCount:
-        unreadNotificationCount[0].dataValues.unreadNotificationCount
-    });
-    unreadNotificationCount = null;
+    if (webAds && profileData) {
+      res.status(200).send({
+        url: req.protocol + "://" + req.get("host"),
+        profileData,
+        webAds,
+        unreadNotificationCount:
+          unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      });
+    } else {
+      res.status(400).send({ message: "No Details Found" });
+    }
   }
 );
 
@@ -70,8 +73,8 @@ router.get(
           "login_id",
           "createdAt",
           "updateTimestamp",
-          "team_L_id"
-        ]
+          "team_L_id",
+        ],
       },
       /**
        * getting the inner join with team lead
@@ -82,7 +85,7 @@ router.get(
         required: false,
         where: {
           team_L_isDeleted: 0,
-          team_L_isPaused: 0
+          team_L_isPaused: 0,
         },
         /**
          * getting the inner join with team lead -> City_Areas
@@ -93,15 +96,15 @@ router.get(
           required: false,
           where: {
             paused: 0,
-            deleted: 0
-          }
-        }
+            deleted: 0,
+          },
+        },
       },
       where: {
         field_uuid: req.query.field_uuid,
         field_isPaused: 0,
-        field_isDeleted: 0
-      }
+        field_isDeleted: 0,
+      },
     });
 
     const LoginEmail = await Database.User_Login_Information.findOne({
@@ -109,8 +112,8 @@ router.get(
       where: {
         login_id: req.query.login_id,
         paused: 0,
-        deleted: 0
-      }
+        deleted: 0,
+      },
     });
 
     let unreadNotificationCount = await countofNotificationOfExecutive(
@@ -119,7 +122,7 @@ router.get(
 
     const countOfTargetsActivities = await Database.Activities.findAll({
       attributes: [
-        [sequelize.fn("COUNT", sequelize.col("list_act_id")), "activityTarget"]
+        [sequelize.fn("COUNT", sequelize.col("list_act_id")), "activityTarget"],
       ],
       where: {
         field_id: req.query.field_id,
@@ -128,8 +131,8 @@ router.get(
         ),
         paused: 0,
         deleted: 0,
-        cancelled: 0
-      }
+        cancelled: 0,
+      },
     });
 
     if ((countOfTargetsActivities, field)) {
@@ -140,7 +143,7 @@ router.get(
       if (field.dataValues.Team_Lead) {
         teamLead_Info = { ...field.dataValues.Team_Lead.dataValues };
         City_Area_Info = {
-          ...field.dataValues.Team_Lead.dataValues.City_Area.dataValues
+          ...field.dataValues.Team_Lead.dataValues.City_Area.dataValues,
         };
       }
 
@@ -153,16 +156,14 @@ router.get(
         url: req.protocol + "://" + req.get("host"),
         countOfTargetsActivities,
         unreadNotificationCount:
-          unreadNotificationCount[0].dataValues.unreadNotificationCount
+          unreadNotificationCount[0].dataValues.unreadNotificationCount,
       });
     } else {
-      res.status(200).send({
+      res.status(400).send({
         status: "Invalid",
-        message: "The system is unable to find the user. \nPlease try again"
+        message: "No User Details found. \nPlease try again",
       });
     }
-    unreadNotificationCount = null;
-    teamLead_Info = null;
   }
 );
 
@@ -170,19 +171,19 @@ router.get(
 router.route("/updateProfile").post(async (req, res) => {
   let emaiUpdate = await Database.User_Login_Information.update(
     {
-      login_email: req.body.email
+      login_email: req.body.email,
     },
     {
       where: {
-        login_id: req.body.login_id
-      }
+        login_id: req.body.login_id,
+      },
     }
   )
-    .then(response => {
+    .then((response) => {
       if (response) return response;
       else return null;
     })
-    .catch(error => {
+    .catch((error) => {
       if (error) return error;
       else return null;
     });
@@ -193,35 +194,35 @@ router.route("/updateProfile").post(async (req, res) => {
         field_name: req.body.name,
         field_DOB: req.body.dob,
         field_contact: req.body.contact,
-        field_username: req.body.username
+        field_username: req.body.username,
       },
       {
         where: {
-          login_id: req.body.login_id
-        }
+          login_id: req.body.login_id,
+        },
       }
     )
-      .then(response => {
+      .then((response) => {
         if (response) {
-          res.send({
+          res.status(200).send({
             status: "success",
-            messages: "Updated"
+            messages: "Updated",
           });
           res.end();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
-        res.send({
+        res.status(400).send({
           status: "failed",
-          messages: "Please Try Again"
+          messages: "Please Try Again",
         });
         res.end();
       });
   } else {
-    res.send({
+    res.status(400).send({
       status: "failed",
-      messages: "Please Try Again"
+      messages: "Please Try Again",
     });
     res.end();
   }
@@ -230,13 +231,13 @@ router.route("/updateProfile").post(async (req, res) => {
 //controller for upload picture
 router.route("/uploadImage").post(async (req, res) => {
   const fileUploadStatus = new Promise((resolve, reject) => {
-    multerFile_Upload_ForAPI(req, res, err => {
+    multerFile_Upload_ForAPI(req, res, (err) => {
       if (err) reject(err);
       else resolve(req.files);
     });
   });
 
-  const fileDetails = await fileUploadStatus.catch(err => {
+  const fileDetails = await fileUploadStatus.catch((err) => {
     if (err) {
       console.log(err);
       return null;
@@ -250,13 +251,13 @@ router.route("/uploadImage").post(async (req, res) => {
     const userProfileImage = await Database.Field_Executive.findOne({
       attributes: ["field_userProfilePic"],
       where: {
-        login_id: req.body.login_id
-      }
+        login_id: req.body.login_id,
+      },
     });
     if (userProfileImage.dataValues.field_userProfilePic !== null) {
       fs.unlink(
         `./public/${userProfileImage.dataValues.field_userProfilePic}`,
-        err => {
+        (err) => {
           if (err) console.error("There is no such file");
           else console.error("Successfully Deleted Pic");
         }
@@ -270,25 +271,25 @@ router.route("/uploadImage").post(async (req, res) => {
       //req.session.profileData.field_userProfilePic = filePath[1] + filename;
       Database.Field_Executive.update(
         {
-          field_userProfilePic: filePath[1] + filename
+          field_userProfilePic: filePath[1] + filename,
         },
         {
           where: {
-            login_id: req.body.login_id
-          }
+            login_id: req.body.login_id,
+          },
         }
-      ).then(response => {
+      ).then((response) => {
         if (response) {
-          res.send({
+          res.status(200).send({
             status: "success",
             messages: "Profile Image Uploaded",
             url: req.protocol + "://" + req.get("host"),
-            ProfilePic: filePath[1] + filename
+            ProfilePic: filePath[1] + filename,
           });
         } else {
-          res.send({
+          res.status(400).send({
             type: "danger",
-            messages: "Error! in Uploading Image! "
+            messages: "Error! in Uploading Image! ",
           });
         }
       });
@@ -304,18 +305,18 @@ router.route("/updateProfileInfo").post(async (req, res) => {
     include: {
       model: Database.User_Role,
       where: {
-        type_name: req.body.type_name
-      }
+        type_name: req.body.type_name,
+      },
     },
     where: {
       paused: 0,
-      deleted: 0
-    }
+      deleted: 0,
+    },
   })
-    .then(response => {
+    .then((response) => {
       return response;
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error);
       console.error(
         "Error! Can not Fetch Commissions and Target from DB" + error
@@ -332,35 +333,35 @@ router.route("/updateProfileInfo").post(async (req, res) => {
         field_username: req.body.username,
         field_target: dbResponse.dataValues.target,
         field_salary: dbResponse.dataValues.salary,
-        field_commission: dbResponse.dataValues.commission
+        field_commission: dbResponse.dataValues.commission,
       },
       {
         where: {
-          login_id: req.body.login_id
-        }
+          login_id: req.body.login_id,
+        },
       }
     )
-      .then(response => {
+      .then((response) => {
         if (response) {
-          res.send({
+          res.status(200).send({
             status: "success",
-            messages: "Updated"
+            messages: "Updated",
           });
           res.end();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
-        res.send({
+        res.status(400).send({
           status: "failed",
-          messages: "Please Try Again"
+          messages: "Please Try Again",
         });
         res.end();
       });
   } else {
-    res.send({
+    res.status(400).send({
       status: "failed",
-      messages: "Please Try Again"
+      messages: "Please Try Again",
     });
     res.end();
   }
@@ -380,17 +381,17 @@ router.get(
         {
           model: Database.Agency_Info,
           attributes: ["agency_name"],
-          required: false
-        }
+          required: false,
+        },
       ],
       where: {
-        field_id: req.query.field_id
-      }
+        field_id: req.query.field_id,
+      },
     })
-      .then(dbResponse => {
+      .then((dbResponse) => {
         if (dbResponse) return dbResponse;
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) console.error("Error Fetching Activities : " + error);
       });
 
@@ -399,14 +400,14 @@ router.get(
         "list_act_id",
         [
           sequelize.fn("sum", sequelize.col("`List_of_Package`.list_amount")),
-          "SumofValues"
+          "SumofValues",
         ],
         [
           sequelize.literal(
             "SUM(`List_of_Package`.bankAmount/100*`List_of_Package`.commissionAmount)"
           ),
-          "Commission"
-        ]
+          "Commission",
+        ],
       ],
       include: {
         attributes: [],
@@ -414,30 +415,33 @@ router.get(
         required: true,
         where: {
           list_deleted: 0,
-          list_paused: 0
-        }
+          list_paused: 0,
+        },
       },
       group: ["`List_sub_Activities`.list_act_id"],
       where: {
-        list_act_id: dbResponse.map(data => data.dataValues.list_act_id)
-      }
+        list_act_id: dbResponse.map((data) => data.dataValues.list_act_id),
+      },
     })
-      .then(dbResponse => {
+      .then((dbResponse) => {
         if (dbResponse) return dbResponse;
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) console.error("Error Fetching Activities : " + error);
       });
 
-    res.status(200).send({
-      dbResponse,
-      subActivities,
-      url: req.protocol + "://" + req.get("host"),
-      unreadNotificationCount:
-        unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      totalActivities: subActivities.length
-    });
-    unreadNotificationCount = null;
+    if (dbResponse || subActivities)
+      res.status(200).send({
+        dbResponse,
+        subActivities,
+        url: req.protocol + "://" + req.get("host"),
+        unreadNotificationCount:
+          unreadNotificationCount[0].dataValues.unreadNotificationCount,
+        totalActivities: subActivities.length,
+      });
+    else {
+      res.status(400).send({ message: "No Details found" });
+    }
   }
 );
 
@@ -459,8 +463,8 @@ router.get(
           required: false,
           where: {
             deleted: 0,
-            isPaused: 0
-          }
+            isPaused: 0,
+          },
         },
         {
           model: Database.List_sub_Activities,
@@ -468,7 +472,7 @@ router.get(
             "list_sub_act_id",
             "list_id",
             "createdAt",
-            "list_act_id"
+            "list_act_id",
           ],
           required: true,
           include: {
@@ -478,31 +482,31 @@ router.get(
               "list_amount",
               "isBank",
               "bankAmount",
-              "commissionAmount"
+              "commissionAmount",
             ],
             required: true,
             where: {
               list_deleted: 0,
-              list_paused: 0
-            }
+              list_paused: 0,
+            },
           },
           where: {
             list_deleted: 0,
-            list_paused: 0
-          }
-        }
+            list_paused: 0,
+          },
+        },
       ],
       where: {
         list_act_uuid: req.query.activityUUID,
         deleted: 0,
-        paused: 0
-      }
+        paused: 0,
+      },
     })
-      .then(dbResponse => {
+      .then((dbResponse) => {
         if (dbResponse) return dbResponse;
         else return null;
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) {
           console.error("Error Fetching Activities : " + error);
           return null;
@@ -521,7 +525,7 @@ router.get(
         {
           list_act_id: activitiesResponse[0].dataValues.list_act_id,
           list_act_uuid: activitiesResponse[0].dataValues.list_act_uuid,
-          createdAt: activitiesResponse[0].dataValues.createdAt
+          createdAt: activitiesResponse[0].dataValues.createdAt,
         }
       );
       const subActivities = [...activitiesResponse[0].List_sub_Activities];
@@ -530,38 +534,38 @@ router.get(
         attributes: [
           [
             sequelize.fn("sum", sequelize.col("`List_of_Package`.list_amount")),
-            "SumofValues"
+            "SumofValues",
           ],
           [
             sequelize.literal(
               "SUM(`List_of_Package`.bankAmount/100*`List_of_Package`.commissionAmount)"
             ),
-            "Commission"
-          ]
+            "Commission",
+          ],
         ],
         include: {
           attributes: [],
           model: Database.List_of_Packages,
           where: {
             list_deleted: 0,
-            list_paused: 0
+            list_paused: 0,
           },
-          required: true
+          required: true,
         },
         group: ["`List_sub_Activities`.list_act_id"],
         where: {
           list_act_id: activitiesResponse.map(
-            data => data.dataValues.list_act_id
+            (data) => data.dataValues.list_act_id
           ),
           list_deleted: 0,
-          list_paused: 0
-        }
+          list_paused: 0,
+        },
       })
-        .then(dbResponse => {
+        .then((dbResponse) => {
           if (dbResponse) return dbResponse;
           else return null;
         })
-        .catch(error => {
+        .catch((error) => {
           if (error)
             console.error("Error Fetching Sum of Activities : " + error);
         });
@@ -573,11 +577,12 @@ router.get(
         subActivities,
         url: req.protocol + "://" + req.get("host"),
         unreadNotificationCount:
-          unreadNotificationCount[0].dataValues.unreadNotificationCount
+          unreadNotificationCount[0].dataValues.unreadNotificationCount,
       });
-      unreadNotificationCount = null;
-    } else if (activitiesResponse === null) {
-      res.redirect(`/user/dashboard/${req.session.profileData.field_uuid}`);
+    } else {
+      res.status(400).send({
+        message: "No details found",
+      });
     }
   }
 );
@@ -592,12 +597,12 @@ router.get("/bankDeposit", async (req, res) => {
     include: {
       model: Database.Banks_List,
       required: true,
-      attributes: ["bankName"]
+      attributes: ["bankName"],
     },
     where: {
       deleted: false,
-      paused: false
-    }
+      paused: false,
+    },
   });
 
   /**
@@ -607,8 +612,8 @@ router.get("/bankDeposit", async (req, res) => {
     attributes: ["bankName"],
     where: {
       paused: false,
-      deleted: false
-    }
+      deleted: false,
+    },
   });
 
   /**
@@ -618,14 +623,14 @@ router.get("/bankDeposit", async (req, res) => {
   var activitiesResponse = await Database.Activities.findOne({
     attributes: ["list_act_id", "list_act_uuid"],
     where: {
-      list_act_uuid: req.query.activityUUID
-    }
+      list_act_uuid: req.query.activityUUID,
+    },
   })
-    .then(dbResponse => {
+    .then((dbResponse) => {
       if (dbResponse) return dbResponse;
       else return null;
     })
-    .catch(error => {
+    .catch((error) => {
       if (error) {
         console.error("Error Fetching Activities : " + error);
         return null;
@@ -640,8 +645,8 @@ router.get("/bankDeposit", async (req, res) => {
       attributes: [
         [
           sequelize.fn("sum", sequelize.col("`List_of_Package`.bankAmount")),
-          "SumofValues"
-        ]
+          "SumofValues",
+        ],
       ],
       include: {
         attributes: [],
@@ -649,19 +654,19 @@ router.get("/bankDeposit", async (req, res) => {
         required: true,
         where: {
           list_deleted: 0,
-          list_paused: 0
-        }
+          list_paused: 0,
+        },
       },
       group: ["`List_sub_Activities`.list_act_id"],
       where: {
-        list_act_id: activitiesResponse.dataValues.list_act_id
-      }
+        list_act_id: activitiesResponse.dataValues.list_act_id,
+      },
     })
-      .then(dbResponse => {
+      .then((dbResponse) => {
         if (dbResponse) return dbResponse;
         else return null;
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) {
           console.error("Error Fetching Sum of Activities : " + error);
           return null;
@@ -672,23 +677,23 @@ router.get("/bankDeposit", async (req, res) => {
      */
 
     if (sumOf_Activities) {
-      res.send({
+      res.status(200).send({
         bankList,
         companyDetails,
         sumOf_Activities,
         url: req.protocol + "://" + req.get("host"),
-        activityDetails: activitiesResponse
+        activityDetails: activitiesResponse,
       });
     } else {
-      res.status(200).send({
+      res.status(400).send({
         status: "error",
-        message: "No Information Found with this Activity ID"
+        message: "No Information Found with this Activity ID",
       });
     }
   } else {
-    res.status(200).send({
+    res.status(400).send({
       status: "error",
-      message: "No Information Found with this Activity ID"
+      message: "No Information Found with this Activity ID",
     });
   }
 });
@@ -706,15 +711,15 @@ router.route("/addBankDepositSlipDetails").post(async (req, res) => {
         deleted: 0,
         withdrawed: 0,
         bank_sale: 1,
-        field_id: +req.body.field_id
-      }
+        field_id: +req.body.field_id,
+      },
     })
-      .then(pendingEarning => {
+      .then((pendingEarning) => {
         if (pendingEarning) {
           if (pendingEarning.dataValues.bank_deposited) {
             res.status(200).send({
               status: "Deposited",
-              message: "This Activity is already Deposited"
+              message: "This Activity is already Deposited",
             });
             res.end();
             return;
@@ -726,37 +731,37 @@ router.route("/addBankDepositSlipDetails").post(async (req, res) => {
                 totalAmount: req.body.totalAmount,
                 bank_deposited: 1,
                 bank_deposited_referenceNumber: req.body.transactionid,
-                bank_datetime: req.body.tranaction_date
+                bank_datetime: req.body.tranaction_date,
               })
-              .then(updateStatus => {
+              .then((updateStatus) => {
                 if (updateStatus) {
                   res.status(200).send({
                     status: "Added",
-                    message: "Information added successfully"
+                    message: "Information added successfully",
                   });
                   return;
                 } else {
-                  res.status(200).send({
+                  res.status(400).send({
                     updateStatus,
-                    error: "There is an Issue in Updating. Please Try Again."
+                    error: "There is an Issue in Updating. Please Try Again.",
                   });
                   return;
                 }
               });
           }
         } else {
-          res.status(200).send({
+          res.status(400).send({
             status: "Error",
             message: "There is no details with this activity.",
-            pendingEarning
+            pendingEarning,
           });
           return;
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         res.status(500).send({
-          error: "There is an Issue in Submitting. Please Try Again."
+          error: "There is an Issue in Submitting. Please Try Again.",
         });
       });
   }
@@ -771,11 +776,11 @@ router.get("/contactAboutActivity", async (req, res) => {
       deleted: 0,
       paused: 0,
       list_act_uuid: req.query.activityUUID,
-      field_id: req.query.field_id
-    }
+      field_id: req.query.field_id,
+    },
   })
     .then()
-    .catch(error => {
+    .catch((error) => {
       if (error) {
         console.error("Error fetching Activity Details");
         console.trace(error);
@@ -784,15 +789,15 @@ router.get("/contactAboutActivity", async (req, res) => {
     });
 
   if (activity === null) {
-    res.send({ status: "Error", message: "No Activity Found" });
+    res.status(400).send({ status: "Error", message: "No Activity Found" });
     res.end();
     return;
   } else {
-    res.send({
+    res.status(200).send({
       status: "success",
       message: "Activity Found",
       activityUUID: req.query.activityUUID,
-      url: req.protocol + "://" + req.get("host")
+      url: req.protocol + "://" + req.get("host"),
     });
     res.end();
   }
@@ -807,11 +812,11 @@ router.route("/addComplaint").post(async (req, res) => {
       deleted: 0,
       paused: 0,
       list_act_uuid: req.body.activityUUID,
-      field_id: req.body.field_id
-    }
+      field_id: req.body.field_id,
+    },
   })
     .then()
-    .catch(error => {
+    .catch((error) => {
       if (error) {
         console.error("Error fetching Activity Details");
         return null;
@@ -820,7 +825,7 @@ router.route("/addComplaint").post(async (req, res) => {
 
   if (activity === null) {
     res
-      .status(200)
+      .status(400)
       .send({ status: "Error", message: "No Activity Found with this ID" });
     res.end();
   } else {
@@ -828,10 +833,10 @@ router.route("/addComplaint").post(async (req, res) => {
       subject: req.body.subject,
       message: req.body.complainMessage,
       list_act_id: activity.dataValues.list_act_id,
-      field_id: req.body.field_id
+      field_id: req.body.field_id,
     })
       .then()
-      .catch(error => {
+      .catch((error) => {
         if (error) {
           console.error("Error at creating Complain");
           console.trace(error);
@@ -842,7 +847,7 @@ router.route("/addComplaint").post(async (req, res) => {
     if (complain === null) {
       res.status(500).send({
         status: "Not Created",
-        message: "Service Unavailable .Please try again later."
+        message: "Service Unavailable .Please try again later.",
       });
     } else
       res
@@ -867,13 +872,13 @@ router.get(
       attributes: ["instructionText"],
       where: {
         isPaused: false,
-        deleted: false
-      }
+        deleted: false,
+      },
     })
-      .then(instrucntions => {
+      .then((instrucntions) => {
         return instrucntions;
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) {
           console.error("No Instructions Found " + error);
           return null;
@@ -886,13 +891,13 @@ router.get(
       attributes: ["agencytype_id", "type_name"],
       where: {
         isPaused: false,
-        deleted: false
-      }
+        deleted: false,
+      },
     })
-      .then(types => {
+      .then((types) => {
         return types;
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) {
           console.error("No Types Found");
           return null;
@@ -915,18 +920,18 @@ router.get(
         [Op.or]: [
           {
             forFreelancers:
-              req.query.userRole === "Field Executive" ? false : true
+              req.query.userRole === "Field Executive" ? false : true,
           },
-          { forAll: true }
-        ]
-      }
+          { forAll: true },
+        ],
+      },
     })
-      .then(compaigns => {
+      .then((compaigns) => {
         if (compaigns) {
           return compaigns;
         }
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) console.error("Error getting Compaigns" + error);
         return null;
       });
@@ -938,11 +943,8 @@ router.get(
       agencyTypes,
       CompaignsList,
       pakistanCityName,
-      instrucntions: activity_Instruc
+      instrucntions: activity_Instruc,
     });
-
-    // Notification = null
-    unreadNotificationCount = null;
   }
 );
 
@@ -955,7 +957,7 @@ router.route("/initiateActvity").post(async (req, res, next) => {
   let lengthofUser_Req = Object.keys(userReqBody).length;
 
   //console.(userReqBody);
-  Object.keys(userReqBody).forEach(key => {
+  Object.keys(userReqBody).forEach((key) => {
     if (
       userReqBody[key] === "select" ||
       userReqBody[key] === "update" ||
@@ -974,28 +976,28 @@ router.route("/initiateActvity").post(async (req, res, next) => {
         isPaused: false,
         [Op.or]: {
           agency_name: {
-            [Op.like]: `%${req.body.agencyName}%`
+            [Op.like]: `%${req.body.agencyName}%`,
           },
           agency_Longitude: {
-            [Op.like]: `${longitude}`
+            [Op.like]: `${longitude}`,
           },
           agency_Latitude: {
-            [Op.like]: `${latitude}`
-          }
+            [Op.like]: `${latitude}`,
+          },
           //   agency_city: req.body.agencyCityName,
-        }
-      }
+        },
+      },
     })
-      .then(response => {
+      .then((response) => {
         if (response) {
           return response;
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
         console.trace(error);
         res.send({
-          error: "Sorry! The System ran into Error. \n Please try again."
+          error: "Sorry! The System ran into Error. \n Please try again.",
         });
         res.end();
         return;
@@ -1004,9 +1006,7 @@ router.route("/initiateActvity").post(async (req, res, next) => {
     if (dbResponse) {
       res.status(200).send({
         response: "Agency is already registered",
-        help:
-          "Tip: \nYou are working great. \n This Agency is already registered.\n Try Harder",
-        message: "Please visit registered agency page."
+        message: "Please visit registered agency page.",
       });
       res.end();
       return;
@@ -1034,17 +1034,17 @@ router.route("/initiateActvity").post(async (req, res) => {
     contactedPerson: req.body.contactedPerson,
     contactedPerson_Number: req.body.contactedPerson_Number,
     field_id: req.body.field_id,
-    agency_city: req.body.agencyCityName
+    agency_city: req.body.agencyCityName,
   })
-    .then(response => {
+    .then((response) => {
       if (response) return response;
     })
-    .catch(error => {
+    .catch((error) => {
       if (error) {
         console.log(error);
         console.trace(error);
-        res.send({
-          error: "Sorry! Error in Adding new Agency! \n Please Try Again"
+        res.status(400).send({
+          error: "Sorry! Error in Adding new Agency! \n Please Try Again",
         });
         res.end();
         return;
@@ -1059,12 +1059,12 @@ router.route("/initiateActvity").post(async (req, res) => {
       comp_id: req.body.CompaignID,
       field_id: req.body.field_id,
 
-      agency_id: dbResponse.dataValues.agency_id
+      agency_id: dbResponse.dataValues.agency_id,
     })
-      .then(response => {
+      .then((response) => {
         if (response) return response;
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) {
           console.error(
             "Error! Creating a new Compaign Activity at Start Activity Controller" +
@@ -1085,16 +1085,16 @@ router.route("/initiateActvity").post(async (req, res) => {
             "list_deleted",
             "list_paused",
             "createdAt",
-            "updateTimestamp"
-          ]
+            "updateTimestamp",
+          ],
         },
         where: {
           list_name: {
-            [Op.like]: [`%New Agency%`]
+            [Op.like]: [`%New Agency%`],
           },
           list_deleted: false,
-          list_paused: false
-        }
+          list_paused: false,
+        },
       });
 
       if (newAgencyDetails) {
@@ -1104,12 +1104,12 @@ router.route("/initiateActvity").post(async (req, res) => {
          */
         const sub_Activities = Database.List_sub_Activities.create({
           list_id: newAgencyDetails.dataValues.list_id,
-          list_act_id: compapignActivity.dataValues.list_act_id
+          list_act_id: compapignActivity.dataValues.list_act_id,
         })
-          .then(response => {
+          .then((response) => {
             if (response) return response;
           })
-          .catch(error => {
+          .catch((error) => {
             if (error) {
               console.error("There is error to start Sub Activity \n" + error);
               return null;
@@ -1124,15 +1124,15 @@ router.route("/initiateActvity").post(async (req, res) => {
           //     activity: compapignActivity.list_act_uuid,
           //     agencyID: dbResponse.dataValues.agency_id,
           //   };
-          res.send({
+          res.status(400).send({
             success: "Activity Started Successfully ",
             activity: compapignActivity.list_act_uuid,
-            agencyID: dbResponse.dataValues.agency_id
+            agencyID: dbResponse.dataValues.agency_id,
           });
         }
       } else {
-        res.send({
-          error: "There is error to start Sub Activity "
+        res.status(400).send({
+          message: "There is error to start Sub Activity ",
         });
       }
     }
@@ -1148,7 +1148,7 @@ router.get("/activities", async (req, res) => {
     attributes: ["list_id"],
     where: {
       list_deleted: 0,
-      list_paused: 0
+      list_paused: 0,
     },
     include: {
       attributes: [
@@ -1156,7 +1156,7 @@ router.get("/activities", async (req, res) => {
         "list_act_uuid",
         "field_id",
         "comp_id",
-        "agency_id"
+        "agency_id",
       ],
 
       model: Database.Activities,
@@ -1165,17 +1165,17 @@ router.get("/activities", async (req, res) => {
       where: {
         agency_id: +req.query.agencyID,
         paused: 0,
-        deleted: 0
-      }
+        deleted: 0,
+      },
     },
-    raw: true
+    raw: true,
   })
-    .then(activities => activities.map(activity => activity.list_id))
-    .then(activitiesList => {
+    .then((activities) => activities.map((activity) => activity.list_id))
+    .then((activitiesList) => {
       if (activitiesList) return activitiesList;
       else return null;
     })
-    .catch(err => {
+    .catch((err) => {
       if (err) {
         console.log("Error in Fetching Packages");
         console.trace(err);
@@ -1184,11 +1184,11 @@ router.get("/activities", async (req, res) => {
     });
 
   if (subActivities === null) {
-    res.send({
+    res.status(400).send({
       status: "No Agency Found",
       url: req.protocol + "://" + req.get("host"),
       unreadNotificationCount:
-        unreadNotificationCount[0].dataValues.unreadNotificationCount
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
     });
     res.end();
     return;
@@ -1199,35 +1199,35 @@ router.get("/activities", async (req, res) => {
         "list_name",
         "list_description",
         "isBank",
-        "bankAmount"
+        "bankAmount",
       ],
       where: {
         list_id: {
-          [Op.notIn]: subActivities
+          [Op.notIn]: subActivities,
         },
         list_name: {
-          [Op.notLike]: "%New Agency%"
+          [Op.notLike]: "%New Agency%",
         },
         list_deleted: 0,
-        list_paused: 0
-      }
+        list_paused: 0,
+      },
     });
 
-    res.send({
+    res.status(200).send({
       status: "Agency Found",
       packagesList,
       url: req.protocol + "://" + req.get("host"),
       unreadNotificationCount:
-        unreadNotificationCount[0].dataValues.unreadNotificationCount
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
     });
     res.end();
     return;
   } else {
-    res.send({
+    res.status(400).send({
       status: "No Agency Found",
       url: req.protocol + "://" + req.get("host"),
       unreadNotificationCount:
-        unreadNotificationCount[0].dataValues.unreadNotificationCount
+        unreadNotificationCount[0].dataValues.unreadNotificationCount,
     });
     res.end();
     return;
@@ -1245,17 +1245,17 @@ router.route("/completeListActivites").post(async (req, res, next) => {
    */
   const AgencyUpdate = await Database.Agency_Info.update(
     {
-      firstVisit: true
+      firstVisit: true,
     },
     {
       where: {
         agency_id: +req.body.agencyID,
-        field_id: +req.body.field_id
-      }
+        field_id: +req.body.field_id,
+      },
     }
   )
     .then()
-    .catch(error => {
+    .catch((error) => {
       console.error("Error with updating Agency First Visit Status" + error);
     });
 
@@ -1271,7 +1271,7 @@ router.route("/completeListActivites").post(async (req, res, next) => {
         "list_act_uuid",
         "field_id",
         "comp_id",
-        "agency_id"
+        "agency_id",
       ],
 
       model: Database.Activities,
@@ -1279,37 +1279,37 @@ router.route("/completeListActivites").post(async (req, res, next) => {
       // required: false,
       where: {
         agency_id: +req.body.agencyID,
-        field_id: +req.body.field_id
-      }
+        field_id: +req.body.field_id,
+      },
     },
-    raw: true
+    raw: true,
   })
-    .then(activities => activities.map(activity => activity.list_id))
-    .then(activityIds =>
+    .then((activities) => activities.map((activity) => activity.list_id))
+    .then((activityIds) =>
       Database.List_of_Packages.findAll({
         attributes: ["list_uuid"],
         where: {
           list_id: {
-            [Op.notIn]: activityIds
+            [Op.notIn]: activityIds,
           },
           list_name: {
-            [Op.notLike]: "%New Agency%"
-          }
-        }
+            [Op.notLike]: "%New Agency%",
+          },
+        },
       })
     )
-    .then(packages => {
+    .then((packages) => {
       if (packages) return packages;
     });
 
   //here id has ActivityName which is  list_uuid
   const userSelectedActivities = JSON.parse(req.body.listUUID).map(
-    id => id.list_uuid
+    (id) => id.list_uuid
   );
 
   var count = 0;
-  subActivities.forEach(package => {
-    userSelectedActivities.forEach(selectedPackages => {
+  subActivities.forEach((package) => {
+    userSelectedActivities.forEach((selectedPackages) => {
       if (package.dataValues.list_uuid === selectedPackages) {
         count++;
         return;
@@ -1320,7 +1320,7 @@ router.route("/completeListActivites").post(async (req, res, next) => {
   if (count === userSelectedActivities.length) next();
   else {
     res
-      .status(200)
+      .status(400)
       .send({ status: "Error", message: "Invalid Package Selected" });
     res.end();
   }
@@ -1330,7 +1330,7 @@ router.route("/completeListActivites").post(async (req, res, next) => {
 // complete activity controller
 router.route("/completeListActivites").post(async (req, res) => {
   const userSelectedActivities = JSON.parse(req.body.listUUID).map(
-    id => id.list_uuid
+    (id) => id.list_uuid
   );
 
   /**
@@ -1341,14 +1341,14 @@ router.route("/completeListActivites").post(async (req, res) => {
   const ActivityID = await Database.Activities.findOne({
     attributes: ["list_act_id", "list_act_uuid"],
     where: {
-      list_act_uuid: req.body.activityUUID
-    }
+      list_act_uuid: req.body.activityUUID,
+    },
   })
-    .then(activityID => {
+    .then((activityID) => {
       if (activityID) return activityID;
       else return null;
     })
-    .catch(error => {
+    .catch((error) => {
       if (error) {
         console.error(`\x1b[41m--------------------------------------\x1b[0m`);
         console.trace(error);
@@ -1364,14 +1364,14 @@ router.route("/completeListActivites").post(async (req, res) => {
   const listOfPackage = await Database.List_of_Packages.findAll({
     attributes: ["list_id", "isBank"],
     where: {
-      list_uuid: userSelectedActivities
-    }
+      list_uuid: userSelectedActivities,
+    },
   })
-    .then(listofPackages => {
+    .then((listofPackages) => {
       if (listofPackages) return listofPackages;
       else return null;
     })
-    .catch(error => {
+    .catch((error) => {
       if (error) {
         console.error(`\x1b[41m--------------------------------------\x1b[0m`);
         console.trace(error);
@@ -1380,16 +1380,16 @@ router.route("/completeListActivites").post(async (req, res) => {
     });
 
   if (listOfPackage.length > 0) {
-    listOfPackage.forEach(list => {
+    listOfPackage.forEach((list) => {
       Database.List_sub_Activities.create({
         list_act_id: ActivityID.dataValues.list_act_id,
-        list_id: list.list_id
+        list_id: list.list_id,
       })
-        .then(response => {
+        .then((response) => {
           if (response) return response;
           else return null;
         })
-        .catch(error => {
+        .catch((error) => {
           if (error) {
             console.error(
               `\x1b[41m--------------------------------------\x1b[0m`
@@ -1404,9 +1404,9 @@ router.route("/completeListActivites").post(async (req, res) => {
       attributes: ["pending_days"],
       where: {
         paused: false,
-        deleted: false
-      }
-    }).catch(error => {
+        deleted: false,
+      },
+    }).catch((error) => {
       if (error) {
         console.error(`\x1b[41m--------------------------------------\x1b[0m`);
         console.trace(error);
@@ -1419,7 +1419,7 @@ router.route("/completeListActivites").post(async (req, res) => {
      * it contains the bank sale or not...
      */
     let isBankSale = false;
-    isBankSale = listOfPackage.find(bank => bank.dataValues.isBank === true);
+    isBankSale = listOfPackage.find((bank) => bank.dataValues.isBank === true);
 
     /**
      * Adding the details of the activity to the pending clearance table
@@ -1430,8 +1430,8 @@ router.route("/completeListActivites").post(async (req, res) => {
       ),
       field_id: req.body.field_id,
       list_act_id: ActivityID.dataValues.list_act_id,
-      bank_sale: isBankSale === undefined ? false : true
-    }).catch(error => {
+      bank_sale: isBankSale === undefined ? false : true,
+    }).catch((error) => {
       if (error) {
         console.error(`\x1b[41m--------------------------------------\x1b[0m`);
         console.trace(error);
@@ -1442,11 +1442,9 @@ router.route("/completeListActivites").post(async (req, res) => {
     res.status(200).send({
       status: "Success",
       message: "Activity Complete Successfully",
-      list_act_uuid: ActivityID.dataValues.list_act_uuid
+      list_act_uuid: ActivityID.dataValues.list_act_uuid,
     });
     res.end();
-
-    isBankSale = null;
   }
 });
 
@@ -1457,21 +1455,21 @@ router.route("/cancelActivity").post(async (req, res) => {
     where: {
       cancelled: 0,
       list_act_uuid: req.body.list_act_uuid,
-      field_id: +req.body.field_id
-    }
+      field_id: +req.body.field_id,
+    },
   })
-    .then(result => {
+    .then((result) => {
       if (result) {
         result
           .update({
-            cancelled: 1
+            cancelled: 1,
           })
-          .then(response => (response ? response : null));
+          .then((response) => (response ? response : null));
       } else {
         return null;
       }
     })
-    .catch(err => {
+    .catch((err) => {
       if (err) {
         console.error(`\x1b[41m--------------------------------------\x1b[0m`);
         console.trace(err);
@@ -1479,14 +1477,14 @@ router.route("/cancelActivity").post(async (req, res) => {
       }
     });
   if (activityStatus === null) {
-    res.status(200).send({
+    res.status(400).send({
       status: "error",
-      message: "Invalid Activity ID or Activity is already Cancelled"
+      message: "Invalid Activity ID or Activity is already Cancelled",
     });
   } else {
     res.status(200).send({
       status: "success",
-      message: "Activity is Cancelled"
+      message: "Activity is Cancelled",
     });
   }
 });
@@ -1502,7 +1500,7 @@ router.route("/companyDeposits").get(async (req, res) => {
       "totalAmount",
       "bank_deposited_referenceNumber",
       "bank_datetime",
-      "updateTimestamp"
+      "updateTimestamp",
     ],
     include: {
       model: Database.Activities,
@@ -1511,8 +1509,8 @@ router.route("/companyDeposits").get(async (req, res) => {
       include: {
         model: Database.Agency_Info,
         required: true,
-        attributes: ["agency_name"]
-      }
+        attributes: ["agency_name"],
+      },
     },
     where: {
       field_id: req.query.field_id,
@@ -1520,14 +1518,14 @@ router.route("/companyDeposits").get(async (req, res) => {
       deleted: 0,
       bank_sale: 1,
       bankName: { [Op.ne]: null },
-      depositedAmount: { [Op.ne]: null }
-    }
+      depositedAmount: { [Op.ne]: null },
+    },
   })
-    .then(result => {
+    .then((result) => {
       if (result) return result;
       else return null;
     })
-    .catch(err => {
+    .catch((err) => {
       if (err) {
         console.log("Error Getting the Executive Deposit Slips");
         console.trace(err);
@@ -1544,10 +1542,10 @@ router.route("/companyDeposits").get(async (req, res) => {
       url: req.protocol + "://" + req.get("host"),
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
-      bankDeposits
+      bankDeposits,
     });
     res.end();
-  } else res.status(200).send({ status: "Error", message: "Invalid Request" });
+  } else res.status(400).send({ status: "Error", message: "Invalid Request" });
   res.end();
 });
 
@@ -1570,13 +1568,13 @@ router.get(
           attributes: ["agency_name", "agency_address"],
           where: {
             deleted: 0,
-            isPaused: 0
-          }
+            isPaused: 0,
+          },
         })
-          .then(result => {
+          .then((result) => {
             if (result) return result;
           })
-          .catch(error => {
+          .catch((error) => {
             if (error) console.error("Error getting Agencies" + error);
             return null;
           });
@@ -1596,18 +1594,18 @@ router.get(
              */
             [Op.or]: [
               {
-                forFreelancers: userRole !== "Field Executive" ? true : false
+                forFreelancers: userRole !== "Field Executive" ? true : false,
               },
-              { forAll: true }
-            ]
-          }
+              { forAll: true },
+            ],
+          },
         })
-          .then(compaigns => {
+          .then((compaigns) => {
             if (compaigns) {
               return compaigns;
             }
           })
-          .catch(error => {
+          .catch((error) => {
             if (error) console.error("Error getting Compaigns" + error);
             return null;
           });
@@ -1623,10 +1621,10 @@ router.get(
             CompaignsList,
             url: req.protocol + "://" + req.get("host"),
             unreadNotificationCount:
-              unreadNotificationCount[0].dataValues.unreadNotificationCount
+              unreadNotificationCount[0].dataValues.unreadNotificationCount,
           });
         } else {
-          res.status(404).send({ message: "Error in finding the record" });
+          res.status(400).send({ message: "Error in finding the record" });
         }
       }
       unreadNotificationCount = null;
@@ -1653,26 +1651,26 @@ router.route("/getAgencyDetails").post(async (req, res) => {
             "firstVisit",
             "deleted",
             "isPaused",
-            "updateTimestamp"
-          ]
+            "updateTimestamp",
+          ],
         },
         where: {
           agency_name: {
-            [Op.like]: `%${userReqBody.agencyName}`
+            [Op.like]: `%${userReqBody.agencyName}`,
           },
           agency_city: {
-            [Op.like]: `%${userReqBody.agencyCity}`
+            [Op.like]: `%${userReqBody.agencyCity}`,
           },
           agency_address: {
-            [Op.like]: `%${userReqBody.selectedAgencyAddress}`
+            [Op.like]: `%${userReqBody.selectedAgencyAddress}`,
           },
           deleted: false,
-          isPaused: false
+          isPaused: false,
         },
         include: {
           attributes: ["field_name", "field_userProfilePic", "field_contact"],
-          model: Database.Field_Executive
-        }
+          model: Database.Field_Executive,
+        },
       });
 
       let status = AgencyDetails === null ? false : true;
@@ -1697,9 +1695,9 @@ router.route("/startActivityOnExsitingActivity").post(async (req, res) => {
         agency_id: req.body.agencyID,
         isPaused: false,
         deleted: false,
-        firstVisit: true
-      }
-    }).catch(err => {
+        firstVisit: true,
+      },
+    }).catch((err) => {
       if (err) {
         console.log("Error Getting Agencies ==== >", err);
         return null;
@@ -1713,12 +1711,12 @@ router.route("/startActivityOnExsitingActivity").post(async (req, res) => {
       const compapignActivity = await Database.Activities.create({
         comp_id: req.body.CompaignID,
         field_id: req.body.field_id,
-        agency_id: AgencyDetails.dataValues.agency_id
+        agency_id: AgencyDetails.dataValues.agency_id,
       })
-        .then(response => {
+        .then((response) => {
           if (response) return response;
         })
-        .catch(error => {
+        .catch((error) => {
           if (error) {
             console.error(`\x1b[41m------Error! Creating a new Compaign Activity at Continue
               Activities on Agency - \n\n ${error}-----\x1b[0m`);
@@ -1736,22 +1734,22 @@ router.route("/startActivityOnExsitingActivity").post(async (req, res) => {
             isPaused: false,
             deleted: false,
             notification_title: {
-              [Op.like]: "%Start%"
+              [Op.like]: "%Start%",
             },
             [Op.or]: [
               {
                 notification_title: {
-                  [Op.like]: "%Existing%"
-                }
+                  [Op.like]: "%Existing%",
+                },
               },
               {
                 notification_title: {
-                  [Op.like]: "%Existing Agnecy%"
-                }
-              }
-            ]
-          }
-        }).catch(err => {
+                  [Op.like]: "%Existing Agnecy%",
+                },
+              },
+            ],
+          },
+        }).catch((err) => {
           if (err) {
             console.log("Error Getting NotificationText ==== >", err);
             return null;
@@ -1760,15 +1758,15 @@ router.route("/startActivityOnExsitingActivity").post(async (req, res) => {
         await Database.ExecutiveNotifications.create({
           field_id: req.body.field_id,
           notification_text: `You have started working on the Already Registered Agency ${AgencyDetails.dataValues.agency_name}...!!!`,
-          notification_id: notificationText.dataValues.notification_id
+          notification_id: notificationText.dataValues.notification_id,
         });
         req.session.activityDetails = {
           activity: compapignActivity.dataValues.list_act_uuid,
-          agencyID: req.body.agencyID
+          agencyID: req.body.agencyID,
         };
         res.status(200).send({
           agencyID: req.body.agencyID,
-          uuid: `${compapignActivity.dataValues.list_act_uuid}`
+          uuid: `${compapignActivity.dataValues.list_act_uuid}`,
         });
         res.end();
         return;
@@ -1797,7 +1795,7 @@ router.route("/notification").get(async (req, res) => {
       "execu_notification_uuid",
       "notification_text",
       "isRead",
-      "createdAt"
+      "createdAt",
     ],
     include: {
       model: Database.NotificationText,
@@ -1805,22 +1803,22 @@ router.route("/notification").get(async (req, res) => {
       required: true,
       where: {
         isPaused: false,
-        deleted: false
-      }
+        deleted: false,
+      },
     },
     where: {
       isPaused: false,
       deleted: false,
-      field_id: req.query.field_id
+      field_id: req.query.field_id,
     },
-    limit: 50
-  }).then(notifications => {
+    limit: 50,
+  }).then((notifications) => {
     if (notifications) return notifications;
   });
   res.status(200).send({
     unreadNotificationCount:
       unreadNotificationCount[0].dataValues.unreadNotificationCount,
-    unreadNotification
+    unreadNotification,
   });
   res.end();
   return;
@@ -1833,25 +1831,25 @@ module.exports = { router };
 
 
 **/
-const countofNotificationOfExecutive = async field_id => {
+const countofNotificationOfExecutive = async (field_id) => {
   return await Database.ExecutiveNotifications.findAll({
     attributes: [
       [
         sequelize.fn("COUNT", sequelize.col("execu_notification_id")),
-        "unreadNotificationCount"
-      ]
+        "unreadNotificationCount",
+      ],
     ],
     where: {
       isRead: false,
-      field_id
-    }
-  }).then(notifications => {
+      field_id,
+    },
+  }).then((notifications) => {
     if (notifications) return notifications;
   });
 };
 
-const getAuthenticateJSON = userReqBody => {
-  Object.keys(userReqBody).forEach(key => {
+const getAuthenticateJSON = (userReqBody) => {
+  Object.keys(userReqBody).forEach((key) => {
     if (
       userReqBody[key] === "select" ||
       userReqBody[key] === "update" ||
