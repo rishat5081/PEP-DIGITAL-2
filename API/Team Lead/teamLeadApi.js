@@ -94,7 +94,7 @@ router.get("/dashboard", async (req, res) => {
   if (
     (webAds, unreadNotificationCount, profileData, teamLeadDashboard === null)
   ) {
-    res.status(500).send({
+    res.status(400).send({
       message: "Error Fetching Dashboard Details",
     });
     res.end();
@@ -106,8 +106,6 @@ router.get("/dashboard", async (req, res) => {
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
     });
-    res.end();
-    return;
   }
 });
 
@@ -193,8 +191,6 @@ router.get("/profileTeamLead", async (req, res) => {
     unreadNotificationCount:
       unreadNotificationCount[0].dataValues.unreadNotificationCount,
   });
-  res.end();
-  return;
 });
 
 //Assign Area
@@ -291,7 +287,7 @@ router.get("/assignArea", async (req, res) => {
     return;
   } else {
     res
-      .status(500)
+      .status(400)
       .send({ message: "Error Getting Details of the Area Assign" });
     res.end();
     return;
@@ -340,7 +336,7 @@ router.get("/addFreelance", async (req, res) => {
     res.end();
     return;
   } else {
-    res.status(500).send({
+    res.status(400).send({
       message: "Error Fetching the Details of the Freelancers",
     });
     res.end();
@@ -383,12 +379,17 @@ router.get("/manageTeam", async (req, res) => {
       return error ? null : true;
     });
 
-  res.status(200).send({
-    teamMember,
-    url: req.protocol + "://" + req.get("host"),
-  });
-
-  res.end();
+  if (teamMember)
+    res.status(200).send({
+      teamMember,
+      url: req.protocol + "://" + req.get("host"),
+    });
+  else {
+    res.status(400).send({
+      status: "Invalid",
+      message: "Error in managing team",
+    });
+  }
 });
 
 //convey the message page
@@ -423,8 +424,6 @@ router.get("/conveyMessage", async (req, res) => {
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
     });
-    unreadNotificationCount = null;
-    res.end();
   } else {
     res.status(400).send({ status: "error", message: "Invalid parameters" });
   }
@@ -477,15 +476,11 @@ router.get("/manageIncentive", async (req, res) => {
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
     });
-    res.end();
-    return;
   } else {
-    res.status(200).send({
+    res.status(400).send({
       status: "error",
       message: "No Record found",
     });
-    res.end();
-    return;
   }
 });
 
@@ -558,15 +553,11 @@ router.get("/recommendations", async (req, res) => {
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
     });
-    res.end();
-    return;
   } else {
     res.status(200).send({
       status: "error",
       message: "No Record Found",
     });
-    res.end();
-    return;
   }
 });
 
@@ -640,15 +631,11 @@ router.get("/viewRecommendationsHistory", async (req, res) => {
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
     });
-    res.end();
-    return;
   } else {
-    res.status(200).send({
+    res.status(400).send({
       status: "error",
       message: "No Record Found",
     });
-    res.end();
-    return;
   }
 });
 
@@ -692,151 +679,143 @@ router.get("/notification", async (req, res) => {
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
       unreadNotification,
     });
-    res.end();
-    return;
   } else {
-    res.status(200).send({
+    res.status(400).send({
       status: "error",
       message: "No Notification Found",
     });
-    res.end();
-    return;
   }
 });
 
 // view progress report page
-router.get(
-  "/progressReport",
-  async (req, res) => {
-    /**
-     * getting the team lead notification
-     */
-    let unreadNotificationCount = await countofNotificationOfTeamLead(
-      req.query.team_L_uuid
-    );
+router.get("/progressReport", async (req, res) => {
+  /**
+   * getting the team lead notification
+   */
+  let unreadNotificationCount = await countofNotificationOfTeamLead(
+    req.query.team_L_uuid
+  );
 
-    /**
-     * getting the members from the database
-     */
+  /**
+   * getting the members from the database
+   */
 
-    let teamMember = await Database.Field_Executive.findAll({
-      attributes: ["field_id", "field_uuid", "field_name"],
-      where: {
-        team_L_id: req.query.team_L_id,
-        field_isDeleted: 0,
-        field_isPaused: 0,
-      },
-    }).catch((error) => {
+  let teamMember = await Database.Field_Executive.findAll({
+    attributes: ["field_id", "field_uuid", "field_name"],
+    where: {
+      team_L_id: req.query.team_L_id,
+      field_isDeleted: 0,
+      field_isPaused: 0,
+    },
+  }).catch((error) => {
+    if (error) {
+      console.error("Error Fetching the Data of Executive");
+      console.trace(error);
+      return null;
+    }
+  });
+
+  /**
+   * getting the activities per month from the db
+   */
+  const activitiesPerMonth = await Database.Activities.findAll({
+    attributes: [
+      "field_id",
+      [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
+      [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
+      [sequelize.fn("COUNT", sequelize.col("*")), "activitiesPerMonth"],
+      // [
+      //   sequelize.fn("COUNT", sequelize.col("cancelled")),
+      //   "cancelledactivitiesPerMonth"
+      // ]
+    ],
+    group: ["moonth", "Year", "field_id"],
+    where: {
+      field_id: teamMember.map((member) => member.field_id),
+      deleted: false,
+      paused: false,
+    },
+  })
+    .then((dbResponse) => {
+      if (dbResponse.length > 0) return dbResponse;
+      else return null;
+    })
+    .catch((error) => {
       if (error) {
-        console.error("Error Fetching the Data of Executive");
-        console.trace(error);
+        console.error(
+          "There is an error which fetching activities per month " + error
+        );
         return null;
       }
     });
 
-    /**
-     * getting the activities per month from the db
-     */
-    const activitiesPerMonth = await Database.Activities.findAll({
-      attributes: [
-        "field_id",
-        [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
-        [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
-        [sequelize.fn("COUNT", sequelize.col("*")), "activitiesPerMonth"],
-        // [
-        //   sequelize.fn("COUNT", sequelize.col("cancelled")),
-        //   "cancelledactivitiesPerMonth"
-        // ]
+  /**
+   * getting the cancelled activities from the db
+   */
+
+  const cancelledactivitiesPerMonth = await Database.Activities.findAll({
+    attributes: [
+      "field_id",
+      [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
+      [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
+      [
+        sequelize.fn("COUNT", sequelize.col("cancelled")),
+        "cancelledactivitiesPerMonth",
       ],
-      group: ["moonth", "Year", "field_id"],
-      where: {
-        field_id: teamMember.map((member) => member.field_id),
-        deleted: false,
-        paused: false,
-      },
+    ],
+    group: ["moonth", "Year", "field_id"],
+    where: {
+      field_id: teamMember.map((member) => member.field_id),
+      deleted: false,
+      paused: false,
+      cancelled: true,
+    },
+  })
+    .then((dbResponse) => {
+      if (dbResponse.length > 0) return dbResponse;
+      else return null;
     })
-      .then((dbResponse) => {
-        if (dbResponse.length > 0) return dbResponse;
-        else return null;
-      })
-      .catch((error) => {
-        if (error) {
-          console.error(
-            "There is an error which fetching activities per month " + error
-          );
-          return null;
-        }
-      });
+    .catch((error) => {
+      if (error) {
+        console.error(
+          "There is an error which fetching activities per month " + error
+        );
+        return null;
+      }
+    });
 
-    /**
-     * getting the cancelled activities from the db
-     */
-
-    const cancelledactivitiesPerMonth = await Database.Activities.findAll({
-      attributes: [
-        "field_id",
-        [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
-        [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
-        [
-          sequelize.fn("COUNT", sequelize.col("cancelled")),
-          "cancelledactivitiesPerMonth",
-        ],
-      ],
-      group: ["moonth", "Year", "field_id"],
-      where: {
-        field_id: teamMember.map((member) => member.field_id),
-        deleted: false,
-        paused: false,
-        cancelled: true,
-      },
+  /**
+   * getting the agency per month from the db
+   */
+  const agencyCount = await Database.Agency_Info.findAll({
+    attributes: [
+      "field_id",
+      [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
+      [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
+      [sequelize.fn("COUNT", sequelize.col("*")), "agencyCount"],
+    ],
+    group: ["moonth", "Year", "field_id"],
+    where: {
+      field_id: teamMember.map((member) => member.field_id),
+      deleted: false,
+      isPaused: false,
+    },
+  })
+    .then((dbResponse) => {
+      if (dbResponse.length > 0) return dbResponse;
+      else return null;
     })
-      .then((dbResponse) => {
-        if (dbResponse.length > 0) return dbResponse;
-        else return null;
-      })
-      .catch((error) => {
-        if (error) {
-          console.error(
-            "There is an error which fetching activities per month " + error
-          );
-          return null;
-        }
-      });
+    .catch((error) => {
+      if (error) {
+        console.trace(error);
+        console.error("There is an error which fetching activities per month");
+        return null;
+      }
+    });
 
-    /**
-     * getting the agency per month from the db
-     */
-    const agencyCount = await Database.Agency_Info.findAll({
-      attributes: [
-        "field_id",
-        [sequelize.literal(`MONTHNAME(createdAt)`), "moonth"],
-        [sequelize.fn("YEAR", sequelize.col("createdAt")), "Year"],
-        [sequelize.fn("COUNT", sequelize.col("*")), "agencyCount"],
-      ],
-      group: ["moonth", "Year", "field_id"],
-      where: {
-        field_id: teamMember.map((member) => member.field_id),
-        deleted: false,
-        isPaused: false,
-      },
-    })
-      .then((dbResponse) => {
-        if (dbResponse.length > 0) return dbResponse;
-        else return null;
-      })
-      .catch((error) => {
-        if (error) {
-          console.trace(error);
-          console.error(
-            "There is an error which fetching activities per month"
-          );
-          return null;
-        }
-      });
-
+  if (agencyCount)
     res.status(200).send({
       url: req.protocol + "://" + req.get("host"),
-      
       agencyCount,
       teamMember,
       cancelledactivitiesPerMonth,
@@ -844,10 +823,13 @@ router.get(
       unreadNotificationCount:
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
     });
-
-    res.end();
+  else {
+    res.status(400).send({
+      status: "error",
+      message: "Error Getting Progress Reports",
+    });
   }
-);
+});
 
 /**
  *
@@ -898,13 +880,13 @@ router.post("/uploadProfilePhoto", async (req, res) => {
       ).then((response) => {
         if (response) {
           res.send({
-            type: "success",
+            status: "success",
             messages: "Profile Image Uploaded",
             profileImage: filePath[1] + filename,
           });
         } else {
           res.send({
-            type: "danger",
+            status: "danger",
             messages: "Error! in Uploading Image! ",
           });
         }
@@ -983,16 +965,16 @@ router.route("/updateProfileInfo").post(async (req, res) => {
       });
       res.end();
     } else {
-      res.status(503).send({
+      res.status(400).send({
         type: "danger",
-        messages: "Error! Internal Error! ",
+        messages: "Error! Updating Profile Details! ",
       });
       res.end();
     }
   } else {
-    res.status(503).send({
+    res.status(400).send({
       type: "danger",
-      messages: "Error! Internal Error! ",
+      messages: "Error! Updating Profile Details! ",
     });
   }
 });
@@ -1119,7 +1101,7 @@ router.route("/updateTeamLeadProfile").post(async (req, res) => {
       console.trace(
         "There is an error while updating the Information of User @ Line"
       );
-      res.status(500).send({
+      res.status(400).send({
         error: "error",
         details: "Error! while updating your information.",
       });
@@ -1208,15 +1190,18 @@ router.route("/addMembertoTeam").post(async (req, res) => {
     if ((fieldExecutive, userRole, updateExecutiveToTeam, roleChanged)) {
       res.status(200).send({
         status: "Done",
+        message: "Updated Successfully",
       });
     } else {
       res.status(400).send({
-        error: "error",
+        status: "error",
+        message: "no field executive found",
       });
     }
   } else {
     res.status(400).send({
-      error: "no field executive found",
+      status: "error",
+      message: "no field executive found",
     });
   }
 });
@@ -1230,7 +1215,7 @@ router.route("/allocateSectorToExecutive").post(async (req, res) => {
       deleted: 0,
       paused: 0,
     },
-  }); 
+  });
   let selectedEmployee = req.body.employees;
   let executiveID = await Database.Field_Executive.findAll({
     attributes: ["field_id"],
@@ -1240,68 +1225,66 @@ router.route("/allocateSectorToExecutive").post(async (req, res) => {
       field_isPaused: 0,
     },
   });
-// check if city is not already associated with same employee
-  let cityAssosiate= await Database.City_Sector_Assosiate.findOne({
-  attributes:["paused"],
-  
-  where:{
-    field_id: executiveID.map((employee) => employee.field_id),
-  city_sector_id: sectorID.city_sector_id,
+  // check if city is not already associated with same employee
+  let cityAssosiate = await Database.City_Sector_Assosiate.findOne({
+    attributes: ["paused"],
 
-  }
-  
-});
-// if no duplicate record found add it
-if(cityAssosiate==null){
-  let assignArea = await Database.City_Sector_Assosiate.bulkCreate(
-    executiveID.map((employee) => {
-      return {
-        field_id: employee.field_id,
-        city_sector_id: sectorID.city_sector_id,
-        
-      };
-    })
-  );
-    res.status(200).send({ status: "Area Assigned Successfully" });
-    res.end();
-    
-}
-// if record already exists but paused update it
-else if(cityAssosiate.dataValues.paused== 1){
-  let changeStatus= await Database.City_Sector_Assosiate.update(
-    {
-    paused:0,
-    },
-    {
-    where:{
+    where: {
       field_id: executiveID.map((employee) => employee.field_id),
       city_sector_id: sectorID.city_sector_id,
-    }
-  }).catch((err) => {
+    },
+  });
+  // if no duplicate record found add it
+  if (cityAssosiate == null) {
+    let assignArea = await Database.City_Sector_Assosiate.bulkCreate(
+      executiveID.map((employee) => {
+        return {
+          field_id: employee.field_id,
+          city_sector_id: sectorID.city_sector_id,
+        };
+      })
+    );
+    res
+      .status(200)
+      .send({ status: "success", message: "Area Assigned Successfully" });
+    res.end();
+  }
+  // if record already exists but paused update it
+  else if (cityAssosiate.dataValues.paused == 1) {
+    let changeStatus = await Database.City_Sector_Assosiate.update(
+      {
+        paused: 0,
+      },
+      {
+        where: {
+          field_id: executiveID.map((employee) => employee.field_id),
+          city_sector_id: sectorID.city_sector_id,
+        },
+      }
+    ).catch((err) => {
       if (err) {
         console.log("Error Updating the User Role Info");
         console.trace(err);
         return null;
       }
-
-  });
-  res.status(200).send({ status: "Area Assigned Successfully" });
-  res.end();
-
-}
-
-else {
-    res.status(400).send({ error: "Area already Assigned" });
+    });
+    res
+      .status(200)
+      .send({ status: "success", message: "Area Assigned Successfully" });
+    res.end();
+  } else {
+    res.status(400).send({
+      status: "error",
+      message: "Area already Assigned",
+    });
     res.end();
   }
 
   if ((sectorID, selectedEmployee, executiveID === null)) {
- 
-    res.status(500).send({ error: "Please try again" });
+    res.status(400).send({ status: "error", message: "Please try again" });
     res.end();
   }
-  
-}); 
+});
 
 router.route("/removeSectorToExecutive").put(async (req, res) => {
   //getting the sector ID from the database
@@ -1373,11 +1356,11 @@ router.route("/removeSectorToExecutive").put(async (req, res) => {
       res.end();
     } else {
       sectorID = executiveID = null;
-      res.status(500).send({ error: "Please try again" });
+      res.status(400).send({ status: "error", message: "Please try again" });
       res.end();
     }
   } else {
-    res.status(400).send({ status: false, message: "Area not found" });
+    res.status(400).send({ status: "error", message: "Area not found" });
     res.end();
   }
 });
@@ -1442,17 +1425,20 @@ router.route("/conveyMessageToSpecific").post(async (req, res) => {
   });
 
   if (teamMember || notificationID || messageConveyed) {
-    res.status(400).send({ error: "Please try again" });
+    res.status(400).send({ status: "success", message: "Please try again" });
     res.end();
   } else {
-    res.status(200).send({ status: "Successfully, Message has been send" });
+    res.status(200).send({
+      status: "success",
+      message: "Successfully, Message has been send",
+    });
   }
 });
 
 //APIs FOR CONVEY MESSAGE PAGE
 /**
-   * Controller for sending message to all the team member
-   */
+ * Controller for sending message to all the team member
+ */
 router.route("/conveyMessageToAll").post(async (req, res) => {
   let teamMember = await Database.Field_Executive.findAll({
     attributes: ["field_id"],
@@ -1506,334 +1492,337 @@ router.route("/conveyMessageToAll").post(async (req, res) => {
   });
 
   if ((teamMember, notificationID, messageConveyed === null)) {
-    res.status(400).send({ error: "Please try again" });
+    res.status(400).send({ status: "error", message: "Please try again" });
     res.end();
   } else {
-    res.status(200).send({ status: "Successfully, Message has been send" });
+    res.status(200).send({
+      status: "success",
+      message: "Successfully, Message has been send",
+    });
   }
 });
 
 //APIs for MANAGE INCENTIVE PAGE
-  //submitting the recommendation to
-  router.route("/submitRecommendation").post(async (req, res) => {
-    //getting the recommendation ID from the database
-    let recommendationID = await Database.Executive_Recommendation.findOne({
-      attributes: ["exec_recomm_id"],
-      where: {
-        exec_recomm_uuid: req.body.selectedRecommendation,
-        deleted: 0,
-        paused: 0,
-      },
-    });
-    // console.log(req.body.selectedRecommendation,"",req.body.employeeList,"",req.query.team_L_id,"",req.body.recommendationText)
-    let selectedEmployee = req.body.employeeList;
+//submitting the recommendation to
+router.route("/submitRecommendation").post(async (req, res) => {
+  //getting the recommendation ID from the database
+  let recommendationID = await Database.Executive_Recommendation.findOne({
+    attributes: ["exec_recomm_id"],
+    where: {
+      exec_recomm_uuid: req.body.selectedRecommendation,
+      deleted: 0,
+      paused: 0,
+    },
+  });
+  // console.log(req.body.selectedRecommendation,"",req.body.employeeList,"",req.query.team_L_id,"",req.body.recommendationText)
+  let selectedEmployee = req.body.employeeList;
 
-    let executiveID = await Database.Field_Executive.findAll({
+  let executiveID = await Database.Field_Executive.findAll({
+    attributes: ["field_id"],
+    where: {
+      field_uuid: selectedEmployee.map((uuid) => uuid),
+      field_isDeleted: 0,
+      field_isPaused: 0,
+    },
+  });
+  // getiing supvisor id from db
+  let supervisorID = await Database.Team_Lead.findOne({
+    attributes: ["sup_id"],
+    where: {
+      team_L_id: req.query.team_L_id,
+    },
+  });
+  // getting manager id from db
+  let managerID = await Database.Supervisor.findOne({
+    attributes: ["man_id"],
+    where: {
+      sup_id: supervisorID.dataValues.sup_id,
+    },
+  });
+
+  let addRecommendation = await Database.Recommendation_for_Executive.bulkCreate(
+    executiveID.map((employee) => {
+      return {
+        field_id: employee.field_id,
+        team_L_id: req.query.team_L_id,
+        exec_recomm_id: recommendationID.exec_recomm_id,
+        recommendationDetails: req.body.recommendationText,
+        recommendationTitle: req.body.title,
+        sup_id: supervisorID.dataValues.sup_id,
+        man_id: managerID.dataValues.man_id,
+      };
+    })
+  );
+
+  if (
+    (recommendationID,
+    selectedEmployee,
+    executiveID,
+    addRecommendation !== null)
+  ) {
+    res.status(200).send({
+      status: "success",
+      message: "Recommendation Added Successfully",
+    });
+    res.end();
+  } else {
+    res.status(400).send({ status: "error", message: "Please try again" });
+    res.end();
+  }
+  ////console.(req.body);
+});
+
+//apis for manage TEAM PAGE
+/**
+ * remove a member to the team
+ */
+
+router.route("/removeMembertoTeam").put(async (req, res) => {
+  // checking the user inofrmation from the database and also getting the role and field id
+  const fieldExecutive = await Database.User_Login_Information.findOne({
+    attributes: ["login_id", "user_role_id"],
+    include: {
+      model: Database.Field_Executive,
+      required: true,
       attributes: ["field_id"],
       where: {
-        field_uuid: selectedEmployee.map((uuid) => uuid),
-        field_isDeleted: 0,
-        field_isPaused: 0,
+        //using the UUID from the front end
+        field_uuid: req.body.id,
+        field_isDeleted: false,
+        field_isPaused: false,
       },
+    },
+    where: {
+      deleted: false,
+      paused: false,
+    },
+  })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      if (err) {
+        console.log("Error Getting the Field Executive Info");
+        console.trace(err);
+        return null;
+      }
     });
-// getiing supvisor id from db
-    let supervisorID = await Database.Team_Lead.findOne({
-      attributes:["sup_id"],
-        where :{
-          team_L_id: req.query.team_L_id,
-        }
-      })
-      // getting manager id from db
-      let managerID= await Database.Supervisor.findOne({
-        attributes:["man_id"],
-        where :{
-          sup_id : supervisorID.dataValues.sup_id,
-        }
-      })      
- 
-    let addRecommendation = await Database.Recommendation_for_Executive.bulkCreate(
-      executiveID.map((employee) => {
-        return {
-          field_id: employee.field_id,
-          team_L_id: req.query.team_L_id,
-          exec_recomm_id: recommendationID.exec_recomm_id,
-          recommendationDetails: req.body.recommendationText,
-          recommendationTitle: req.body.title,
-          sup_id:supervisorID.dataValues.sup_id,
-          man_id : managerID.dataValues.man_id,
-        };
-      })
-    );
-   
 
-    if (
-      (recommendationID,
-      selectedEmployee,
-      executiveID,
-      addRecommendation !== null)
-    ) {
-      res.status(200).send({ status: "Recommendation Added Successfully" });
-      res.end();
-    } else {
-      res.status(400).send({ error: "Please try again" });
-      res.end();
+  //getting the role id of the field executive  from the database so i may not be static
+  //it should be dynamic but the type must mathces Field Executive
+
+  const userRole = await Database.User_Role.findOne({
+    attributes: ["user_role_id"],
+    where: {
+      deleted: false,
+      paused: false,
+      type_name: {
+        [Op.like]: [`Freelance Field Executive`],
+        [Op.like]: [`%Freelance%`],
+      },
+    },
+  }).catch((err) => {
+    if (err) {
+      console.log("Error Getting the User Role Info");
+      console.trace(err);
+      return null;
     }
-    ////console.(req.body);
+  });
+  //  and adding the Field Executive to the NULL
+  const updateExecutiveToTeam = await sequelize
+    .query(
+      `UPDATE field_executive SET team_L_id = NULL WHERE field_uuid = '${req.body.id}';`,
+      null,
+      { raw: true }
+    )
+    .then((response) => {
+      console.log("Creating Database.... Please Wait");
+      console.log(response);
+    })
+
+    .catch((err) => {
+      if (err) {
+        console.log("Error Updating the Team Lead Info");
+        console.trace(err);
+        return null;
+      }
+    });
+
+  //update the role of the user to Field Executive
+
+  const updateRole = await Database.User_Login_Information.update(
+    {
+      user_role_id: userRole.dataValues.user_role_id,
+    },
+    {
+      where: {
+        login_id: fieldExecutive.dataValues.login_id,
+        deleted: false,
+        paused: false,
+      },
+    }
+  ).catch((err) => {
+    if (err) {
+      console.log("Error Updating the User Role Info");
+      console.trace(err);
+      return null;
+    }
   });
 
-  //apis for manage TEAM PAGE
-  /**
-   * remove a member to the team
-   */
-
-  router.route("/removeMembertoTeam").put(async (req, res) => {
-    // checking the user inofrmation from the database and also getting the role and field id
-    const fieldExecutive = await Database.User_Login_Information.findOne({
-      attributes: ["login_id", "user_role_id"],
-      include: {
-        model: Database.Field_Executive,
-        required: true,
-        attributes: ["field_id"],
-        where: {
-          //using the UUID from the front end
-          field_uuid: req.body.id,
-          field_isDeleted: false,
-          field_isPaused: false,
-        },
-      },
-      where: {
-        deleted: false,
-        paused: false,
-      },
+  // adding the role information into the roleChanged table
+  const roleChanged = await Database.changeRoleLogs
+    .create({
+      previousRole: fieldExecutive.dataValues.user_role_id,
+      newRole: userRole.dataValues.user_role_id,
+      field_id: fieldExecutive.dataValues.Field_Executive.dataValues.field_id,
+      team_L_id: req.query.team_L_id,
     })
-      .then((result) => {
-        return result;
-      })
-      .catch((err) => {
-        if (err) {
-          console.log("Error Getting the Field Executive Info");
-          console.trace(err);
-          return null;
-        }
-      });
+    .catch((err) => {
+      if (err) {
+        console.log("Error Creating the User Role Change Info");
+        console.trace(err);
+        return null;
+      }
+    });
 
-    //getting the role id of the field executive  from the database so i may not be static
-    //it should be dynamic but the type must mathces Field Executive
+  //sending the response to the user
+  if ((fieldExecutive, userRole, updateExecutiveToTeam, roleChanged)) {
+    res.status(200).send({
+      status: "success",
+      message: "Done",
+    });
+  } else {
+    res.status(400).send({
+      status: "error",
+      message: "error",
+    });
+  }
+});
 
-    const userRole = await Database.User_Role.findOne({
-      attributes: ["user_role_id"],
+//API for notification page
+/**
+ * Unread all team lead notification
+ */
+
+router.route("/unreadTeamAllNotifications").post(async (req, res) => {
+  const Notifications = await Database.TeamLead_Notifications.update(
+    {
+      isRead: true,
+    },
+    {
       where: {
-        deleted: false,
-        paused: false,
-        type_name: {
-          [Op.like]: [`Freelance Field Executive`],
-          [Op.like]: [`%Freelance%`],
-        },
-      },
-    }).catch((err) => {
-      if (err) {
-        console.log("Error Getting the User Role Info");
-        console.trace(err);
-        return null;
-      }
-    });
-    //  and adding the Field Executive to the NULL
-    const updateExecutiveToTeam = await sequelize
-      .query(
-        `UPDATE field_executive SET team_L_id = NULL WHERE field_uuid = '${req.body.id}';`,
-        null,
-        { raw: true }
-      )
-      .then((response) => {
-        console.log("Creating Database.... Please Wait");
-        console.log(response);
-      })
-
-      .catch((err) => {
-        if (err) {
-          console.log("Error Updating the Team Lead Info");
-          console.trace(err);
-          return null;
-        }
-      });
-
-    //update the role of the user to Field Executive
-
-    const updateRole = await Database.User_Login_Information.update(
-      {
-        user_role_id: userRole.dataValues.user_role_id,
-      },
-      {
-        where: {
-          login_id: fieldExecutive.dataValues.login_id,
-          deleted: false,
-          paused: false,
-        },
-      }
-    ).catch((err) => {
-      if (err) {
-        console.log("Error Updating the User Role Info");
-        console.trace(err);
-        return null;
-      }
-    });
-
-    // adding the role information into the roleChanged table
-    const roleChanged = await Database.changeRoleLogs
-      .create({
-        previousRole: fieldExecutive.dataValues.user_role_id,
-        newRole: userRole.dataValues.user_role_id,
-        field_id: fieldExecutive.dataValues.Field_Executive.dataValues.field_id,
         team_L_id: req.query.team_L_id,
-      })
-      .catch((err) => {
-        if (err) {
-          console.log("Error Creating the User Role Change Info");
-          console.trace(err);
-          return null;
-        }
-      });
-
-    //sending the response to the user
-    if ((fieldExecutive, userRole, updateExecutiveToTeam, roleChanged)) {
-      res.status(200).send({
-        status: "Done",
-      });
-    } else {
-      res.status(400).send({
-        error: "error",
-      });
+        isRead: false,
+      },
     }
+  ).then((response) => {
+    if (response) return response;
   });
 
-  //API for notification page
-  /**
-   * Unread all team lead notification
-   */
+  if (Notifications) res.send({ status: "success", message: "Updated" });
+});
 
-  router.route("/unreadTeamAllNotifications").post(async (req, res) => {
-    const Notifications = await Database.TeamLead_Notifications.update(
-      {
-        isRead: true,
-      },
-      {
-        where: {
+//APIs FOR VIEW ALL RECOMMENDATIONS PAGE
+//decline recommendation
+router.route("/teamlead/declineRecommendation").put(async (req, res) => {
+  //getting the recommendation ID from the database
+  let recommendationID = await Database.Advertisement_Recommendation.findOne({
+    where: {
+      advert_recom_uuid: req.body.declineRecommendationUUID,
+      deleted: false,
+      paused: false,
+      status: false,
+      team_L_id: null,
+      team_lead_dateTime: null,
+    },
+  })
+    .then((result) => {
+      if (result) {
+        result.update({
           team_L_id: req.query.team_L_id,
-          isRead: false,
-        },
+          team_lead_dateTime: new Date().toUTCString(),
+          status: true,
+          team_lead_decline_status: true,
+          team_lead_decline_descr: req.body.reason,
+        });
+      } else {
+        return null;
       }
-    ).then((response) => {
-      if (response) return response;
+    })
+    .catch((err) => {
+      if (err) {
+        console.log("Error Getting all the recommendation");
+        console.trace(err);
+        return null;
+      }
     });
 
-    if (Notifications) res.send({ status: "Updated" });
-  });
+  if (recommendationID !== null) {
+    res.status(200).send({
+      status: "Updated",
+      message: "Recommendation Marked Successfully",
+    });
+    res.end();
+  } else {
+    res.status(400).send({
+      status: "Already Updated",
+      message: "Recommendation is already marked. Try Again",
+      recommendationID,
+    });
+    res.end();
+  }
+});
 
-  //APIs FOR VIEW ALL RECOMMENDATIONS PAGE
-  //decline recommendation
-  router
-  .route("/teamlead/declineRecommendation").put(async (req, res) => {
-    //getting the recommendation ID from the database
-    let recommendationID = await Database.Advertisement_Recommendation.findOne({
-      where: {
-        advert_recom_uuid: req.body.declineRecommendationUUID,
-        deleted: false,
-        paused: false,
-        status: false,
-        team_L_id: null,
-        team_lead_dateTime: null,
-      },
+//approve recommendation
+
+//pause the field executive  recommendation to
+router.route("/teamlead/approveRecommendation").put(async (req, res) => {
+  //getting the recommendation ID from the database
+  let recommendationID = await Database.Advertisement_Recommendation.findOne({
+    where: {
+      advert_recom_uuid: req.body.uuid,
+      deleted: false,
+      paused: false,
+      status: false,
+      team_L_id: null,
+      team_lead_dateTime: null,
+    },
+  })
+    .then((result) => {
+      if (result) {
+        result.update({
+          team_L_id: req.query.team_L_id,
+          team_lead_dateTime: new Date().toUTCString(),
+          status: true,
+          team_lead_forward_status: true,
+        });
+      } else {
+        return null;
+      }
     })
-      .then((result) => {
-        if (result) {
-          result.update({
-            team_L_id: req.query.team_L_id,
-            team_lead_dateTime: new Date().toUTCString(),
-            status: true,
-            team_lead_decline_status: true,
-            team_lead_decline_descr: req.body.reason,
-          });
-        } else {
-          return null;
-        }
-      })
-      .catch((err) => {
-        if (err) {
-          console.log("Error Getting all the recommendation");
-          console.trace(err);
-          return null;
-        }
-      });
+    .catch((err) => {
+      if (err) {
+        console.log("Error Getting all the recommendation");
+        console.trace(err);
+        return null;
+      }
+    });
 
-    if (recommendationID !== null) {
-      res.status(200).send({
-        status: "Updated",
-        message: "Recommendation Marked Successfully",
-      });
-      res.end();
-    } else {
-      res.status(400).send({
-        status: "Already Updated",
-        message: "Recommendation is already marked. Try Again",
-        recommendationID,
-      });
-      res.end();
-    }
-  });
-
-  //approve recommendation
-  
-  //pause the field executive  recommendation to
-  router
-  .route("/teamlead/approveRecommendation").put(async (req, res) => {
-    //getting the recommendation ID from the database
-    let recommendationID = await Database.Advertisement_Recommendation.findOne({
-
-      where: {
-        advert_recom_uuid: req.body.uuid,
-        deleted: false,
-        paused: false,
-        status: false,
-        team_L_id: null,
-        team_lead_dateTime: null,
-      },
-    })
-      .then((result) => {
-        if (result) {
-          result.update({
-            team_L_id: req.query.team_L_id,
-            team_lead_dateTime: new Date().toUTCString(),
-            status: true,
-            team_lead_forward_status: true,
-          });
-        } else {
-          return null;
-        }
-      })
-      .catch((err) => {
-        if (err) {
-          console.log("Error Getting all the recommendation");
-          console.trace(err);
-          return null;
-        }
-      });
-
-    if (recommendationID !== null) {
-      res.status(200).send({
-        status: "Updated",
-        message: "Recommendation Marked Successfully",
-      });
-      res.end();
-    } else {
-      res.status(400).send({
-        status: "Already Updated",
-        message: "Recommendation is already marked. Try Again",
-        recommendationID,
-      });
-      res.end();
-    }
-  });
-
+  if (recommendationID !== null) {
+    res.status(200).send({
+      status: "Updated",
+      message: "Recommendation Marked Successfully",
+    });
+    res.end();
+  } else {
+    res.status(400).send({
+      status: "Already Updated",
+      message: "Recommendation is already marked. Try Again",
+      recommendationID,
+    });
+    res.end();
+  }
+});
 
 module.exports = { router };
 
