@@ -119,7 +119,7 @@ router.route("/login").post(
           User_Login_Info.dataValues.login_password
         )
       ) {
-        res.status(200).send({
+        res.status(403).send({
           status: "Wrong Password",
           message: "In-Correct Password !!! Try Again. ",
         });
@@ -127,14 +127,14 @@ router.route("/login").post(
         return;
       }
       if (!User_Login_Info.dataValues.verified) {
-        res.status(200).send({
+        res.status(401).send({
           status: "Not Verified",
           message: "Please verified your email",
         });
         res.end();
         return;
       } else if (User_Login_Info.dataValues.paused) {
-        res.status(200).send({
+        res.status(403).send({
           status: "Account Blocked",
           message:
             "You are not allow to use this Website, \n Please Connect your Team Lead.",
@@ -162,7 +162,7 @@ router.route("/login").post(
         //   }
         // );
 
-        res.status(200).send([{
+        res.status(200).send({
           status: "Logged In",
           // token,
           permissions,
@@ -173,16 +173,16 @@ router.route("/login").post(
             paused: User_Login_Info.paused,
           },
           userRole: User_Login_Info.User_Role.dataValues,
-        }]);
+        });
         res.end();
         return;
       }
     } else {
       //checking if the user does not exist in the db
-      res.status(200).send([{
+      res.status(403).send({
         status: "No Email Found",
         message: "In-Correct Email!!! Try Again. ",
-      }]);
+      });
       res.end();
       return;
     }
@@ -211,7 +211,7 @@ router.route("/signup").post(
       });
 
     if (User_Login_Info) {
-      res.status(200).send({
+      res.status(403).send({
         status: "Email Found",
         message: "User Exists with Email",
       });
@@ -339,7 +339,7 @@ router.route("/signup").post(
     }
   } else {
     //checking if the user does not exist in the db
-    res.status(200).send({
+    res.status(403).send({
       status: "No Email Found",
       message: "In-Correct Email!!! Try Again. ",
     });
