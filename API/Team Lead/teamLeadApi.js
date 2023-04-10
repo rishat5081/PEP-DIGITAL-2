@@ -1,3 +1,4 @@
+const { Router } = require("express");
 const {
   multerFile_Upload_ForAPI,
 } = require("../../Configuration Files/Multer Js/multer");
@@ -6,7 +7,7 @@ const router = require("express").Router(),
   Database = require("../../Configuration Files/Sequelize/Database_Synchronization"),
   { validateToken } = require("../Web/webAPI"),
   sequelize = require("../../Configuration Files/Sequelize/Sequelize"),
-  { Op } = require("sequelize"),
+  { Op, where } = require("sequelize"),
   fs = require("fs"),
   pakistanCityName = require("../../resources/pakistanCityName");
 
@@ -71,12 +72,18 @@ router.get("/dashboard", async (req, res) => {
     })
     .catch((error) => {
       if (error) {
-        console.error("Error Fetchin Dashboard Data of Team Lead");
+        console.error("Error Fetching Dashboard Data of Team Lead");
         console.trace(error);
         return null;
       }
     });
+    if(teamLeadDashboard== null){
+      res.status(500).send({
+        message: "Error Fetching Dashboard Details",
+      });
+    }else{
 
+    
   let profileData = Object.assign(
     {},
     {
@@ -90,9 +97,9 @@ router.get("/dashboard", async (req, res) => {
       city_name: teamLeadDashboard.dataValues.City_Area.dataValues.city_name,
     }
   );
-
+    }
   if (
-    (webAds, unreadNotificationCount, profileData, teamLeadDashboard === null)
+    (webAds, unreadNotificationCount, teamLeadDashboard === null)
   ) {
     res.status(500).send({
       message: "Error Fetching Dashboard Details",
@@ -167,6 +174,7 @@ router.get("/profileTeamLead", async (req, res) => {
       },
     ],
     where: {
+      team_L_id: req.query.team_L_id,
       team_L_uuid: req.query.team_L_uuid,
       team_L_isDeleted: 0,
       team_L_isPaused: 0,
@@ -186,7 +194,16 @@ router.get("/profileTeamLead", async (req, res) => {
   let unreadNotificationCount = await countofNotificationOfTeamLead(
     req.query.team_L_id
   );
+  if(!teamLead || !LoginEmail){
 
+    res.status(404).send({
+      error: "No User Found!!",
+      
+    });
+    res.end();
+    return;
+}
+else{
   res.status(200).send({
     LoginEmail,
     teamLead,
@@ -195,6 +212,7 @@ router.get("/profileTeamLead", async (req, res) => {
   });
   res.end();
   return;
+}
 });
 
 //Assign Area
@@ -207,7 +225,7 @@ router.get("/assignArea", async (req, res) => {
 
   //getting the team lead city areas
 
-  let areaSectors = await Database.City_Sectors.findAll({
+  let areaSectors = await Database.City_Sectors.findOne({ 
     attributes: ["sector_name", "city_sector_uuid", "sector_code"],
     where: {
       paused: 0,
@@ -217,14 +235,14 @@ router.get("/assignArea", async (req, res) => {
   })
     .then((sectors) => {
       return sectors ? sectors : null;
+  
     })
     .catch((error) => {
       console.error("Error in getting Area Sector");
       console.trace(error);
       return error ? null : true;
     });
-
-  //getting all team member
+ // getting all team member
   let allTeamMember = await Database.Field_Executive.findAll({
     attributes: ["field_id", "field_uuid", "field_name", "field_contact"],
     where: {
@@ -279,7 +297,14 @@ router.get("/assignArea", async (req, res) => {
 
   //end of getting data from DB
 
-  if ((areaSectors, teamMember)) {
+  if (!areaSectors || !allTeamMember || !teamMember) {
+    res
+      .status(500)
+      .send({ message: "Error Getting Details of the Area Assign" });
+    res.end();
+    return;
+   
+  } else {
     res.status(200).send({
       areaSectors,
       teamMember,
@@ -289,12 +314,7 @@ router.get("/assignArea", async (req, res) => {
     });
     res.end();
     return;
-  } else {
-    res
-      .status(500)
-      .send({ message: "Error Getting Details of the Area Assign" });
-    res.end();
-    return;
+    
   }
 });
 
@@ -459,6 +479,7 @@ router.get("/manageIncentive", async (req, res) => {
     attributes: ["field_id", "field_uuid", "field_name"],
     where: {
       team_L_id: req.query.team_L_id,
+      team_L_uuid:req.query.team_L_uuid,
       field_isDeleted: 0,
       field_isPaused: 0,
     },
@@ -470,7 +491,9 @@ router.get("/manageIncentive", async (req, res) => {
     }
   });
 
+
   if (recommendation.length > 0 && teamMembers.length > 0) {
+  
     res.status(200).send({
       recommendation,
       teamMembers,
@@ -479,14 +502,19 @@ router.get("/manageIncentive", async (req, res) => {
     });
     res.end();
     return;
-  } else {
-    res.status(200).send({
+  }
+
+  else {
+    res.status(404).send({
       status: "error",
       message: "No Record found",
     });
     res.end();
     return;
   }
+
+
+
 });
 
 //displaying the pending recommendations
@@ -561,9 +589,11 @@ router.get("/recommendations", async (req, res) => {
     res.end();
     return;
   } else {
-    res.status(200).send({
-      status: "error",
-      message: "No Record Found",
+    // res.status(404).send({
+      res.status(200).send({
+
+      status: "Empty",
+      message: "Empty Data",
     });
     res.end();
     return;
@@ -643,7 +673,7 @@ router.get("/viewRecommendationsHistory", async (req, res) => {
     res.end();
     return;
   } else {
-    res.status(200).send({
+    res.status(404).send({
       status: "error",
       message: "No Record Found",
     });
@@ -695,7 +725,7 @@ router.get("/notification", async (req, res) => {
     res.end();
     return;
   } else {
-    res.status(200).send({
+    res.status(404).send({
       status: "error",
       message: "No Notification Found",
     });
@@ -703,11 +733,9 @@ router.get("/notification", async (req, res) => {
     return;
   }
 });
-
 // view progress report page
-router.get(
-  "/progressReport",
-  async (req, res) => {
+router.get("/progressReport",
+async (req, res) => {
     /**
      * getting the team lead notification
      */
@@ -733,7 +761,12 @@ router.get(
         return null;
       }
     });
-
+    console.log(teamMember)
+    if(teamMember.length==0){
+      res.status(404).send({status:"No data found"})
+      res.end()
+  }
+  else{
     /**
      * getting the activities per month from the db
      */
@@ -845,9 +878,13 @@ router.get(
         unreadNotificationCount[0].dataValues.unreadNotificationCount,
     });
 
+
+  }
+
     res.end();
   }
 );
+
 
 /**
  *
@@ -1128,6 +1165,7 @@ router.route("/updateTeamLeadProfile").post(async (req, res) => {
     res.status(400).send({ error: "error", details: "Invalid entered data" });
 });
 
+
 router.route("/addMembertoTeam").post(async (req, res) => {
   //checking the user inofrmation from the database and also getting the role and field id
   const fieldExecutive = await Database.User_Login_Information.findOne({
@@ -1148,6 +1186,7 @@ router.route("/addMembertoTeam").post(async (req, res) => {
       paused: false,
     },
   });
+  console.log(req.body.field_uuid)
 
   //getting the role id of the field executive  from the database so i may not be static
   //it should be dynamic but the type must mathces Field Executive
@@ -1220,6 +1259,97 @@ router.route("/addMembertoTeam").post(async (req, res) => {
     });
   }
 });
+
+
+
+//API for ALLOCATE AREA page
+ /**
+   * here is the removing the area from the executive
+   */
+
+ router.route("/teamlead/removeSectorToExecutive").put(async (req, res) => {
+  //getting the sector ID from the database
+  let sectorID = await Database.City_Sectors.findOne({
+    include: {
+      model: Database.Field_Executive,
+      required: true,
+      through: {
+        attributes: ["city_sector_assos_uuid"],
+      },
+      where: {
+        field_uuid: req.body.executiveUUID, 
+        field_isDeleted: 0,
+        field_isPaused: 0,
+        team_L_id: req.query.team_L_id,
+      },
+    },
+    where: {
+      city_sector_uuid: req.body.selectedArea,
+      deleted: 0,
+      paused: 0,
+    },
+  })
+    .then((result) => {
+      if (result) {
+        return result.dataValues.Field_Executives[0].City_Sector_Assosiate
+          .dataValues;
+      }
+    })
+    .catch((err) => {
+      if (err) {
+        console.error("Error Fetching Remove Sector Information");
+        console.trace(err);
+        return null;
+      }
+    });
+
+  if (sectorID) {
+    let executiveID = await Database.City_Sector_Assosiate.update(
+      {
+        paused: 1,
+      },
+      {
+        where: {
+          city_sector_assos_uuid: sectorID.city_sector_assos_uuid,
+          deleted: 0,
+          paused: 0,
+        },
+      }
+    )
+      .then((result) => {
+        return result;
+      })
+      .catch((err) => {
+        if (err) {
+          console.error("Error Fetching Remove Sector Information");
+          console.trace(err);
+          return null;
+        }
+      });
+
+    if (executiveID) {
+      res.status(200).send({
+        status: "success",
+        message: "Area Removed Successfully",
+        executiveID,
+      });
+      res.end();
+    } else {
+      res.status(500).send({ error: "Please try again" });
+      res.end();
+    }
+  } else {
+    res
+      .status(200)
+      .send({ status: "Marked Already", message: "Area is Already Deleted" });
+    res.end();
+  }
+});
+
+/**
+   * assigning the area to the field executive
+ e
+   */
 
 router.route("/allocateSectorToExecutive").post(async (req, res) => {
   //getting the sector ID from the database
@@ -1303,152 +1433,6 @@ else {
   
 }); 
 
-router.route("/removeSectorToExecutive").put(async (req, res) => {
-  //getting the sector ID from the database
-  let sectorID = await Database.City_Sectors.findOne({
-    include: {
-      model: Database.Field_Executive,
-      required: true,
-      through: {
-        attributes: ["city_sector_assos_uuid"],
-      },
-      where: {
-        field_uuid: req.body.executiveUUID,
-        field_isDeleted: 0,
-        field_isPaused: 0,
-        team_L_id: req.body.team_L_id,
-      },
-    },
-    where: {
-      city_sector_uuid: req.body.selectedArea,
-      deleted: 0,
-      paused: 0,
-    },
-  })
-    .then((result) => {
-      if (result) {
-        return result.dataValues.Field_Executives[0].City_Sector_Assosiate
-          .dataValues;
-      }
-    })
-    .catch((err) => {
-      if (err) {
-        console.error("Error Fetching Remove Sector Information");
-        console.trace(err);
-        return null;
-      }
-    });
-
-  if (sectorID) {
-    let executiveID = await Database.City_Sector_Assosiate.update(
-      {
-        paused: 1,
-      },
-      {
-        where: {
-          city_sector_assos_uuid: sectorID.city_sector_assos_uuid,
-          deleted: 0,
-          paused: 0,
-        },
-      }
-    )
-      .then((result) => {
-        return result;
-      })
-      .catch((err) => {
-        if (err) {
-          console.error("Error Fetching Remove Sector Information");
-          console.trace(err);
-          return null;
-        }
-      });
-
-    if (executiveID) {
-      res.status(200).send({
-        status: "success",
-        message: "Area Removed Successfully",
-        executiveID,
-      });
-      sectorID = executiveID = null;
-      res.end();
-    } else {
-      sectorID = executiveID = null;
-      res.status(500).send({ error: "Please try again" });
-      res.end();
-    }
-  } else {
-    res.status(400).send({ status: false, message: "Area not found" });
-    res.end();
-  }
-});
-
-/**
- * sending the message to the specific team member
- */
-router.route("/conveyMessageToSpecific").post(async (req, res) => {
-  /**
-   * getting the team memebers from the database
-   */
-  let teamMember = await Database.Field_Executive.findAll({
-    attributes: ["field_id"],
-    where: {
-      team_L_id: req.body.team_L_id,
-      field_isDeleted: 0,
-      field_isPaused: 0,
-      field_uuid: req.body.employeeList.map((employee) => employee),
-    },
-  }).catch((error) => {
-    if (error) {
-      console.error("Error Fetching the Data of Executive");
-      console.trace(error);
-      return null;
-    }
-  });
-
-  let notificationID = await Database.NotificationText.findOne({
-    attributes: ["notification_id"],
-    where: {
-      [Op.or]: [
-        {
-          notification_title: {
-            [Op.like]: "%Team%",
-          },
-        },
-        {
-          notification_title: {
-            [Op.like]: "%Team Member%",
-          },
-        },
-      ],
-    },
-  }).catch((error) => {
-    console.error("Error in creating ExecutiveNotifications");
-    console.trace(error);
-    return null;
-  });
-
-  let messageConveyed = await Database.ExecutiveNotifications.bulkCreate(
-    teamMember.map((member) => {
-      return {
-        field_id: member.dataValues.field_id,
-        notification_text: req.body.messageText,
-        notification_id: notificationID.dataValues.notification_id,
-      };
-    })
-  ).catch((error) => {
-    console.error("Error in creating ExecutiveNotifications");
-    console.trace(error);
-    return null;
-  });
-
-  if (teamMember || notificationID || messageConveyed) {
-    res.status(400).send({ error: "Please try again" });
-    res.end();
-  } else {
-    res.status(200).send({ status: "Successfully, Message has been send" });
-  }
-});
-
 //APIs FOR CONVEY MESSAGE PAGE
 /**
    * Controller for sending message to all the team member
@@ -1513,7 +1497,78 @@ router.route("/conveyMessageToAll").post(async (req, res) => {
   }
 });
 
-//APIs for MANAGE INCENTIVE PAGE
+
+  /**
+   * sending the message to the specific team member
+   */
+  router.route("/conveyMessageToSpecific").post(async (req, res) => {
+    /**
+     * getting the team memebers from the database
+     */
+    let selectedEmployee=req.body.employeeList
+    let teamMember = await Database.Field_Executive.findAll({
+      attributes: ["field_id"],
+      where: {
+        team_L_id: req.query.team_L_id,
+        field_isDeleted: 0,
+        field_isPaused: 0,
+        field_uuid: selectedEmployee.map(
+          (employee) => employee
+        ),
+      },
+    }).catch((error) => {
+      if (error) {
+        console.error("Error Fetching the Data of Executive");
+        console.trace(error);
+        return null;
+      }
+    });
+
+    let notificationID = await Database.NotificationText.findOne({
+      attributes: ["notification_id"],
+      where: {
+        [Op.or]: [
+          {
+            notification_title: {
+              [Op.like]: "%Team%",
+            },
+          },
+          {
+            notification_title: {
+              [Op.like]: "%Team Member%",
+            },
+          },
+        ],
+      },
+    }).catch((error) => {
+      console.error("Error in creating ExecutiveNotifications");
+      console.trace(error);
+      return null;
+    });
+
+    let messageConveyed = await Database.ExecutiveNotifications.bulkCreate(
+      teamMember.map((member) => {
+        return {
+          field_id: member.dataValues.field_id,
+          notification_text: req.body.messageText,
+          notification_id: notificationID.dataValues.notification_id,
+        };
+      })
+    ).catch((error) => {
+      console.error("Error in creating ExecutiveNotifications");
+      console.trace(error);
+      return null;
+    });
+
+    if ((teamMember, notificationID, messageConveyed === null)) {
+      res.status(400).send({ error: "Please try again" });
+      res.end();
+    } else {
+      res.status(200).send({ status: "Successfully, Message has been send" });
+    }
+  });
+
+  //APIs for MANAGE INCENTIVE PAGE
   //submitting the recommendation to
   router.route("/submitRecommendation").post(async (req, res) => {
     //getting the recommendation ID from the database
@@ -1832,13 +1887,17 @@ router.route("/conveyMessageToAll").post(async (req, res) => {
       });
       res.end();
     }
+    ////console.(req.body);
   });
+
+
+
 
 
 module.exports = { router };
 
 /**
-
+ 
 count of the notificaiton
 
 **/
