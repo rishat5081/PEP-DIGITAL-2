@@ -1783,6 +1783,7 @@ router.route("/conveyMessageToAll").post(async (req, res) => {
       {
         isRead: true,
       },
+      
       {
         where: {
           team_L_id: req.query.team_L_id,
