@@ -12,111 +12,116 @@ const router = require("express").Router(),
   pakistanCityName = require("../../resources/pakistanCityName");
 
 //route for the dashboard
-router.get("/dashboard", async (req, res) => {
-  /**
-   * getting the unread notification number
-   */
+router.get(
+  "/dashboard",
+  async (req, res) => {
+    /**
+     * getting the unread notification number
+     */
 
-  let unreadNotificationCount = await countofNotificationOfTeamLead(
-    req.query.team_L_uuid
-  );
+    let unreadNotificationCount = await countofNotificationOfTeamLead(
+      req.query.team_L_uuid
+    );
 
-  /**
-   * getting the web ADS from the DB to display the user copany information
-   */
-  let webAds = await Database.WebAds.findAll({
-    attributes: ["title", "description", "picPath"],
-    where: {
-      paused: 0,
-      deleted: 0,
-      user_role_id: req.query.user_role_id,
-    },
-  });
-
-  /**
-   * getting supervisor and city area name of the selected user who is currently
-   * in the session
-   */
-  let teamLeadDashboard = await Database.Team_Lead.findOne({
-    attributes: [],
-    include: [
-      {
-        model: Database.Supervisor,
-        required: true,
-        attributes: ["sup_name"],
-        where: {
-          sup_isPaused: 0,
-          sup_isDeleted: 0,
-        },
+    /**
+     * getting the web ADS from the DB to display the user copany information
+     */
+    let webAds = await Database.WebAds.findAll({
+      attributes: ["title", "description", "picPath"],
+      where: {
+        paused: 0,
+        deleted: 0,
+        user_role_id: req.query.user_role_id,
       },
-      {
-        model: Database.City_Areas,
-        required: true,
-        attributes: ["city_name"],
-        where: {
-          deleted: 0,
-          paused: 0,
+    });
+
+    /**
+     * getting supervisor and city area name of the selected user who is currently
+     * in the session
+     */
+    let teamLeadDashboard = await Database.Team_Lead.findOne({
+      attributes: [],
+      include: [
+        {
+          model: Database.Supervisor,
+          required: true,
+          attributes: ["sup_name"],
+          where: {
+            sup_isPaused: 0,
+            sup_isDeleted: 0,
+          },
         },
+        {
+          model: Database.City_Areas,
+          required: true,
+          attributes: ["city_name"],
+          where: {
+            deleted: 0,
+            paused: 0,
+          },
+        },
+      ],
+      where: {
+        team_L_id: req.query.team_L_id,
+        team_L_uuid:req.query.team_L_uuid,
+        team_L_isDeleted: 0,
+        team_L_isPaused: 0,
       },
-    ],
-    where: {
-      team_L_id: req.query.team_L_id,
-      team_L_uuid: req.query.team_L_uuid,
-      team_L_isDeleted: 0,
-      team_L_isPaused: 0,
-    },
-  })
-    .then((data) => {
-      if (data) return data;
-      else return null;
     })
-    .catch((error) => {
-      if (error) {
-        console.error("Error Fetching Dashboard Data of Team Lead");
-        console.trace(error);
-        return null;
-      }
-    });
-    if(teamLeadDashboard== null){
-      res.status(500).send({
-        message: "Error Fetching Dashboard Details",
+      .then((data) => {
+        if (data) return data;
+        else return null;
+      })
+      .catch((error) => {
+        if (error) {
+          console.error("Error Fetching Dashboard Data of Team Lead");
+          console.trace(error);
+          return null;
+        }
       });
-    }else{
+      if(teamLeadDashboard !== null){
 
+    let profileData = Object.assign(
+      {},
+      {
+        team_L_name: teamLeadDashboard.dataValues.team_L_name,
+        team_L_userProfilePic: teamLeadDashboard.dataValues.team_L_userProfilePic,
+        team_L_username: teamLeadDashboard.dataValues.team_L_username,
+        team_L_contact: teamLeadDashboard.dataValues.team_L_contact,
+        createdAt: teamLeadDashboard.dataValues.createdAt,
+        team_L_salary: teamLeadDashboard.dataValues.team_L_salary,
+        sup_name: teamLeadDashboard.dataValues.Supervisor.dataValues.sup_name,
+        city_name: teamLeadDashboard.dataValues.City_Area.dataValues.city_name,
+      }
+    );
     
-  let profileData = Object.assign(
-    {},
-    {
-      team_L_name: teamLeadDashboard.dataValues.team_L_name,
-      team_L_userProfilePic: teamLeadDashboard.dataValues.team_L_userProfilePic,
-      team_L_username: teamLeadDashboard.dataValues.team_L_username,
-      team_L_contact: teamLeadDashboard.dataValues.team_L_contact,
-      createdAt: teamLeadDashboard.dataValues.createdAt,
-      team_L_salary: teamLeadDashboard.dataValues.team_L_salary,
-      sup_name: teamLeadDashboard.dataValues.Supervisor.dataValues.sup_name,
-      city_name: teamLeadDashboard.dataValues.City_Area.dataValues.city_name,
+    if (
+      (webAds, unreadNotificationCount,  teamLeadDashboard === null)
+    ) {
+      res.status(500).send({status:"error", message:"Data not found!!"});
+      res.end();
+    } else {
+      res.status(200).send({
+       
+        url: req.protocol + "://" + req.get("host"),
+        profileData,
+        webAds,
+        unreadNotificationCount:
+          unreadNotificationCount[0].dataValues.unreadNotificationCount,
+      });
+
+      unreadNotificationCount = null;
+      profileData = null;
+      webAds = null;
+      res.end();
     }
-  );
-    }
-  if (
-    (webAds, unreadNotificationCount, teamLeadDashboard === null)
-  ) {
-    res.status(500).send({
-      message: "Error Fetching Dashboard Details",
-    });
-    res.end();
-    return;
-  } else {
-    res.status(200).send({
-      profileData,
-      webAds,
-      unreadNotificationCount:
-        unreadNotificationCount[0].dataValues.unreadNotificationCount,
-    });
-    res.end();
-    return;
   }
-});
+  else{
+    res.status(500).send({status:"error", message:"Data not found!!"});
+      res.end();
+  }
+  }
+);
 
 //profile of the team lead
 router.get("/profileTeamLead", async (req, res) => {
@@ -197,7 +202,8 @@ router.get("/profileTeamLead", async (req, res) => {
   if(!teamLead || !LoginEmail){
 
     res.status(404).send({
-      error: "No User Found!!",
+      status:"error",
+      message: "No User Found!!",
       
     });
     res.end();
@@ -299,8 +305,10 @@ router.get("/assignArea", async (req, res) => {
 
   if (!areaSectors || !allTeamMember || !teamMember) {
     res
-      .status(500)
-      .send({ message: "Error Getting Details of the Area Assign" });
+      .status(404)
+      .send({
+        status:"error",
+        message: "Error Getting Details of the Area" });
     res.end();
     return;
    
@@ -402,12 +410,18 @@ router.get("/manageTeam", async (req, res) => {
       console.trace(error);
       return error ? null : true;
     });
-
+if(teamMember.length >0){
   res.status(200).send({
     teamMember,
     url: req.protocol + "://" + req.get("host"),
   });
-
+}
+else{
+  res.status(404).send({
+    status:"error",
+    message:"No Record Found!!"
+  })
+}
   res.end();
 });
 
@@ -437,7 +451,7 @@ router.get("/conveyMessage", async (req, res) => {
       return error ? null : true;
     });
 
-  if (teamMember !== null) {
+  if (teamMember.length !==0) {
     res.status(200).send({
       teamMember,
       unreadNotificationCount:
@@ -446,7 +460,7 @@ router.get("/conveyMessage", async (req, res) => {
     unreadNotificationCount = null;
     res.end();
   } else {
-    res.status(400).send({ status: "error", message: "Invalid parameters" });
+    res.status(404).send({ status: "error", message: "No Record Found" });
   }
 });
 
@@ -479,7 +493,7 @@ router.get("/manageIncentive", async (req, res) => {
     attributes: ["field_id", "field_uuid", "field_name"],
     where: {
       team_L_id: req.query.team_L_id,
-      team_L_uuid:req.query.team_L_uuid,
+      // team_L_uuid:req.query.team_L_uuid,
       field_isDeleted: 0,
       field_isPaused: 0,
     },
@@ -487,13 +501,12 @@ router.get("/manageIncentive", async (req, res) => {
     if (error) {
       console.error("Error Fetching the Data of Executive");
       console.trace(error);
-      return null;
+      // return null;
     }
   });
 
 
   if (recommendation.length > 0 && teamMembers.length > 0) {
-  
     res.status(200).send({
       recommendation,
       teamMembers,
@@ -503,7 +516,6 @@ router.get("/manageIncentive", async (req, res) => {
     res.end();
     return;
   }
-
   else {
     res.status(404).send({
       status: "error",
@@ -579,7 +591,7 @@ router.get("/recommendations", async (req, res) => {
         return null;
       }
     });
-
+console.log(allRecommendations)
   if (allRecommendations.length > 0) {
     res.status(200).send({
       allRecommendations,
@@ -589,11 +601,9 @@ router.get("/recommendations", async (req, res) => {
     res.end();
     return;
   } else {
-    // res.status(404).send({
-      res.status(200).send({
-
-      status: "Empty",
-      message: "Empty Data",
+    res.status(404).send({
+      status: "error",
+      message: "No Record Found",
     });
     res.end();
     return;
@@ -763,7 +773,7 @@ async (req, res) => {
     });
     console.log(teamMember)
     if(teamMember.length==0){
-      res.status(404).send({status:"No data found"})
+      res.status(404).send({status:"error", message:"No data found"})
       res.end()
   }
   else{
@@ -918,6 +928,7 @@ async (req, res) => {
 router.post("/uploadProfilePhoto", async (req, res) => {
   multerFile_Upload_ForAPI(req, res, (err) => {
     if (err) {
+      
       return res.send({ messages: err, type: "danger" });
     } else {
       let filename = req.files[0].filename;
@@ -934,13 +945,13 @@ router.post("/uploadProfilePhoto", async (req, res) => {
         }
       ).then((response) => {
         if (response) {
-          res.send({
+          res.status(200).send({
             type: "success",
             messages: "Profile Image Uploaded",
             profileImage: filePath[1] + filename,
           });
         } else {
-          res.send({
+          res.status(404).send({
             type: "danger",
             messages: "Error! in Uploading Image! ",
           });
@@ -1186,7 +1197,7 @@ router.route("/addMembertoTeam").post(async (req, res) => {
       paused: false,
     },
   });
-  console.log(req.body.field_uuid)
+
 
   //getting the role id of the field executive  from the database so i may not be static
   //it should be dynamic but the type must mathces Field Executive
@@ -1249,12 +1260,12 @@ router.route("/addMembertoTeam").post(async (req, res) => {
         status: "Done",
       });
     } else {
-      res.status(400).send({
+      res.status(404).send({
         error: "error",
       });
     }
   } else {
-    res.status(400).send({
+    res.status(404).send({
       error: "no field executive found",
     });
   }
@@ -1290,6 +1301,7 @@ router.route("/addMembertoTeam").post(async (req, res) => {
     },
   })
     .then((result) => {
+      
       if (result) {
         return result.dataValues.Field_Executives[0].City_Sector_Assosiate
           .dataValues;
@@ -1419,7 +1431,6 @@ else if(cityAssosiate.dataValues.paused== 1){
   res.end();
 
 }
-
 else {
     res.status(400).send({ error: "Area already Assigned" });
     res.end();
@@ -1489,7 +1500,7 @@ router.route("/conveyMessageToAll").post(async (req, res) => {
     return null;
   });
 
-  if ((teamMember, notificationID, messageConveyed === null)) {
+  if ((!teamMember|| !notificationID || !messageConveyed)) {
     res.status(400).send({ error: "Please try again" });
     res.end();
   } else {
@@ -1560,7 +1571,7 @@ router.route("/conveyMessageToAll").post(async (req, res) => {
       return null;
     });
 
-    if ((teamMember, notificationID, messageConveyed === null)) {
+    if ((!teamMember || !notificationID || !messageConveyed)) {
       res.status(400).send({ error: "Please try again" });
       res.end();
     } else {
@@ -1630,6 +1641,7 @@ router.route("/conveyMessageToAll").post(async (req, res) => {
       res.status(200).send({ status: "Recommendation Added Successfully" });
       res.end();
     } else {
+      //discuss with mutti
       res.status(400).send({ error: "Please try again" });
       res.end();
     }
