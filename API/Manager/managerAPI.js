@@ -79,6 +79,8 @@ router.get(
             return null;
           }
         });
+        if(managerDashboard !== null){
+
   
       let profileData = Object.assign(
         {},
@@ -93,6 +95,18 @@ router.get(
           zone_name: managerDashboard.dataValues.Zone.dataValues.zone_name,
         }
       );
+      if (
+        (webAds,
+        unreadNotificationCount,
+        profileData,
+        managerDashboard === null)
+      ) {
+        res.status(500).send({
+          message: "Error Fetching Dashboard Details",
+        });
+        res.end();
+        return;
+      } else {
   
       // if (!(webAds, unreadNotificationCount, profileData, managerDashboard)) {
       //   res.status(500).redirect("/manager/signout");
@@ -109,10 +123,13 @@ router.get(
   
       res.end();
       return;
-      // }
-      //   res.send({ js: "sjdbnk" });
     }
-  );
+
+  } else{
+    res.status(500).send({status:"error", message:"Data not found!!"});
+    res.end();
+  }
+  });
 
   // API FOR ALLOCATE AREA PAGE
   
@@ -200,7 +217,7 @@ router.get(
         });
         res.end();
     } else {
-        res.status(400).send({ status: "error", message: "Invalid parameters" });
+        res.status(404).send({ status:"error", message: "Error Getting Details of the Area Assign"  });
       }
     });
 
@@ -244,7 +261,7 @@ router.get(
   
         res.end();
     } else {
-        res.status(400).send({ status: "error", message: "Invalid parameters" });
+        res.status(404).send({ status: "error", message: "Invalid parameters" });
       }
     });
 
@@ -320,7 +337,7 @@ router.get(
             });
             res.end();
           } else {
-              res.status(200).send({
+              res.status(404).send({
                 status: "error",
                 message: "No Record found",
               });
@@ -375,7 +392,7 @@ router.get(
             });
             res.end();
           } else {
-              res.status(200).send({
+              res.status(404).send({
                 status: "error",
                 message: "No Record found",
               });
@@ -492,7 +509,7 @@ router.get(
             req.query.man_id
           );
       if(LoginEmail, managerData !== null){
-          res.send({
+          res.status(200).send({
             url: req.protocol + "://" + req.get("host"),
             LoginEmail,
             managerData,
@@ -501,7 +518,7 @@ router.get(
             });
             res.end();
           } else {
-              res.status(200).send({
+              res.status(404).send({
                 status: "error",
                 message: "No Record found",
               });
@@ -578,7 +595,7 @@ router.get(
             });
             res.end();
           } else {
-              res.status(200).send({
+              res.status(404).send({
                 status: "error",
                 message: "No Record found",
               });
@@ -638,7 +655,7 @@ router.get(
             });
             res.end();
           } else {
-              res.status(200).send({
+              res.status(404).send({
                 status: "error",
                 message: "No Record found",
               });
@@ -719,7 +736,7 @@ router.get(
       });
       res.end();
     } else {
-        res.status(200).send({
+        res.status(404).send({
           status: "error",
           message: "No Record found",
         });
@@ -806,7 +823,7 @@ router.get(
       });
       res.end();
     } else {
-        res.status(200).send({
+        res.status(404).send({
           status: "error",
           message: "No Record found",
         });
@@ -874,7 +891,7 @@ router.get(
       res.status(200).send({ status: "Area Assigned Successfully" });
       res.end();
     } else {
-      res.status(200).send({ error: "Area already Alloted to supervisor." });
+      res.status(500).send({ error: "Area already Alloted to supervisor." });
       res.end();
     }
     ////console.(req.body);
@@ -1185,6 +1202,7 @@ router
     } else {
       res.status(400).send({
         error: "error",
+        message:"Error removing supervisor"
       });
       res.end();
     }
@@ -1210,7 +1228,10 @@ router.route("/readAllManagerNotifications").post(async (req, res) => {
     if (response) return response;
   });
 
-  if (Notifications) res.status(200).send({ status: "Updated" });
+  if (Notifications) res.status(200).send({ status: "Updated" })
+  else{
+    res.status(404).send({error :"error"})
+  }
 });
       
 //APIS FOR PROFLE PAGE
