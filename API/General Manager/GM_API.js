@@ -105,7 +105,7 @@ router.get( "/dashboard",
       return
        }
        else {
-        res.status(200).send("Unable to Find GM");
+        res.status(500).send({message: "Unable to Find GM"});
         res.end();
         return;
       }
@@ -172,7 +172,7 @@ router.get( "/dashboard",
       return
        }
        else {
-        res.status(200).send("Unable to Fetch Record");
+        res.status(404).send({ status:"error", message: "Error Getting Details of the Area Assign"  });
         res.end();
         return;
       }
@@ -209,7 +209,7 @@ router.get( "/dashboard",
       return
        }
        else {
-        res.status(200).send("Unable to Fetch Record");
+        res.status(404).send({ status:"error", message: "Error Getting Promotions"  });
         res.end();
         return;
       }
@@ -254,7 +254,7 @@ router.get( "/dashboard",
         return
          }
          else {
-          res.status(200).send("Unable to Fetch Record");
+          res.status(404).send({ status: "error", message: "Invalid parameters" });
           res.end();
           return;
         }
@@ -323,8 +323,11 @@ router.get( "/dashboard",
       return
        }
        else {
-        res.status(200).send("Unable to Fetch Record");
-        res.end();
+        res.status(404).send({
+          status: "error",
+          message: "No Record found",
+        });
+                res.end();
         return;
       }
   }
@@ -376,8 +379,10 @@ router.get( "/dashboard",
       return
        }
        else {
-        res.status(200).send("Unable to Fetch Record");
-        res.end();
+        res.status(404).send({
+          status: "error",
+          message: "No Record found",
+        });        res.end();
         return;
       }
   }
@@ -412,8 +417,10 @@ router.get( "/dashboard",
       return
        }
        else {
-        res.status(200).send("Unable to Fetch Record");
-        res.end();
+        res.status(404).send({
+          status: "error",
+          message: "No Record found",
+        });        res.end();
         return;
       }
   }
@@ -532,7 +539,10 @@ router.get( "/dashboard",
       return
        }
        else {
-        res.status(200).send("Unable to Fetch Record");
+        res.status(404).send({
+          status: "error",
+          message: "No Record found",
+        });        
         res.end();
         return;
       }
@@ -590,8 +600,10 @@ router.get( "/dashboard",
       return
        }
        else {
-        res.status(200).send("Unable to Fetch Record");
-        res.end();
+        res.status(404).send({
+          status: "error",
+          message: "No Record found",
+        });        res.end();
         return;
       }
   }
@@ -685,8 +697,10 @@ router.get( "/dashboard",
       return
        }
        else {
-        res.status(200).send("Unable to Fetch Record");
-        res.end();
+        res.status(404).send({
+          status: "error",
+          message: "No Record found",
+        });        res.end();
         return;
       }
   }
@@ -724,8 +738,10 @@ router.get( "/dashboard",
     return
      }
      else {
-      res.status(200).send("Unable to Fetch Record");
-      res.end();
+      res.status(404).send({
+        status: "error",
+        message: "No Record found",
+      });      res.end();
       return;
     }
   });
@@ -1062,7 +1078,7 @@ router
   });
 
   if ((Manager, notificationID, messageConveyed === null)) {
-    res.status(500).send({ error: "Please try again" });
+    res.status(400).send({ error: "Please try again" });
     Manager = notificationID = messageConveyed = null;
     res.end();
     return
@@ -1237,6 +1253,8 @@ router.route("/removeManagerfromteam").put(async (req, res) => {
   } else {
     res.status(400).send({
       error: "error",
+      message:"Error removing Manager"
+
     });
     res.end();
   }
@@ -1264,7 +1282,7 @@ if ((zoneupdate !== null)) {
  res.status(200).send({ status: "Zone Status Assigned Successfully" });
  res.end();
 } else {
- res.status(500).send({ error: "Please try again" });
+ res.status(400).send({ error: "Please try again" });
  res.end();
 }
 
@@ -1283,7 +1301,7 @@ if ((zoneupdate !== null)) {
  res.status(200).send({ status: "Zone Status Assigned Successfully" });
  res.end();
 } else {
- res.status(500).send({ error: "Please try again" });
+ res.status(400).send({ error: "Please try again" });
  res.end();
 }
 }
@@ -1664,7 +1682,7 @@ router
     res.end();
     return
   } else {
-    res.status(200).send({
+    res.status(404).send({
       status: "Not Found",
       message: "No Record Found",
       teamLeadID,
